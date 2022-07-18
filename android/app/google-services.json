@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "915859720833",
+    "project_id": "ohjoo-60a6b",
+    "storage_bucket": "ohjoo-60a6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915859720833:android:71c121cd5456e4faeb5b80",
+        "android_client_info": {
+          "package_name": "com.dmonster.ohjoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915859720833-e4mo8a4e5g2c6os5l13a30gsab18fo81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhkhFHFfvTvpQ-UT08AynZ6ESttAiVniI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915859720833-e4mo8a4e5g2c6os5l13a30gsab18fo81.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915859720833:android:109e27bfc7e2df4beb5b80",
+        "android_client_info": {
+          "package_name": "com.dmonster.ohjoostore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915859720833-e4mo8a4e5g2c6os5l13a30gsab18fo81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhkhFHFfvTvpQ-UT08AynZ6ESttAiVniI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915859720833-e4mo8a4e5g2c6os5l13a30gsab18fo81.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
