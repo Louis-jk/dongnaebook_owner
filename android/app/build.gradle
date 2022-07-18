@@ -132,7 +132,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.dmonster.ohjoostore"
+        applicationId "com.dmonster.dongnaebookowner"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

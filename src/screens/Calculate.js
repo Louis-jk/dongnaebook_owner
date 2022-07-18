@@ -45,7 +45,7 @@ const Calculate = props => {
       {/* 정산 금액 메인 */}
       <View style={{...BaseStyle.mv20, ...BaseStyle.ph20}}>
         <View style={{...BaseStyle.container}}>
-          <View style={{flex: 3}}>
+          <View style={{flex: 2}}>
             <Text style={{...BaseStyle.ko14, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               3월 정산 금액{"  "}
               <Text style={{color: Primary.PointColor02, ...BaseStyle.ml10}}>정산중</Text>

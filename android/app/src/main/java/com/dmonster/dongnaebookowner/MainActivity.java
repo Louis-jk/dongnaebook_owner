@@ -1,4 +1,4 @@
-package com.dmonster.ohjoostore;
+package com.dmonster.dongnaebookowner;
 
 import android.content.ContentResolver;
 import android.media.AudioAttributes;

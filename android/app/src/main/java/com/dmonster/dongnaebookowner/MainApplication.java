@@ -1,4 +1,4 @@
-package com.dmonster.ohjoostore;
+package com.dmonster.dongnaebookowner;
 
 import android.app.Application;
 import android.content.Context;
