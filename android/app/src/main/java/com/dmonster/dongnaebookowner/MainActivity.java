@@ -23,7 +23,7 @@ public class MainActivity extends ReactActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
           // 채널 01 (1회 알림)
-          NotificationChannel notificationChannel01 = new NotificationChannel("ohjoostore01", "Order Alarm01", NotificationManager.IMPORTANCE_HIGH);
+          NotificationChannel notificationChannel01 = new NotificationChannel("dongnaebookowner01", "Order Alarm01", NotificationManager.IMPORTANCE_HIGH);
           notificationChannel01.setShowBadge(true);
           notificationChannel01.setDescription("");
           AudioAttributes att01 = new AudioAttributes.Builder()
@@ -38,7 +38,7 @@ public class MainActivity extends ReactActivity {
           manager01.createNotificationChannel(notificationChannel01);
 
           // 채널 02 (2회 알림)
-          NotificationChannel notificationChannel02 = new NotificationChannel("ohjoostore02", "Order Alarm02", NotificationManager.IMPORTANCE_HIGH);
+          NotificationChannel notificationChannel02 = new NotificationChannel("dongnaebookowner02", "Order Alarm02", NotificationManager.IMPORTANCE_HIGH);
           notificationChannel02.setShowBadge(true);
           notificationChannel02.setDescription("");
           AudioAttributes att02 = new AudioAttributes.Builder()
@@ -53,7 +53,7 @@ public class MainActivity extends ReactActivity {
           manager02.createNotificationChannel(notificationChannel02);
 
           // 채널 03 (3회 알림)
-          NotificationChannel notificationChannel03 = new NotificationChannel("ohjoostore03", "Order Alarm03", NotificationManager.IMPORTANCE_HIGH);
+          NotificationChannel notificationChannel03 = new NotificationChannel("dongnaebookowner03", "Order Alarm03", NotificationManager.IMPORTANCE_HIGH);
           notificationChannel03.setShowBadge(true);
           notificationChannel03.setDescription("");
           AudioAttributes att03 = new AudioAttributes.Builder()
