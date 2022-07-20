@@ -1,41 +1,48 @@
-import React, {useState} from 'react';
-import {View, Text, Animated, Easing} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Animated, Easing } from 'react-native';
+import BaseStyle from '../styles/Base';
 
-const AnimateLoading = ({description}) => {
-  const Animation = useState(new Animated.Value(0))[0];
+const AnimateLoading = ({ description }) => {
+  const Animation = useState(new Animated.Value(0))[0]
 
   Animated.loop(
     Animated.sequence([
       Animated.timing(Animation, {
         toValue: 100,
-        duration: 500,
+        duration: 350,
         easing: Easing.ease,
-        useNativeDriver: true,
+        useNativeDriver: true
       }),
       Animated.timing(Animation, {
         toValue: 0,
-        duration: 500,
+        duration: 400,
         // delay: 800,
-        easing: Easing.ease,
-        useNativeDriver: true,
-      }),
+        // easing: Easing.cubic,
+        useNativeDriver: true
+      })
     ]),
     {
-      iterations: -1,
-    },
-  ).start();
+      iterations: -1
+    }
+  ).start()
 
   const interpolated = Animation.interpolate({
     inputRange: [0, 20, 40, 60, 80, 100],
     outputRange: ['0deg', '180deg', '270deg', '0deg', '-270deg', '-180deg'],
-    extrapolateLeft: 'clamp',
-  });
+    extrapolateLeft: 'clamp'
+  })
+
+  const interpolatedY = Animation.interpolate({
+    inputRange: [0, 100],
+    outputRange: [-3, 3],
+    extrapolateLeft: 'clamp'
+  })
 
   const translate = Animation.interpolate({
     inputRange: [0, 20, 50],
     outputRange: [0, -10, -35],
-    extrapolateLeft: 'clamp',
-  });
+    extrapolateLeft: 'clamp'
+  })
 
   return (
     <View
@@ -43,25 +50,29 @@ const AnimateLoading = ({description}) => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
-      }}>
+        backgroundColor: '#fff'
+      }}
+    >
       <Animated.Image
         source={require('../images/logo_mark.png')}
         style={{
-          width: 60,
-          height: 60,
-          marginBottom: 10,
-          transform: [{rotate: interpolated} /*  {translateY: translate} */],
+          width: 80,
+          height: 80,
+          marginBottom: 20,
+          // transform: [{rotate: interpolated} /*  {translateY: translate} */],
+          transform: [{ translateY: interpolatedY }]
         }}
-        resizeMode="cover"
+        resizeMode='cover'
       />
 
       {/* <ActivityIndicator size="large" color="#FCDC00" /> */}
       {/* <TouchableOpacity onPress={animationHandler}> */}
-      <Text style={{fontSize: 20, fontWeight: 'bold'}}>{description}</Text>
+      <Text style={{ fontSize: 16, ...BaseStyle.font_666, ...BaseStyle.font_main }}>
+        {description}
+      </Text>
       {/* </TouchableOpacity> */}
     </View>
-  );
+  )
 };
 
-export default AnimateLoading;
+export default AnimateLoading
