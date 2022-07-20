@@ -6,7 +6,8 @@ import {
   Image,
   TextInput,
   KeyboardAvoidingView,
-  Alert
+  Alert,
+  Dimensions
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useSelector } from 'react-redux';
@@ -140,14 +141,14 @@ const TipsEditModal = props => {
       >
         <KeyboardAvoidingView
           behavior='position'
-          style={{ backgroundColor: '#fff', borderRadius: 15 }}
+          style={{ backgroundColor: '#fff', borderRadius: 5 }}
           enabled
         >
           <View
             style={{
               backgroundColor: '#20ABC8',
-              borderTopRightRadius: 15,
-              borderTopLeftRadius: 15,
+              borderTopRightRadius: 5,
+              borderTopLeftRadius: 5,
               ...BaseStyle.pv20,
               ...BaseStyle.ph20,
               justifyContent: 'center',
@@ -177,8 +178,8 @@ const TipsEditModal = props => {
               ...BaseStyle.ph20,
               ...BaseStyle.pv20,
               backgroundColor: '#fff',
-              borderBottomLeftRadius: 10,
-              borderBottomRightRadius: 10
+              borderBottomLeftRadius: 5,
+              borderBottomRightRadius: 5
             }}
           >
             <View style={{ width: '100%' }}>
@@ -319,8 +320,9 @@ const TipsEditModal = props => {
                 }
               }}
               style={{
-                zIndex: -1,
-                borderRadius: 25,
+                ...BaseStyle.pv13,
+                ...BaseStyle.mb30,
+                borderRadius: 5,
                 borderWidth: 1,
                 borderColor:
                   minPrice !== '' && maxPrice !== '' && deliveryPrice !== ''
@@ -332,10 +334,9 @@ const TipsEditModal = props => {
                     : '#ececec',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: 200,
+                width: '88%',
                 alignSelf: 'center',
-                ...BaseStyle.pv13,
-                ...BaseStyle.mb30
+                zIndex: -1
               }}
               // disabled={minPrice !== '' && maxPrice !== '' && deliveryPrice !== '' ? false : true}
             >

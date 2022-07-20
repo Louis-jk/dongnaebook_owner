@@ -81,15 +81,17 @@ const NoticeDetail = props => {
         </View>
       </View>
       <View style={{ height: 1, backgroundColor: '#e5e5e5' }} />
-      <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv10, flex: 1 }}>
-        <ScrollView>
-          <HTML
-            source={{ html: detail.content }}
-            contentWidth={contentWidth}
-            imagesInitialDimensions={{ width: 100, height: 100 }}
-          />
-        </ScrollView>
-      </View>
+      {detail.content && (
+        <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv10, flex: 1 }}>
+          <ScrollView>
+            <HTML
+              source={{ html: detail.content }}
+              contentWidth={contentWidth}
+              imagesInitialDimensions={{ width: 100, height: 100 }}
+            />
+          </ScrollView>
+        </View>
+      )}
     </View>
   )
 };

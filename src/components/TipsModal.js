@@ -152,14 +152,14 @@ const TipsModal = props => {
       >
         <KeyboardAvoidingView
           behavior='position'
-          style={{ backgroundColor: '#fff', borderRadius: 15 }}
+          style={{ backgroundColor: '#fff', borderRadius: 5 }}
           enabled
         >
           <View
             style={{
               backgroundColor: '#20ABC8',
-              borderTopRightRadius: 15,
-              borderTopLeftRadius: 15,
+              borderTopRightRadius: 5,
+              borderTopLeftRadius: 5,
               ...BaseStyle.pv20,
               ...BaseStyle.ph20,
               justifyContent: 'center',
@@ -189,8 +189,8 @@ const TipsModal = props => {
               ...BaseStyle.ph20,
               ...BaseStyle.pv20,
               backgroundColor: '#fff',
-              borderBottomLeftRadius: 10,
-              borderBottomRightRadius: 10
+              borderBottomLeftRadius: 5,
+              borderBottomRightRadius: 5
             }}
           >
             {modalType === 'deliveryTips' ? (
@@ -461,7 +461,7 @@ const TipsModal = props => {
               }}
               style={{
                 zIndex: -1,
-                borderRadius: 25,
+                borderRadius: 5,
                 borderWidth: 1,
                 borderColor:
                   minPrice !== '' && maxPrice !== '' && deliveryPrice !== ''
