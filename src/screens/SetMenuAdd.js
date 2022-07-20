@@ -445,7 +445,7 @@ const SetMenuAdd = props => {
                       return (
                         <Image
                           source={require('../images/ic_select.png')}
-                          style={{ width: 50, height: 50 }}
+                          style={{ width: 45, height: 45 }}
                           resizeMode='center'
                         />
                       )

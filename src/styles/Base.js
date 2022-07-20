@@ -23,7 +23,7 @@ export const customPickerStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E3E3E3',
     borderRadius: 5,
-    height: 50,
+    height: 45,
     color: '#000',
     paddingRight: 30 // to ensure the text is never behind the icon
   },
@@ -34,7 +34,7 @@ export const customPickerStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E3E3E3',
     borderRadius: 5,
-    height: 50,
+    height: 45,
     color: 'black',
     paddingRight: 30 // to ensure the text is never behind the icon
   }
