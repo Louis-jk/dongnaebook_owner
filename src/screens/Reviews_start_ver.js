@@ -8,12 +8,8 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Alert,
-  Animated,
-  StyleSheet,
-  BackHandler
+  Animated
 } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import StarRating from 'react-native-star-rating';
 import { useSelector } from 'react-redux';
 import * as Progress from 'react-native-progress';
@@ -21,7 +17,6 @@ import AutoHeightImage from 'react-native-auto-height-image';
 import moment from 'moment';
 import 'moment/locale/ko';
 import Swiper from 'react-native-swiper';
-import Swipeout from 'react-native-swipeout-mod'; // 스와이프 기능(수정, 삭제)
 import Modal from 'react-native-modal';
 import Header from '../components/SubHeader';
 import BaseStyle, { Primary } from '../styles/Base';
@@ -40,19 +35,6 @@ const Reviews = props => {
   const [list, setList] = React.useState([])
   const [ItId, setItId] = React.useState('') // it_id
   const [WrId, setWrId] = React.useState('') // wr_id
-  const [notice, setNotice] = React.useState({}) // Notice
-
-  // 안드로이드 뒤로가기 버튼 제어
-  const backAction = () => {
-    navigation.goBack()
-
-    return true
-  };
-
-  React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backAction)
-    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
-  }, [])
 
   const param = {
     encodeJson: true,
@@ -63,46 +45,23 @@ const Reviews = props => {
     jumju_code: mt_jumju_code
   }
 
-  const getReviewList02Handler = () => {
-    Api.send('store_review_list2', param, args => {
+  const getReviewListHandler = () => {
+    Api.send('store_review_list', param, args => {
       const resultItem = args.resultItem
       let arrItems = args.arrItems
-
       if (resultItem.result === 'Y') {
-        console.log('review02 arrItems', arrItems)
-
-        if (arrItems.rate) {
-          setRate(arrItems.rate)
-        }
-        if (arrItems.review) {
-          setList(arrItems.review)
-        }
-        if (arrItems.notice !== null && arrItems.notice !== '') {
-          setNotice(arrItems.notice)
-        } else {
-          setNotice(null)
-        }
-        if (arrItems === null) {
-          setRate(null)
-          setList(null)
-          setNotice(null)
-        }
+        setRate(arrItems.rate)
+        setList(arrItems.review)
       } else {
         setRate(null)
         setList(null)
-        setNotice(null)
       }
     })
   };
 
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getReviewList02Handler()
-    })
-    return unsubscribe
-  }, [navigation])
-
-  console.log('rate', rate)
+    getReviewListHandler()
+  }, [])
 
   const scrolling = React.useRef(new Animated.Value(0)).current
 
@@ -188,7 +147,7 @@ const Reviews = props => {
 
         if (resultItem.result === 'Y') {
           toggleCommentModal()
-          getReviewList02Handler()
+          getReviewListHandler()
           setSelectReply('')
           Alert.alert('답변을 등록하였습니다.', '', [
             {
@@ -196,7 +155,7 @@ const Reviews = props => {
             }
           ])
         } else {
-          getReviewList02Handler()
+          getReviewListHandler()
           setSelectReply('')
           Alert.alert('답변을 등록하지 못하였습니다.', '답변을 등록하는데 문제가 있습니다.', [
             {
@@ -227,14 +186,14 @@ const Reviews = props => {
       let arrItems = args.arrItems
 
       if (resultItem.result === 'Y') {
-        getReviewList02Handler()
+        getReviewListHandler()
         Alert.alert('답변을 삭제하였습니다.', '', [
           {
             text: '확인'
           }
         ])
       } else {
-        getReviewList02Handler()
+        getReviewListHandler()
         Alert.alert('답변을 삭제하지 못하였습니다.', '답변을 삭제하는데 문제가 있습니다.', [
           {
             text: '확인'
@@ -256,56 +215,10 @@ const Reviews = props => {
     ])
   };
 
-  // 오른쪽에서 왼쪽으로 스와이프(swipe)시 액션
-  const renderRightActions = (progress, dragX) => {
-    const trans = dragX.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 0]
-      // inputRange: [0, 50, 100, 101],
-      // outputRange: [-20, 0, 0, 0],
-    })
-    return (
-      <RectButton style={styles.leftAction}>
-        <Animated.View
-          style={[
-            {
-              flex: 1,
-              justifyContent: 'center',
-              ...BaseStyle.container5,
-              ...BaseStyle.ph20,
-              backgroundColor: '#fff',
-              transform: [{ translateX: trans }]
-            }
-          ]}
-        >
-          <View style={{ ...BaseStyle.container2, flex: 1, justifyContent: 'center' }}>
-            <Text style={{ ...BaseStyle.ko14, ...BaseStyle.mb5 }}>맛</Text>
-            <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>{rate.wr_score1}</Text>
-          </View>
-          <View style={{ width: 1, height: '50%', backgroundColor: Primary.PointColor01 }} />
-          <View style={{ ...BaseStyle.container2, flex: 1, justifyContent: 'center' }}>
-            <Text style={{ ...BaseStyle.ko14, ...BaseStyle.mb5 }}>또 주문</Text>
-            <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>{rate.wr_score2}</Text>
-          </View>
-          <View style={{ width: 1, height: '50%', backgroundColor: Primary.PointColor01 }} />
-          <View style={{ ...BaseStyle.container2, flex: 1, justifyContent: 'center' }}>
-            <Text style={{ ...BaseStyle.ko14, ...BaseStyle.mb5 }}>빠른배달</Text>
-            <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>{rate.wr_score3}</Text>
-          </View>
-          <View style={{ width: 1, height: '50%', backgroundColor: Primary.PointColor01 }} />
-          <View style={{ ...BaseStyle.container2, flex: 1, justifyContent: 'center' }}>
-            <Text style={{ ...BaseStyle.ko14, ...BaseStyle.mb5 }}>가성비</Text>
-            <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>{rate.wr_score4}</Text>
-          </View>
-        </Animated.View>
-      </RectButton>
-    )
-  };
-
   const renderRow = ({ item, index }) => {
     return (
       <View key={index + item.wr_id}>
-        <View style={{ height: 10, width: '100%', backgroundColor: '#F2F2F2' }} />
+        <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3' }} />
         <View style={{ ...BaseStyle.mv20, ...BaseStyle.container, ...BaseStyle.ph20 }}>
           <View style={{ ...BaseStyle.mr10 }}>
             <Image
@@ -320,143 +233,24 @@ const Reviews = props => {
             </Text>
             <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb3 }}>{item.wr_mb_id}</Text>
             <View style={{ ...BaseStyle.container }}>
+              <StarRating
+                disabled={false}
+                emptyStar={require('../images/star_off.png')}
+                fullStar={require('../images/star_on.png')}
+                ratingColor='#3498db'
+                ratingBackgroundColor='#c8c7c8'
+                maxStars={5}
+                rating={Math.round(item.rating)}
+                starSize={12}
+                containerStyle={{ width: 75, ...BaseStyle.mr10 }}
+              />
               <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>
                 {moment(item.datetime, 'YYYYMMDD').fromNow()}
               </Text>
             </View>
           </View>
         </View>
-        <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.mb20 }}>
-          <View
-            style={{
-              flex: 1,
-              ...BaseStyle.container2,
-              ...BaseStyle.mr5,
-              ...BaseStyle.pv10,
-              borderWidth: 1,
-              borderColor: item.wr_score1 === '1' ? '#222' : '#E3E3E3',
-              borderRadius: 15
-            }}
-          >
-            <Text
-              style={{
-                ...BaseStyle.ko16,
-                ...BaseStyle.font_bold,
-                ...BaseStyle.mb5,
-                color: item.wr_score1 === '1' ? '#222' : '#E3E3E3'
-              }}
-            >
-              맛
-            </Text>
-            <View
-              style={{
-                borderRadius: 10,
-                backgroundColor: item.wr_score1 === '1' ? '#222' : '#E3E3E3',
-                paddingHorizontal: 7,
-                paddingVertical: 3
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko10, color: '#fff' }}>BEST</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              ...BaseStyle.container2,
-              ...BaseStyle.mr5,
-              ...BaseStyle.pv10,
-              borderWidth: 1,
-              borderColor: item.wr_score2 === '1' ? '#222' : '#E3E3E3',
-              borderRadius: 15
-            }}
-          >
-            <Text
-              style={{
-                ...BaseStyle.ko16,
-                ...BaseStyle.font_bold,
-                ...BaseStyle.mb5,
-                color: item.wr_score2 === '1' ? '#222' : '#E3E3E3'
-              }}
-            >
-              또주문
-            </Text>
-            <View
-              style={{
-                borderRadius: 10,
-                backgroundColor: item.wr_score2 === '1' ? '#222' : '#E3E3E3',
-                paddingHorizontal: 7,
-                paddingVertical: 3
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko10, color: '#fff' }}>BEST</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              ...BaseStyle.container2,
-              ...BaseStyle.mr5,
-              ...BaseStyle.pv10,
-              borderWidth: 1,
-              borderColor: item.wr_score3 === '1' ? '#222' : '#E3E3E3',
-              borderRadius: 15
-            }}
-          >
-            <Text
-              style={{
-                ...BaseStyle.ko16,
-                ...BaseStyle.font_bold,
-                ...BaseStyle.mb5,
-                color: item.wr_score3 === '1' ? '#222' : '#E3E3E3'
-              }}
-            >
-              빠른배달
-            </Text>
-            <View
-              style={{
-                borderRadius: 10,
-                backgroundColor: item.wr_score3 === '1' ? '#222' : '#E3E3E3',
-                paddingHorizontal: 7,
-                paddingVertical: 3
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko10, color: '#fff' }}>BEST</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              ...BaseStyle.container2,
-              ...BaseStyle.pv10,
-              borderWidth: 1,
-              borderColor: item.wr_score4 === '1' ? '#222' : '#E3E3E3',
-              borderRadius: 15
-            }}
-          >
-            <Text
-              style={{
-                ...BaseStyle.ko16,
-                ...BaseStyle.font_bold,
-                ...BaseStyle.mb5,
-                color: item.wr_score4 === '1' ? '#222' : '#E3E3E3'
-              }}
-            >
-              가성비
-            </Text>
-            <View
-              style={{
-                borderRadius: 10,
-                backgroundColor: item.wr_score4 === '1' ? '#222' : '#E3E3E3',
-                paddingHorizontal: 7,
-                paddingVertical: 3
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko10, color: '#fff' }}>BEST</Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={{ justifyContent: 'center', alignItems: 'center', ...BaseStyle.mb10 }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           {item.pic.length > 1 ? (
             <View style={{ width: Dimensions.get('window').width, ...BaseStyle.ph20 }}>
               <Swiper
@@ -526,6 +320,11 @@ const Reviews = props => {
                     marginBottom: 5
                   }}
                 />
+                {/* <AutoHeightImage
+                      source={{uri: `${item.pic[0]}`}}
+                      width={Dimensions.get('window').width - 40}
+                      style={{ marginBottom: 5 }}
+                    /> */}
               </TouchableOpacity>
               <ImageView
                 images={modalImages}
@@ -537,7 +336,13 @@ const Reviews = props => {
             </>
           ) : null}
         </View>
-
+        <View style={{ ...BaseStyle.ph20 }}>
+          <Text
+            style={{ ...BaseStyle.ko15, ...BaseStyle.lh23, ...BaseStyle.mt10, ...BaseStyle.mb10 }}
+          >
+            {item.content.replace('\n', '\n')}
+          </Text>
+        </View>
         <View style={{ ...BaseStyle.mb30, ...BaseStyle.ph20 }}>
           {item.reply ? (
             <View
@@ -550,6 +355,9 @@ const Reviews = props => {
               }}
             >
               <View style={{ ...BaseStyle.container3 }}>
+                {/* <View style={{...BaseStyle.mr10}}>
+                  <Image source={require('../images/message_gray.png')} style={{width:23, height:23}} resizeMode="contain" />
+                </View> */}
                 <View>
                   <View style={{ ...BaseStyle.container, ...BaseStyle.mb10, alignItems: 'baseline' }}>
                     <Text
@@ -594,6 +402,21 @@ const Reviews = props => {
             </View>
           ) : (
             <View style={{ ...BaseStyle.container }}>
+              {/* <TextInput
+                value={selectReply}
+                placeholder="답변달기"
+                style={{
+                  ...BaseStyle.inputH,
+                  ...BaseStyle.ph10,
+                  ...BaseStyle.border,
+                  flex:1,
+                  ...BaseStyle.mr5,
+                  ...BaseStyle.lh22
+                }}
+                onChangeText={text => setSelectReply(text)}
+                autoCapitalize="none"
+                multiline
+              /> */}
               <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => {
@@ -659,30 +482,6 @@ const Reviews = props => {
     )
   };
 
-  const swipeBtns = [
-    {
-      text: '자세히',
-      component: (
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingVertical: 2,
-            paddingHorizontal: 5,
-            backgroundColor: '#ececec',
-            borderRadius: 5
-          }}
-        >
-          <Text style={{ ...BaseStyle.ko10 }}>자세히보기</Text>
-        </TouchableOpacity>
-      ),
-      color: '#222',
-      backgroundColor: 'transparent',
-      underlayColor: 'rgba(0, 0, 0, 1, 0.6)'
-    }
-  ]
-
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={{ zIndex: 99999, backgroundColor: '#fff' }}>
@@ -726,7 +525,7 @@ const Reviews = props => {
         animationInTiming={300}
       >
         <KeyboardAvoidingView
-          behavior='position'
+          behavior="position"
           style={{ backgroundColor: '#fff', borderRadius: 15 }}
           enabled
         >
@@ -740,6 +539,24 @@ const Reviews = props => {
               borderRadius: 15
             }}
           >
+            {/* <TouchableOpacity
+              activeOpacity={1}
+              onPress={toggleCommentModal}
+              hitSlop={{top: 20, right: 20, bottom: 20, left: 20}}
+              style={{
+                position: 'absolute',
+                top: -10,
+                right: -10,
+                backgroundColor: Primary.PointColor02,
+                borderRadius: 50,
+                padding: 10,
+              }}>
+              <Image
+                source={require('../images/close_wh.png')}
+                style={{width: 10, height: 10}}
+                resizeMode="center"
+              />
+            </TouchableOpacity> */}
             <Text style={{ ...BaseStyle.ko16, ...BaseStyle.mb15, ...BaseStyle.font_bold }}>
               리뷰에 대한 답변을 입력해주세요.
             </Text>
@@ -829,7 +646,7 @@ const Reviews = props => {
       {/* // 답변 모달 */}
 
       {/* 커스텀 총 평점 */}
-      {JSON.stringify(rate) !== '{}' ? (
+      {rate !== null ? (
         <Animated.View
           style={{
             justifyContent: 'center',
@@ -847,70 +664,61 @@ const Reviews = props => {
             ]
           }}
         >
-          {/* <Swipeout right={swipeBtns} autoClose="true" backgroundColor="transparent"> */}
-          <Swipeable renderRightActions={renderRightActions}>
-            <View
-              style={{
-                ...styles.rectButton,
-                width: '100%',
-                ...BaseStyle.container5,
-                ...BaseStyle.pv15,
-                ...BaseStyle.ph10
-              }}
-            >
-              <View style={{ ...BaseStyle.container }}>
-                <Image
-                  source={require('../images/thumbup.png')}
-                  style={{ width: 50, height: 30 }}
-                  resizeMode='cover'
-                />
-                <Animated.Text
-                  style={{
-                    ...BaseStyle.ko20,
-                    ...BaseStyle.font_bold,
-                    marginRight: 2,
-                    transform: [
-                      {
-                        scale: scale
-                      }
-                    ]
-                  }}
-                >
-                  {rate.max_score_value}
-                </Animated.Text>
-                <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>
-                  {rate.max_score_value === '맛'
-                    ? '이 최고에요!'
-                    : rate.max_score_value === '또 주문'
-                      ? '할게요!'
-                      : rate.max_score_value === '빠른배달'
-                        ? '좋아요!'
-                        : rate.max_score_value === '가성비'
-                          ? '갑이에요!'
-                          : null}
-                </Text>
+          <View style={{ ...BaseStyle.container5, ...BaseStyle.pv15, ...BaseStyle.ph20 }}>
+            <View style={{ ...BaseStyle.container }}>
+              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
+                총 평점 :{' '}
+              </Text>
+              <Animated.Text
+                style={{
+                  ...BaseStyle.ko20,
+                  ...BaseStyle.font_bold,
+                  ...BaseStyle.mr5,
+                  transform: [
+                    {
+                      scale: scale
+                    }
+                  ]
+                }}
+              >
+                {rate.avg}
+              </Animated.Text>
+              <StarRating
+                disabled={false}
+                emptyStar={require('../images/star_off.png')}
+                fullStar={require('../images/star_on.png')}
+                ratingColor='#3498db'
+                ratingBackgroundColor='#c8c7c8'
+                maxStars={5}
+                rating={Math.round(rate.avg)}
+                starSize={10}
+                containerStyle={{ width: 50 }}
+                onSwi
+              />
+            </View>
+            <View style={{ ...BaseStyle.container5, alignSelf: 'flex-end' }}>
+              <View style={{ ...BaseStyle.container2, ...BaseStyle.mh05 }}>
+                <Text style={{ ...BaseStyle.ko14 }}>5점</Text>
+                <Text style={{ ...BaseStyle.ko10 }}>{rate.rating_cnt5}</Text>
               </View>
-              <View style={{ ...BaseStyle.container5, alignSelf: 'flex-end' }}>
-                <View style={{ ...BaseStyle.container, ...BaseStyle.mh05 }}>
-                  <Text style={{ ...BaseStyle.ko14 }}>맛 </Text>
-                  <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>{rate.wr_score1}</Text>
-                </View>
-                {/* <View
-                  style={{width: 1, height: 30, backgroundColor: '#E3E3E3', ...BaseStyle.mh05}}
-                />
-                <View style={{...BaseStyle.container, ...BaseStyle.mh05}}>
-                  <Text style={{...BaseStyle.ko14}}>합계 </Text>
-                  <Text style={{...BaseStyle.ko16, ...BaseStyle.font_bold}}>{rate.total_cnt}</Text>
-                </View> */}
-                <Image
-                  source={require('../images/swipe_m.png')}
-                  style={{ width: 50, height: 25, marginLeft: 10 }}
-                  resizeMode='contain'
-                />
+              <View style={{ ...BaseStyle.container2, ...BaseStyle.mh05 }}>
+                <Text style={{ ...BaseStyle.ko14 }}>4점</Text>
+                <Text style={{ ...BaseStyle.ko10 }}>{rate.rating_cnt4}</Text>
+              </View>
+              <View style={{ ...BaseStyle.container2, ...BaseStyle.mh05 }}>
+                <Text style={{ ...BaseStyle.ko14 }}>3점</Text>
+                <Text style={{ ...BaseStyle.ko10 }}>{rate.rating_cnt3}</Text>
+              </View>
+              <View style={{ ...BaseStyle.container2, ...BaseStyle.mh05 }}>
+                <Text style={{ ...BaseStyle.ko14 }}>2점</Text>
+                <Text style={{ ...BaseStyle.ko10 }}>{rate.rating_cnt2}</Text>
+              </View>
+              <View style={{ ...BaseStyle.container2, ...BaseStyle.mh05 }}>
+                <Text style={{ ...BaseStyle.ko14 }}>1점</Text>
+                <Text style={{ ...BaseStyle.ko10 }}>{rate.rating_cnt1}</Text>
               </View>
             </View>
-          </Swipeable>
-          {/* </Swipeout> */}
+          </View>
           <View style={{ height: 1, backgroundColor: '#e5e5e5' }} />
         </Animated.View>
       ) : null}
@@ -952,227 +760,121 @@ const Reviews = props => {
                   ...BaseStyle.mt20
                 }}
               >
-                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_666, ...BaseStyle.mb10 }}>
-                  총 리뷰 & 평점
+                <Text style={{ ...BaseStyle.ko15 }}>
+                  <Text style={{ ...BaseStyle.font_bold }}>{mt_store}</Text> 의 총 리뷰 & 평점
                 </Text>
-                <Text style={{ ...BaseStyle.ko20, ...BaseStyle.font_bold }}>{mt_store}</Text>
               </View>
-              <View
-                style={{
-                  ...BaseStyle.container,
-                  ...BaseStyle.ph20,
-                  ...BaseStyle.pt10,
-                  ...BaseStyle.pb20
-                }}
-              >
-                {/* 평점 별표(큰 부분) */}
-                <View
-                  style={{
-                    flex: 1.5,
-                    alignItems: 'center',
-                    height: '100%',
-                    ...BaseStyle.pt10
-                  }}
-                >
-                  <Text
-                    style={{
-                      ...BaseStyle.ko20,
-                      ...BaseStyle.font_main,
-                      fontWeight: 'bold',
-                      fontSize: 45
-                    }}
-                  >
-                    4.3
-                  </Text>
-                  <StarRating
-                    activeOpacity={1}
-                    disabled={false}
-                    emptyStar={require('../images/ico_star_off.png')}
-                    fullStar={require('../images/ico_star_on.png')}
-                    ratingColor='#3498db'
-                    ratingBackgroundColor='#c8c7c8'
-                    maxStars={5}
-                    // rating={Math.round(rate.avg)}
-                    rating={4}
-                    starSize={17}
-                  />
-                </View>
-                {/* //평점 별표(큰 부분)   */}
-
-                {/* 중간 선 */}
-                <View
-                  style={{
-                    width: 1,
-                    height: '100%',
-                    backgroundColor: '#ececec',
-                    ...BaseStyle.pv20,
-                    ...BaseStyle.mh30,
-                    ...BaseStyle.mr10
-                  }}
-                />
-                {/* // 중간 선 */}
-
-                <View style={{ flex: 2 }}>
-                  <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
-                    <Progress.Bar
-                      animated
-                      progress={1}
-                      width={100}
-                      height={6}
-                      color={Primary.PointColor01}
-                      borderColor='#fff'
-                      borderRadius={10}
-                      style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
+              {rate !== null ? (
+                <View style={{ ...BaseStyle.container, ...BaseStyle.ph40, ...BaseStyle.pv20 }}>
+                  <View style={{ justifyContent: 'center', alignItems: 'center', ...BaseStyle.mr40 }}>
+                    <Text style={{ ...BaseStyle.ko18, fontSize: 55 }}>{rate.avg}</Text>
+                    <StarRating
+                      disabled={false}
+                      emptyStar={require('../images/star_off.png')}
+                      fullStar={require('../images/star_on.png')}
+                      ratingColor='#3498db'
+                      ratingBackgroundColor='#c8c7c8'
+                      maxStars={5}
+                      rating={Math.round(rate.avg)}
+                      starSize={12}
+                      containerStyle={{ width: 75 }}
                     />
-                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}>
-                      5점 (41)
-                    </Text>
                   </View>
-                  <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
-                    <Progress.Bar
-                      animated
-                      progress={1}
-                      width={100}
-                      height={6}
-                      color={Primary.PointColor01}
-                      borderColor='#fff'
-                      borderRadius={10}
-                      style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
-                    />
-                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}>
-                      4점 (15)
-                    </Text>
-                  </View>
-                  <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
-                    <Progress.Bar
-                      animated
-                      progress={0.5}
-                      width={100}
-                      height={6}
-                      color={Primary.PointColor01}
-                      borderColor='#fff'
-                      borderRadius={10}
-                      style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
-                    />
-                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}>
-                      3점 (15)
-                    </Text>
-                  </View>
-                  <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
-                    <Progress.Bar
-                      animated
-                      progress={0}
-                      width={100}
-                      height={6}
-                      color={Primary.PointColor01}
-                      borderColor='#fff'
-                      borderRadius={10}
-                      style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
-                    />
-                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}>
-                      2점 (0)
-                    </Text>
-                  </View>
-                  <View style={{ ...BaseStyle.container }}>
-                    <Progress.Bar
-                      animated
-                      progress={0}
-                      width={100}
-                      height={6}
-                      color={Primary.PointColor01}
-                      borderColor='#fff'
-                      borderRadius={10}
-                      style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
-                    />
-                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}>
-                      1점 (0)
-                    </Text>
-                  </View>
-                </View>
-              </View>
-
-              {/* 공지글 작성 */}
-              {notice !== null && notice !== '' ? (
-                <>
-                  <View
-                    style={{
-                      ...BaseStyle.mh20,
-                      ...BaseStyle.mb10,
-                      ...BaseStyle.pb10,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderWidth: 1,
-                      borderColor: '#ececec',
-                      borderRadius: 5
-                    }}
-                  >
-                    <View
-                      style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: '#ececec',
-                        width: '100%',
-                        ...BaseStyle.pv10
-                      }}
-                    >
-                      <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>리뷰 공지사항</Text>
-                    </View>
-                    <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
-                      <Text style={{ ...BaseStyle.ko14 }}>{notice.noticeContent}</Text>
-                    </View>
-                    {notice.noticePic && notice.noticePic.length > 0
-                      ? notice.noticePic.map((pic, index) => (
-                        <AutoHeightImage
-                            key={`${pic}-${index}`}
-                            source={{ uri: `${pic}` }}
-                            width={Dimensions.get('window').width - 60}
-                          />
-                        ))
-                      : null}
-                  </View>
-                  <View style={{ ...BaseStyle.ph20, ...BaseStyle.pb20 }}>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      onPress={() =>
-                        navigation.navigate('ReviewNotice', { type: 'edit', item: notice })}
-                      style={{
-                        ...BaseStyle.mainBtn
-                      }}
-                    >
+                  <View style={{ flex: 1 }}>
+                    <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
+                      <Text style={{ ...BaseStyle.ko13, ...BaseStyle.mr10 }}>5점</Text>
+                      <Progress.Bar
+                        animated
+                        progress={rate.rating_per5}
+                        width={180}
+                        color={Primary.PointColor01}
+                        borderColor='#fff'
+                        style={{ backgroundColor: '#E3E3E3' }}
+                      />
                       <Text
-                        style={{
-                          ...BaseStyle.ko14,
-                          ...BaseStyle.font_bold,
-                          ...BaseStyle.font_white
-                        }}
+                        style={{ ...BaseStyle.ko13, ...BaseStyle.font_gray_a1, ...BaseStyle.ml10 }}
                       >
-                        리뷰 공지 수정
+                        {rate.rating_cnt5}
                       </Text>
-                    </TouchableOpacity>
+                    </View>
+                    <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
+                      <Text style={{ ...BaseStyle.ko13, ...BaseStyle.mr10 }}>4점</Text>
+                      <Progress.Bar
+                        animated
+                        progress={rate.rating_per4}
+                        width={180}
+                        color={Primary.PointColor01}
+                        borderColor='#fff'
+                        style={{ backgroundColor: '#E3E3E3' }}
+                      />
+                      <Text
+                        style={{ ...BaseStyle.ko13, ...BaseStyle.font_gray_a1, ...BaseStyle.ml10 }}
+                      >
+                        {rate.rating_cnt4}
+                      </Text>
+                    </View>
+                    <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
+                      <Text style={{ ...BaseStyle.ko13, ...BaseStyle.mr10 }}>3점</Text>
+                      <Progress.Bar
+                        animated
+                        progress={rate.rating_per3}
+                        width={180}
+                        color={Primary.PointColor01}
+                        borderColor='#fff'
+                        style={{ backgroundColor: '#E3E3E3' }}
+                      />
+                      <Text
+                        style={{ ...BaseStyle.ko13, ...BaseStyle.font_gray_a1, ...BaseStyle.ml10 }}
+                      >
+                        {rate.rating_cnt3}
+                      </Text>
+                    </View>
+                    <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
+                      <Text style={{ ...BaseStyle.ko13, ...BaseStyle.mr10 }}>2점</Text>
+                      <Progress.Bar
+                        animated
+                        progress={rate.rating_per2}
+                        width={180}
+                        color={Primary.PointColor01}
+                        borderColor='#fff'
+                        style={{ backgroundColor: '#E3E3E3' }}
+                      />
+                      <Text
+                        style={{ ...BaseStyle.ko13, ...BaseStyle.font_gray_a1, ...BaseStyle.ml10 }}
+                      >
+                        {rate.rating_cnt2}
+                      </Text>
+                    </View>
+                    <View style={{ ...BaseStyle.container }}>
+                      <Text style={{ ...BaseStyle.ko13, ...BaseStyle.mr10 }}>1점</Text>
+                      <Progress.Bar
+                        animated
+                        progress={rate.rating_per1}
+                        width={180}
+                        color={Primary.PointColor01}
+                        borderColor='#fff'
+                        style={{ backgroundColor: '#E3E3E3' }}
+                      />
+                      <Text
+                        style={{ ...BaseStyle.ko13, ...BaseStyle.font_gray_a1, ...BaseStyle.ml10 }}
+                      >
+                        {rate.rating_cnt1}
+                      </Text>
+                    </View>
                   </View>
-                </>
-              ) : (
-                <View style={{ ...BaseStyle.ph20, ...BaseStyle.pb20 }}>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => navigation.navigate('ReviewNotice', { type: 'write' })}
-                    style={{
-                      ...BaseStyle.mainBtn
-                    }}
-                  >
-                    <Text
-                      style={{ ...BaseStyle.ko14, ...BaseStyle.font_bold, ...BaseStyle.font_white }}
-                    >
-                      리뷰 공지 작성
-                    </Text>
-                  </TouchableOpacity>
                 </View>
-              )}
-              {/* // 공지글 작성 */}
+              ) : null}
             </View>
           }
           ListEmptyComponent={
-            <View style={styles.emptyView}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flex: 1,
+                height: Dimensions.get('window').height - 300
+              }}
+            >
               <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
                 아직 등록된 리뷰 및 평점이 없습니다.
               </Text>
@@ -1184,27 +886,5 @@ const Reviews = props => {
     </View>
   )
 };
-
-const styles = StyleSheet.create({
-  leftAction: {
-    flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center'
-  },
-  actionText: {
-    color: 'black',
-    fontSize: 16
-  },
-  rectButton: {
-    width: '100%',
-    backgroundColor: 'white'
-  },
-  emptyView: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    marginTop: 100
-  }
-})
 
 export default Reviews
