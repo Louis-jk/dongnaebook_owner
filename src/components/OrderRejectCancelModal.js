@@ -6,8 +6,7 @@ import {
   Image,
   TextInput,
   KeyboardAvoidingView,
-  Alert,
-  Dimensions
+  Alert
 } from 'react-native';
 import Modal from 'react-native-modal';
 import { useSelector, useDispatch } from 'react-redux';
@@ -252,10 +251,6 @@ const OrderRejectCancelModal = props => {
     ])
   };
 
-  // console.log('====================================');
-  // console.log('selectedType ??', selectedType);
-  // console.log('typeEtc ??', typeEtc);
-  // console.log('====================================');
   return (
     <View>
       <Modal
@@ -311,73 +306,77 @@ const OrderRejectCancelModal = props => {
               borderBottomRightRadius: modalType === 'reject' ? 0 : 5
             }}
           >
-            {modalType === 'reject' && rejectTypes && rejectTypes.length > 0
-              ? rejectTypes.map((type, index) => (
+            {modalType === 'reject' &&
+              rejectTypes &&
+              rejectTypes.length > 0 &&
+              rejectTypes.map((type, index) => (
                 <TouchableOpacity
-                    key={type.type_id}
-                    activeOpacity={0.8}
-                    onPress={() => setSelectTypeHandler(type.type_id)}
+                  key={type.type_id}
+                  activeOpacity={0.8}
+                  onPress={() => setSelectTypeHandler(type.type_id)}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: selectedType === type.type_id ? '#707070' : '#F3F3F3',
+                    backgroundColor: selectedType === type.type_id ? '#fff' : '#F3F3F3',
+                    width: '48%',
+                    height: 55,
+                    ...BaseStyle.mb10,
+                    marginRight: index % 2 === 0 ? '2%' : 0,
+                    marginLeft: index % 2 === 1 ? '2%' : 0
+                  }}
+                >
+                  <Text
                     style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 5,
-                      borderWidth: 1,
-                      borderColor: selectedType === type.type_id ? '#707070' : '#F3F3F3',
-                      backgroundColor: selectedType === type.type_id ? '#fff' : '#F3F3F3',
-                      width: '48%',
-                      height: 55,
-                      ...BaseStyle.mb10,
-                      marginRight: index % 2 === 0 ? '2%' : 0,
-                      marginLeft: index % 2 === 1 ? '2%' : 0
+                      ...BaseStyle.ko12,
+                      ...BaseStyle.font_222,
+                      ...BaseStyle.lh17,
+                      textAlign: 'center',
+                      color: selectedType === type.type_id ? '#000' : '#333'
                     }}
                   >
-                    <Text
-                      style={{
-                        ...BaseStyle.ko12,
-                        ...BaseStyle.font_222,
-                        ...BaseStyle.lh17,
-                        textAlign: 'center',
-                        color: selectedType === type.type_id ? '#000' : '#333'
-                      }}
-                    >
-                      {type.type_description}
-                    </Text>
-                  </TouchableOpacity>
-                ))
-              : modalType === 'cancel' && cancelTypes && cancelTypes.length > 0
-                ? cancelTypes.map((type, index) => (
+                    {type.type_description}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+
+            {modalType === 'cancel' &&
+              cancelTypes &&
+              cancelTypes.length > 0 &&
+              cancelTypes.map((type, index) => (
                 <TouchableOpacity
-                    key={type.type_id}
-                    activeOpacity={0.8}
-                    onPress={() => setSelectTypeHandler(type.type_id)}
+                  key={type.type_id}
+                  activeOpacity={0.8}
+                  onPress={() => setSelectTypeHandler(type.type_id)}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: selectedType === type.type_id ? '#707070' : '#F3F3F3',
+                    backgroundColor: selectedType === type.type_id ? '#fff' : '#F3F3F3',
+                    width: '45%',
+                    height: 60,
+                    ...BaseStyle.mb10
+                  }}
+                >
+                  <Text
                     style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 5,
-                      borderWidth: 1,
-                      borderColor: selectedType === type.type_id ? '#707070' : '#F3F3F3',
-                      backgroundColor: selectedType === type.type_id ? '#fff' : '#F3F3F3',
-                      width: '45%',
-                      height: 60,
-                      ...BaseStyle.mb10
+                      ...BaseStyle.ko12,
+                      ...BaseStyle.font_222,
+                      ...BaseStyle.lh17,
+                      textAlign: 'center'
                     }}
                   >
-                    <Text
-                      style={{
-                        ...BaseStyle.ko12,
-                        ...BaseStyle.font_222,
-                        ...BaseStyle.lh17,
-                        textAlign: 'center'
-                      }}
-                    >
-                      {type.type_description}
-                    </Text>
-                  </TouchableOpacity>
-                  ))
-                : null}
+                    {type.type_description}
+                  </Text>
+                </TouchableOpacity>
+              ))}
           </View>
 
-          {modalType === 'reject' ? (
+          {modalType === 'reject' && (
             <View style={{ ...BaseStyle.ph20, ...BaseStyle.mb10 }}>
               <TextInput
                 ref={directTypeRef}
@@ -395,16 +394,17 @@ const OrderRejectCancelModal = props => {
                 // onSubmitEditing={() => userPwdReRef.current.focus()}
               />
             </View>
-          ) : null}
+          )}
 
-          {modalType === 'reject' ? (
-            <View style={{ zIndex: -1, ...BaseStyle.ph20 }}>
+          <View style={{ zIndex: -1, ...BaseStyle.ph20 }}>
+            {modalType === 'reject' ? (
               <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => {
-                  if (selectedType !== null && selectedType !== '' && selectedType !== 6) {
-                    rejectConfirmHandler()
-                  } else if (selectedType == 6 && typeEtc !== null && typeEtc !== '') {
+                  if (
+                    (selectedType !== null && selectedType !== '' && selectedType !== 6) ||
+                    (selectedType === 6 && typeEtc !== null && typeEtc !== '')
+                  ) {
                     rejectConfirmHandler()
                   } else if (selectedType == 6 && (typeEtc === null || typeEtc === '')) {
                     Alert.alert('주문 거부 사유를 반드시 지정 또는 입력해주세요.', '', [
@@ -417,18 +417,18 @@ const OrderRejectCancelModal = props => {
                   }
                 }}
                 style={{
-                  borderRadius: 5,
-                  borderWidth: 1,
-                  borderColor:
-                    selectedType !== null && selectedType !== '' ? Primary.PointColor01 : '#E3E3E3',
+                  ...BaseStyle.pv15,
+                  ...BaseStyle.mb30,
                   justifyContent: 'center',
                   alignItems: 'center',
                   width: '100%',
                   alignSelf: 'center',
-                  ...BaseStyle.pv15,
-                  ...BaseStyle.mb30,
                   backgroundColor:
-                    selectedType !== null && selectedType !== '' ? Primary.PointColor01 : '#fff'
+                    selectedType !== null && selectedType !== '' ? Primary.PointColor01 : '#fff',
+                  borderRadius: 5,
+                  borderWidth: 1,
+                  borderColor:
+                    selectedType !== null && selectedType !== '' ? Primary.PointColor01 : '#E3E3E3'
                 }}
               >
                 <Text
@@ -441,9 +441,7 @@ const OrderRejectCancelModal = props => {
                   거부하기
                 </Text>
               </TouchableOpacity>
-            </View>
-          ) : (
-            <View style={{ zIndex: -1, ...BaseStyle.ph20 }}>
+            ) : (
               <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => {
@@ -470,8 +468,8 @@ const OrderRejectCancelModal = props => {
               >
                 <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_666 }}>취소하기</Text>
               </TouchableOpacity>
-            </View>
-          )}
+            )}
+          </View>
         </KeyboardAvoidingView>
       </Modal>
     </View>
