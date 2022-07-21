@@ -1217,7 +1217,8 @@ const Reviews = props => {
                 justifyContent: "center",
                 alignItems: "center",
                 flex: 1,
-                height: Dimensions.get("window").height - 300,
+                marginTop: 100,
+                // height: Dimensions.get("window").height - 300,
               }}>
               <Text style={{...BaseStyle.ko15, textAlign: "center"}}>
                 아직 등록된 리뷰 및 평점이 없습니다.
