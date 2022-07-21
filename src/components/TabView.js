@@ -605,7 +605,7 @@ const TabView = props => {
           dispatch(orderAction.updateDeliveryOrder(JSON.stringify(arrItems)))
           setReflashing(false)
         } else {
-          setOrderList(null)
+          setOrderList([])
           dispatch(orderAction.updateDeliveryOrder(null))
           setReflashing(false)
           // Alert.alert('데이터를 받아오는데 오류가 발생하였습니다.','관리자에게 문의해주세요.', [
