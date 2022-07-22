@@ -220,7 +220,7 @@ const StoreSetting = props => {
                     resizeMode="contain"
                     fadeDuration={100}
                   />
-                  <Text style={{...BaseStyle.ko14}}>1회 울림</Text>
+                  <Text style={{...BaseStyle.ko14}}>3회 울림</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -238,7 +238,7 @@ const StoreSetting = props => {
                     resizeMode="contain"
                     fadeDuration={100}
                   />
-                  <Text style={{...BaseStyle.ko14}}>2회 울림</Text>
+                  <Text style={{...BaseStyle.ko14}}>5회 울림</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -256,17 +256,14 @@ const StoreSetting = props => {
                     resizeMode="contain"
                     fadeDuration={100}
                   />
-                  <Text style={{...BaseStyle.ko14}}>3회 울림</Text>
+                  <Text style={{...BaseStyle.ko14}}>7회 울림</Text>
                 </TouchableOpacity>
               </View>
             </View>
             {/* // 알림음 설정 */}
 
-            {/* 포장 가능 여부 */}
-            <View style={{...BaseStyle.mv10}}>
-              {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
-              포장 가능 여부
-              </Text> */}
+            {/* 프린터 자동출력 여부 */}
+            {/* <View style={{...BaseStyle.mv10}}>              
               <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
                 <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>
                   주문 접수시 자동 프린트 출력 여부
@@ -309,8 +306,8 @@ const StoreSetting = props => {
                   <Text style={{...BaseStyle.ko14}}>자동 출력 안함</Text>
                 </TouchableOpacity>
               </View>
-            </View>
-            {/* // 포장 가능 여부 */}
+            </View> */}
+            {/* // 프린터 자동출력 여부 */}
 
             {/* 포장 가능 여부 */}
             <View style={{...BaseStyle.mv10}}>
@@ -517,7 +514,7 @@ const StoreSetting = props => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: range === "all" ? Primary.PointColor02 : "#ececec",
+              backgroundColor: range === "all" ? Primary.PointColor01 : "#ececec",
               paddingVertical: 20,
               borderTopLeftRadius: 5,
               borderBottomLeftRadius: 5,
@@ -533,7 +530,7 @@ const StoreSetting = props => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: range === "curr" ? Primary.PointColor02 : "#ececec",
+              backgroundColor: range === "curr" ? Primary.PointColor01 : "#ececec",
               paddingVertical: 20,
               borderTopRightRadius: 5,
               borderBottomRightRadius: 5,
