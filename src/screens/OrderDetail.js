@@ -380,11 +380,12 @@ const OrderDetail = props => {
                           flexDirection: "row",
                           justifyContent: "space-between",
                           alignItems: "center",
+                          ...BaseStyle.mb7,
                         }}>
-                        <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb7}}>
+                        <Text style={{...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.mb7}}>
                           {menu.it_name}
                         </Text>
-                        <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb7}}>
+                        <Text style={{...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.mb7}}>
                           {Api.comma(menu.sum_price)}원
                         </Text>
                       </View>
@@ -411,13 +412,13 @@ const OrderDetail = props => {
                                   flexDirection: "row",
                                   justifyContent: "flex-start",
                                   alignItems: "flex-start",
-                                  ...BaseStyle.mb3,
+                                  ...BaseStyle.mb7,
                                   flexWrap: "wrap",
                                 }}>
                                 <Text style={{...BaseStyle.ko13, ...BaseStyle.font_999}}>└ </Text>
                                 <Text
                                   style={{
-                                    ...BaseStyle.ko13,
+                                    ...BaseStyle.ko14,
                                     ...BaseStyle.font_999,
                                     // backgroundColor: Primary.PointColor01,
                                     // color: '#222',
@@ -434,7 +435,7 @@ const OrderDetail = props => {
                                   flexWrap: "wrap",
                                 }}>
                                 <Text style={{...BaseStyle.ko13, ...BaseStyle.font_999}}>└ </Text>
-                                <Text style={{...BaseStyle.ko13, ...BaseStyle.font_999}}>
+                                <Text style={{...BaseStyle.ko14, ...BaseStyle.font_999}}>
                                   옵션금액 : {Api.comma(defaultOption.io_price)}원
                                 </Text>
                               </View>
@@ -571,7 +572,7 @@ const OrderDetail = props => {
                   결제정보
                 </Text>
                 <View style={{...BaseStyle.container5, ...BaseStyle.mb10}}>
-                  <View style={{width: "30%"}}>
+                  <View style={{width: "50%"}}>
                     <Text style={{...BaseStyle.ko14, ...BaseStyle.font_999, ...BaseStyle.lh17}}>
                       총 주문금액
                     </Text>
@@ -583,7 +584,7 @@ const OrderDetail = props => {
                   </View>
                 </View>
                 <View style={{...BaseStyle.container5, ...BaseStyle.mb10}}>
-                  <View style={{width: "30%"}}>
+                  <View style={{width: "50%"}}>
                     <Text style={{...BaseStyle.ko14, ...BaseStyle.font_999, ...BaseStyle.lh17}}>
                       배달팁
                     </Text>
@@ -595,9 +596,9 @@ const OrderDetail = props => {
                   </View>
                 </View>
                 <View style={{...BaseStyle.container5, ...BaseStyle.mb10}}>
-                  <View style={{width: "30%"}}>
+                  <View style={{width: "50%"}}>
                     <Text style={{...BaseStyle.ko14, ...BaseStyle.font_999, ...BaseStyle.lh17}}>
-                      오주 포인트
+                      동네북 포인트
                     </Text>
                   </View>
                   <View>
@@ -607,9 +608,9 @@ const OrderDetail = props => {
                   </View>
                 </View>
                 <View style={{...BaseStyle.container5, ...BaseStyle.mb10}}>
-                  <View style={{width: "30%"}}>
+                  <View style={{width: "50%"}}>
                     <Text style={{...BaseStyle.ko14, ...BaseStyle.font_999, ...BaseStyle.lh17}}>
-                      오주 쿠폰 할인
+                      동네북 쿠폰 할인
                     </Text>
                   </View>
                   <View>
@@ -619,7 +620,7 @@ const OrderDetail = props => {
                   </View>
                 </View>
                 <View style={{...BaseStyle.container5, ...BaseStyle.mb10}}>
-                  <View style={{width: "30%"}}>
+                  <View style={{width: "50%"}}>
                     <Text style={{...BaseStyle.ko14, ...BaseStyle.font_999, ...BaseStyle.lh17}}>
                       상점 쿠폰 할인
                     </Text>
@@ -634,8 +635,8 @@ const OrderDetail = props => {
                   style={{height: 1, width: "100%", backgroundColor: "#E3E3E3", ...BaseStyle.mb20}}
                 />
                 <View style={{...BaseStyle.container5, ...BaseStyle.mb10}}>
-                  <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>총 결제금액</Text>
-                  <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>
+                  <Text style={{...BaseStyle.ko16, ...BaseStyle.font_bold}}>총 결제금액</Text>
+                  <Text style={{...BaseStyle.ko16, ...BaseStyle.font_bold}}>
                     {Api.comma(detailOrder.order_sumprice)} 원
                   </Text>
                 </View>
@@ -702,7 +703,7 @@ const OrderDetail = props => {
                   alignItems: "center",
                   ...BaseStyle.pv15,
                 }}>
-                <Text style={{...BaseStyle.ko14}}>
+                <Text style={{...BaseStyle.ko14, ...BaseStyle.font_white}}>
                   {detailOrder.od_type === "배달" ? "배달처리" : "포장완료"}
                 </Text>
               </TouchableOpacity>
