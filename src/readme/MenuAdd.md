@@ -16,7 +16,7 @@
   "jumju_id": "test1", // 점주 ID
   "jumju_code": "P20201200002", // 점주 CODE(매장)
   "menuImage": {
-    "uri": "file:///storage/emulated/0/Android/data/com.dmonster.ohjoostore/files/Pictures/d21e619a-9981-4bb3-a3f5-51c037465bff.jpg",
+    "uri": "file:///storage/emulated/0/Android/data/com.dmonster.dongnaebookowner/files/Pictures/d21e619a-9981-4bb3-a3f5-51c037465bff.jpg",
     "type": "image/jpeg",
     "name": "/d21e619a-9981-4bb3-a3f5-51c037465bff.jpg"
   }, // 메뉴 이미지

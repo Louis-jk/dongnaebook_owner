@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "ohjoostore.app"
-               BlueprintName = "ohjoostore"
-               ReferencedContainer = "container:ohjoostore.xcodeproj">
+               BuildableName = "dongnaebookowner.app"
+               BlueprintName = "dongnaebookowner"
+               ReferencedContainer = "container:dongnaebookowner.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ohjoostoreTests.xctest"
-               BlueprintName = "ohjoostoreTests"
-               ReferencedContainer = "container:ohjoostore.xcodeproj">
+               BuildableName = "dongnaebookownerTests.xctest"
+               BlueprintName = "dongnaebookownerTests"
+               ReferencedContainer = "container:dongnaebookowner.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ohjoostore.app"
-            BlueprintName = "ohjoostore"
-            ReferencedContainer = "container:ohjoostore.xcodeproj">
+            BuildableName = "dongnaebookowner.app"
+            BlueprintName = "dongnaebookowner"
+            ReferencedContainer = "container:dongnaebookowner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ohjoostore.app"
-            BlueprintName = "ohjoostore"
-            ReferencedContainer = "container:ohjoostore.xcodeproj">
+            BuildableName = "dongnaebookowner.app"
+            BlueprintName = "dongnaebookowner"
+            ReferencedContainer = "container:dongnaebookowner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

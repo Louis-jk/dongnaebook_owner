@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">동네북\n점주용</string>
-    <string name="default_notification_channel_id">ohjoostore</string>
+    <string name="default_notification_channel_id">dongnaebookowner</string>
 </resources>
