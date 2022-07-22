@@ -493,19 +493,19 @@ const StoreInfo = props => {
               onPress={openPickerHandler}
               style={{
                 ...BaseStyle.container1,
-                ...BaseStyle.pv15,
-                backgroundColor: Primary.PointColor03,
+                height: 45,
+                backgroundColor: Primary.PointColor01,
                 borderTopLeftRadius: 5,
                 borderBottomLeftRadius: 5,
               }}>
-              <Text style={{...BaseStyle.ko1, textAlign: "center"}}>갤러리선택</Text>
+              <Text style={{...BaseStyle.ko1, ...BaseStyle.font_white}}>갤러리선택</Text>
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={1}
               onPress={openCameraHandler}
               style={{
                 ...BaseStyle.container1,
-                ...BaseStyle.pv15,
+                height: 45,
                 backgroundColor: Primary.PointColor02,
                 borderTopRightRadius: 5,
                 borderBottomRightRadius: 5,
@@ -513,7 +513,6 @@ const StoreInfo = props => {
               <Text
                 style={{
                   ...BaseStyle.ko14,
-                  textAlign: "center",
                   color: "#fff",
                 }}>
                 사진촬영
