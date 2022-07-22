@@ -30,7 +30,7 @@ public class MainActivity extends ReactActivity {
                   .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                   .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
                   .build();
-          notificationChannel01.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/ohjoo_sound_1"), att01);
+          notificationChannel01.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/dongnaebook_sound_3"), att01);
           notificationChannel01.enableVibration(true);
           notificationChannel01.setVibrationPattern(new long[]{400, 400});
           notificationChannel01.setLockscreenVisibility(NotificationCompat.VISIBILITY_PUBLIC);
@@ -45,7 +45,7 @@ public class MainActivity extends ReactActivity {
                   .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                   .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
                   .build();
-          notificationChannel02.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/ohjoo_sound_2"), att02);
+          notificationChannel02.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/dongnaebook_sound_5"), att02);
           notificationChannel02.enableVibration(true);
           notificationChannel02.setVibrationPattern(new long[]{400, 400});
           notificationChannel02.setLockscreenVisibility(NotificationCompat.VISIBILITY_PUBLIC);
@@ -60,7 +60,7 @@ public class MainActivity extends ReactActivity {
                   .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                   .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
                   .build();
-          notificationChannel03.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/ohjoo_sound_3"), att03);
+          notificationChannel03.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/dongnaebook_sound_7"), att03);
           notificationChannel03.enableVibration(true);
           notificationChannel03.setVibrationPattern(new long[]{400, 400});
           notificationChannel03.setLockscreenVisibility(NotificationCompat.VISIBILITY_PUBLIC);
