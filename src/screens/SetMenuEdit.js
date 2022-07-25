@@ -99,6 +99,10 @@ const SetMenuEdit = props => {
     Api.send("store_item_detail", param, args => {
       const resultItem = args.resultItem;
       let arrItems = args.arrItems;
+
+      console.log("get Menu resultItem", resultItem);
+      console.log("get Menu arrItems", arrItems);
+
       if (resultItem.result === "Y") {
         console.log("menu import", arrItems);
         setMenuId(arrItems.it_id);
@@ -1260,7 +1264,9 @@ const SetMenuEdit = props => {
               activeOpacity={1}
               onPress={editMenuAddHandler}
               style={{...BaseStyle.mainBtnBottom}}>
-              <Text style={{...BaseStyle.ko18, ...BaseStyle.font_bold}}>수정하기</Text>
+              <Text style={{...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white}}>
+                수정하기
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

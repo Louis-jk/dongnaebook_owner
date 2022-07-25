@@ -193,7 +193,6 @@ const SetMenuAdd = props => {
       height: 1500,
       cropping: true,
     }).then(img => {
-      // console.log(img);
       setSource({
         uri: img.path,
         type: img.mime,
@@ -229,7 +228,6 @@ const SetMenuAdd = props => {
         },
       ]);
     } else {
-      // console.log('이미지 있나?', isEmptyObject(source));
       const isEmptyImage = isEmptyObject(source);
 
       let param = {
@@ -248,15 +246,11 @@ const SetMenuAdd = props => {
         it_img1: isEmptyImage ? "" : source,
       };
 
-      console.log("menu add param ?", param);
-
       Api.send2("store_item_input", param, args => {
         const resultItem = args.resultItem;
         let arrItems = args.arrItems;
 
         if (resultItem.result === "Y") {
-          console.log("메뉴 등록 resultItem", resultItem);
-          console.log("메뉴 등록 arrItems", arrItems);
           Alert.alert("메뉴가 등록되었습니다.", "관리자 승인 후 리스트에 노출됩니다.", [
             {
               text: "확인",
