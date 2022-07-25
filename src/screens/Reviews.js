@@ -481,19 +481,19 @@ const Reviews = props => {
                   // setReply(item.it_id, item.wr_id)
                 }}
                 style={{
+                  flex: 1,
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
                   backgroundColor: "#20ABC8",
                   height: 45,
-                  width: "50%",
                   borderRadius: 0,
                   borderTopLeftRadius: 5,
                   borderBottomLeftRadius: 5,
                 }}>
                 <Image
-                  source={require("../images/reply_bk.png")}
-                  style={{width: 20, height: 20, ...BaseStyle.mr10, opacity: 0.7}}
+                  source={require("../images/reply_wh.png")}
+                  style={{width: 18, height: 18, ...BaseStyle.mr10, marginTop: -2}}
                   resizeMode="contain"
                 />
                 <Text style={{...BaseStyle.ko14, ...BaseStyle.font_white}}>답변 달기</Text>
@@ -507,12 +507,12 @@ const Reviews = props => {
                 //   // setReply(item.it_id, item.wr_id)
                 // }}
                 style={{
+                  flex: 1,
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
                   backgroundColor: "#e5e5e5",
                   height: 45,
-                  width: "50%",
                   borderRadius: 0,
                   borderTopRightRadius: 5,
                   borderBottomRightRadius: 5,
