@@ -8,6 +8,7 @@ import {
   Alert,
   ScrollView,
   Dimensions,
+  Keyboard,
 } from "react-native";
 import Modal from "react-native-modal";
 import Header from "../components/SubHeader";
@@ -20,7 +21,8 @@ import Api from "../Api";
 import * as storeTimeAction from "../redux/actions/storeTimeAction";
 import cusToast from "../components/CusToast";
 import Base from "../styles/Base";
-import {TextInput} from "react-native-gesture-handler";
+import {TextInput, TouchableWithoutFeedback} from "react-native-gesture-handler";
+import {useDrawerStatus} from "@react-navigation/drawer";
 
 const SetTime = props => {
   const {navigation} = props;
@@ -28,6 +30,12 @@ const SetTime = props => {
   const [existWeek, setExistWeek] = React.useState([]);
 
   const dispatch = useDispatch();
+  const isDrawerOpen = useDrawerStatus() === "open";
+
+  console.log("navigation ?", navigation);
+  console.log("navigation getState?", navigation.getState());
+  console.log("navigation isFocused?", navigation.isFocused());
+  console.log("isDrawerOpen ?", isDrawerOpen);
 
   // 주일
   const weekData = [
@@ -81,68 +89,16 @@ const SetTime = props => {
   };
 
   // 데이트 셀렉터
-  const [date, setDate] = React.useState(new Date());
-  // const [startTime, setStartTime] = React.useState(new Date());
-  // const [endTime, setEndTime] = React.useState(new Date());
-  const [mode, setMode] = React.useState("date");
-  const [show, setShow] = React.useState(false);
-  const [timeType, setTimeType] = React.useState("");
-
-  const [isTimeModal, setTimeModal] = React.useState(false); // 시작/마감시간 모달
-  const [isSelectStartTime, setSelectStartTime] = React.useState(false); // 시작시간
-
   const [startTimeHour, setStartTimeHour] = React.useState("00"); // 시작시간
   const [startTimeMinute, setStartTimeMinute] = React.useState("00"); // 시작시간
   const [endTimeHour, setEndTimeHour] = React.useState("00"); // 마감시간
   const [endTimeMinute, setEndTimeMinute] = React.useState("00"); // 마감시간
 
-  console.log("startTimeHour", startTimeHour);
-  console.log("startTimeHour type", typeof startTimeHour);
-
-  const timeModalToggleHandler = type => {
-    if (type === "start") {
-      setSelectStartTime(true);
-    } else {
-      setSelectStartTime(false);
+  React.useEffect(() => {
+    if (isDrawerOpen) {
+      Keyboard.dismiss();
     }
-    setTimeModal(prev => !prev);
-  };
-
-  // const onChange = (event, selectedValue) => {
-  //   const currentValue = selectedValue || date;
-  //   setShow(Platform.OS === "ios");
-  //   if (mode === "date") {
-  //     setDate(currentValue);
-  //   } else {
-  //     if (timeType === "start") {
-  //       if (currentValue > endTime) {
-  //         cusToast("시작시간은 마감시간 이전 시간이어야합니다.");
-  //       } else {
-  //         setStartTime(currentValue);
-  //       }
-  //     } else {
-  //       if (currentValue < startTime) {
-  //         cusToast("마감시간은 시작시간 이후 시간이어야합니다.");
-  //       } else {
-  //         setEndTime(currentValue);
-  //       }
-  //     }
-  //   }
-  // };
-
-  const showMode = (currentMode, payload) => {
-    setTimeType(payload);
-    setShow(true);
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode("date");
-  };
-
-  const showTimepicker = payload => {
-    showMode("time", payload);
-  };
+  }, [isDrawerOpen]);
 
   const getStoreTimeHandler = () => {
     const param = {
@@ -328,7 +284,7 @@ const SetTime = props => {
                   onChangeText={text => {
                     const re = /^[0-9\b]{0,2}$/;
                     console.log("startTimeHour text type", typeof text);
-                    if (re.test(text) && text < 25) {
+                    if (re.test(text) && text < 24) {
                       let val = text.toString();
                       setStartTimeHour(val);
                     }
@@ -340,9 +296,14 @@ const SetTime = props => {
                       let val = "0" + startTimeHour;
                       setStartTimeHour(val);
                     }
+
                     if (!startTimeHour.startsWith("0") && Number(startTimeHour) < 10) {
-                      let val = "0" + startTimeHour;
-                      setStartTimeHour(val);
+                      if (Number(startTimeHour) > 0) {
+                        let val = "0" + startTimeHour;
+                        setStartTimeHour(val);
+                      } else {
+                        setStartTimeHour("00");
+                      }
                     }
                   }}
                 />
@@ -362,9 +323,13 @@ const SetTime = props => {
                   onChangeText={text => {
                     const re = /^[0-9\b]{0,2}$/;
                     console.log(typeof text);
-                    if (re.test(text) && text < 60) {
-                      let val = text.toString();
-                      setStartTimeMinute(val);
+                    if (startTimeHour !== "24") {
+                      if (re.test(text) && text < 60) {
+                        let val = text.toString();
+                        setStartTimeMinute(val);
+                      }
+                    } else {
+                      setStartTimeMinute("00");
                     }
                   }}
                   keyboardType="number-pad"
@@ -375,8 +340,12 @@ const SetTime = props => {
                       setStartTimeMinute(val);
                     }
                     if (!startTimeMinute.startsWith("0") && Number(startTimeMinute) < 10) {
-                      let val = "0" + startTimeMinute;
-                      setStartTimeMinute(val);
+                      if (Number(startTimeMinute) > 0) {
+                        let val = "0" + startTimeMinute;
+                        setStartTimeMinute(val);
+                      } else {
+                        setStartTimeMinute("00");
+                      }
                     }
                   }}
                 />
@@ -405,7 +374,7 @@ const SetTime = props => {
                   onChangeText={text => {
                     const re = /^[0-9\b]{0,2}$/;
                     console.log(typeof text);
-                    if (re.test(text) && text < 25) {
+                    if (re.test(text) && text < 24) {
                       let val = text.toString();
                       setEndTimeHour(val);
                     }
@@ -418,8 +387,12 @@ const SetTime = props => {
                       setEndTimeHour(val);
                     }
                     if (!endTimeHour.startsWith("0") && Number(endTimeHour) < 10) {
-                      let val = "0" + endTimeHour;
-                      setEndTimeHour(val);
+                      if (Number(endTimeHour) > 0) {
+                        let val = "0" + endTimeHour;
+                        setEndTimeHour(val);
+                      } else {
+                        setEndTimeHour("00");
+                      }
                     }
                   }}
                 />
@@ -452,8 +425,12 @@ const SetTime = props => {
                       setEndTimeMinute(val);
                     }
                     if (!endTimeMinute.startsWith("0") && Number(endTimeMinute) < 10) {
-                      let val = "0" + endTimeMinute;
-                      setEndTimeMinute(val);
+                      if (Number(endTimeMinute) > 0) {
+                        let val = "0" + endTimeMinute;
+                        setEndTimeMinute(val);
+                      } else {
+                        setEndTimeMinute("00");
+                      }
                     }
                   }}
                 />
