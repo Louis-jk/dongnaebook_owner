@@ -22,6 +22,7 @@ import CheckScreen from "./src/screens/Check"; // 체크
 import LoginScreen from "./src/screens/Login"; // 로그인
 import FindIdScreen from "./src/screens/FindId"; // 아이디 찾기
 import FindPwdScreen from "./src/screens/FindPwd"; // 비밀번호 찾기
+import SetNewPwdScreen from "./src/screens/SetNewPwd"; // 비밀번호 찾기
 import MainScreen from "./src/screens/Main"; // 메인
 import OrderDetailScreen from "./src/screens/OrderDetail"; // 주문내역 상세
 import SetDayTimeScreen from "./src/screens/SetDayTime"; // 영업 운영시간 설정
@@ -230,6 +231,7 @@ const App = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="FindId" component={FindIdScreen} />
         <Stack.Screen name="FindPwd" component={FindPwdScreen} />
+        <Stack.Screen name="SetNewPwd" component={SetNewPwdScreen} />
         <Stack.Screen name="Main" component={MainScreen} />
         <Stack.Screen name="SelectStore" component={SelectStoreScreen} />
         <Stack.Screen name="OrderDetail" component={OrderDetailScreen} />
