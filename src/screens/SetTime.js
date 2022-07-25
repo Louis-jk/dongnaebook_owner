@@ -9,6 +9,7 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
+import Modal from "react-native-modal";
 import Header from "../components/SubHeader";
 import BaseStyle, {Primary} from "../styles/Base";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -18,6 +19,8 @@ import "moment/locale/ko";
 import Api from "../Api";
 import * as storeTimeAction from "../redux/actions/storeTimeAction";
 import cusToast from "../components/CusToast";
+import Base from "../styles/Base";
+import {TextInput} from "react-native-gesture-handler";
 
 const SetTime = props => {
   const {navigation} = props;
@@ -79,33 +82,53 @@ const SetTime = props => {
 
   // 데이트 셀렉터
   const [date, setDate] = React.useState(new Date());
-  const [startTime, setStartTime] = React.useState(new Date());
-  const [endTime, setEndTime] = React.useState(new Date());
+  // const [startTime, setStartTime] = React.useState(new Date());
+  // const [endTime, setEndTime] = React.useState(new Date());
   const [mode, setMode] = React.useState("date");
   const [show, setShow] = React.useState(false);
   const [timeType, setTimeType] = React.useState("");
 
-  const onChange = (event, selectedValue) => {
-    const currentValue = selectedValue || date;
-    setShow(Platform.OS === "ios");
-    if (mode === "date") {
-      setDate(currentValue);
+  const [isTimeModal, setTimeModal] = React.useState(false); // 시작/마감시간 모달
+  const [isSelectStartTime, setSelectStartTime] = React.useState(false); // 시작시간
+
+  const [startTimeHour, setStartTimeHour] = React.useState("00"); // 시작시간
+  const [startTimeMinute, setStartTimeMinute] = React.useState("00"); // 시작시간
+  const [endTimeHour, setEndTimeHour] = React.useState("00"); // 마감시간
+  const [endTimeMinute, setEndTimeMinute] = React.useState("00"); // 마감시간
+
+  console.log("startTimeHour", startTimeHour);
+  console.log("startTimeHour type", typeof startTimeHour);
+
+  const timeModalToggleHandler = type => {
+    if (type === "start") {
+      setSelectStartTime(true);
     } else {
-      if (timeType === "start") {
-        if (currentValue > endTime) {
-          cusToast("시작시간은 마감시간 이전 시간이어야합니다.");
-        } else {
-          setStartTime(currentValue);
-        }
-      } else {
-        if (currentValue < startTime) {
-          cusToast("마감시간은 시작시간 이후 시간이어야합니다.");
-        } else {
-          setEndTime(currentValue);
-        }
-      }
+      setSelectStartTime(false);
     }
+    setTimeModal(prev => !prev);
   };
+
+  // const onChange = (event, selectedValue) => {
+  //   const currentValue = selectedValue || date;
+  //   setShow(Platform.OS === "ios");
+  //   if (mode === "date") {
+  //     setDate(currentValue);
+  //   } else {
+  //     if (timeType === "start") {
+  //       if (currentValue > endTime) {
+  //         cusToast("시작시간은 마감시간 이전 시간이어야합니다.");
+  //       } else {
+  //         setStartTime(currentValue);
+  //       }
+  //     } else {
+  //       if (currentValue < startTime) {
+  //         cusToast("마감시간은 시작시간 이후 시간이어야합니다.");
+  //       } else {
+  //         setEndTime(currentValue);
+  //       }
+  //     }
+  //   }
+  // };
 
   const showMode = (currentMode, payload) => {
     setTimeType(payload);
@@ -156,24 +179,33 @@ const SetTime = props => {
 
   const setStoreTimeHandler = () => {
     const selectDayFormat = selectDay.join();
-    let startTimeFormat = moment(startTime).format("h:mm");
-    let endTimeFormat = moment(endTime).format("h:mm");
+    // let startTimeFormat = moment(startTime).format("h:mm");
+    // let endTimeFormat = moment(endTime).format("h:mm");
 
     if (selectDay === null || selectDay === "" || selectDay.length === 0) {
       cusToast("요일을 선택해주세요.");
-    } else if (startTime >= endTime) {
-      cusToast("시작시간은 마감시간 이전 시간이어야합니다.");
-    } else if (endTime <= startTime) {
-      cusToast("마감시간은 시작시간 이후 시간이어야합니다.");
-    } else {
+    }
+    //  else if (startTime >= endTime) {
+    //   cusToast("시작시간은 마감시간 이전 시간이어야합니다.");
+    // } else if (endTime <= startTime) {
+    //   cusToast("마감시간은 시작시간 이후 시간이어야합니다.");
+    // }
+    else {
+      let start = `${startTimeHour}:${startTimeMinute}`;
+      let end = `${endTimeHour}:${endTimeMinute}`;
+
+      // return false;
+
+      console.log("start 시간", start);
+      console.log("end 시간", end);
       const param = {
         encodeJson: true,
         jumju_id: mt_id,
         jumju_code: mt_jumju_code,
         mode: "update",
         st_yoil: selectDayFormat,
-        st_stime: startTimeFormat,
-        st_etime: endTimeFormat,
+        st_stime: start,
+        st_etime: end,
       };
       Api.send("store_service_hour", param, args => {
         const resultItem = args.resultItem;
@@ -280,20 +312,8 @@ const SetTime = props => {
             <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               시작시간
             </Text>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => showTimepicker("start")}
-              style={{...BaseStyle.container, ...BaseStyle.mb10}}>
-              <View
-                style={{flex: 1, ...BaseStyle.border, ...BaseStyle.inputH, ...BaseStyle.container}}>
-                <Image
-                  source={require("../images/alarm-clock.png")}
-                  style={{width: 23, height: 23, ...BaseStyle.mh10}}
-                  resizeMode="contain"
-                />
-                <Text>{moment(startTime).format("a")}</Text>
-              </View>
-              <Text style={{...BaseStyle.mh10, ...BaseStyle.ko20}} />
+
+            <View style={{...BaseStyle.container, ...BaseStyle.mb10, width: 200}}>
               <View
                 style={{
                   flex: 1,
@@ -302,7 +322,30 @@ const SetTime = props => {
                   justifyContent: "center",
                   alignItems: "center",
                 }}>
-                <Text>{moment(startTime).format("h")}</Text>
+                <TextInput
+                  value={startTimeHour}
+                  placeHolder="00"
+                  onChangeText={text => {
+                    const re = /^[0-9\b]{0,2}$/;
+                    console.log("startTimeHour text type", typeof text);
+                    if (re.test(text) && text < 25) {
+                      let val = text.toString();
+                      setStartTimeHour(val);
+                    }
+                  }}
+                  keyboardType="number-pad"
+                  onFocus={() => setStartTimeHour("")}
+                  onBlur={() => {
+                    if (startTimeHour === "0") {
+                      let val = "0" + startTimeHour;
+                      setStartTimeHour(val);
+                    }
+                    if (!startTimeHour.startsWith("0") && Number(startTimeHour) < 10) {
+                      let val = "0" + startTimeHour;
+                      setStartTimeHour(val);
+                    }
+                  }}
+                />
               </View>
               <Text style={{...BaseStyle.mh10, ...BaseStyle.ko20}}>:</Text>
               <View
@@ -313,9 +356,33 @@ const SetTime = props => {
                   justifyContent: "center",
                   alignItems: "center",
                 }}>
-                <Text>{moment(startTime).format("mm")}</Text>
+                <TextInput
+                  value={startTimeMinute}
+                  placeHolder="00"
+                  onChangeText={text => {
+                    const re = /^[0-9\b]{0,2}$/;
+                    console.log(typeof text);
+                    if (re.test(text) && text < 60) {
+                      let val = text.toString();
+                      setStartTimeMinute(val);
+                    }
+                  }}
+                  keyboardType="number-pad"
+                  onFocus={() => setStartTimeMinute("")}
+                  onBlur={() => {
+                    if (startTimeMinute === "0") {
+                      let val = "0" + startTimeMinute;
+                      setStartTimeMinute(val);
+                    }
+                    if (!startTimeMinute.startsWith("0") && Number(startTimeMinute) < 10) {
+                      let val = "0" + startTimeMinute;
+                      setStartTimeMinute(val);
+                    }
+                  }}
+                />
               </View>
-            </TouchableOpacity>
+            </View>
+
             <Text style={{...BaseStyle.ko14, ...BaseStyle.mb30, color: Primary.PointColor02}}>
               상단 박스를 눌러 시작시간을 설정해주세요.
             </Text>
@@ -323,20 +390,7 @@ const SetTime = props => {
             <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               마감시간
             </Text>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => showTimepicker("end")}
-              style={{...BaseStyle.container, ...BaseStyle.mb10}}>
-              <View
-                style={{flex: 1, ...BaseStyle.border, ...BaseStyle.inputH, ...BaseStyle.container}}>
-                <Image
-                  source={require("../images/alarm-clock.png")}
-                  style={{width: 23, height: 23, ...BaseStyle.mh10}}
-                  resizeMode="contain"
-                />
-                <Text>{moment(endTime).format("a")}</Text>
-              </View>
-              <Text style={{...BaseStyle.mh10, ...BaseStyle.ko20}} />
+            <View style={{...BaseStyle.container, ...BaseStyle.mb10, width: 200}}>
               <View
                 style={{
                   flex: 1,
@@ -345,7 +399,30 @@ const SetTime = props => {
                   justifyContent: "center",
                   alignItems: "center",
                 }}>
-                <Text>{moment(endTime).format("h")}</Text>
+                <TextInput
+                  value={endTimeHour}
+                  placeHolder="00"
+                  onChangeText={text => {
+                    const re = /^[0-9\b]{0,2}$/;
+                    console.log(typeof text);
+                    if (re.test(text) && text < 25) {
+                      let val = text.toString();
+                      setEndTimeHour(val);
+                    }
+                  }}
+                  keyboardType="number-pad"
+                  onFocus={() => setEndTimeHour("")}
+                  onBlur={() => {
+                    if (endTimeHour === "0") {
+                      let val = "0" + endTimeHour;
+                      setEndTimeHour(val);
+                    }
+                    if (!endTimeHour.startsWith("0") && Number(endTimeHour) < 10) {
+                      let val = "0" + endTimeHour;
+                      setEndTimeHour(val);
+                    }
+                  }}
+                />
               </View>
               <Text style={{...BaseStyle.mh10, ...BaseStyle.ko20}}>:</Text>
               <View
@@ -356,22 +433,35 @@ const SetTime = props => {
                   justifyContent: "center",
                   alignItems: "center",
                 }}>
-                <Text>{moment(endTime).format("mm")}</Text>
+                <TextInput
+                  value={endTimeMinute}
+                  placeHolder="00"
+                  onChangeText={text => {
+                    const re = /^[0-9\b]{0,2}$/;
+                    console.log(typeof text);
+                    if (re.test(text) && text < 60) {
+                      let val = text.toString();
+                      setEndTimeMinute(val);
+                    }
+                  }}
+                  keyboardType="number-pad"
+                  onFocus={() => setEndTimeMinute("")}
+                  onBlur={() => {
+                    if (endTimeMinute === "0") {
+                      let val = "0" + endTimeMinute;
+                      setEndTimeMinute(val);
+                    }
+                    if (!endTimeMinute.startsWith("0") && Number(endTimeMinute) < 10) {
+                      let val = "0" + endTimeMinute;
+                      setEndTimeMinute(val);
+                    }
+                  }}
+                />
               </View>
-            </TouchableOpacity>
+            </View>
             <Text style={{...BaseStyle.ko14, ...BaseStyle.mb30, color: Primary.PointColor02}}>
-              상단 박스를 눌러 시작시간을 설정해주세요.
+              상단 박스를 눌러 마감시간을 설정해주세요.
             </Text>
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={mode}
-                is24Hour
-                display="default"
-                onChange={onChange}
-              />
-            )}
           </View>
         </View>
 
