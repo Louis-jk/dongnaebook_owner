@@ -124,12 +124,6 @@ const StoreSetting = props => {
           text: "확인",
         },
       ]);
-    } else if (setting.mt_print === null || setting.mt_print === "") {
-      Alert.alert("주문 접수시 자동 프린트 여부를 지정해주세요.", "", [
-        {
-          text: "확인",
-        },
-      ]);
     } else {
       const param = {
         mode: "update",
@@ -141,6 +135,14 @@ const StoreSetting = props => {
         mt_print: setting.mt_print,
         RangeType: range,
       };
+
+      // else if (setting.mt_print === null || setting.mt_print === "") {
+      //   Alert.alert("주문 접수시 자동 프린트 여부를 지정해주세요.", "", [
+      //     {
+      //       text: "확인",
+      //     },
+      //   ]);
+      // }
 
       console.log("param", param);
 
@@ -207,12 +209,12 @@ const StoreSetting = props => {
               <View style={{...BaseStyle.container, ...BaseStyle.mv10}}>
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => setSetting({...setting, mt_sound: "1"})}
+                  onPress={() => setSetting({...setting, mt_sound: "3"})}
                   hitSlop={{top: 10, right: 10, bottom: 10, left: 10}}
                   style={{...BaseStyle.container, ...BaseStyle.mr20}}>
                   <Image
                     source={
-                      setting.mt_sound === "1"
+                      setting.mt_sound === "3"
                         ? require("../images/ic_check_on.png")
                         : require("../images/ic_check_off.png")
                     }
@@ -225,12 +227,12 @@ const StoreSetting = props => {
 
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => setSetting({...setting, mt_sound: "2"})}
+                  onPress={() => setSetting({...setting, mt_sound: "5"})}
                   hitSlop={{top: 10, right: 10, bottom: 10, left: 10}}
                   style={{...BaseStyle.container, ...BaseStyle.mr20}}>
                   <Image
                     source={
-                      setting.mt_sound === "2"
+                      setting.mt_sound === "5"
                         ? require("../images/ic_check_on.png")
                         : require("../images/ic_check_off.png")
                     }
@@ -243,12 +245,12 @@ const StoreSetting = props => {
 
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => setSetting({...setting, mt_sound: "3"})}
+                  onPress={() => setSetting({...setting, mt_sound: "7"})}
                   hitSlop={{top: 10, right: 10, bottom: 10, left: 10}}
                   style={{...BaseStyle.container, ...BaseStyle.mr10}}>
                   <Image
                     source={
-                      setting.mt_sound === "3"
+                      setting.mt_sound === "7"
                         ? require("../images/ic_check_on.png")
                         : require("../images/ic_check_off.png")
                     }
