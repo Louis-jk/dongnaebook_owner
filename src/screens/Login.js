@@ -217,7 +217,7 @@ const Login = props => {
                     }}>
                     <TextInput
                       value={userEmail}
-                      placeholder="휴대폰 번호를 입력하세요"
+                      placeholder="아이디를 입력하세요"
                       style={{
                         ...BaseStyle.inputH,
                         ...BaseStyle.ph20,
@@ -258,7 +258,7 @@ const Login = props => {
                     </Text>
                   </TouchableOpacity>
 
-                  {/* <TouchableOpacity
+                  <TouchableOpacity
                     activeOpacity={1}
                     onPress={toggleAutoLogin}
                     style={{...BaseStyle.container, alignSelf: "flex-end"}}
@@ -270,7 +270,7 @@ const Login = props => {
                       }}>
                       비밀번호찾기
                     </Text>
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
 
                   {/* <View
                   style={{
