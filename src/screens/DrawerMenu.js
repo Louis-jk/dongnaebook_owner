@@ -41,7 +41,7 @@ const DrawerMenu = props => {
           style={{position: "absolute", right: 20, top: 20}}
           hitSlop={{top: 20, right: 20, bottom: 20, left: 20}}>
           <Image
-            source={require("../images/pop_close.png")}
+            source={require("../images/pop_close_bk.png")}
             style={{width: 22, height: 22}}
             resizeMode="contain"
           />
