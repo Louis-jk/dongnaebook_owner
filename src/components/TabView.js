@@ -357,12 +357,13 @@ const TabView = props => {
       })
     };
 
-    const deliveryOrderHandler = odID => {
-      if (orderList.od_type === '배달') {
+    const deliveryOrderHandler = (type, orderId) => {
+      console.log('orderList ?', orderList)
+      if (type === '배달') {
         Alert.alert('주문을 배달 처리하시겠습니까?', '', [
           {
             text: '네 배달처리',
-            onPress: () => sendDeliverHandler(odID)
+            onPress: () => sendDeliverHandler(orderId)
           },
           {
             text: '아니요'
@@ -372,7 +373,7 @@ const TabView = props => {
         Alert.alert('주문을 포장완료 처리하시겠습니까?', '', [
           {
             text: '네 포장완료',
-            onPress: () => sendDeliverHandler(odID)
+            onPress: () => sendDeliverHandler(orderId)
           },
           {
             text: '아니요'
@@ -486,7 +487,7 @@ const TabView = props => {
                 activeOpacity={1}
                 onPress={() => {
                   setOrderId(item.od_id)
-                  deliveryOrderHandler(item.od_id)
+                  deliveryOrderHandler(item.od_type, item.od_id)
                 }}
                 style={{
                   backgroundColor:
