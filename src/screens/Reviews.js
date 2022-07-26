@@ -27,6 +27,7 @@ import Header from '../components/SubHeader';
 import BaseStyle, { Primary } from '../styles/Base';
 import Api from '../Api';
 import ImageView from 'react-native-image-viewing';
+import cusToast from '../components/CusToast';
 
 const { width, height } = Dimensions.get('window')
 
@@ -39,7 +40,7 @@ const Reviews = props => {
   const [rate, setRate] = React.useState({})
   const [list, setList] = React.useState([])
   const [ItId, setItId] = React.useState('') // it_id
-  const [WrId, setWrId] = React.useState('') // wr_id
+  const [wrId, setWrId] = React.useState('') // wr_id
   const [notice, setNotice] = React.useState({}) // Notice
 
   // 안드로이드 뒤로가기 버튼 제어
@@ -139,6 +140,12 @@ const Reviews = props => {
     setCommentModalVisible(!isCommentModalVisible)
   };
 
+  // 악성 리뷰 신고 모달
+  const [isSpamReviewModalVisible, setSpamReviewModalVisible] = React.useState(false)
+  const toggleSpamModal = () => {
+    setSpamReviewModalVisible(!isSpamReviewModalVisible)
+  };
+
   // 모달 제어
   const [isModalVisible, setModalVisible] = React.useState(false)
   const toggleModal = () => {
@@ -177,7 +184,7 @@ const Reviews = props => {
         jumju_code: mt_jumju_code,
         bo_table: 'review',
         it_id: ItId,
-        wr_id: WrId,
+        wr_id: wrId,
         mode: 'comment',
         wr_content: selectReply,
         wr_name: mt_name
@@ -185,7 +192,7 @@ const Reviews = props => {
 
       Api.send('store_review_comment', param, args => {
         const resultItem = args.resultItem
-        let arrItems = args.arrItems
+        const arrItems = args.arrItems
 
         if (resultItem.result === 'Y') {
           toggleCommentModal()
@@ -357,7 +364,9 @@ const Reviews = props => {
             </View>
           </View>
         </View>
-
+        <View style={{ ...BaseStyle.ph20, ...BaseStyle.mb10 }}>
+          <Text>{item.content}</Text>
+        </View>
         <View style={{ justifyContent: 'center', alignItems: 'center', ...BaseStyle.mb10 }}>
           {item.pic.length > 1 ? (
             <View style={{ width: Dimensions.get('window').width, ...BaseStyle.ph20 }}>
@@ -446,8 +455,8 @@ const Reviews = props => {
               style={{
                 ...BaseStyle.ph20,
                 ...BaseStyle.pv20,
-                backgroundColor: Primary.PointColor02,
-                borderRadius: 10,
+                backgroundColor: Primary.PointColor03,
+                borderRadius: 5,
                 position: 'relative'
               }}
             >
@@ -472,7 +481,6 @@ const Reviews = props => {
                     style={{
                       ...BaseStyle.ko15,
                       ...BaseStyle.lh22,
-                      ...BaseStyle.font_white,
                       width: '100%',
                       flexWrap: 'wrap'
                     }}
@@ -525,30 +533,49 @@ const Reviews = props => {
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={1}
-                // onPress={() => {
-                //   setItId(item.it_id);
-                //   setWrId(item.wr_id);
-                //   toggleCommentModal();
-                //   // setReply(item.it_id, item.wr_id)
-                // }}
+                onPress={() => {
+                  if (item.wr_singo === 'N') {
+                    setItId(item.it_id)
+                    setWrId(item.wr_id)
+                    toggleSpamModal()
+
+                    // setReply(item.it_id, item.wr_id)
+                  }
+                }}
                 style={{
                   flex: 1,
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundColor: '#e5e5e5',
+                  backgroundColor: item.wr_singo === 'N' ? '#e5e5e5' : '#FCA000',
                   height: 45,
                   borderRadius: 0,
                   borderTopRightRadius: 5,
                   borderBottomRightRadius: 5
                 }}
               >
-                <Image
-                  source={require('../images/bell.png')}
-                  style={{ width: 20, height: 20, ...BaseStyle.mr10, opacity: 0.7 }}
-                  resizeMode='contain'
-                />
-                <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>악성 리뷰 신고</Text>
+                {item.wr_singo === 'N' ? (
+                  <Image
+                    source={require('../images/bell.png')}
+                    style={{ width: 20, height: 20, ...BaseStyle.mr10, opacity: 0.7 }}
+                    resizeMode='contain'
+                  />
+                ) : (
+                  <Image
+                    source={require('../images/bell_wh.png')}
+                    style={{ width: 20, height: 20, ...BaseStyle.mr10, opacity: 0.7 }}
+                    resizeMode='contain'
+                  />
+                )}
+                <Text
+                  style={{
+                    ...BaseStyle.ko14,
+                    ...BaseStyle.font_222,
+                    color: item.wr_singo === 'N' ? '#222' : '#fff'
+                  }}
+                >
+                  {item.wr_singo === 'N' ? '악성 리뷰 신고' : '신고된 리뷰'}
+                </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -581,6 +608,42 @@ const Reviews = props => {
     }
   ]
 
+  // 악성 리뷰 신고하기
+  const sendSpamReviewHandler = () => {
+    //     secretKey:1111882EAD94E9C493CEF089E1B023A2122BA778
+    // encodeJson:true
+    // jumju_id:dnb_0001
+    // jumju_code:P20220600001
+    // bo_table:review
+    // wr_id:10
+    // wr_singo:Y
+
+    const param = {
+      encodeJson: true,
+      jumju_id: mt_id,
+      jumju_code: mt_jumju_code,
+      bo_table: 'review',
+      wr_id: wrId,
+      wr_singo: 'Y'
+    }
+
+    console.log('악성리뷰 신고param ?', param)
+
+    Api.send('store_review_singo', param, args => {
+      const resultItem = args.resultItem
+      const arrItems = args.arrItems
+
+      if (resultItem.result === 'Y') {
+        cusToast('악성 리뷰로 신고하였습니다.', 1500)
+      } else {
+        cusToast('악성 리뷰로 신고 중 문제가 발생하였습니다.', 1500)
+      }
+
+      toggleSpamModal()
+      getReviewList02Handler()
+    })
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={{ zIndex: 99999, backgroundColor: '#fff' }}>
@@ -612,6 +675,82 @@ const Reviews = props => {
         </TouchableOpacity>
       </Modal>
       {/* //이미지 모달 */}
+
+      {/* 악성 리뷰 신고 모달 */}
+      <Modal
+        isVisible={isSpamReviewModalVisible}
+        onBackdropPress={toggleSpamModal}
+        transparent
+        statusBarTranslucent
+        style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
+        animationIn='slideInUp'
+        animationInTiming={100}
+      >
+        <View
+          style={{
+            backgroundColor: '#fff',
+            ...BaseStyle.pv30,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 5
+          }}
+        >
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={toggleSpamModal}
+            style={{
+              position: 'absolute',
+              top: -10,
+              right: -10,
+              backgroundColor: Primary.PointColor01,
+              borderRadius: 30,
+              width: 30,
+              height: 30,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <Image
+              source={require('../images/close.png')}
+              style={{
+                width: 12,
+                height: 12,
+                resizeMode: 'center'
+              }}
+            />
+          </TouchableOpacity>
+          <Text style={{ ...BaseStyle.ko14 }}>악성 리뷰로 신고하시겠습니까?</Text>
+          <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph20 }}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={sendSpamReviewHandler}
+              style={{
+                ...BaseStyle.container1,
+                height: 45,
+                backgroundColor: Primary.PointColor01,
+                borderTopLeftRadius: 5,
+                borderBottomLeftRadius: 5
+              }}
+            >
+              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>신고하기</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={toggleSpamModal}
+              style={{
+                ...BaseStyle.container1,
+                height: 45,
+                backgroundColor: Primary.PointColor03,
+                borderTopRightRadius: 5,
+                borderBottomRightRadius: 5
+              }}
+            >
+              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>취소</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* // 악성 리뷰 신고 모달 */}
 
       {/* 답변 모달 */}
       <Modal
@@ -834,7 +973,8 @@ const Reviews = props => {
                   justifyContent: 'flex-start',
                   alignItems: 'flex-start',
                   ...BaseStyle.ph20,
-                  ...BaseStyle.mt20
+                  ...BaseStyle.mt20,
+                  ...BaseStyle.mb20
                 }}
               >
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_666, ...BaseStyle.mb10 }}>
@@ -842,11 +982,11 @@ const Reviews = props => {
                 </Text>
                 <Text style={{ ...BaseStyle.ko20, ...BaseStyle.font_bold }}>{mt_store}</Text>
               </View>
+
               <View
                 style={{
                   ...BaseStyle.container,
                   ...BaseStyle.ph20,
-                  ...BaseStyle.pt10,
                   ...BaseStyle.pb20
                 }}
               >
@@ -855,6 +995,7 @@ const Reviews = props => {
                   <View
                     style={{
                       flex: 1.5,
+                      justifyContent: 'flex-start',
                       alignItems: 'center',
                       height: '100%',
                       ...BaseStyle.pt10
@@ -862,10 +1003,10 @@ const Reviews = props => {
                   >
                     <Text
                       style={{
-                        ...BaseStyle.ko20,
                         ...BaseStyle.font_main,
                         fontWeight: 'bold',
-                        fontSize: 45
+                        fontSize: 45,
+                        marginTop: -20
                       }}
                     >
                       {rate.avg}
@@ -882,6 +1023,19 @@ const Reviews = props => {
                       rating={Math.round(rate.avg)}
                       starSize={17}
                     />
+                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mt10 }}>
+                      <Text style={{ ...BaseStyle.ko16, marginTop: 5, ...BaseStyle.mr5 }}>총</Text>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          ...BaseStyle.ko20,
+                          ...BaseStyle.font_main
+                        }}
+                      >
+                        {rate.total_cnt > 99 ? '99+' : rate.total_cnt}
+                      </Text>
+                      <Text style={{ ...BaseStyle.ko16, marginTop: 5 }}>건</Text>
+                    </View>
                   </View>
                 )}
                 {/* //평점 별표(큰 부분)   */}
