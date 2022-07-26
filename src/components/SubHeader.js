@@ -17,10 +17,11 @@ const DefaultHeader = props => {
             activeOpacity={1}
             onPress={() => navigation.goBack()}
             hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            style={{ ...BaseStyle.mr10 }}
           >
             <Image
               source={require('../images/top_ic_history.png')}
-              style={{ width: 30, height: 20 }}
+              style={{ width: 20, height: 20 }}
               resizeMode='contain'
             />
           </TouchableOpacity>
