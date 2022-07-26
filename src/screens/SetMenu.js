@@ -145,7 +145,8 @@ const SetMenu = props => {
               ...BaseStyle.font_bold,
               ...BaseStyle.font_222,
               ...BaseStyle.mv10,
-            }}>
+            }}
+            numberOfLines={1}>
             {item.it_name}
           </Text>
           <Text style={{...BaseStyle.ko16, ...BaseStyle.mb5, ...BaseStyle.font_222}}>
