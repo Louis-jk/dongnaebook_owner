@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   View,
   Text,
@@ -7,186 +7,194 @@ import {
   Dimensions,
   FlatList,
   Alert,
-  BackHandler,
-} from "react-native";
-import Header from "../components/SubHeader";
-import {useSelector, useDispatch} from "react-redux";
-import moment from "moment";
-import "moment/locale/ko";
-import Swipeout from "react-native-swipeout-mod"; // 스와이프 기능(수정, 삭제)
+  BackHandler
+} from 'react-native';
+import Header from '../components/SubHeader';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
+import 'moment/locale/ko';
+import Swipeout from 'react-native-swipeout-mod'; // 스와이프 기능(수정, 삭제)
 
 // Local Modules
-import BaseStyle, {Primary} from "../styles/Base";
-import Api from "../Api";
-import * as couponAction from "../redux/actions/couponAction";
-import cusToast from "../components/CusToast";
-import AnimateLoading from "../components/AnimateLoading";
+import BaseStyle, { Primary } from '../styles/Base';
+import Api from '../Api';
+import * as couponAction from '../redux/actions/couponAction';
+import cusToast from '../components/CusToast';
+import AnimateLoading from '../components/AnimateLoading';
 
-const {width, height} = Dimensions.get("window");
+const { width, height } = Dimensions.get('window')
 
 const Coupon = props => {
-  const {navigation} = props;
-  const {mt_id, mt_jumju_code} = useSelector(state => state.login);
-  const {coupons} = useSelector(state => state.coupon);
-  const [useCoupon, setUseCoupon] = React.useState(false);
-  const [isLoading, setLoading] = React.useState(true);
+  const { navigation } = props
+  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { coupons } = useSelector(state => state.coupon)
+  const [useCoupon, setUseCoupon] = React.useState(false)
+  const [isLoading, setLoading] = React.useState(true)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
-    navigation.goBack();
+    navigation.goBack()
 
-    return true;
+    return true
   };
 
   React.useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
-  }, []);
+    BackHandler.addEventListener('hardwareBackPress', backAction)
+    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
+  }, [])
 
-  const [refleshing, setReflashing] = React.useState(false); // FlatList refleshing
-  const [list, setList] = React.useState([]); // 쿠폰 리스트
-  const [endCount, setEndCount] = React.useState(5); // 가져올 limit 아이템수
+  const [refleshing, setReflashing] = React.useState(false) // FlatList refleshing
+  const [list, setList] = React.useState([]) // 쿠폰 리스트
+  const [endCount, setEndCount] = React.useState(5) // 가져올 limit 아이템수
 
   const getCouponListHandler = () => {
     const param = {
       item_count: 0,
       limit_count: endCount,
       jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
-    };
+      jumju_code: mt_jumju_code
+    }
 
-    Api.send("store_couponzone_list", param, args => {
-      const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+    Api.send('store_couponzone_list', param, args => {
+      const resultItem = args.resultItem
+      let arrItems = args.arrItems
 
-      if (resultItem.result === "Y") {
-        console.log("쿠폰 리스트 :: ", arrItems);
-        setList(arrItems);
-        setEndCount(endCount + 5);
-        dispatch(couponAction.updateCoupon(JSON.stringify(arrItems)));
-        setReflashing(false);
+      if (resultItem.result === 'Y') {
+        console.log('쿠폰 리스트 :: ', arrItems)
+        setList(arrItems)
+        setEndCount(endCount + 5)
+        dispatch(couponAction.updateCoupon(JSON.stringify(arrItems)))
+        setReflashing(false)
       } else {
-        dispatch(couponAction.updateCoupon(null));
-        setList([]);
-        setReflashing(false);
+        dispatch(couponAction.updateCoupon(null))
+        setList([])
+        setReflashing(false)
       }
 
-      setLoading(false);
-    });
+      setLoading(false)
+    })
   };
 
   const handleLoadMore = () => {
-    getCouponListHandler();
+    getCouponListHandler()
   };
 
   React.useEffect(() => {
-    getCouponListHandler();
+    getCouponListHandler()
 
-    return () => getCouponListHandler();
-  }, []);
+    return () => getCouponListHandler()
+  }, [])
 
   const onHandleRefresh = () => {
-    setReflashing(true);
-    getCouponListHandler();
+    setReflashing(true)
+    getCouponListHandler()
   };
 
   const useCouponHandler = () => {
-    setUseCoupon(!useCoupon);
+    setUseCoupon(!useCoupon)
   };
 
   const deleteCoupon = cz_no => {
     const param = {
       jumju_id: mt_id,
       jumju_code: mt_jumju_code,
-      cz_no,
-    };
+      cz_no
+    }
 
-    Api.send("store_couponzone_delete", param, args => {
-      const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+    Api.send('store_couponzone_delete', param, args => {
+      const resultItem = args.resultItem
+      let arrItems = args.arrItems
 
-      if (resultItem.result === "Y") {
-        getCouponListHandler();
-        cusToast("쿠폰을 삭제하였습니다.");
+      if (resultItem.result === 'Y') {
+        getCouponListHandler()
+        cusToast('쿠폰을 삭제하였습니다.')
       } else {
-        Alert.alert("쿠폰을 삭제하지 못했습니다.", "관리자에게 문의하세요.", [
+        Alert.alert('쿠폰을 삭제하지 못했습니다.', '관리자에게 문의하세요.', [
           {
-            text: "확인",
-          },
-        ]);
+            text: '확인'
+          }
+        ])
       }
-    });
+    })
   };
 
   const delCouponHandler = payload => {
-    Alert.alert("해당 쿠폰을 삭제하시겠습니까?", "삭제하신 쿠폰은 복구가 불가능합니다.", [
+    Alert.alert('해당 쿠폰을 삭제하시겠습니까?', '삭제하신 쿠폰은 복구가 불가능합니다.', [
       {
-        text: "확인",
-        onPress: () => deleteCoupon(payload),
+        text: '확인',
+        onPress: () => deleteCoupon(payload)
       },
       {
-        text: "취소",
-      },
-    ]);
+        text: '취소'
+      }
+    ])
   };
 
-  const renderRow = ({item, index}) => {
+  const renderRow = ({ item, index }) => {
     const swipeBtns = [
       {
-        text: "수정",
+        text: '수정',
         component: (
           <View
             style={{
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}>
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
             <Image
-              source={require("../images/edit.png")}
-              style={{width: 20, height: 20, marginBottom: 10}}
-              resizeMode="center"
+              source={require('../images/edit.png')}
+              style={{ width: 20, height: 20, marginBottom: 10 }}
+              resizeMode='center'
             />
-            <Text style={{...BaseStyle.ko14}}>수정</Text>
+            <Text style={{ ...BaseStyle.ko14 }}>수정</Text>
           </View>
         ),
-        color: "#222",
+        color: '#222',
         backgroundColor: Primary.PointColor03,
-        underlayColor: "rgba(0, 0, 0, 1, 0.6)",
-        onPress: () => navigation.navigate("Home", {screen: "CouponEdit", params: {item: item}}),
+        underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
+        onPress: () => navigation.navigate('Home', { screen: 'CouponEdit', params: { item: item } })
       },
       {
-        text: "삭제",
+        text: '삭제',
         component: (
           <View
             style={{
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}>
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
             <Image
-              source={require("../images/delete_wh.png")}
-              style={{width: 20, height: 20, marginBottom: 10}}
-              resizeMode="center"
+              source={require('../images/delete_wh.png')}
+              style={{ width: 20, height: 20, marginBottom: 10 }}
+              resizeMode='center'
             />
-            <Text style={{...BaseStyle.ko14, color: "#fff"}}>삭제</Text>
+            <Text style={{ ...BaseStyle.ko14, color: '#fff' }}>삭제</Text>
           </View>
         ),
-        color: "#fff",
+        color: '#fff',
         backgroundColor: Primary.PointColor02,
-        underlayColor: "rgba(0, 0, 0, 1, 0.6)",
-        onPress: () => delCouponHandler(item.cz_no),
-      },
-    ];
+        underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+        onPress: () => delCouponHandler(item.cz_no)
+      }
+    ]
 
     return (
-      <View style={{position: "relative"}}>
+      <View style={{ position: 'relative' }}>
         <Swipeout
           right={swipeBtns}
-          autoClose="true"
-          backgroundColor="transparent"
-          style={{height: 150, ...BaseStyle.mb15}}>
+          autoClose='true'
+          backgroundColor='transparent'
+          style={{
+            height: 130,
+            ...BaseStyle.mb15
+          }}
+        >
           <View
             key={index + item.notice_id}
             // activeOpacity={1}
@@ -196,105 +204,106 @@ const Coupon = props => {
             style={{
               ...BaseStyle.mh20,
               ...BaseStyle.container5,
-              borderWidth: 1,
-              borderColor: "#E3E3E3",
-              backgroundColor: "#E3E3E3",
-              borderRadius: 5,
-            }}>
+              backgroundColor: '#fff',
+              borderRadius: 5
+            }}
+          >
             <View
               style={{
-                width: "65%",
+                flex: 3,
+                display: 'flex',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                borderWidth: 1,
+                borderRightWidth: 0,
+                borderColor: '#E3E3E3',
+                minHeight: 130,
+                width: '65%',
                 ...BaseStyle.ph20,
                 ...BaseStyle.pv20,
                 borderTopLeftRadius: 5,
-                borderBottomLeftRadius: 5,
-              }}>
-              <Text
-                style={{
-                  ...BaseStyle.ko24,
-                  ...BaseStyle.font_bold,
-                  ...BaseStyle.font_222,
-                  ...BaseStyle.mb5,
-                }}>
-                {`${Api.comma(item.cz_price)}${item.cz_price_type === "1" ? "%" : "원"}`}
-              </Text>
-              <View
-                style={{
-                  backgroundColor: Primary.PointColor02,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 3,
-                  ...BaseStyle.pv2,
-                  ...BaseStyle.ph13,
-                  ...BaseStyle.mb10,
-                }}>
-                <Text style={{...BaseStyle.ko14, ...BaseStyle.font_white}}>{item.cz_subject}</Text>
+                borderBottomLeftRadius: 5
+              }}
+            >
+              <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
+                <Text
+                  style={{
+                    ...BaseStyle.ko15,
+                    ...BaseStyle.font_bold,
+                    ...BaseStyle.font_222
+                  }}
+                >
+                  {`${Api.comma(item.cz_price)}${item.cz_price_type === '1' ? '%' : '원'}`} 쿠폰
+                </Text>
+                <View
+                  style={{
+                    backgroundColor:
+                      item.cz_type === '1'
+                        ? Primary.PointColor02
+                        : item.cz_type === '2'
+                          ? Primary.PointColor01
+                          : Primary.PointColor03,
+                    borderRadius: 30,
+                    paddingVertical: 4,
+                    paddingHorizontal: 8,
+                    ...BaseStyle.ml10
+                  }}
+                >
+                  <Text style={{ ...BaseStyle.ko10, color: item.cz_type === '0' ? '#222' : '#fff' }}>
+                    {item.cz_type === '1' ? '포장용' : item.cz_type === '2' ? '배달용' : '전체'}
+                  </Text>
+                </View>
               </View>
-              <Text style={{...BaseStyle.ko14, ...BaseStyle.mb5, ...BaseStyle.font_222}}>
+              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.mb5, ...BaseStyle.font_gray_a1 }}>
+                {moment(item.cz_start).format('YYYY.MM.DD') +
+                  '~' +
+                  moment(item.cz_end).format('YYYY.MM.DD')}
+              </Text>
+              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.mb5, ...BaseStyle.font_gray_a1 }}>
                 최소주문금액 {Api.comma(item.cz_minimum)}원
               </Text>
-              <Text style={{...BaseStyle.ko13, ...BaseStyle.font_gray_a1}}>
-                {moment(item.cz_start).format("YYYY.MM.DD") +
-                  "~" +
-                  moment(item.cz_end).format("YYYY.MM.DD")}
-              </Text>
             </View>
-            <View style={{width: 1, height: "100%", backgroundColor: "#E3E3E3"}} />
+            {/* <View style={{ width: 1, height: '100%', backgroundColor: '#E3E3E3' }} /> */}
             <View
               style={{
                 flex: 1,
-                height: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-                ...BaseStyle.pv20,
-                backgroundColor: "#fff",
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: '#E8F7FA',
+                backgroundColor: '#E8F7FA',
                 borderTopRightRadius: 5,
-                borderBottomRightRadius: 5,
-              }}>
+                borderBottomRightRadius: 5
+              }}
+            >
               <Image
-                source={require("../images/c_logo.png")}
-                style={{width: 65, height: 65}}
-                resizeMode="center"
+                source={require('../images/c_logo.png')}
+                style={{ width: 45, height: 45 }}
+                resizeMode='center'
               />
             </View>
           </View>
-          {/* <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => delCouponHandler(item.cz_no)}
-            hitSlop={{top: 10, right: 10, bottom: 10, left: 10}}
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 10,
-              backgroundColor: Primary.PointColor01,
-              borderRadius: 50,
-              padding: 7,
-            }}>
-            <Image
-              source={require('../images/pop_close.png')}
-              style={{width: 13, height: 13}}
-              resizeMode="cover"
-            />
-          </TouchableOpacity> */}
         </Swipeout>
       </View>
-    );
+    )
   };
 
   return isLoading ? (
-    <AnimateLoading description="잠시만 기다려주세요." />
+    <AnimateLoading description='잠시만 기다려주세요.' />
   ) : (
-    <View style={{flex: 1, backgroundColor: "#fff"}}>
-      <Header navigation={navigation} title="쿠폰관리" />
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <Header navigation={navigation} title='쿠폰관리' />
 
       {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
 
-      <View style={{...BaseStyle.ph20, ...BaseStyle.pv20}}>
+      <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() => navigation.navigate("Home", {screen: "CouponAdd"})}
-          style={{...BaseStyle.mainBtn, ...BaseStyle.pv13}}>
-          <Text style={{...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white}}>
+          onPress={() => navigation.navigate('Home', { screen: 'CouponAdd' })}
+          style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
+        >
+          <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
             쿠폰 추가하기 +
           </Text>
         </TouchableOpacity>
@@ -329,35 +338,38 @@ const Coupon = props => {
       {coupons && coupons.length > 0 && (
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center",
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
             ...BaseStyle.ph20,
-            ...BaseStyle.mb10,
-          }}>
-          <View style={{flexDirection: "row", width: "80%"}}>
+            ...BaseStyle.mb10
+          }}
+        >
+          <View style={{ flexDirection: 'row', width: '80%' }}>
             <Text
               style={{
                 ...BaseStyle.ko12,
                 ...BaseStyle.lh17,
-                color: Primary.PointColor02,
-              }}>
-              {"※ "}
+                color: Primary.PointColor02
+              }}
+            >
+              {'※ '}
             </Text>
             <Text
               style={{
                 ...BaseStyle.ko12,
                 ...BaseStyle.lh17,
-                color: Primary.PointColor02,
-              }}>
-              {"쿠폰을 편집 또는 삭제하시려면\n해당 쿠폰을 오른쪽에서 왼쪽으로 스와이프해주세요."}
+                color: Primary.PointColor02
+              }}
+            >
+              {'쿠폰을 편집 또는 삭제하시려면\n해당 쿠폰을 오른쪽에서 왼쪽으로 스와이프해주세요.'}
             </Text>
           </View>
-          <View style={{width: "20%", justifyContent: "center", alignItems: "center"}}>
+          <View style={{ width: '20%', justifyContent: 'center', alignItems: 'center' }}>
             <Image
-              source={require("../images/swipe_m.png")}
-              style={{width: 100, height: 25}}
-              resizeMode="contain"
+              source={require('../images/swipe_m.png')}
+              style={{ width: 100, height: 25 }}
+              resizeMode='contain'
             />
           </View>
         </View>
@@ -365,7 +377,7 @@ const Coupon = props => {
       {/* // 쿠폰 안내 */}
 
       {/* 쿠폰 리스트 */}
-      <View style={{flex: 1, height}}>
+      <View style={{ flex: 1, height }}>
         <FlatList
           data={coupons}
           renderItem={renderRow}
@@ -378,16 +390,17 @@ const Coupon = props => {
           onRefresh={() => onHandleRefresh()}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.6}
-          style={{backgroundColor: "#fff", width: "100%"}}
+          style={{ backgroundColor: '#fff', width: '100%' }}
           ListEmptyComponent={
             <View
               style={{
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignItems: 'center',
                 flex: 1,
-                height: Dimensions.get("window").height - 300,
-              }}>
-              <Text style={{...BaseStyle.ko15, textAlign: "center"}}>
+                height: Dimensions.get('window').height - 300
+              }}
+            >
+              <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
                 아직 등록된 쿠폰이 없습니다.
               </Text>
             </View>
@@ -396,7 +409,7 @@ const Coupon = props => {
       </View>
       {/* //쿠폰 리스트 */}
     </View>
-  );
+  )
 };
 
-export default Coupon;
+export default Coupon
