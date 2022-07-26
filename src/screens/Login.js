@@ -260,7 +260,7 @@ const Login = props => {
 
                   <TouchableOpacity
                     activeOpacity={1}
-                    onPress={toggleAutoLogin}
+                    onPress={() => navigation.navigate("FindPwd")}
                     style={{...BaseStyle.container, alignSelf: "flex-end"}}
                     hitSlop={{top: 10, right: 10, bottom: 10, left: 10}}>
                     <Text
