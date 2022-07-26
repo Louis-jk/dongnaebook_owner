@@ -69,12 +69,7 @@ const Reviews = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
-      console.log('store_review_list resultItem', resultItem)
-      console.log('store_review_list arrItems', arrItems)
-
       if (resultItem.result === 'Y') {
-        console.log('review02 arrItems', arrItems)
-
         if (arrItems.rate) {
           setRate(arrItems.rate)
         }
@@ -105,8 +100,6 @@ const Reviews = props => {
     })
     return unsubscribe
   }, [navigation])
-
-  console.log('rate', rate)
 
   const scrolling = React.useRef(new Animated.Value(0)).current
 
@@ -327,7 +320,6 @@ const Reviews = props => {
 
   // 리뷰 렌더러(내용물)
   const renderRow = ({ item, index }) => {
-    console.log('user item', item)
     return (
       <View key={index + item.wr_id}>
         <View style={{ height: 10, width: '100%', backgroundColor: '#F2F2F2' }} />
@@ -626,8 +618,6 @@ const Reviews = props => {
       wr_id: wrId,
       wr_singo: 'Y'
     }
-
-    console.log('악성리뷰 신고param ?', param)
 
     Api.send('store_review_singo', param, args => {
       const resultItem = args.resultItem
