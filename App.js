@@ -1,74 +1,74 @@
-import "react-native-gesture-handler";
-import * as React from "react";
-import {View, Text, StatusBar, Dimensions, BackHandler, ToastAndroid, Platform} from "react-native";
-import SplashScreen from "react-native-splash-screen";
-import {NavigationContainer} from "@react-navigation/native";
-import {createStackNavigator} from "@react-navigation/stack";
-import {createDrawerNavigator} from "@react-navigation/drawer";
-import messaging from "@react-native-firebase/messaging";
-import Toast from "react-native-toast-message";
-import {getStatusBarHeight} from "react-native-status-bar-height";
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { View, Text, StatusBar, Dimensions, BackHandler, ToastAndroid, Platform } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import messaging from '@react-native-firebase/messaging';
+import Toast from 'react-native-toast-message';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 // import { Provider } from 'react-redux'; 잠시
 // import initStore from './src/redux/store'; 잠시
-import DrawerMenu from "./src/screens/DrawerMenu";
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification from "react-native-push-notification";
-import {useSelector, useDispatch} from "react-redux";
+import DrawerMenu from './src/screens/DrawerMenu';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import PushNotification from 'react-native-push-notification';
+import { useSelector, useDispatch } from 'react-redux';
 
 /*
  Screen 정의
 */
-import CheckScreen from "./src/screens/Check"; // 체크
-import LoginScreen from "./src/screens/Login"; // 로그인
-import FindIdScreen from "./src/screens/FindId"; // 아이디 찾기
-import FindPwdScreen from "./src/screens/FindPwd"; // 비밀번호 찾기
-import SetNewPwdScreen from "./src/screens/SetNewPwd"; // 비밀번호 찾기
-import MainScreen from "./src/screens/Main"; // 메인
-import OrderDetailScreen from "./src/screens/OrderDetail"; // 주문내역 상세
-import SetDayTimeScreen from "./src/screens/SetDayTime"; // 영업 운영시간 설정
-import SetTimeScreen from "./src/screens/SetTime"; // 영업 시간 추가
-import SetClosedScreen from "./src/screens/SetClosed"; // 정기 휴일 추가
-import SetCloseDayScreen from "./src/screens/SetCloseDay"; // 휴무일 설정
-import SetRestTimeScreen from "./src/screens/SetRestTime"; // 휴게시간 설정
-import SetTipsScreen from "./src/screens/SetTips"; // 배달팁 설정
-import SelectStoreScreen from "./src/screens/SelectStore"; // 매장선택 및 추가
-import CalculateScreen from "./src/screens/Calculate"; // 정산내역
-import ReviewsScreen from "./src/screens/Reviews"; // 리뷰
-import ReviewNoticeScreen from "./src/screens/ReviewNotice"; // 리뷰 공지사항
-import NoticeScreen from "./src/screens/Notice"; // 공지사항
-import NoticeDetailScreen from "./src/screens/NoticeDetail"; // 공지사항 상세 - 웹뷰
-import CouponScreen from "./src/screens/Coupon"; // 쿠폰관리
-import CouponAddScreen from "./src/screens/CouponAdd"; // 쿠폰추가
-import CouponEditScreen from "./src/screens/CouponEdit"; // 쿠폰수정
-import setCategoryScreen from "./src/screens/setCategory"; // 메뉴 카테고리 설정(리스트)
-import SetMenuScreen from "./src/screens/SetMenu"; // 메뉴설정(리스트)
-import SetMenuAddScreen from "./src/screens/SetMenuAdd"; // 메뉴등록
-import SetMenuEditScreen from "./src/screens/SetMenuEdit"; // 메뉴수정
-import StoreInfoScreen from "./src/screens/StoreInfo"; // 매장소개
-import StoreSettingScreen from "./src/screens/StoreSetting"; // 매장설정
-import setMenuAddOptionScreen from "./src/screens/setMenuAddOption"; // 매장소개
+import CheckScreen from './src/screens/Check'; // 체크
+import LoginScreen from './src/screens/Login'; // 로그인
+import FindIdScreen from './src/screens/FindId'; // 아이디 찾기
+import FindPwdScreen from './src/screens/FindPwd'; // 비밀번호 찾기
+import SetNewPwdScreen from './src/screens/SetNewPwd'; // 비밀번호 찾기
+import MainScreen from './src/screens/Main'; // 메인
+import OrderDetailScreen from './src/screens/OrderDetail'; // 주문내역 상세
+import SetDayTimeScreen from './src/screens/SetDayTime'; // 영업 운영시간 설정
+import SetTimeScreen from './src/screens/SetTime'; // 영업 시간 추가
+import SetClosedScreen from './src/screens/SetClosed'; // 정기 휴일 추가
+import SetCloseDayScreen from './src/screens/SetCloseDay'; // 휴무일 설정
+import SetRestTimeScreen from './src/screens/SetRestTime'; // 휴게시간 설정
+import SetTipsScreen from './src/screens/SetTips'; // 배달팁 설정
+import SelectStoreScreen from './src/screens/SelectStore'; // 매장선택 및 추가
+import CalculateScreen from './src/screens/Calculate'; // 정산내역
+import ReviewsScreen from './src/screens/Reviews'; // 리뷰
+import ReviewNoticeScreen from './src/screens/ReviewNotice'; // 리뷰 공지사항
+import NoticeScreen from './src/screens/Notice'; // 공지사항
+import NoticeDetailScreen from './src/screens/NoticeDetail'; // 공지사항 상세 - 웹뷰
+import CouponScreen from './src/screens/Coupon'; // 쿠폰관리
+import CouponAddScreen from './src/screens/CouponAdd'; // 쿠폰추가
+import CouponEditScreen from './src/screens/CouponEdit'; // 쿠폰수정
+import setCategoryScreen from './src/screens/setCategory'; // 메뉴 카테고리 설정(리스트)
+import SetMenuScreen from './src/screens/SetMenu'; // 메뉴설정(리스트)
+import SetMenuAddScreen from './src/screens/SetMenuAdd'; // 메뉴등록
+import SetMenuEditScreen from './src/screens/SetMenuEdit'; // 메뉴수정
+import StoreInfoScreen from './src/screens/StoreInfo'; // 매장소개
+import StoreSettingScreen from './src/screens/StoreSetting'; // 매장설정
+import setMenuAddOptionScreen from './src/screens/setMenuAddOption'; // 매장소개
 
-import * as orderAction from "./src/redux/actions/orderAction";
+import * as orderAction from './src/redux/actions/orderAction';
 
 const App = () => {
-  const Drawer = createDrawerNavigator();
-  const Stack = createStackNavigator();
+  const Drawer = createDrawerNavigator()
+  const Stack = createStackNavigator()
   // const store = initStore(); 잠시
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const toggleAlarmOrder = () => {
-    dispatch(orderAction.alarmNewOrder(false));
+    dispatch(orderAction.alarmNewOrder(false))
   };
 
   PushNotification.configure({
     // (optional) Called when Token is generated (iOS and Android)
     onRegister: function (token) {
-      console.log("TOKEN:", token);
+      console.log('TOKEN:', token)
     },
 
     // (required) Called when a remote is received or opened, or local notification is opened
     onNotification: function (notification) {
-      console.log("NOTIFICATION 작동여부:", notification);
+      console.log('NOTIFICATION 작동여부:', notification)
 
       // process the notification
 
@@ -78,22 +78,22 @@ const App = () => {
 
     // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
     onAction: function (notification) {
-      console.log("ACTION:", notification.action);
-      console.log("NOTIFICATION:", notification);
+      console.log('ACTION:', notification.action)
+      console.log('NOTIFICATION:', notification)
 
       // process the action
     },
 
     // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
     onRegistrationError: function (err) {
-      console.error(err.message, err);
+      console.error(err.message, err)
     },
 
     // IOS ONLY (optional): default: all - Permissions to register.
     permissions: {
       alert: true,
       badge: true,
-      sound: true,
+      sound: true
     },
 
     // Should the initial notification be popped automatically
@@ -107,89 +107,93 @@ const App = () => {
      * - if you are not using remote notification or do not have Firebase installed, use this:
      *     requestPermissions: Platform.OS === 'ios'
      */
-    requestPermissions: true,
-  });
+    requestPermissions: true
+  })
 
   const localNoti = () => {
     PushNotification.localNotification({
       /* Android Only Properties */
-      channelId: "dongnaebookowner01", // (required) channelId, if the channel doesn't exist, notification will not trigger.
-      ticker: "My Notification Ticker", // (optional)
+      channelId: 'dongnaebookowner01', // (required) channelId, if the channel doesn't exist, notification will not trigger.
+      ticker: 'My Notification Ticker', // (optional)
       showWhen: true, // (optional) default: true
       autoCancel: true, // (optional) default: true
-      largeIcon: "ic_launcher", // (optional) default: "ic_launcher". Use "" for no large icon.
-      largeIconUrl: "https://www.example.tld/picture.jpg", // (optional) default: undefined
-      smallIcon: "ic_notification", // (optional) default: "ic_notification" with fallback for "ic_launcher". Use "" for default small icon.
-      bigText: "My big text that will be shown when notification is expanded", // (optional) default: "message" prop
-      subText: "default", // (optional) default: none
-      bigPictureUrl: "https://www.example.tld/picture.jpg", // (optional) default: undefined
-      bigLargeIcon: "ic_launcher", // (optional) default: undefined
-      bigLargeIconUrl: "https://www.example.tld/bigicon.jpg", // (optional) default: undefined
-      color: "main", // (optional) default: system default
+      largeIcon: 'ic_launcher', // (optional) default: "ic_launcher". Use "" for no large icon.
+      largeIconUrl: 'https://www.example.tld/picture.jpg', // (optional) default: undefined
+      smallIcon: 'ic_notification', // (optional) default: "ic_notification" with fallback for "ic_launcher". Use "" for default small icon.
+      bigText: 'My big text that will be shown when notification is expanded', // (optional) default: "message" prop
+      subText: 'default', // (optional) default: none
+      bigPictureUrl: 'https://www.example.tld/picture.jpg', // (optional) default: undefined
+      bigLargeIcon: 'ic_launcher', // (optional) default: undefined
+      bigLargeIconUrl: 'https://www.example.tld/bigicon.jpg', // (optional) default: undefined
+      color: 'main', // (optional) default: system default
       vibrate: true, // (optional) default: true
       vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
-      tag: "some_tag", // (optional) add tag to message
-      group: "group", // (optional) add group to message
+      tag: 'some_tag', // (optional) add tag to message
+      group: 'group', // (optional) add group to message
       groupSummary: false, // (optional) set this notification to be the group summary for a group of notifications, default: false
       ongoing: false, // (optional) set whether this is an "ongoing" notification
-      priority: "high", // (optional) set notification priority, default: high
-      visibility: "public", // (optional) set notification visibility, default: private
+      priority: 'high', // (optional) set notification priority, default: high
+      visibility: 'public', // (optional) set notification visibility, default: private
       ignoreInForeground: false, // (optional) if true, the notification will not be visible when the app is in the foreground (useful for parity with how iOS notifications appear). should be used in combine with `com.dieam.reactnativepushnotification.notification_foreground` setting
-      shortcutId: "shortcut-id", // (optional) If this notification is duplicative of a Launcher shortcut, sets the id of the shortcut, in case the Launcher wants to hide the shortcut, default undefined
+      shortcutId: 'shortcut-id', // (optional) If this notification is duplicative of a Launcher shortcut, sets the id of the shortcut, in case the Launcher wants to hide the shortcut, default undefined
       onlyAlertOnce: true, // (optional) alert will open only once with sound and notify, default: false
 
       when: null, // (optional) Add a timestamp (Unix timestamp value in milliseconds) pertaining to the notification (usually the time the event occurred). For apps targeting Build.VERSION_CODES.N and above, this time is not shown anymore by default and must be opted into by using `showWhen`, default: null.
       usesChronometer: false, // (optional) Show the `when` field as a stopwatch. Instead of presenting `when` as a timestamp, the notification will show an automatically updating display of the minutes and seconds since when. Useful when showing an elapsed time (like an ongoing phone call), default: false.
       timeoutAfter: null, // (optional) Specifies a duration in milliseconds after which this notification should be canceled, if it is not already canceled, default: null
 
-      messageId: "google:message_id", // (optional) added as `message_id` to intent extras so opening push notification can find data stored by @react-native-firebase/messaging module.
+      messageId: 'google:message_id', // (optional) added as `message_id` to intent extras so opening push notification can find data stored by @react-native-firebase/messaging module.
 
-      actions: ["Yes", "No"], // (Android only) See the doc for notification actions to know more
+      actions: ['Yes', 'No'], // (Android only) See the doc for notification actions to know more
       invokeApp: true, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
 
       /* iOS only properties */
-      category: "", // (optional) default: empty string
-      subtitle: "My Notification Subtitle", // (optional) smaller title below notification title
+      category: '', // (optional) default: empty string
+      subtitle: 'My Notification Subtitle', // (optional) smaller title below notification title
 
       /* iOS and Android properties */
       id: 0, // (optional) Valid unique 32 bit integer specified as string. default: Autogenerated Unique ID
-      title: "hey", // (optional)
-      message: "body", // (required)
+      title: 'hey', // (optional)
+      message: 'body', // (required)
       userInfo: {}, // (optional) default: {} (using null throws a JSON value '<null>' error)
       playSound: true, // (optional) default: true
-      soundName: "c_sound", // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
+      soundName: 'c_sound', // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
       number: 10, // (optional) Valid 32 bit integer specified as string. default: none (Cannot be zero)
-      repeatType: "day", // (optional) Repeating interval. Check 'Repeating Notifications' section for more info.
-    });
+      repeatType: 'day' // (optional) Repeating interval. Check 'Repeating Notifications' section for more info.
+    })
   };
 
   // const testCan
 
   React.useEffect(() => {
     setTimeout(() => {
-      SplashScreen.hide();
-    }, 1000);
-    // PushNotification.getChannels(function(channels) {
-    //   console.log('channels ? ', channels);
-    // });
-  }, []);
+      SplashScreen.hide()
+    }, 1000)
+
+    if (Platform.OS === 'ios') {
+      PushNotificationIOS.setApplicationIconBadgeNumber(0)
+    } else {
+      PushNotification.setApplicationIconBadgeNumber(0)
+    }
+  }, [])
 
   const toastConfig = {
     custom_type: internalState => (
       <View
         style={{
-          width: "90%",
-          backgroundColor: "#000000e0",
+          width: '90%',
+          backgroundColor: '#000000e0',
           borderRadius: 50,
           paddingHorizontal: 16,
-          paddingVertical: 17,
-        }}>
-        <Text style={{textAlign: "center", color: "#fff", fontSize: 11.5}}>
+          paddingVertical: 17
+        }}
+      >
+        <Text style={{ textAlign: 'center', color: '#fff', fontSize: 11.5 }}>
           {internalState.text1}
         </Text>
       </View>
-    ),
-  };
+    )
+  }
 
   // React.useEffect(() => {
   //   messaging().onMessage(remoteMessage => {
@@ -209,86 +213,88 @@ const App = () => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-          cardStyle: {backgroundColor: "transparent"},
+          cardStyle: { backgroundColor: 'transparent' },
           cardOverlayEnabled: true,
-          cardStyleInterpolator: ({current: {progress}}) => ({
+          cardStyleInterpolator: ({ current: { progress } }) => ({
             cardStyle: {
               opacity: progress.interpolate({
                 inputRange: [0, 0.5, 0.9, 1],
-                outputRange: [0, 0.25, 0.7, 1],
-              }),
+                outputRange: [0, 0.25, 0.7, 1]
+              })
             },
             overlayStyle: {
               opacity: progress.interpolate({
                 inputRange: [0, 1],
                 outputRange: [0, 0.5],
-                extrapolate: "clamp",
-              }),
-            },
-          }),
-        }}>
-        <Stack.Screen name="Check" component={CheckScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="FindId" component={FindIdScreen} />
-        <Stack.Screen name="FindPwd" component={FindPwdScreen} />
-        <Stack.Screen name="SetNewPwd" component={SetNewPwdScreen} />
-        <Stack.Screen name="Main" component={MainScreen} />
-        <Stack.Screen name="SelectStore" component={SelectStoreScreen} />
-        <Stack.Screen name="OrderDetail" component={OrderDetailScreen} />
-        <Stack.Screen name="SetDayTime" component={SetDayTimeScreen} />
-        <Stack.Screen name="SetTime" component={SetTimeScreen} />
-        <Stack.Screen name="SetClosed" component={SetClosedScreen} />
-        <Stack.Screen name="SetCloseDay" component={SetCloseDayScreen} />
-        <Stack.Screen name="SetRestTime" component={SetRestTimeScreen} />
-        <Stack.Screen name="SetTips" component={SetTipsScreen} />
-        <Stack.Screen name="Calculate" component={CalculateScreen} />
-        <Stack.Screen name="Reviews" component={ReviewsScreen} />
-        <Stack.Screen name="ReviewNotice" component={ReviewNoticeScreen} />
-        <Stack.Screen name="Notice" component={NoticeScreen} />
-        <Stack.Screen name="NoticeDetail" component={NoticeDetailScreen} />
-        <Stack.Screen name="Coupon" component={CouponScreen} />
-        <Stack.Screen name="CouponAdd" component={CouponAddScreen} />
-        <Stack.Screen name="CouponEdit" component={CouponEditScreen} />
-        <Stack.Screen name="setCategory" component={setCategoryScreen} />
-        <Stack.Screen name="SetMenu" component={SetMenuScreen} />
-        <Stack.Screen name="SetMenuAdd" component={SetMenuAddScreen} />
-        <Stack.Screen name="SetMenuEdit" component={SetMenuEditScreen} />
-        <Stack.Screen name="setMenuAddOption" component={setMenuAddOptionScreen} />
-        <Stack.Screen name="StoreInfo" component={StoreInfoScreen} />
-        <Stack.Screen name="StoreSetting" component={StoreSettingScreen} />
+                extrapolate: 'clamp'
+              })
+            }
+          })
+        }}
+      >
+        <Stack.Screen name='Check' component={CheckScreen} />
+        <Stack.Screen name='Login' component={LoginScreen} />
+        <Stack.Screen name='FindId' component={FindIdScreen} />
+        <Stack.Screen name='FindPwd' component={FindPwdScreen} />
+        <Stack.Screen name='SetNewPwd' component={SetNewPwdScreen} />
+        <Stack.Screen name='Main' component={MainScreen} />
+        <Stack.Screen name='SelectStore' component={SelectStoreScreen} />
+        <Stack.Screen name='OrderDetail' component={OrderDetailScreen} />
+        <Stack.Screen name='SetDayTime' component={SetDayTimeScreen} />
+        <Stack.Screen name='SetTime' component={SetTimeScreen} />
+        <Stack.Screen name='SetClosed' component={SetClosedScreen} />
+        <Stack.Screen name='SetCloseDay' component={SetCloseDayScreen} />
+        <Stack.Screen name='SetRestTime' component={SetRestTimeScreen} />
+        <Stack.Screen name='SetTips' component={SetTipsScreen} />
+        <Stack.Screen name='Calculate' component={CalculateScreen} />
+        <Stack.Screen name='Reviews' component={ReviewsScreen} />
+        <Stack.Screen name='ReviewNotice' component={ReviewNoticeScreen} />
+        <Stack.Screen name='Notice' component={NoticeScreen} />
+        <Stack.Screen name='NoticeDetail' component={NoticeDetailScreen} />
+        <Stack.Screen name='Coupon' component={CouponScreen} />
+        <Stack.Screen name='CouponAdd' component={CouponAddScreen} />
+        <Stack.Screen name='CouponEdit' component={CouponEditScreen} />
+        <Stack.Screen name='setCategory' component={setCategoryScreen} />
+        <Stack.Screen name='SetMenu' component={SetMenuScreen} />
+        <Stack.Screen name='SetMenuAdd' component={SetMenuAddScreen} />
+        <Stack.Screen name='SetMenuEdit' component={SetMenuEditScreen} />
+        <Stack.Screen name='setMenuAddOption' component={setMenuAddOptionScreen} />
+        <Stack.Screen name='StoreInfo' component={StoreInfoScreen} />
+        <Stack.Screen name='StoreSetting' component={StoreSettingScreen} />
       </Stack.Navigator>
-    );
+    )
   };
 
   return (
     <>
       <StatusBar
         translucent
-        barStyle="light-content"
-        backgroundColor="#1543F5"
-        hidden={Platform.OS !== "ios"}
+        barStyle='light-content'
+        backgroundColor='#1543F5'
+        hidden={Platform.OS !== 'ios'}
       />
       {/* <Provider store={store}> */}
       <NavigationContainer>
         <Drawer.Navigator
-          initialRouteName="Home"
+          initialRouteName='Home'
           screenOptions={{
             headerShown: false,
-            drawerPosition: "right",
-            drawerType: "front",
-            drawerStyle: {width: "100%", height: Dimensions.get("window").height},
-            overlayColor: "rgba(0,0,0,0.7)",
+            drawerPosition: 'right',
+            drawerType: 'front',
+            drawerStyle: { width: '100%', height: Dimensions.get('window').height },
+            overlayColor: 'rgba(0,0,0,0.7)',
             gestureEnabled: false,
-            swipeEnabled: false,
+            swipeEnabled: false
           }}
-          drawerContent={props => <DrawerMenu {...props} />}>
-          <Drawer.Screen name="Home" component={StackNavigator} />
+          drawerContent={props => <DrawerMenu {...props} />}
+        >
+          <Drawer.Screen name='Home' component={StackNavigator} />
         </Drawer.Navigator>
       </NavigationContainer>
       <Toast config={toastConfig} topOffset={10} ref={ref => Toast.setRef(ref)} />
       {/* </Provider> */}
     </>
-  );
+  )
 };
 
-export default App;
+export default App
