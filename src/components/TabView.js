@@ -313,12 +313,12 @@ const TabView = props => {
     };
 
     // 주문 배달처리
-    const sendDeliverHandler = od_id => {
+    const sendDeliverHandler = (type, odId) => {
       const param = {
-        od_id,
+        od_id: odId,
         jumju_id: mt_id,
         jumju_code: mt_jumju_code,
-        od_process_status: orderList.od_type === '배달' ? '배달중' : '포장완료'
+        od_process_status: type === '배달' ? '배달중' : '포장완료'
         // delivery_time: time01,
         // visit_time: time02
       }
@@ -329,22 +329,16 @@ const TabView = props => {
 
         if (resultItem.result === 'Y') {
           getOrderListHandler()
-          Alert.alert(
-            `주문을 ${orderList.od_type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`,
-            '',
-            [
-              {
-                text: '확인',
-                onPress: () => navigation.navigate('Home', { screen: 'Main' })
-              }
-            ]
-          )
+          Alert.alert(`주문을 ${type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`, '', [
+            {
+              text: '확인',
+              onPress: () => navigation.navigate('Home', { screen: 'Main' })
+            }
+          ])
         } else {
           getOrderListHandler()
           Alert.alert(
-            `주문 ${
-              orderList.od_type === '배달' ? '배달' : '포장완료'
-            } 처리중 오류가 발생하였습니다.`,
+            `주문 ${type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.`,
             '다시 한번 시도해주세요.',
             [
               {
@@ -363,7 +357,7 @@ const TabView = props => {
         Alert.alert('주문을 배달 처리하시겠습니까?', '', [
           {
             text: '네 배달처리',
-            onPress: () => sendDeliverHandler(orderId)
+            onPress: () => sendDeliverHandler(type, orderId)
           },
           {
             text: '아니요'
@@ -373,7 +367,7 @@ const TabView = props => {
         Alert.alert('주문을 포장완료 처리하시겠습니까?', '', [
           {
             text: '네 포장완료',
-            onPress: () => sendDeliverHandler(orderId)
+            onPress: () => sendDeliverHandler(type, orderId)
           },
           {
             text: '아니요'
@@ -859,7 +853,7 @@ const TabView = props => {
                     style={{
                       ...BaseStyle.ko12,
                       ...BaseStyle.font_bold,
-                      color: item.od_type === '배달' ? '#222' : '#fff'
+                      color: '#fff'
                     }}
                   >
                     {item.od_type}
@@ -967,7 +961,7 @@ const TabView = props => {
       limit_count: 10,
       jumju_id: mt_id,
       jumju_code: mt_jumju_code,
-      od_process_status: '취소건'
+      od_process_status: '주문취소'
     }
 
     const getOrderListHandler = () => {
@@ -1160,9 +1154,9 @@ const TabView = props => {
       </Tab.Screen>
 
       {/* <Tab.Screen
-        name="menu05"
+        name='menu05'
         options={{
-          tabBarLabel: '취소건'
+          tabBarLabel: '취소'
         }}
       >
         {props => <Tab05 {...props} navigation={navigation} />}
