@@ -117,6 +117,8 @@ const OrderDetail = props => {
       setTitle('접수완료')
     } else if (type === 'going') {
       setTitle('배달중')
+    } else if (type === 'cancel') {
+      setTitle('주문취소')
     } else {
       setTitle('처리완료')
     }
@@ -247,8 +249,56 @@ const OrderDetail = props => {
           {/* // 주문 취소/거부 모달 */}
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ ...BaseStyle.ph20 }}>
+              {/* 취소건 일 때 취소 사유 */}
+              {type === 'cancel' && (
+                <View style={{ ...BaseStyle.mb15 }}>
+                  {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15}}>기본 정보</Text> */}
+                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
+                    취소 사유
+                  </Text>
+                  <View
+                    style={{
+                      ...BaseStyle.pv15,
+                      ...BaseStyle.ph15,
+                      backgroundColor: '#FCA000aa',
+                      borderRadius: 5
+                    }}
+                  >
+                    <Text
+                      style={{
+                        ...BaseStyle.ko14,
+                        ...BaseStyle.font_333,
+                        ...BaseStyle.lh17
+                      }}
+                    >
+                      {detailOrder.od_cancle_memo}
+                    </Text>
+                  </View>
+                  {/* <View style={{...BaseStyle.container5, ...BaseStyle.mb10}}>
+                    <View style={{width: "30%"}}>
+                      <Text style={{...BaseStyle.ko14, ...BaseStyle.font_999, ...BaseStyle.lh17}}>
+                        상호명
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          ...BaseStyle.ko14,
+                          ...BaseStyle.font_333,
+                          ...BaseStyle.lh17,
+                          textAlign: "right",
+                        }}>
+                        {detailStore.mb_company}
+                      </Text>
+                    </View>
+                  </View> */}
+                </View>
+              )}
+              {/* // 취소건 일 때 취소 사유 */}
+              <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+
               {/* 기본 정보 리스트 */}
-              <View style={{ ...BaseStyle.mb15 }}>
+              <View style={{ ...BaseStyle.mv15 }}>
                 {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15}}>기본 정보</Text> */}
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
                   주문 매장
