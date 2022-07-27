@@ -186,7 +186,7 @@ const Coupon = props => {
       <View style={{ position: 'relative' }}>
         <Swipeout
           right={swipeBtns}
-          autoClose='true'
+          autoClose
           backgroundColor='transparent'
           style={{ height: 150, ...BaseStyle.mb15 }}
         >
