@@ -209,15 +209,15 @@ const Tab01 = props => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      {orderList && orderList.length > 0 ? (
+      {orderList && orderList.length > 0 && (
         <OrderCheckModal
           isModalVisible={isOrderCheckModalVisible}
           toggleModal={toggleOrderCheckModal}
-          od_id={orderId}
-          od_type={orderType}
+          oderId={orderId}
+          orderType={orderType}
           navigation={navigation}
         />
-      ) : null}
+      )}
       <OrderRejectCancelModal
         navigation={navigation}
         isModalVisible={isModalVisible}

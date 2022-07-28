@@ -22,19 +22,19 @@ const SelectStore = props => {
   const { allStore, selectedStore } = useSelector(state => state.store);
   const { mt_store, mt_app_token } = useSelector(state => state.login);
 
-  const setStoreHandler = (item, id, jumju_id, jumju_code, store, addr) => {
-    dispatch(storeAction.selectStore(id, jumju_id, jumju_code, store, addr));
+  const setStoreHandler = (item, id, jumjuId, jumjuCode, store, addr) => {
+    dispatch(storeAction.selectStore(id, jumjuId, jumjuCode, store, addr));
     dispatch(loginAction.updateLogin(JSON.stringify(item)));
     dispatch(loginAction.updateToken(JSON.stringify(mt_app_token)));
 
-    let param = {
-      mt_id: jumju_id,
+    const param = {
+      mt_id: jumjuId,
       mt_app_token: mt_app_token,
     };
 
     Api.send('store_login_token', param, args => {
-      let resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+      const resultItem = args.resultItem;
+      const arrItems = args.arrItems;
       console.log('토큰 업데이트 실행시 resultItem::: ', resultItem);
       console.log('토큰 업데이트 실행시  arrItems::: ', arrItems);
       if (resultItem.result === 'Y') {
@@ -130,10 +130,10 @@ const SelectStore = props => {
           renderItem={renderRow}
           keyExtractor={(list, index) => index.toString()}
           // pagingEnabled={true}
-          persistentScrollbar={true}
+          persistentScrollbar
           showsVerticalScrollIndicator={false}
           // progressViewOffset={true}
-          refreshing={true}
+          refreshing
           style={{ backgroundColor: '#fff', width: '100%' }}
           ListEmptyComponent={
             <View

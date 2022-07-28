@@ -15,7 +15,15 @@ import Api from '../Api';
 import * as orderAction from '../redux/actions/orderAction';
 
 const OrderRejectCancelModal = props => {
-  const { navigation, isModalVisible, toggleModal, modalType, od_id } = props;
+  const {
+    navigation,
+    isModalVisible,
+    toggleModal,
+    modalType,
+    od_id: orderId,
+    jumjuId,
+    jumjuCode,
+  } = props;
   const { mt_id, mt_jumju_code } = useSelector(state => state.login);
   const dispatch = useDispatch();
 
@@ -98,7 +106,7 @@ const OrderRejectCancelModal = props => {
 
     Api.send('store_order_list', param, args => {
       const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+      const arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
         dispatch(orderAction.updateNewOrder(JSON.stringify(arrItems)));
@@ -119,16 +127,16 @@ const OrderRejectCancelModal = props => {
     }
 
     const param = {
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: jumjuId,
+      jumju_code: jumjuCode,
       mode: 'cancle',
-      od_id,
+      od_id: orderId,
       od_cancle_memo: filteredText,
     };
 
     Api.send('store_order_cancle', param, args => {
       const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+      const arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
         getOrderListHandler();
@@ -172,27 +180,15 @@ const OrderRejectCancelModal = props => {
 
     Api.send('store_order_list', param, args => {
       const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+      const arrItems = args.arrItems;
 
       console.log('리스트 가져와지나?', resultItem);
       console.log('리스트 가져와지나?', arrItems);
 
       if (resultItem.result === 'Y') {
         dispatch(orderAction.updateCheckOrder(JSON.stringify(arrItems)));
-        // Alert.alert('주문을 취소하였습니다.', '', [
-        //   {
-        //     text: '확인',
-        //     onPress: () => navigation.navigate('Main'),
-        //   },
-        // ]);
       } else {
         dispatch(orderAction.updateCheckOrder(null));
-        // Alert.alert('주문을 취소하였습니다.', '', [
-        //   {
-        //     text: '확인',
-        //     onPress: () => navigation.navigate('Main'),
-        //   },
-        // ]);
       }
     });
   };
@@ -208,19 +204,17 @@ const OrderRejectCancelModal = props => {
     }
 
     const param = {
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: jumjuId,
+      jumju_code: jumjuCode,
       mode: 'cancle',
-      od_id,
+      od_id: orderId,
       od_cancle_memo: filteredText,
     };
-    console.log('주문 취소 그냥 param', param);
-
-    // return false;
+    console.log('주문 취소 param', param);
 
     Api.send('store_order_cancle', param, args => {
       const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+      const arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
         getOrderListHandler02();

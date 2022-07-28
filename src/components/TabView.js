@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/ko';
 import messaging from '@react-native-firebase/messaging';
-import Toast from 'react-native-toast-message';
-import PushNotification from 'react-native-push-notification';
+// import Toast from 'react-native-toast-message';
+// import PushNotification from 'react-native-push-notification';
 import BaseStyle, { Primary } from '../styles/Base';
 import Api from '../Api';
 import OrderCheckModal from './OrderCheckModal';
@@ -136,9 +136,9 @@ const TabView = props => {
                   <Text style={{ ...BaseStyle.ko10, ...BaseStyle.font_white }}>{item.od_type}</Text>
                 </View>
               </View>
-              {item.od_good_name !== '' && (
-                <Text style={{ ...BaseStyle.ko12, ...BaseStyle.mb3 }}>{item.od_good_name}</Text>
-              )}
+
+              <Text style={{ ...BaseStyle.ko12, ...BaseStyle.mb3 }}>{item.od_good_name}</Text>
+
               <View style={{ ...BaseStyle.container }}>
                 <Text
                   style={[
@@ -176,14 +176,14 @@ const TabView = props => {
                     }}>
                     {`${item.od_addr1} ${item.od_addr2}`}
                   </Text>
-                  {item.od_addr3 ? (
+                  {item.od_addr3 && (
                     <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>{item.od_addr3}</Text>
-                  ) : null}
-                  {item.od_addr_jibeon ? (
+                  )}
+                  {item.od_addr_jibeon && (
                     <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>
                       {item.od_addr_jibeon}
                     </Text>
-                  ) : null}
+                  )}
                 </View>
               </View>
             </TouchableOpacity>
@@ -215,18 +215,19 @@ const TabView = props => {
                 activeOpacity={1}
                 onPress={() => {
                   setOrderId(item.od_id);
+                  setJumjuId(item.jumju_id);
+                  setJumjuCode(item.jumju_code);
                   toggleModal('reject');
                 }}
                 style={{
-                  backgroundColor: '#fff',
+                  ...BaseStyle.round05,
+                  ...BaseStyle.pv10,
                   width: 80,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  ...BaseStyle.round05,
-                  ...BaseStyle.pv10,
                   borderWidth: 1,
                   borderColor: '#E3E3E3',
-                  ...BaseStyle.round05,
+                  backgroundColor: '#fff',
                 }}>
                 <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_bold, ...BaseStyle.font_666 }}>
                   주문거부
@@ -240,23 +241,25 @@ const TabView = props => {
 
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        {orderList && orderList.length > 0 ? (
+        {orderList && orderList.length > 0 && (
           <OrderCheckModal
             isModalVisible={isOrderCheckModalVisible}
             toggleModal={toggleOrderCheckModal}
-            od_id={orderId}
-            od_type={orderType}
+            oderId={orderId}
+            orderType={orderType}
             navigation={navigation}
             jumjuId={jumjuId}
             jumjuCode={jumjuCode}
           />
-        ) : null}
+        )}
         <OrderRejectCancelModal
           navigation={navigation}
           isModalVisible={isModalVisible}
           toggleModal={toggleModal}
           modalType={modalType}
           od_id={orderId}
+          jumjuId={jumjuId}
+          jumjuCode={jumjuCode}
         />
         <FlatList
           data={newOrder}
@@ -290,6 +293,8 @@ const TabView = props => {
   const Tab02 = props => {
     const { navigation, list } = props;
     const { checkOrder } = useSelector(state => state.order);
+    const [jumjuId, setJumjuId] = React.useState('');
+    const [jumjuCode, setJumjuCode] = React.useState('');
 
     // 주문 건
     const [orderList, setOrderList] = React.useState([]);
@@ -393,6 +398,7 @@ const TabView = props => {
     // 주문 취소
     const [isModalVisible, setModalVisible] = React.useState(false);
     const [modalType, setModalType] = React.useState('');
+
     const toggleModal = payload => {
       setModalType(payload);
       setModalVisible(!isModalVisible);
@@ -489,14 +495,14 @@ const TabView = props => {
                     }}>
                     {`${item.od_addr1} ${item.od_addr2}`}
                   </Text>
-                  {item.od_addr3 ? (
+                  {item.od_addr3 && (
                     <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>{item.od_addr3}</Text>
-                  ) : null}
-                  {item.od_addr_jibeon ? (
+                  )}
+                  {item.od_addr_jibeon && (
                     <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>
                       {item.od_addr_jibeon}
                     </Text>
-                  ) : null}
+                  )}
                 </View>
               </View>
             </TouchableOpacity>
@@ -564,6 +570,8 @@ const TabView = props => {
           toggleModal={toggleModal}
           modalType={modalType}
           od_id={orderId}
+          jumjuId={jumjuId}
+          jumjuCode={jumjuCode}
           getOrderListHandler={getOrderListHandler}
         />
         <FlatList
@@ -626,11 +634,6 @@ const TabView = props => {
           setOrderList([]);
           dispatch(orderAction.updateDeliveryOrder(null));
           setReflashing(false);
-          // Alert.alert('데이터를 받아오는데 오류가 발생하였습니다.','관리자에게 문의해주세요.', [
-          //   {
-          //     text: '확인'
-          //   }
-          // ]);
         }
       });
     };
@@ -725,14 +728,14 @@ const TabView = props => {
                     }}>
                     {`${item.od_addr1} ${item.od_addr2}`}
                   </Text>
-                  {item.od_addr3 ? (
+                  {item.od_addr3 && (
                     <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>{item.od_addr3}</Text>
-                  ) : null}
-                  {item.od_addr_jibeon ? (
+                  )}
+                  {item.od_addr_jibeon && (
                     <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>
                       {item.od_addr_jibeon}
                     </Text>
-                  ) : null}
+                  )}
                 </View>
               </View>
             </TouchableOpacity>
@@ -905,14 +908,14 @@ const TabView = props => {
                     }}>
                     {`${item.od_addr1} ${item.od_addr2}`}
                   </Text>
-                  {item.od_addr3 ? (
+                  {item.od_addr3 && (
                     <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>{item.od_addr3}</Text>
-                  ) : null}
-                  {item.od_addr_jibeon ? (
+                  )}
+                  {item.od_addr_jibeon && (
                     <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>
                       {item.od_addr_jibeon}
                     </Text>
-                  ) : null}
+                  )}
                 </View>
               </View>
             </TouchableOpacity>
@@ -944,154 +947,6 @@ const TabView = props => {
               }}>
               <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
                 아직 배달완료된 주문이 없습니다.
-              </Text>
-            </View>
-          }
-        />
-      </View>
-    );
-  };
-
-  const Tab05 = props => {
-    const { navigation } = props;
-
-    // 주문 건
-    const [orderList, setOrderList] = React.useState([]);
-
-    const param = {
-      encodeJson: true,
-      item_count: 0,
-      limit_count: 10,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
-      od_process_status: '주문취소',
-    };
-
-    const getOrderListHandler = () => {
-      Api.send('store_order_list', param, args => {
-        const resultItem = args.resultItem;
-        const arrItems = args.arrItems;
-
-        if (resultItem.result === 'Y') {
-          setOrderList(arrItems);
-        } else {
-          setOrderList([]);
-        }
-      });
-    };
-
-    React.useEffect(() => {
-      getOrderListHandler();
-
-      return () => getOrderListHandler();
-    }, []);
-
-    const renderRow = ({ item, index }) => {
-      return (
-        <View key={item.od_id + index}>
-          <View
-            style={{
-              backgroundColor: '#F8F8F8',
-              width: '100%',
-              ...BaseStyle.pv10,
-              ...BaseStyle.ph20,
-              ...BaseStyle.mb10,
-            }}>
-            <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_gray_a1 }}>
-              {moment(item.od_time).format('YYYY년 M월 D일 HH:mm')}
-            </Text>
-          </View>
-          <View style={{ ...BaseStyle.container6, ...BaseStyle.mb20, ...BaseStyle.ph20 }}>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() =>
-                navigation.navigate('OrderDetail', {
-                  od_id: item.od_id,
-                  od_time: item.od_time,
-                  type: 'ready',
-                  jumjuId: item.jumju_id,
-                  jumjuCode: item.jumju_code,
-                })
-              }>
-              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb5 }}>
-                {item.mb_company}
-              </Text>
-              <Text style={{ ...BaseStyle.ko12, ...BaseStyle.mb3 }}>{item.od_good_name}</Text>
-              <View style={{ ...BaseStyle.container }}>
-                <Text
-                  style={[
-                    { ...BaseStyle.ko12 },
-                    item.od_settle_case === '선결제' ? BaseStyle.font_blue : BaseStyle.font_pink,
-                  ]}>
-                  {item.od_settle_case}
-                </Text>
-                <Text style={{ ...BaseStyle.ko12 }}> / </Text>
-                <Text style={{ ...BaseStyle.ko12 }}>{Api.comma(item.od_receipt_price)}원</Text>
-              </View>
-              <View style={{ ...BaseStyle.container, ...BaseStyle.mt10 }}>
-                <View
-                  style={{
-                    borderWidth: 1,
-                    borderColor: '#E3E3E3',
-                    borderRadius: 50,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: 40,
-                    height: 40,
-                    ...BaseStyle.mr10,
-                  }}>
-                  <Image
-                    source={require('../images/ic_map.png')}
-                    style={{ width: '100%', height: '100%' }}
-                    resizeMode="center"
-                  />
-                </View>
-                <View>
-                  <Text
-                    style={{
-                      ...BaseStyle.ko12,
-                      ...BaseStyle.lh17,
-                    }}>
-                    {`${item.od_addr1} ${item.od_addr2}`}
-                  </Text>
-                  {item.od_addr3 ? (
-                    <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>{item.od_addr3}</Text>
-                  ) : null}
-                  {item.od_addr_jibeon ? (
-                    <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>
-                      {item.od_addr_jibeon}
-                    </Text>
-                  ) : null}
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    };
-
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <FlatList
-          data={orderList}
-          renderItem={renderRow}
-          keyExtractor={(list, index) => index.toString()}
-          // pagingEnabled={true}
-          persistentScrollbar
-          showsVerticalScrollIndicator={false}
-          // progressViewOffset={true}
-          refreshing
-          style={{ backgroundColor: '#fff', width: '100%' }}
-          ListEmptyComponent={
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                flex: 1,
-                height: Dimensions.get('window').height - 300,
-              }}>
-              <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-                아직 취소된 주문이 없습니다.
               </Text>
             </View>
           }
@@ -1147,15 +1002,6 @@ const TabView = props => {
         }}>
         {props => <Tab04 {...props} navigation={navigation} />}
       </Tab.Screen>
-
-      {/* <Tab.Screen
-        name='menu05'
-        options={{
-          tabBarLabel: '취소'
-        }}
-      >
-        {props => <Tab05 {...props} navigation={navigation} />}
-      </Tab.Screen> */}
     </Tab.Navigator>
   );
 };

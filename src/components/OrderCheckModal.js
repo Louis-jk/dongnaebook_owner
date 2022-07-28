@@ -9,8 +9,8 @@ import * as orderAction from '../redux/actions/orderAction';
 const OrderCheckModal = ({
   isModalVisible,
   toggleModal,
-  od_id,
-  od_type,
+  oderId,
+  orderType,
   navigation,
   jumjuId,
   jumjuCode,
@@ -33,7 +33,7 @@ const OrderCheckModal = ({
 
     Api.send('store_order_list', param, args => {
       const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+      const arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
         dispatch(orderAction.updateNewOrder(JSON.stringify(arrItems)));
@@ -46,7 +46,7 @@ const OrderCheckModal = ({
   const checkOrderHandler = () => {
     const param = {
       encodeJson: true,
-      od_id,
+      od_id: oderId,
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
       od_process_status: '접수완료',
@@ -57,7 +57,7 @@ const OrderCheckModal = ({
     // proc_store_order_status_update
     Api.send('store_order_status_update', param, args => {
       const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+      const arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
         getOrderListHandler();
@@ -120,7 +120,9 @@ const OrderCheckModal = ({
             />
           </TouchableOpacity>
           <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>
-            {od_type === '배달' ? '배달 예상시간을 입력해주세요.' : '포장 예상시간을 입력해주세요.'}
+            {orderType === '배달'
+              ? '배달 예상시간을 입력해주세요.'
+              : '포장 예상시간을 입력해주세요.'}
           </Text>
           <View style={{ width: '100%', ...BaseStyle.ph30 }}>
             <View
@@ -132,19 +134,19 @@ const OrderCheckModal = ({
               }}>
               <TextInput
                 ref={deliveryTimeRef}
-                value={od_type === '배달' ? time01 : time02}
+                value={orderType === '배달' ? time01 : time02}
                 style={{ width: '83%', textAlign: 'right' }}
                 placeholder="예: 30"
                 onChangeText={text => {
                   const filteredText = text.replace(/(-)|(\.)/gi, '');
                   if (filteredText !== null || filteredText !== '') {
-                    if (od_type === '배달') {
+                    if (orderType === '배달') {
                       setTime01(filteredText);
                     } else {
                       setTime02(filteredText);
                     }
                   } else {
-                    if (od_type === '배달') {
+                    if (orderType === '배달') {
                       setTime01('0');
                     } else {
                       setTime02('0');
@@ -154,7 +156,7 @@ const OrderCheckModal = ({
                 autoCapitalize="none"
                 keyboardType="number-pad"
               />
-              <Text>분 {od_type === '배달' ? '예상' : '후'}</Text>
+              <Text>분 {orderType === '배달' ? '예상' : '후'}</Text>
             </View>
           </View>
           <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph30 }}>

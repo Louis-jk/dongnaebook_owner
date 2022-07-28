@@ -125,7 +125,7 @@ const Login = props => {
 
     Api.send('store_login', param, args => {
       const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+      const arrItems = args.arrItems;
 
       console.log('====================================');
       console.log('로그인 resultItem ::', resultItem);

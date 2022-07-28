@@ -28,7 +28,7 @@ const { width, height } = Dimensions.get('window');
 const OrderDetail = props => {
   const { navigation } = props;
 
-  const { od_id, od_time, type, jumjuId, jumjuCode } = props.route.params;
+  const { od_id: orderId, od_time: orderTime, type, jumjuId, jumjuCode } = props.route.params;
   const [detailStore, setDetailStore] = React.useState(null);
   const [detailOrder, setDetailOrder] = React.useState(null);
   const [detailProduct, setDetailProduct] = React.useState([]);
@@ -50,7 +50,7 @@ const OrderDetail = props => {
   const getOrderDetailHandler = () => {
     const param = {
       encodeJson: true,
-      od_id,
+      od_id: orderId,
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
     };
@@ -156,7 +156,7 @@ const OrderDetail = props => {
   // 주문 배달처리
   const sendDeliverHandler = () => {
     const param = {
-      od_id,
+      od_id: orderId,
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
       od_process_status: detailOrder.od_type === '배달' ? '배달중' : '포장완료',
@@ -232,8 +232,8 @@ const OrderDetail = props => {
           <OrderCheckModal
             isModalVisible={isOrderCheckModalVisible}
             toggleModal={toggleOrderCheckModal}
-            od_id={od_id}
-            od_type={detailOrder.od_type}
+            oderId={orderId}
+            orderType={detailOrder.od_type}
             navigation={navigation}
           />
           {/* // 접수 완료시 모달 */}
@@ -244,7 +244,7 @@ const OrderDetail = props => {
             isModalVisible={isModalVisible}
             toggleModal={toggleModal}
             modalType={modalType}
-            od_id={od_id}
+            od_id={orderId}
           />
           {/* // 주문 취소/거부 모달 */}
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -348,7 +348,7 @@ const OrderDetail = props => {
                   </View>
                   <View>
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, textAlign: 'right' }}>
-                      {moment(od_time).format('YYYY년 M월 D일, HH시 mm분')}
+                      {moment(orderTime).format('YYYY년 M월 D일, HH시 mm분')}
                     </Text>
                   </View>
                 </View>
