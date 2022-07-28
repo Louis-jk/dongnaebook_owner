@@ -1,4 +1,4 @@
-import types from './types';
+import types from "./types"
 
 export function updateSconf(
   aname,
@@ -12,7 +12,7 @@ export function updateSconf(
   aprivacy,
   acustomer,
   abank_account,
-  abank_date,
+  abank_date
 ) {
   return {
     type: types.UPDATE_SITE,
@@ -28,5 +28,5 @@ export function updateSconf(
     acustomer: acustomer,
     abank_account: abank_account,
     abank_date: abank_date,
-  };
+  }
 }

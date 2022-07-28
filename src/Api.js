@@ -1,11 +1,11 @@
-import React from 'react';
-import { Platform, Alert, Linking, View, Image, ActivityIndicator } from 'react-native';
-import { Toast } from 'native-base';
-import jwt_decode from 'jwt-decode';
-import cusToast from './components/CusToast';
-import Axios from 'axios';
+import React from "react"
+import { Platform, Alert, Linking, View, Image, ActivityIndicator } from "react-native"
+import { Toast } from "native-base"
+import jwt_decode from "jwt-decode"
+import cusToast from "./components/CusToast"
+import Axios from "axios"
 // import ImageEditor from "@react-native-community/image-editor";
-var RNFS = require('react-native-fs');
+var RNFS = require("react-native-fs")
 
 //var jwt = require('jwt-simple');
 //var payload = { foo: 'bar' };
@@ -30,99 +30,99 @@ class Api {
 
     this.state = {
       isLoading: false,
-      SERVER_NAME: 'ohjoo_server',
-      SECRETKEY: '1111882EAD94E9C493CEF089E1B023A2122BA778',
-      url: 'https://dmonster1832.cafe24.com',
-      path: '',
+      SERVER_NAME: "ohjoo_server",
+      SECRETKEY: "1111882EAD94E9C493CEF089E1B023A2122BA778",
+      url: "https://dmonster1832.cafe24.com",
+      path: "",
       option: {
-        method: 'POST',
+        method: "POST",
         headers: {
           //Accept: 'application/json',
-          'Content-Type': 'multipart/form-data;charset=UTF-8',
+          "Content-Type": "multipart/form-data;charset=UTF-8",
         },
         body: null,
       },
       dataSource: {},
-    };
+    }
   }
 
   //formdata 로 변경
-  makeFormData(method = '', datas) {
-    let formdata = new FormData();
-    formdata.append('method', method);
-    formdata.append('secretKey', this.state.SECRETKEY);
-    formdata.append('jwt_data', datas);
+  makeFormData(method = "", datas) {
+    let formdata = new FormData()
+    formdata.append("method", method)
+    formdata.append("secretKey", this.state.SECRETKEY)
+    formdata.append("jwt_data", datas)
 
-    this.state.path = '/api/proc_' + method + '.php';
-    this.state.option.body = formdata;
+    this.state.path = "/api/proc_" + method + ".php"
+    this.state.option.body = formdata
   }
 
   //formdata 로 변경 jwt없이
-  makeFormData2(method = '', datas) {
-    let formdata = new FormData();
-    formdata.append('method', method);
-    formdata.append('secretKey', '1111882EAD94E9C493CEF089E1B023A2122BA778');
+  makeFormData2(method = "", datas) {
+    let formdata = new FormData()
+    formdata.append("method", method)
+    formdata.append("secretKey", "1111882EAD94E9C493CEF089E1B023A2122BA778")
     for (let [key, value] of Object.entries(datas)) {
-      formdata.append(key, value);
+      formdata.append(key, value)
     }
 
-    this.state.path = '/api/proc_' + method + '.php';
-    this.state.option.body = formdata;
+    this.state.path = "/api/proc_" + method + ".php"
+    this.state.option.body = formdata
   }
 
   //기본
   send(method, datas, callback) {
-    const jwt = require('jwt-encode');
-    const jwt_secret = this.state.SECRETKEY;
-    const jwt_data = jwt(datas, jwt_secret);
+    const jwt = require("jwt-encode")
+    const jwt_secret = this.state.SECRETKEY
+    const jwt_data = jwt(datas, jwt_secret)
 
-    this.makeFormData(method, jwt_data);
+    this.makeFormData(method, jwt_data)
 
-    this.state.isLoading = true;
+    this.state.isLoading = true
 
     return Axios.post(
       this.state.url + this.state.path,
       this.state.option.body,
-      this.state.option.headers,
+      this.state.option.headers
     )
       .then(response => {
-        console.log('Axios response :: ', response);
-        const decoded_jwt = jwt_decode(response.data.jwt, jwt_secret);
+        console.log("Axios response :: ", response)
+        const decoded_jwt = jwt_decode(response.data.jwt, jwt_secret)
         //console.warn(decoded_jwt);
         /*
                 let resultItem = response.data.resultItem.result;
                 let message = response.data.resultItem.message;
                 let arrItems = response.data.arrItems;
                 */
-        let resultItem = decoded_jwt.resultItem.result;
-        let message = decoded_jwt.resultItem.message;
-        let sql = decoded_jwt.resultItem.sql;
-        let arrItems = decoded_jwt.arrItems;
+        let resultItem = decoded_jwt.resultItem.result
+        let message = decoded_jwt.resultItem.message
+        let sql = decoded_jwt.resultItem.sql
+        let arrItems = decoded_jwt.arrItems
 
         let returnJson = {
-          resultItem: { result: resultItem === 'false' ? 'N' : 'Y', message: message, sql: sql },
+          resultItem: { result: resultItem === "false" ? "N" : "Y", message: message, sql: sql },
           arrItems: arrItems,
-        };
-        this.state.isLoading = false;
+        }
+        this.state.isLoading = false
         // this.state.dataSource = arrItems;
         //각 메소드별로 값을 저장해둠.
 
-        if (resultItem === 'N' && message) {
+        if (resultItem === "N" && message) {
           //console.log(method, message);
-          if (!(method === 'proc_check_reserve')) {
-            cusToast(message);
+          if (!(method === "proc_check_reserve")) {
+            cusToast(message)
           }
         }
 
-        if (typeof callback == 'function') {
-          callback(returnJson);
+        if (typeof callback == "function") {
+          callback(returnJson)
         } else {
-          return returnJson;
+          return returnJson
         }
       })
       .catch(function (error) {
-        console.log('Axios catch!!!>>', method, error);
-      });
+        console.log("Axios catch!!!>>", method, error)
+      })
   }
 
   //기본02
@@ -130,123 +130,123 @@ class Api {
     // console.log('method', method);
     // console.log('datas', datas);
 
-    this.makeFormData2(method, datas);
+    this.makeFormData2(method, datas)
 
-    this.state.isLoading = true;
+    this.state.isLoading = true
 
     // console.log("all >>>>>>>>>", this.state.url + this.state.path, this.state.option.body, this.state.option.headers);
     return Axios.post(
       this.state.url + this.state.path,
       this.state.option.body,
-      this.state.option.headers,
+      this.state.option.headers
     )
       .then(response => {
-        let resultItem = response.data.resultItem.result;
-        let message = response.data.resultItem.message;
-        let sql = response.data.resultItem.sql;
-        let arrItems = response.data.arrItems;
+        let resultItem = response.data.resultItem.result
+        let message = response.data.resultItem.message
+        let sql = response.data.resultItem.sql
+        let arrItems = response.data.arrItems
 
         let returnJson = {
-          resultItem: { result: resultItem === 'false' ? 'N' : 'Y', message: message, sql: sql },
+          resultItem: { result: resultItem === "false" ? "N" : "Y", message: message, sql: sql },
           arrItems: arrItems,
-        };
-        this.state.isLoading = false;
+        }
+        this.state.isLoading = false
         // this.state.dataSource = arrItems;
         //각 메소드별로 값을 저장해둠.
 
-        if (resultItem === 'N' && message) {
+        if (resultItem === "N" && message) {
           //console.log(method, message);
-          if (!(method === 'proc_check_reserve')) {
-            cusToast(message);
+          if (!(method === "proc_check_reserve")) {
+            cusToast(message)
           }
         }
 
-        if (typeof callback == 'function') {
-          callback(returnJson);
+        if (typeof callback == "function") {
+          callback(returnJson)
         } else {
-          return returnJson;
+          return returnJson
         }
       })
       .catch(function (error) {
-        console.log('Axios catch!!!>>', method, error);
-      });
+        console.log("Axios catch!!!>>", method, error)
+      })
   }
 
   //formdata 로 변경
-  makeFormData3(method = '', datas, filedatas) {
-    console.log(datas);
-    let formdata = new FormData();
-    formdata.append('method', method);
-    formdata.append('secretKey', '1111882EAD94E9C493CEF089E1B023A2122BA778');
-    formdata.append('jwt_data', datas);
+  makeFormData3(method = "", datas, filedatas) {
+    console.log(datas)
+    let formdata = new FormData()
+    formdata.append("method", method)
+    formdata.append("secretKey", "1111882EAD94E9C493CEF089E1B023A2122BA778")
+    formdata.append("jwt_data", datas)
 
     for (let [key, value] of Object.entries(filedatas)) {
-      formdata.append(key, value);
+      formdata.append(key, value)
     }
 
-    this.state.path = '/api/proc_' + method + '.php';
-    this.state.option.body = formdata;
+    this.state.path = "/api/proc_" + method + ".php"
+    this.state.option.body = formdata
 
-    console.log('formdata3', formdata);
+    console.log("formdata3", formdata)
   }
 
   // 기본03
   send3(method, datas, filedatas, callback) {
     //console.log(datas);
-    const jwt = require('jwt-encode');
-    const jwt_secret = this.state.SECRETKEY;
-    const jwt_data = jwt(datas, jwt_secret);
+    const jwt = require("jwt-encode")
+    const jwt_secret = this.state.SECRETKEY
+    const jwt_data = jwt(datas, jwt_secret)
     //console.log("jwtData : " + jwt_data);
 
-    console.log('send3 method', method);
-    console.log('send3 datas', datas);
-    console.log('send3 filedatas', filedatas);
+    console.log("send3 method", method)
+    console.log("send3 datas", datas)
+    console.log("send3 filedatas", filedatas)
 
-    this.makeFormData3(method, jwt_data, filedatas);
+    this.makeFormData3(method, jwt_data, filedatas)
 
-    this.state.isLoading = true;
+    this.state.isLoading = true
 
-    console.log(this.state.url + this.state.path);
+    console.log(this.state.url + this.state.path)
     return Axios.post(
       this.state.url + this.state.path,
       this.state.option.body,
-      this.state.option.headers,
+      this.state.option.headers
     )
       .then(response => {
         //console.log(response);
-        const decoded_jwt = jwt_decode(response.data.jwt, jwt_secret);
+        const decoded_jwt = jwt_decode(response.data.jwt, jwt_secret)
 
-        let resultItem = decoded_jwt.resultItem.result;
-        let message = decoded_jwt.resultItem.message;
-        let sql = decoded_jwt.resultItem.sql;
-        let arrItems = decoded_jwt.arrItems;
+        let resultItem = decoded_jwt.resultItem.result
+        let message = decoded_jwt.resultItem.message
+        let sql = decoded_jwt.resultItem.sql
+        let arrItems = decoded_jwt.arrItems
 
         let returnJson = {
-          resultItem: { result: resultItem === 'false' ? 'N' : 'Y', message: message, sql: sql },
+          resultItem: { result: resultItem === "false" ? "N" : "Y", message: message, sql: sql },
           arrItems: arrItems,
-        };
-        this.state.isLoading = false;
+        }
+        this.state.isLoading = false
         // this.state.dataSource = arrItems;
         //각 메소드별로 값을 저장해둠.
 
         //console.log(resultItem);
 
-        if (resultItem === 'N' && message) {
+        if (resultItem === "N" && message) {
           //console.log(method, message);
-          if (!(method === 'proc_check_reserve')) {
-            cusToast(message);
+          if (!(method === "proc_check_reserve")) {
+            cusToast(message)
           }
         }
 
-        if (typeof callback == 'function') {
-          callback(returnJson);
+        if (typeof callback == "function") {
+          callback(returnJson)
         } else {
-          return returnJson;
+          return returnJson
         }
       })
       .catch(function (error) {
-        console.log('Axios catch!!!>>', method, error);
-      });
+        console.log("Axios catch!!!>>", method, error)
+      })
   }
 
   loadingView() {
@@ -254,166 +254,166 @@ class Api {
       <View style={{ flex: 1, padding: 20 }}>
         <ActivityIndicator />
       </View>
-    );
+    )
   }
 
   //--------------------------------------------------------------------------------------------------
   formatDate(date) {
-    var currentYear = date.getFullYear();
-    var currentMonth = date.getMonth() + 1;
-    var currentDate = date.getDate();
+    var currentYear = date.getFullYear()
+    var currentMonth = date.getMonth() + 1
+    var currentDate = date.getDate()
 
-    if (currentMonth < 10) currentMonth = '0' + currentMonth;
-    if (currentDate < 10) currentDate = '0' + currentDate;
+    if (currentMonth < 10) currentMonth = "0" + currentMonth
+    if (currentDate < 10) currentDate = "0" + currentDate
 
-    return currentYear + '-' + currentMonth + '-' + currentDate;
+    return currentYear + "-" + currentMonth + "-" + currentDate
   }
   formatDateTime(date, format) {
-    var currentYear = date.getFullYear();
-    var currentMonth = date.getMonth() + 1;
-    var currentDate = date.getDate();
+    var currentYear = date.getFullYear()
+    var currentMonth = date.getMonth() + 1
+    var currentDate = date.getDate()
 
-    var currentHours = date.getHours();
-    var currentMinutes = date.getMinutes();
-    var currentSeconds = date.getSeconds();
+    var currentHours = date.getHours()
+    var currentMinutes = date.getMinutes()
+    var currentSeconds = date.getSeconds()
 
-    var hours = currentHours;
-    var minutes = currentMinutes;
+    var hours = currentHours
+    var minutes = currentMinutes
 
-    if (currentMonth < 10) currentMonth = '0' + currentMonth;
-    if (currentDate < 10) currentDate = '0' + currentDate;
-    if (currentHours < 10) currentHours = '0' + currentHours;
-    if (currentMinutes < 10) currentMinutes = '0' + currentMinutes;
-    if (currentSeconds < 10) currentSeconds = '0' + currentSeconds;
+    if (currentMonth < 10) currentMonth = "0" + currentMonth
+    if (currentDate < 10) currentDate = "0" + currentDate
+    if (currentHours < 10) currentHours = "0" + currentHours
+    if (currentMinutes < 10) currentMinutes = "0" + currentMinutes
+    if (currentSeconds < 10) currentSeconds = "0" + currentSeconds
 
-    if (format === 'YmdHis') {
+    if (format === "YmdHis") {
       return (
         currentYear +
-        '' +
+        "" +
         currentMonth +
-        '' +
+        "" +
         currentDate +
-        '' +
+        "" +
         currentHours +
-        '' +
+        "" +
         currentMinutes +
-        '' +
+        "" +
         currentSeconds
-      );
-    } else if (format === 'Ymd') {
-      return currentYear + '' + currentMonth + '' + currentDate;
-    } else if (format === 'H:i') {
-      return currentHours + ':' + currentMinutes;
-    } else if (format === 'AMPM') {
-      var ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12;
-      hours = hours ? hours : 12; // the hour '0' should be '12'
-      minutes = minutes < 10 ? '0' + minutes : minutes;
+      )
+    } else if (format === "Ymd") {
+      return currentYear + "" + currentMonth + "" + currentDate
+    } else if (format === "H:i") {
+      return currentHours + ":" + currentMinutes
+    } else if (format === "AMPM") {
+      var ampm = hours >= 12 ? "PM" : "AM"
+      hours = hours % 12
+      hours = hours ? hours : 12 // the hour '0' should be '12'
+      minutes = minutes < 10 ? "0" + minutes : minutes
       //hours + ':' + minutes + ' ' + ampm;
 
-      return currentHours + ':' + currentMinutes + ' ' + ampm;
+      return currentHours + ":" + currentMinutes + " " + ampm
     } else {
       return (
         currentYear +
-        '-' +
+        "-" +
         currentMonth +
-        '-' +
+        "-" +
         currentDate +
-        ' ' +
+        " " +
         currentHours +
-        ':' +
+        ":" +
         currentMinutes
-      );
+      )
     }
   }
   //--------------------------------------------------------------------------------------------------
   diffTime(start, end, format) {
-    start = start.split(':');
-    end = end.split(':');
-    var startDate = new Date(0, 0, 0, start[0], start[1], 0);
-    var endDate = new Date(0, 0, 0, end[0], end[1], 0);
-    var diff = endDate.getTime() - startDate.getTime();
-    var hours = Math.floor(diff / 1000 / 60 / 60);
-    diff -= hours * 1000 * 60 * 60;
-    var minutes = Math.floor(diff / 1000 / 60);
+    start = start.split(":")
+    end = end.split(":")
+    var startDate = new Date(0, 0, 0, start[0], start[1], 0)
+    var endDate = new Date(0, 0, 0, end[0], end[1], 0)
+    var diff = endDate.getTime() - startDate.getTime()
+    var hours = Math.floor(diff / 1000 / 60 / 60)
+    diff -= hours * 1000 * 60 * 60
+    var minutes = Math.floor(diff / 1000 / 60)
 
     // If using time pickers with 24 hours format, add the below line get exact hours
-    if (hours < 0) hours = hours + 24;
+    if (hours < 0) hours = hours + 24
     // hours = ((hours <= 9 ? "0" : "") + hours);
-    if (hours === '00') {
-      hours = '0';
+    if (hours === "00") {
+      hours = "0"
     }
 
-    minutes = (minutes <= 9 ? '0' : '') + minutes;
-    if (minutes === '00') {
-      minutes = '';
+    minutes = (minutes <= 9 ? "0" : "") + minutes
+    if (minutes === "00") {
+      minutes = ""
     }
 
-    if (format === 'H') {
-      return hours ? hours : '';
-    } else if (format === 'i') {
-      return minutes ? minutes : '';
+    if (format === "H") {
+      return hours ? hours : ""
+    } else if (format === "i") {
+      return minutes ? minutes : ""
     } else {
-      return (hours ? hours + '시간 ' : '') + (minutes ? minutes + '분' : '');
+      return (hours ? hours + "시간 " : "") + (minutes ? minutes + "분" : "")
     }
   }
   //--------------------------------------------------------------------------------------------------
   //콤마찍기
   comma(str) {
-    str = String(str);
-    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    str = String(str)
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,")
   }
   //콤마풀기
   uncomma(str) {
-    str = String(str);
-    return str.replace(/[^\d]+/g, '');
+    str = String(str)
+    return str.replace(/[^\d]+/g, "")
   }
   //--------------------------------------------------------------------------------------------------
   // 전화번호 포맷
   phoneFomatter(num, type) {
-    let formatNum = '';
-    let stringNum = String(num);
+    let formatNum = ""
+    let stringNum = String(num)
 
     if (stringNum.length === 11) {
       if (type === 0) {
-        formatNum = stringNum.replace(/(\d{3})(\d{4})(\d{4})/, '$1-****-$3');
+        formatNum = stringNum.replace(/(\d{3})(\d{4})(\d{4})/, "$1-****-$3")
       } else {
-        formatNum = stringNum.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+        formatNum = stringNum.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
       }
     } else if (stringNum.length === 8) {
-      formatNum = stringNum.replace(/(\d{4})(\d{4})/, '$1-$2');
+      formatNum = stringNum.replace(/(\d{4})(\d{4})/, "$1-$2")
     } else {
-      if (stringNum.indexOf('02') === 0) {
+      if (stringNum.indexOf("02") === 0) {
         if (type === 0) {
-          formatNum = stringNum.replace(/(\d{2})(\d{4})(\d{4})/, '$1-****-$3');
+          formatNum = stringNum.replace(/(\d{2})(\d{4})(\d{4})/, "$1-****-$3")
         } else {
-          formatNum = stringNum.replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3');
+          formatNum = stringNum.replace(/(\d{2})(\d{4})(\d{4})/, "$1-$2-$3")
         }
       } else {
         if (type === 0) {
-          formatNum = stringNum.replace(/(\d{3})(\d{3})(\d{4})/, '$1-***-$3');
+          formatNum = stringNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-***-$3")
         } else {
-          formatNum = stringNum.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+          formatNum = stringNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")
         }
       }
     }
-    return formatNum;
+    return formatNum
   }
   //--------------------------------------------------------------------------------------------------
   imgResize(imgWidth, imgHeight, maxWidth) {
     let width = 0,
-      height = 0;
+      height = 0
     if (imgWidth > maxWidth) {
-      width = maxWidth;
-      height = imgHeight * (maxWidth / imgWidth);
+      width = maxWidth
+      height = imgHeight * (maxWidth / imgWidth)
     } else {
-      width = imgWidth;
-      height = imgHeight;
+      width = imgWidth
+      height = imgHeight
     }
-    width = parseInt(width);
-    height = parseInt(height);
+    width = parseInt(width)
+    height = parseInt(height)
 
-    return width + ',' + height;
+    return width + "," + height
   }
   //--------------------------------------------------------------------------------------------------
   // imgCrop(items){
@@ -453,7 +453,7 @@ class Api {
   // }
   //--------------------------------------------------------------------------------------------------
   imgRemove(item) {
-    if (item.indexOf('/cache/') !== -1) {
+    if (item.indexOf("/cache/") !== -1) {
       RNFS.exists(item)
         .then(result => {
           // console.log("file exists: ", result);
@@ -461,40 +461,40 @@ class Api {
             return (
               RNFS.unlink(item)
                 .then(() => {
-                  console.log('FILE DELETED');
+                  console.log("FILE DELETED")
                 })
                 // `unlink` will throw an error, if the item to unlink does not exist
                 .catch(err => {
-                  console.log('RNFS', err.message);
+                  console.log("RNFS", err.message)
                 })
-            );
+            )
           }
         })
         .catch(err => {
-          console.log('RNFS', err.message);
-        });
+          console.log("RNFS", err.message)
+        })
     }
   }
   //--------------------------------------------------------------------------------------------------
   dialCall = number => {
-    let phoneNumber = '';
+    let phoneNumber = ""
 
-    if (Platform.OS === 'ios') {
-      phoneNumber = `telprompt:${number}`;
+    if (Platform.OS === "ios") {
+      phoneNumber = `telprompt:${number}`
     } else {
-      phoneNumber = `tel:${number}`;
+      phoneNumber = `tel:${number}`
     }
-    Linking.openURL(phoneNumber);
-  };
+    Linking.openURL(phoneNumber)
+  }
   //--------------------------------------------------------------------------------------------------
   arrSearch = (nameKey, myArray) => {
     for (var i = 0; i < myArray.length; i++) {
       if (myArray[i].name === nameKey) {
-        return myArray[i];
+        return myArray[i]
       }
     }
-  };
+  }
   //--------------------------------------------------------------------------------------------------
 }
 
-export default Api = new Api();
+export default Api = new Api()

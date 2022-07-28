@@ -1,8 +1,8 @@
-import types from '../actions/types';
+import types from "../actions/types"
 
 const defaultState = {
   markedDay: [],
-};
+}
 
 export default closedDay = (state = defaultState, action) => {
   // For Debugger
@@ -11,8 +11,8 @@ export default closedDay = (state = defaultState, action) => {
     case types.UPDATE_CLOSED_LIST:
       return {
         markedDay: action.markedDay,
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}

@@ -1,4 +1,4 @@
-import types from './types';
+import types from "./types"
 
 export function updateIndex(idx, idx1, idx2) {
   return {
@@ -6,5 +6,5 @@ export function updateIndex(idx, idx1, idx2) {
     idx: idx,
     idx1: idx1,
     idx2: idx2,
-  };
+  }
 }

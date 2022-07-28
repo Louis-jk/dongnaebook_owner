@@ -1,8 +1,8 @@
-import types from '../actions/types';
+import types from "../actions/types"
 
 const defaultState = {
   coupons: [],
-};
+}
 
 export default coupon = (state = defaultState, action) => {
   // For Debugger
@@ -11,8 +11,8 @@ export default coupon = (state = defaultState, action) => {
     case types.UPDATE_COUPON_LIST:
       return {
         coupons: action.coupon,
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}

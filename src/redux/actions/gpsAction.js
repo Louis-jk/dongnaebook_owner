@@ -1,4 +1,4 @@
-import types from './types';
+import types from "./types"
 
 export function updateGps(current_latlng, user_lat, user_lng, user_address, updateTimeG) {
   return {
@@ -8,5 +8,5 @@ export function updateGps(current_latlng, user_lat, user_lng, user_address, upda
     user_lng: user_lng,
     user_address: user_address,
     updateTimeG: updateTimeG,
-  };
+  }
 }

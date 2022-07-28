@@ -1,4 +1,4 @@
-import types from '../actions/types';
+import types from "../actions/types"
 
 const defaultState = {
   id: null, // add
@@ -21,7 +21,7 @@ const defaultState = {
   mt_addr: null, // add
   mt_lat: null, // add
   mt_lng: null, // add
-};
+}
 
 export default login = (state = defaultState, action) => {
   // For Debugger
@@ -49,19 +49,19 @@ export default login = (state = defaultState, action) => {
         mt_addr: action.mt_addr, // add
         mt_lat: action.mt_lat, // add
         mt_lng: action.mt_lng, // add
-      };
+      }
     case types.UPDATE_FCM_TOKEN:
       return {
         ...state,
         mt_app_token: action.mt_app_token,
-      };
+      }
     case types.SELECT_STORE:
       return {
         ...state,
         mt_jumju_code: action.mt_jumju_code,
         mt_store: action.mt_store,
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}

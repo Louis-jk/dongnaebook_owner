@@ -3,21 +3,21 @@ module.exports = {
     node: true,
     es2020: true,
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier'],
+  extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 12,
-    sourceType: 'module',
+    sourceType: "module",
   },
-  plugins: ['react', 'react-hooks'],
+  plugins: ["react", "react-hooks"],
   rules: {
-    indent: ['error', 2],
-    'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single'],
-    // quotes: ['off', 'single'],
-    semi: [2, 'always'],
-    'prettier/prettier': 'error',
+    indent: ["error", 2],
+    "linebreak-style": ["error", "unix"],
+    // quotes: ['error', 'single'],
+    quotes: ["off", "single"],
+    semi: ["error", "always"],
+    "prettier/prettier": "error",
   },
-};
+}

@@ -1,10 +1,10 @@
-import types from './types';
+import types from "./types"
 
 export function updateStore(store) {
   return {
     type: types.UPDATE_STORE,
     storeUpdate: store,
-  };
+  }
 }
 
 // export function selectStore(storeId, storeName) {
@@ -23,5 +23,5 @@ export function selectStore(id, mt_jumju_id, mt_jumju_code, mt_store, mt_addr) {
     mt_jumju_code: mt_jumju_code,
     mt_store: mt_store,
     mt_addr: mt_addr,
-  };
+  }
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react"
 import {
   View,
   Text,
@@ -11,57 +11,57 @@ import {
   TouchableWithoutFeedback,
   Alert,
   ActivityIndicator,
-} from 'react-native';
-import RNPickerSelect from 'react-native-picker-select'; // 셀렉트박스 패키지
-import ImagePicker from 'react-native-image-crop-picker'; // 이미지 업로드 패키지
-import { useSelector } from 'react-redux';
-import Modal from 'react-native-modal';
-import Header from '../components/SubHeader';
-import BaseStyle, { Primary, customPickerStyles } from '../styles/Base';
-import { defaultType, secondType } from '../data/menu';
-import cusToast from '../components/CusToast';
-import Api from '../Api';
-import AnimateLoading from '../components/AnimateLoading';
+} from "react-native"
+import RNPickerSelect from "react-native-picker-select" // 셀렉트박스 패키지
+import ImagePicker from "react-native-image-crop-picker" // 이미지 업로드 패키지
+import { useSelector } from "react-redux"
+import Modal from "react-native-modal"
+import Header from "../components/SubHeader"
+import BaseStyle, { Primary, customPickerStyles } from "../styles/Base"
+import { defaultType, secondType } from "../data/menu"
+import cusToast from "../components/CusToast"
+import Api from "../Api"
+import AnimateLoading from "../components/AnimateLoading"
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window")
 
 const SetMenuEdit = props => {
-  const { navigation } = props;
-  const { item } = props.route.params;
+  const { navigation } = props
+  const { item } = props.route.params
 
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login);
-  const [isLoading, setLoading] = React.useState(false);
+  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const [isLoading, setLoading] = React.useState(false)
 
-  const [menuId, setMenuId] = React.useState(''); // 메뉴 ID
-  const [selectDefault, setSelectDefault] = React.useState(''); // 기본분류
-  const [selectCategory, setSelectCategory] = React.useState(''); // 2차분류
-  const [name, setName] = React.useState(''); // 상품명
-  const [menuShortDesc, setMenuShortDesc] = React.useState(''); // 기본설명
-  const [salePrice, setSalePrice] = React.useState(''); // 판매가격
-  const [description, setDescription] = React.useState(''); // 메뉴 상세설명
-  const [checkMain, setCheckMain] = React.useState(false); // 메뉴 대표메뉴 설정
-  const [visible, setVisible] = React.useState(false); // 메뉴노출(비노출)
-  const [soldOut, setSoldOut] = React.useState(false); // 품절
-  const [optionType, setOptionType] = React.useState(''); // 옵션분류
-  const [optionName, setOptionName] = React.useState(''); // 옵션명
-  const [optionPrice, setOptionPrice] = React.useState(''); // 옵션가격
-  const [optionVisible, setOptionVisible] = React.useState(false); // 옵션노출(비노출)
-  const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const [menuCategory, setMenuCategory] = React.useState([]);
+  const [menuId, setMenuId] = React.useState("") // 메뉴 ID
+  const [selectDefault, setSelectDefault] = React.useState("") // 기본분류
+  const [selectCategory, setSelectCategory] = React.useState("") // 2차분류
+  const [name, setName] = React.useState("") // 상품명
+  const [menuShortDesc, setMenuShortDesc] = React.useState("") // 기본설명
+  const [salePrice, setSalePrice] = React.useState("") // 판매가격
+  const [description, setDescription] = React.useState("") // 메뉴 상세설명
+  const [checkMain, setCheckMain] = React.useState(false) // 메뉴 대표메뉴 설정
+  const [visible, setVisible] = React.useState(false) // 메뉴노출(비노출)
+  const [soldOut, setSoldOut] = React.useState(false) // 품절
+  const [optionType, setOptionType] = React.useState("") // 옵션분류
+  const [optionName, setOptionName] = React.useState("") // 옵션명
+  const [optionPrice, setOptionPrice] = React.useState("") // 옵션가격
+  const [optionVisible, setOptionVisible] = React.useState(false) // 옵션노출(비노출)
+  const [isModalVisible, setIsModalVisible] = React.useState(false)
+  const [menuCategory, setMenuCategory] = React.useState([])
 
   const getMenuCategoryHandler = () => {
-    setLoading(true);
+    setLoading(true)
     const param = {
       encodeJson: true,
       jumju_id: mt_id,
       jumju_code: mt_jumju_code,
-      mode: 'select',
-    };
+      mode: "select",
+    }
 
-    Api.send('store_item_category', param, args => {
-      const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
-      if (resultItem.result === 'Y') {
+    Api.send("store_item_category", param, args => {
+      const resultItem = args.resultItem
+      let arrItems = args.arrItems
+      if (resultItem.result === "Y") {
         arrItems.map(menu => {
           setMenuCategory(prev => [
             ...prev,
@@ -69,188 +69,188 @@ const SetMenuEdit = props => {
               label: menu.ca_name,
               value: menu.ca_code,
             },
-          ]);
-        });
-        setLoading(false);
+          ])
+        })
+        setLoading(false)
       } else {
-        setLoading(false);
-        console.log('메뉴를 가져오지 못했습니다.');
+        setLoading(false)
+        console.log("메뉴를 가져오지 못했습니다.")
       }
-    });
-  };
+    })
+  }
 
   // 빈 오브젝트 체킹
   const isEmptyObject = param => {
-    console.log('isEmptyObject param:', param);
+    console.log("isEmptyObject param:", param)
 
-    return Object.keys(param)[0] === '';
-  };
+    return Object.keys(param)[0] === ""
+  }
 
   const getMenuDetailHandler = () => {
-    setLoading(true);
+    setLoading(true)
 
     const param = {
       encodeJson: true,
       jumju_id: mt_id,
       jumju_code: mt_jumju_code,
       it_id: props.route.params.item.it_id,
-    };
+    }
 
-    Api.send('store_item_detail', param, args => {
-      const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+    Api.send("store_item_detail", param, args => {
+      const resultItem = args.resultItem
+      let arrItems = args.arrItems
 
-      console.log('get Menu resultItem', resultItem);
-      console.log('get Menu arrItems', arrItems);
+      console.log("get Menu resultItem", resultItem)
+      console.log("get Menu arrItems", arrItems)
 
-      if (resultItem.result === 'Y') {
-        console.log('menu import', arrItems);
-        setMenuId(arrItems.it_id);
-        setSelectCategory(arrItems.ca_code);
-        setName(arrItems.menuName);
-        setMenuShortDesc(arrItems.menuInfo);
-        setSalePrice(arrItems.menuPrice);
-        setDescription(arrItems.menuDescription);
-        if (arrItems.it_type1 === '0') {
-          setCheckMain(false);
+      if (resultItem.result === "Y") {
+        console.log("menu import", arrItems)
+        setMenuId(arrItems.it_id)
+        setSelectCategory(arrItems.ca_code)
+        setName(arrItems.menuName)
+        setMenuShortDesc(arrItems.menuInfo)
+        setSalePrice(arrItems.menuPrice)
+        setDescription(arrItems.menuDescription)
+        if (arrItems.it_type1 === "0") {
+          setCheckMain(false)
         } else {
-          setCheckMain(true);
+          setCheckMain(true)
         }
 
-        if (arrItems.it_use === '0') {
-          setVisible(false);
+        if (arrItems.it_use === "0") {
+          setVisible(false)
         } else {
-          setVisible(true);
+          setVisible(true)
         }
 
         if (arrItems.it_img1) {
-          setMenuImage(arrItems.it_img1);
+          setMenuImage(arrItems.it_img1)
         } else {
-          setMenuImage(null);
+          setMenuImage(null)
         }
 
-        const isEmptyOption = isEmptyObject(arrItems.menuOption);
-        let isEmptyAddOption = isEmptyObject(arrItems.menuAddOption);
+        const isEmptyOption = isEmptyObject(arrItems.menuOption)
+        let isEmptyAddOption = isEmptyObject(arrItems.menuAddOption)
 
-        console.log('isEmptyOption', isEmptyOption);
-        console.log('isEmptyAddOption', isEmptyAddOption);
+        console.log("isEmptyOption", isEmptyOption)
+        console.log("isEmptyAddOption", isEmptyAddOption)
 
-        setOptions(arrItems.menuOption);
-        setAddOptions(arrItems.menuAddOption);
+        setOptions(arrItems.menuOption)
+        setAddOptions(arrItems.menuAddOption)
 
-        setLoading(false);
+        setLoading(false)
       } else {
-        setLoading(false);
-        console.log('메뉴를 가져오지 못했습니다.');
+        setLoading(false)
+        console.log("메뉴를 가져오지 못했습니다.")
       }
-    });
-  };
+    })
+  }
 
   const setProperties = () => {
-    setName(props.route.params.item.it_name);
-    setMenuShortDesc(props.route.params.item.it_basic);
-    setSalePrice(props.route.params.item.it_price);
-    setDescription(props.route.params.item.it_explan);
-    setCheckMain(props.route.params.item.it_type1);
-    setVisible(props.route.params.item.it_use);
-    setName(props.route.params.item.it_img1);
-  };
+    setName(props.route.params.item.it_name)
+    setMenuShortDesc(props.route.params.item.it_basic)
+    setSalePrice(props.route.params.item.it_price)
+    setDescription(props.route.params.item.it_explan)
+    setCheckMain(props.route.params.item.it_type1)
+    setVisible(props.route.params.item.it_use)
+    setName(props.route.params.item.it_img1)
+  }
 
   React.useEffect(() => {
-    getMenuCategoryHandler();
-    getMenuDetailHandler();
-  }, []);
+    getMenuCategoryHandler()
+    getMenuDetailHandler()
+  }, [])
 
   // 모달 토글
   const toggleModal = () => {
-    setIsModalVisible(prev => !prev);
-  };
+    setIsModalVisible(prev => !prev)
+  }
 
   // 메뉴 노출(비노출)
   const toggleCheckMain = () => {
-    setCheckMain(prev => !prev);
-  };
+    setCheckMain(prev => !prev)
+  }
 
   // 메뉴 노출(비노출)
   const toggleVisible = () => {
-    setVisible(prev => !prev);
-  };
+    setVisible(prev => !prev)
+  }
 
   // 메뉴 품절
   const toggleSoldOut = () => {
-    setSoldOut(prev => !prev);
-  };
+    setSoldOut(prev => !prev)
+  }
 
   // 옵션 노출(비노출)
   const toggleOptionVisible = () => {
-    setOptionVisible(prev => !prev);
-  };
+    setOptionVisible(prev => !prev)
+  }
 
   const validateText = val => {
-    return val.replace(/[`!@#$%^*():|?<>\{\}\[\]\\\/]/gi, '');
-  };
+    return val.replace(/[`!@#$%^*():|?<>\{\}\[\]\\\/]/gi, "")
+  }
 
   const createOption = () => {
     return {
       multiple: false,
-      name: '',
+      name: "",
       select: [
         {
-          value: '',
-          price: '',
+          value: "",
+          price: "",
         },
       ],
-    };
-  };
+    }
+  }
 
   const createPrice = () => {
-    return { name: '', value: '', price: null };
-  };
+    return { name: "", value: "", price: null }
+  }
 
   // prices
-  const [prices, setPrices] = React.useState([createPrice()]);
+  const [prices, setPrices] = React.useState([createPrice()])
   const handleAddPrice = () => {
-    setPrices(price => [...price, createPrice()]);
-  };
+    setPrices(price => [...price, createPrice()])
+  }
   // end: prices
 
   // options
-  const [options, setOptions] = React.useState([]);
+  const [options, setOptions] = React.useState([])
   const handleOption = () => {
     if (options.length < 10) {
       setOptions(options => {
-        const result = [...options];
-        result.push(createOption());
-        return result;
-      });
+        const result = [...options]
+        result.push(createOption())
+        return result
+      })
     } else {
-      cusToast('최대 10개 입력하실 수 있습니다.');
+      cusToast("최대 10개 입력하실 수 있습니다.")
     }
-  };
-  const [addOptions, setAddOptions] = React.useState([]);
+  }
+  const [addOptions, setAddOptions] = React.useState([])
   const handleAddOption = () => {
     setAddOptions(addOptions => {
-      const result = [...addOptions];
-      result.push(createOption());
-      return result;
-    });
-  };
+      const result = [...addOptions]
+      result.push(createOption())
+      return result
+    })
+  }
   // end: options
 
   // 메뉴 사진 설정
-  const [menuImage, setMenuImage] = React.useState(null);
-  const [source, setSource] = React.useState({});
+  const [menuImage, setMenuImage] = React.useState(null)
+  const [source, setSource] = React.useState({})
 
   // 이미지 업로드 핸들러
   const pickImageHandler = () => {
-    toggleModal();
+    toggleModal()
     ImagePicker.openPicker({
-      mediaType: 'photo',
-      sortOrder: 'none',
+      mediaType: "photo",
+      sortOrder: "none",
       compressImageMaxWidth: 10000,
       compressImageMaxHeight: 10000,
       compressImageQuality: 1,
-      compressVideoPreset: 'MediumQuality',
+      compressVideoPreset: "MediumQuality",
       includeExif: true,
       cropperCircleOverlay: false,
       useFrontCamera: false,
@@ -262,16 +262,16 @@ const SetMenuEdit = props => {
         setSource({
           uri: img.path,
           type: img.mime,
-          name: img.path.slice(img.path.lastIndexOf('/')),
-        });
-        setMenuImage(img.path);
+          name: img.path.slice(img.path.lastIndexOf("/")),
+        })
+        setMenuImage(img.path)
       })
-      .catch(e => console.log(e));
-  };
+      .catch(e => console.log(e))
+  }
 
   // 카메라 촬영 핸들러
   const openCameraHandler = () => {
-    toggleModal();
+    toggleModal()
     ImagePicker.openCamera({
       width: 2000,
       height: 1500,
@@ -281,39 +281,39 @@ const SetMenuEdit = props => {
       setSource({
         uri: img.path,
         type: img.mime,
-        name: img.path.slice(img.path.lastIndexOf('/')),
-      });
-      setMenuImage(img.path);
-    });
-  };
+        name: img.path.slice(img.path.lastIndexOf("/")),
+      })
+      setMenuImage(img.path)
+    })
+  }
 
   const isEmptyObj = obj => {
     if (obj.constructor === Object && Object.keys(obj).length === 0) {
-      return true;
+      return true
     }
-    return false;
-  };
+    return false
+  }
 
   // 메뉴 추가 핸들러
   const editMenuAddHandler = () => {
-    if (selectCategory === '' || selectCategory === null) {
-      Alert.alert('분류를 선택해주세요.', '', [
+    if (selectCategory === "" || selectCategory === null) {
+      Alert.alert("분류를 선택해주세요.", "", [
         {
-          text: '확인',
+          text: "확인",
         },
-      ]);
-    } else if (name === '' || name === null) {
-      Alert.alert('메뉴명을 입력해주세요.', '', [
+      ])
+    } else if (name === "" || name === null) {
+      Alert.alert("메뉴명을 입력해주세요.", "", [
         {
-          text: '확인',
+          text: "확인",
         },
-      ]);
-    } else if (salePrice === '' || salePrice === null) {
-      Alert.alert('판매가격을 입력해주세요.', '', [
+      ])
+    } else if (salePrice === "" || salePrice === null) {
+      Alert.alert("판매가격을 입력해주세요.", "", [
         {
-          text: '확인',
+          text: "확인",
         },
-      ]);
+      ])
     }
     // else if (description === '' || description === null) {
     //   Alert.alert('메뉴 상세 설명을 입력해주세요.', '', [
@@ -327,56 +327,56 @@ const SetMenuEdit = props => {
         jumju_id: mt_id,
         jumju_code: mt_jumju_code,
         it_id: menuId,
-        mode: 'update',
+        mode: "update",
         ca_id2: selectCategory,
         menuName: name,
         menuInfo: menuShortDesc,
         menuPrice: salePrice,
         menuDescription: description,
-        it_type1: checkMain ? '1' : '0',
-        it_use: visible ? '1' : '0',
+        it_type1: checkMain ? "1" : "0",
+        it_use: visible ? "1" : "0",
         menuOption: JSON.stringify(options),
         menuAddOption: JSON.stringify(addOptions),
-      };
-
-      if (!isEmptyObj(source)) {
-        param.it_img1 = source;
       }
 
-      console.log('====================================');
-      console.log('메뉴 수정 param ::', param);
-      console.log('====================================');
+      if (!isEmptyObj(source)) {
+        param.it_img1 = source
+      }
 
-      Api.send2('store_item_update', param, args => {
-        const resultItem = args.resultItem;
-        let arrItems = args.arrItems;
+      console.log("====================================")
+      console.log("메뉴 수정 param ::", param)
+      console.log("====================================")
 
-        if (resultItem.result === 'Y') {
-          console.log('====================================');
-          console.log('메뉴 수정 resultItem :: ', resultItem);
-          console.log('메뉴 수정 :: ', arrItems);
-          console.log('====================================');
-          Alert.alert('메뉴가 수정되었습니다.', '메뉴 리스트로 이동합니다.', [
+      Api.send2("store_item_update", param, args => {
+        const resultItem = args.resultItem
+        let arrItems = args.arrItems
+
+        if (resultItem.result === "Y") {
+          console.log("====================================")
+          console.log("메뉴 수정 resultItem :: ", resultItem)
+          console.log("메뉴 수정 :: ", arrItems)
+          console.log("====================================")
+          Alert.alert("메뉴가 수정되었습니다.", "메뉴 리스트로 이동합니다.", [
             {
-              text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'SetMenu' }),
+              text: "확인",
+              onPress: () => navigation.navigate("Home", { screen: "SetMenu" }),
             },
-          ]);
+          ])
         } else {
-          Alert.alert('오류가 발생하였습니다.', '메뉴 리스트로 이동합니다.', [
+          Alert.alert("오류가 발생하였습니다.", "메뉴 리스트로 이동합니다.", [
             {
-              text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'SetMenu' }),
+              text: "확인",
+              onPress: () => navigation.navigate("Home", { screen: "SetMenu" }),
             },
-          ]);
+          ])
           // setButtonDisabled(false);
         }
-      });
+      })
     }
-  };
+  }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <Header navigation={navigation} title="메뉴수정" />
 
       {/* 선택 모달 (카메라, 갤러리) */}
@@ -385,35 +385,38 @@ const SetMenuEdit = props => {
         onBackdropPress={toggleModal}
         transparent
         statusBarTranslucent
-        style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}>
+        style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
+      >
         <View
           style={{
-            backgroundColor: '#fff',
+            backgroundColor: "#fff",
             ...BaseStyle.pv30,
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: "center",
+            alignItems: "center",
             borderRadius: 15,
-          }}>
+          }}
+        >
           <TouchableOpacity
             activeOpacity={1}
             onPress={toggleModal}
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: -10,
               right: -10,
               backgroundColor: Primary.PointColor01,
               borderRadius: 30,
               width: 30,
               height: 30,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Image
-              source={require('../images/close.png')}
+              source={require("../images/close.png")}
               style={{
                 width: 12,
                 height: 12,
-                resizeMode: 'center',
+                resizeMode: "center",
               }}
             />
           </TouchableOpacity>
@@ -428,7 +431,8 @@ const SetMenuEdit = props => {
                 backgroundColor: Primary.PointColor01,
                 borderTopLeftRadius: 5,
                 borderBottomLeftRadius: 5,
-              }}>
+              }}
+            >
               <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>갤러리선택</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -440,7 +444,8 @@ const SetMenuEdit = props => {
                 backgroundColor: Primary.PointColor02,
                 borderTopRightRadius: 5,
                 borderBottomRightRadius: 5,
-              }}>
+              }}
+            >
               <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>사진촬영</Text>
             </TouchableOpacity>
           </View>
@@ -462,17 +467,18 @@ const SetMenuEdit = props => {
                   ...BaseStyle.bg5,
                   ...BaseStyle.container2,
                   height: 250,
-                  position: 'relative',
-                }}>
+                  position: "relative",
+                }}
+              >
                 <Image
                   source={{ uri: `${menuImage}` }}
-                  style={{ width: '100%', height: '100%', ...BaseStyle.mb10 }}
+                  style={{ width: "100%", height: "100%", ...BaseStyle.mb10 }}
                   resizeMode="cover"
                 />
                 <Image
-                  source={require('../images/ico_photo_s.png')}
+                  source={require("../images/ico_photo_s.png")}
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     bottom: 10,
                     right: 10,
                     width: 40,
@@ -491,9 +497,10 @@ const SetMenuEdit = props => {
                   ...BaseStyle.bg5,
                   ...BaseStyle.container2,
                   height: 200,
-                }}>
+                }}
+              >
                 <Image
-                  source={require('../images/ico_photo.png')}
+                  source={require("../images/ico_photo.png")}
                   style={{ width: 50, height: 50, ...BaseStyle.mb10 }}
                   resizeMode="contain"
                 />
@@ -549,27 +556,27 @@ const SetMenuEdit = props => {
                       fixAndroidTouchableBug
                       value={selectCategory}
                       useNativeAndroidPickerStyle={false}
-                      placeholder={{ label: '선택해주세요.', value: null }}
+                      placeholder={{ label: "선택해주세요.", value: null }}
                       onValueChange={value => setSelectCategory(value)}
                       items={menuCategory}
                       style={{
                         ...customPickerStyles,
                         borderWidth: 1,
-                        borderColor: '#E3E3E3',
+                        borderColor: "#E3E3E3",
                         ...BaseStyle.round05,
                         ...BaseStyle.inputH,
                         placeholder: {
-                          color: '#888',
+                          color: "#888",
                         },
                       }}
                       Icon={() => {
                         return (
                           <Image
-                            source={require('../images/ic_select.png')}
+                            source={require("../images/ic_select.png")}
                             style={{ width: 45, height: 45 }}
                             resizeMode="center"
                           />
-                        );
+                        )
                       }}
                     />
                   ) : (
@@ -579,13 +586,15 @@ const SetMenuEdit = props => {
                           ...BaseStyle.ko12,
                           color: Primary.PointColor02,
                           ...BaseStyle.mb5,
-                        }}>
+                        }}
+                      >
                         등록된 카테고리가 없습니다.
                       </Text>
                       <TouchableOpacity
                         activeOpacity={1}
                         style={{ ...BaseStyle.mainBtn }}
-                        onPress={() => navigation.navigate('setCategory')}>
+                        onPress={() => navigation.navigate("setCategory")}
+                      >
                         <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>
                           카테고리 등록하기
                         </Text>
@@ -608,16 +617,17 @@ const SetMenuEdit = props => {
                   style={{
                     ...BaseStyle.container5,
                     borderWidth: 1,
-                    borderColor: '#E3E3E3',
+                    borderColor: "#E3E3E3",
                     ...BaseStyle.round05,
                     ...BaseStyle.inputH,
                     ...BaseStyle.ph10,
-                  }}>
+                  }}
+                >
                   <TextInput
                     value={name}
                     placeholder="메뉴명을 입력해주세요."
                     style={{
-                      width: '100%',
+                      width: "100%",
                       ...BaseStyle.inputH,
                       ...BaseStyle.ko14,
                       marginTop: 10,
@@ -639,12 +649,13 @@ const SetMenuEdit = props => {
                     activeOpacity={1}
                     onPress={toggleCheckMain}
                     hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                    style={{ ...BaseStyle.container }}>
+                    style={{ ...BaseStyle.container }}
+                  >
                     <Image
                       source={
                         checkMain
-                          ? require('../images/ic_check_on.png')
-                          : require('../images/ic_check_off.png')
+                          ? require("../images/ic_check_on.png")
+                          : require("../images/ic_check_off.png")
                       }
                       style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                       resizeMode="contain"
@@ -668,7 +679,8 @@ const SetMenuEdit = props => {
                       ...BaseStyle.lh17,
                       color: Primary.PointColor02,
                       ...BaseStyle.mr5,
-                    }}>
+                    }}
+                  >
                     ※
                   </Text>
                   <Text
@@ -677,8 +689,9 @@ const SetMenuEdit = props => {
                       ...BaseStyle.lh17,
                       color: Primary.PointColor02,
                       flex: 1,
-                      flexWrap: 'wrap',
-                    }}>
+                      flexWrap: "wrap",
+                    }}
+                  >
                     대표메뉴로 체크하시면 메뉴 노출시 대표메뉴에 포함됩니다.
                   </Text>
                 </View>
@@ -694,16 +707,17 @@ const SetMenuEdit = props => {
                   style={{
                     ...BaseStyle.container5,
                     borderWidth: 1,
-                    borderColor: '#E3E3E3',
+                    borderColor: "#E3E3E3",
                     ...BaseStyle.round05,
                     ...BaseStyle.inputH,
                     ...BaseStyle.ph10,
-                  }}>
+                  }}
+                >
                   <TextInput
                     value={menuShortDesc}
                     placeholder="기본설명을 입력해주세요."
                     style={{
-                      width: '100%',
+                      width: "100%",
                       ...BaseStyle.inputH,
                       ...BaseStyle.ko14,
                       marginTop: 10,
@@ -719,7 +733,8 @@ const SetMenuEdit = props => {
                       ...BaseStyle.lh17,
                       color: Primary.PointColor02,
                       ...BaseStyle.mr5,
-                    }}>
+                    }}
+                  >
                     ※
                   </Text>
                   <Text
@@ -728,8 +743,9 @@ const SetMenuEdit = props => {
                       ...BaseStyle.lh17,
                       color: Primary.PointColor02,
                       flex: 1,
-                      flexWrap: 'wrap',
-                    }}>
+                      flexWrap: "wrap",
+                    }}
+                  >
                     메뉴명 하단에 상품에 대한 추가적인 설명이 필요한 경우에 입력합니다.
                   </Text>
                 </View>
@@ -784,28 +800,29 @@ const SetMenuEdit = props => {
                   style={{
                     ...BaseStyle.container5,
                     borderWidth: 1,
-                    borderColor: '#E3E3E3',
+                    borderColor: "#E3E3E3",
                     ...BaseStyle.round05,
                     ...BaseStyle.inputH,
                     ...BaseStyle.ph10,
-                  }}>
+                  }}
+                >
                   <TextInput
                     value={salePrice}
                     placeholder="0"
                     style={{
-                      width: '95%',
+                      width: "95%",
                       ...BaseStyle.inputH,
-                      textAlign: 'right',
+                      textAlign: "right",
                       ...BaseStyle.ko15,
                       marginTop: 10,
                     }}
                     onChangeText={text => {
-                      const re = /^[0-9\b]+$/;
-                      if (text === '' || re.test(text)) {
-                        const changed = text.replace(/(^0+)/, '');
-                        setSalePrice(changed);
+                      const re = /^[0-9\b]+$/
+                      if (text === "" || re.test(text)) {
+                        const changed = text.replace(/(^0+)/, "")
+                        setSalePrice(changed)
                       } else {
-                        setSalePrice('0');
+                        setSalePrice("0")
                       }
                     }}
                     keyboardType="number-pad"
@@ -830,16 +847,17 @@ const SetMenuEdit = props => {
                 <View
                   style={{
                     borderWidth: 1,
-                    borderColor: '#E3E3E3',
+                    borderColor: "#E3E3E3",
                     ...BaseStyle.round05,
                     ...BaseStyle.ph10,
                     height: 150,
-                  }}>
+                  }}
+                >
                   <TextInput
                     value={description}
                     placeholder="메뉴에 대한 설명을 입력해주세요."
                     style={{
-                      width: '100%',
+                      width: "100%",
                       ...BaseStyle.ko14,
                       ...BaseStyle.lh22,
                       marginTop: 10,
@@ -862,12 +880,13 @@ const SetMenuEdit = props => {
                     activeOpacity={1}
                     onPress={toggleVisible}
                     hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                    style={{ ...BaseStyle.container }}>
+                    style={{ ...BaseStyle.container }}
+                  >
                     <Image
                       source={
                         visible
-                          ? require('../images/ic_check_on.png')
-                          : require('../images/ic_check_off.png')
+                          ? require("../images/ic_check_on.png")
+                          : require("../images/ic_check_off.png")
                       }
                       style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                       resizeMode="contain"
@@ -891,7 +910,8 @@ const SetMenuEdit = props => {
                       ...BaseStyle.lh17,
                       color: Primary.PointColor02,
                       ...BaseStyle.mr5,
-                    }}>
+                    }}
+                  >
                     ※
                   </Text>
                   <Text
@@ -900,8 +920,9 @@ const SetMenuEdit = props => {
                       ...BaseStyle.lh17,
                       color: Primary.PointColor02,
                       flex: 1,
-                      flexWrap: 'wrap',
-                    }}>
+                      flexWrap: "wrap",
+                    }}
+                  >
                     잠시 판매를 중단하거나 재고가 없을 경우에 체크를 해제해 놓으면 출력되지 않으며,
                     주문도 받지 않습니다.
                   </Text>
@@ -914,17 +935,19 @@ const SetMenuEdit = props => {
                   <React.Fragment key={String(index)}>
                     <View
                       style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
                         marginTop: 10,
-                      }}>
+                      }}
+                    >
                       <Text
                         style={{
                           ...BaseStyle.ko15,
                           ...BaseStyle.font_bold,
                           ...BaseStyle.font_222,
-                        }}>
+                        }}
+                      >
                         기본옵션{index + 1}
                       </Text>
                       <Text
@@ -934,34 +957,37 @@ const SetMenuEdit = props => {
                           height: 30,
                           fontSize: 14,
                           paddingHorizontal: 10,
-                          textAlign: 'center',
-                          textAlignVertical: 'center',
+                          textAlign: "center",
+                          textAlignVertical: "center",
                           borderColor: Primary.PointColor01,
                           borderWidth: 1.5,
                           borderRadius: 4,
                         }}
                         onPress={() => {
                           setOptions(options => {
-                            const result = [...options];
-                            result.splice(index, 1);
-                            return result;
-                          });
-                        }}>
+                            const result = [...options]
+                            result.splice(index, 1)
+                            return result
+                          })
+                        }}
+                      >
                         - 옵션삭제
                       </Text>
                     </View>
                     {option.select.map((item, selectIndex) => (
                       <View
                         key={String(selectIndex)}
-                        style={{ marginTop: selectIndex === 0 ? 10 : 0 }}>
+                        style={{ marginTop: selectIndex === 0 ? 10 : 0 }}
+                      >
                         {selectIndex === 0 ? (
                           <View
                             style={{
-                              flexDirection: 'row',
-                              justifyContent: 'flex-start',
-                              alignItems: 'center',
+                              flexDirection: "row",
+                              justifyContent: "flex-start",
+                              alignItems: "center",
                               ...BaseStyle.mb5,
-                            }}>
+                            }}
+                          >
                             <TextInput
                               style={{
                                 ...BaseStyle.inputH,
@@ -975,9 +1001,9 @@ const SetMenuEdit = props => {
                               keyboardType="default"
                               onChangeText={val =>
                                 setOptions(options => {
-                                  const result = [...options];
-                                  result[index].name = validateText(val);
-                                  return result;
+                                  const result = [...options]
+                                  result[index].name = validateText(val)
+                                  return result
                                 })
                               }
                               value={option.name}
@@ -990,27 +1016,28 @@ const SetMenuEdit = props => {
                                 width: 30,
                                 height: 50,
                                 fontSize: 13,
-                                textAlign: 'center',
-                                textAlignVertical: 'center',
-                                borderColor: '#ececec',
+                                textAlign: "center",
+                                textAlignVertical: "center",
+                                borderColor: "#ececec",
                                 borderWidth: 1.5,
                                 borderRadius: 4,
                               }}
                               onPress={() => {
                                 setOptions(options => {
-                                  const result = [...options];
+                                  const result = [...options]
                                   result[index].select.push({
-                                    value: '',
-                                    price: '',
-                                  });
-                                  return result;
-                                });
-                              }}>
+                                    value: "",
+                                    price: "",
+                                  })
+                                  return result
+                                })
+                              }}
+                            >
                               세부추가
                             </Text>
                           </View>
                         ) : null}
-                        <View style={{ marginTop: 6, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ marginTop: 6, flexDirection: "row", alignItems: "center" }}>
                           <TextInput
                             style={{
                               ...BaseStyle.inputH,
@@ -1024,9 +1051,9 @@ const SetMenuEdit = props => {
                             keyboardType="default"
                             onChangeText={val =>
                               setOptions(options => {
-                                const result = [...options];
-                                result[index].select[selectIndex].value = validateText(val);
-                                return result;
+                                const result = [...options]
+                                result[index].select[selectIndex].value = validateText(val)
+                                return result
                               })
                             }
                             value={item.value}
@@ -1046,12 +1073,12 @@ const SetMenuEdit = props => {
                             returnKeyType="done"
                             onChangeText={val =>
                               setOptions(options => {
-                                const result = [...options];
-                                result[index].select[selectIndex].price = validateText(val);
-                                return result;
+                                const result = [...options]
+                                result[index].select[selectIndex].price = validateText(val)
+                                return result
                               })
                             }
-                            value={item.price + ''}
+                            value={item.price + ""}
                           />
                           <Text style={{ marginLeft: 4, ...BaseStyle.ko15, ...BaseStyle.font_222 }}>
                             원
@@ -1059,20 +1086,21 @@ const SetMenuEdit = props => {
                           <TouchableWithoutFeedback
                             onPress={() => {
                               setOptions(options => {
-                                const result = [...options];
-                                result[index].select.splice(selectIndex, 1);
-                                return result;
-                              });
-                            }}>
+                                const result = [...options]
+                                result[index].select.splice(selectIndex, 1)
+                                return result
+                              })
+                            }}
+                          >
                             <Image
                               style={{
                                 marginLeft: 8,
                                 width: 20,
                                 height: 20,
                                 opacity: 0.2,
-                                resizeMode: 'cover',
+                                resizeMode: "cover",
                               }}
-                              source={require('../images/popup_close.png')}
+                              source={require("../images/popup_close.png")}
                             />
                           </TouchableWithoutFeedback>
                         </View>
@@ -1085,7 +1113,8 @@ const SetMenuEdit = props => {
                   <TouchableOpacity
                     activeOpacity={1}
                     style={{ ...BaseStyle.mainBorderBtn }}
-                    onPress={handleOption}>
+                    onPress={handleOption}
+                  >
                     <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>
                       기본옵션 추가 +
                     </Text>
@@ -1096,17 +1125,19 @@ const SetMenuEdit = props => {
                   <React.Fragment key={String(index)}>
                     <View
                       style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
                         marginTop: 20,
-                      }}>
+                      }}
+                    >
                       <Text
                         style={{
                           ...BaseStyle.ko15,
                           ...BaseStyle.font_bold,
                           ...BaseStyle.font_222,
-                        }}>
+                        }}
+                      >
                         추가옵션{index + 1}
                       </Text>
                       <Text
@@ -1116,34 +1147,37 @@ const SetMenuEdit = props => {
                           height: 30,
                           fontSize: 14,
                           paddingHorizontal: 10,
-                          textAlign: 'center',
-                          textAlignVertical: 'center',
+                          textAlign: "center",
+                          textAlignVertical: "center",
                           borderColor: Primary.PointColor02,
                           borderWidth: 1.5,
                           borderRadius: 4,
                         }}
                         onPress={() => {
                           setAddOptions(options => {
-                            const result = [...options];
-                            result.splice(index, 1);
-                            return result;
-                          });
-                        }}>
+                            const result = [...options]
+                            result.splice(index, 1)
+                            return result
+                          })
+                        }}
+                      >
                         - 옵션삭제
                       </Text>
                     </View>
                     {option.select.map((item, selectIndex) => (
                       <View
                         key={String(selectIndex)}
-                        style={{ marginTop: selectIndex === 0 ? 10 : 0 }}>
+                        style={{ marginTop: selectIndex === 0 ? 10 : 0 }}
+                      >
                         {selectIndex === 0 ? (
                           <View
                             style={{
-                              flexDirection: 'row',
-                              justifyContent: 'flex-start',
-                              alignItems: 'center',
+                              flexDirection: "row",
+                              justifyContent: "flex-start",
+                              alignItems: "center",
                               ...BaseStyle.mb5,
-                            }}>
+                            }}
+                          >
                             <TextInput
                               style={{
                                 ...BaseStyle.inputH,
@@ -1157,9 +1191,9 @@ const SetMenuEdit = props => {
                               keyboardType="default"
                               onChangeText={val =>
                                 setAddOptions(addOptions => {
-                                  const result = [...addOptions];
-                                  result[index].name = validateText(val);
-                                  return result;
+                                  const result = [...addOptions]
+                                  result[index].name = validateText(val)
+                                  return result
                                 })
                               }
                               value={option.name}
@@ -1172,27 +1206,28 @@ const SetMenuEdit = props => {
                                 width: 30,
                                 height: 50,
                                 fontSize: 13,
-                                textAlign: 'center',
-                                textAlignVertical: 'center',
-                                borderColor: '#ececec',
+                                textAlign: "center",
+                                textAlignVertical: "center",
+                                borderColor: "#ececec",
                                 borderWidth: 1.5,
                                 borderRadius: 4,
                               }}
                               onPress={() => {
                                 setAddOptions(addOptions => {
-                                  const result = [...addOptions];
+                                  const result = [...addOptions]
                                   result[index].select.push({
-                                    value: '',
-                                    price: '',
-                                  });
-                                  return result;
-                                });
-                              }}>
+                                    value: "",
+                                    price: "",
+                                  })
+                                  return result
+                                })
+                              }}
+                            >
                               세부추가
                             </Text>
                           </View>
                         ) : null}
-                        <View style={{ marginTop: 6, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ marginTop: 6, flexDirection: "row", alignItems: "center" }}>
                           <TextInput
                             style={{
                               ...BaseStyle.inputH,
@@ -1206,9 +1241,9 @@ const SetMenuEdit = props => {
                             keyboardType="default"
                             onChangeText={val =>
                               setAddOptions(addOptions => {
-                                const result = [...addOptions];
-                                result[index].select[selectIndex].value = validateText(val);
-                                return result;
+                                const result = [...addOptions]
+                                result[index].select[selectIndex].value = validateText(val)
+                                return result
                               })
                             }
                             value={item.value}
@@ -1228,12 +1263,12 @@ const SetMenuEdit = props => {
                             returnKeyType="done"
                             onChangeText={val =>
                               setAddOptions(addOptions => {
-                                const result = [...addOptions];
-                                result[index].select[selectIndex].price = validateText(val);
-                                return result;
+                                const result = [...addOptions]
+                                result[index].select[selectIndex].price = validateText(val)
+                                return result
                               })
                             }
-                            value={item.price + ''}
+                            value={item.price + ""}
                           />
                           <Text style={{ marginLeft: 4, ...BaseStyle.ko15, ...BaseStyle.font_222 }}>
                             원
@@ -1241,20 +1276,21 @@ const SetMenuEdit = props => {
                           <TouchableWithoutFeedback
                             onPress={() => {
                               setAddOptions(addOptions => {
-                                const result = [...addOptions];
-                                result[index].select.splice(selectIndex, 1);
-                                return result;
-                              });
-                            }}>
+                                const result = [...addOptions]
+                                result[index].select.splice(selectIndex, 1)
+                                return result
+                              })
+                            }}
+                          >
                             <Image
                               style={{
                                 marginLeft: 8,
                                 width: 20,
                                 height: 20,
                                 opacity: 0.2,
-                                resizeMode: 'cover',
+                                resizeMode: "cover",
                               }}
-                              source={require('../images/popup_close.png')}
+                              source={require("../images/popup_close.png")}
                             />
                           </TouchableWithoutFeedback>
                         </View>
@@ -1267,7 +1303,8 @@ const SetMenuEdit = props => {
                   <TouchableOpacity
                     activeOpacity={1}
                     style={{ ...BaseStyle.mintBorderBtn }}
-                    onPress={handleAddOption}>
+                    onPress={handleAddOption}
+                  >
                     <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>
                       추가옵션 추가 +
                     </Text>
@@ -1279,7 +1316,8 @@ const SetMenuEdit = props => {
             <TouchableOpacity
               activeOpacity={1}
               onPress={editMenuAddHandler}
-              style={{ ...BaseStyle.mainBtnBottom }}>
+              style={{ ...BaseStyle.mainBtnBottom }}
+            >
               <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
                 수정하기
               </Text>
@@ -1288,8 +1326,8 @@ const SetMenuEdit = props => {
         </ScrollView>
       )}
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   section: {
@@ -1302,7 +1340,7 @@ const styles = StyleSheet.create({
   photoOutlinedButton: {
     borderColor: Primary.PointColor01,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingVertical: 5,
     paddingHorizontal: 13,
   },
@@ -1314,11 +1352,11 @@ const styles = StyleSheet.create({
     height: 42,
     borderColor: Primary.PointColor01,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   outlinedButtonText: {
     color: Primary.PointColor01,
   },
-});
+})
 
-export default SetMenuEdit;
+export default SetMenuEdit

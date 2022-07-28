@@ -1,4 +1,4 @@
-import types from '../actions/types';
+import types from "../actions/types"
 
 const defaultState = {
   allStore: [],
@@ -9,7 +9,7 @@ const defaultState = {
     mt_store: null,
     mt_addr: null,
   },
-};
+}
 
 export default store = (state = defaultState, action) => {
   // For Debugger
@@ -20,7 +20,7 @@ export default store = (state = defaultState, action) => {
         ...state,
         allStore: action.storeUpdate,
         // allStore: [...new Set([...state.allStore, ...action.storeUpdate])],
-      };
+      }
     case types.SELECT_STORE:
       return {
         ...state,
@@ -31,8 +31,8 @@ export default store = (state = defaultState, action) => {
           mt_store: action.mt_store,
           mt_addr: action.mt_addr,
         },
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}

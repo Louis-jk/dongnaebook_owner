@@ -1,10 +1,10 @@
-import types from '../actions/types';
+import types from "../actions/types"
 
 const defaultState = {
-  idx: '',
-  idx1: '',
-  idx2: '',
-};
+  idx: "",
+  idx1: "",
+  idx2: "",
+}
 
 export default index = (state = defaultState, action) => {
   // For Debugger
@@ -16,8 +16,8 @@ export default index = (state = defaultState, action) => {
         idx: action.idx,
         idx1: action.idx1,
         idx2: action.idx2,
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}

@@ -1,4 +1,4 @@
-import types from '../actions/types';
+import types from "../actions/types"
 
 let defaultState = {
   aname: null,
@@ -13,7 +13,7 @@ let defaultState = {
   acustomer: null,
   abank_account: null,
   abank_date: null,
-};
+}
 
 export default sconf = (state = defaultState, action) => {
   // For Debugger
@@ -33,8 +33,8 @@ export default sconf = (state = defaultState, action) => {
         acustomer: action.acustomer,
         abank_account: action.abank_account,
         abank_date: action.abank_date,
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}

@@ -1,13 +1,13 @@
-import * as loginAction from './loginAction';
-import * as idxAction from './idxAction';
-import * as gpsAction from './gpsAction';
-import * as sconfAction from './sconfAction';
-import * as storeAction from './storeAction';
-import * as couponAction from './couponAction';
-import * as regularHolidayAction from './regularHolidayAction';
-import * as storeTimeAction from './storeTimeAction';
-import * as closedDayAction from './closedDayAction';
-import * as orderAction from './orderAction';
+import * as loginAction from "./loginAction"
+import * as idxAction from "./idxAction"
+import * as gpsAction from "./gpsAction"
+import * as sconfAction from "./sconfAction"
+import * as storeAction from "./storeAction"
+import * as couponAction from "./couponAction"
+import * as regularHolidayAction from "./regularHolidayAction"
+import * as storeTimeAction from "./storeTimeAction"
+import * as closedDayAction from "./closedDayAction"
+import * as orderAction from "./orderAction"
 
 const ActionCreators = Object.assign(
   {},
@@ -20,7 +20,7 @@ const ActionCreators = Object.assign(
   regularHolidayAction,
   storeTimeAction,
   closedDayAction,
-  orderAction,
-);
+  orderAction
+)
 
-export default ActionCreators;
+export default ActionCreators

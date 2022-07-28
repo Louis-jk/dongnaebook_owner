@@ -1,4 +1,4 @@
-import types from '../actions/types';
+import types from "../actions/types"
 
 const defaultState = {
   current_latlng: null,
@@ -6,7 +6,7 @@ const defaultState = {
   user_lng: null, //129.078473,
   user_address: null, //'부산 동래구',
   updateTimeG: null,
-};
+}
 
 export default gps = (state = defaultState, action) => {
   // For Debugger
@@ -19,8 +19,8 @@ export default gps = (state = defaultState, action) => {
         user_lng: action.user_lng,
         user_address: action.user_address,
         updateTimeG: action.updateTimeG,
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react"
 import {
   View,
   Text,
@@ -8,77 +8,77 @@ import {
   Alert,
   ScrollView,
   BackHandler,
-} from 'react-native';
-import { useSelector } from 'react-redux';
-import Header from '../components/SubHeader';
-import BaseStyle, { Primary } from '../styles/Base';
-import Api from '../Api';
+} from "react-native"
+import { useSelector } from "react-redux"
+import Header from "../components/SubHeader"
+import BaseStyle, { Primary } from "../styles/Base"
+import Api from "../Api"
 
 const StoreSetting = props => {
-  const { navigation } = props;
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login);
+  const { navigation } = props
+  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
 
-  const [storeInit, setStoreInit] = React.useState(false); // 매장 정보 초기값 유무
-  const [range, setRange] = React.useState('curr');
+  const [storeInit, setStoreInit] = React.useState(false) // 매장 정보 초기값 유무
+  const [range, setRange] = React.useState("curr")
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
-    navigation.goBack();
+    navigation.goBack()
 
-    return true;
-  };
+    return true
+  }
 
   React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backAction);
-    return () => BackHandler.removeEventListener('hardwareBackPress', backAction);
-  }, []);
+    BackHandler.addEventListener("hardwareBackPress", backAction)
+    return () => BackHandler.removeEventListener("hardwareBackPress", backAction)
+  }, [])
 
   // 매장소개 정보
   const [setting, setSetting] = React.useState({
-    do_coupon_use: '', // 쿠폰 사용 가능 여부 'Y' | 'N'
-    do_take_out: '', // 포장 가능 여부 'Y' | 'N'
-    mt_print: '', // 자동출력 '1', 출력안함 '0'
-    mt_sound: '', // 사운드 울림 횟수
-  });
+    do_coupon_use: "", // 쿠폰 사용 가능 여부 'Y' | 'N'
+    do_take_out: "", // 포장 가능 여부 'Y' | 'N'
+    mt_print: "", // 자동출력 '1', 출력안함 '0'
+    mt_sound: "", // 사운드 울림 횟수
+  })
 
   const param = {
     encodeJson: true,
     jumju_id: mt_id,
     jumju_code: mt_jumju_code,
-  };
+  }
 
   const getStoreInfo = () => {
-    Api.send('store_guide', param, args => {
-      const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
+    Api.send("store_guide", param, args => {
+      const resultItem = args.resultItem
+      let arrItems = args.arrItems
 
-      if (resultItem.result === 'Y') {
-        setStoreInit(true);
+      if (resultItem.result === "Y") {
+        setStoreInit(true)
         setSetting({
           do_take_out: arrItems.do_take_out,
           do_coupon_use: arrItems.do_coupon_use,
           mt_sound: arrItems.mt_sound,
           mt_print: arrItems.mt_print,
-        });
+        })
       } else {
-        setStoreInit(false);
+        setStoreInit(false)
         setSetting({
           do_take_out: null,
           do_coupon_use: null,
           mt_sound: null,
           mt_print: null,
-        });
+        })
       }
-    });
-  };
+    })
+  }
 
   React.useEffect(() => {
-    getStoreInfo();
-  }, []);
+    getStoreInfo()
+  }, [])
 
   const onSubmitStoreInfo = () => {
     const data = {
-      mode: 'insert',
+      mode: "insert",
       encodeJson: true,
       jumju_id: mt_id,
       jumju_code: mt_jumju_code,
@@ -86,47 +86,47 @@ const StoreSetting = props => {
       do_coupon_use: setting.do_coupon_use,
       mt_sound: setting.mt_sound,
       mb_one_saving: setting.mb_one_saving,
-    };
+    }
 
-    Api.send('store_guide_update', data, args => {
-      const resultItem = args.resultItem;
-      let arrItems = args.arrItems;
-      if (resultItem.result === 'Y') {
-        Alert.alert('매장정보를 등록하였습니다.', '메인화면으로 이동합니다.', [
+    Api.send("store_guide_update", data, args => {
+      const resultItem = args.resultItem
+      let arrItems = args.arrItems
+      if (resultItem.result === "Y") {
+        Alert.alert("매장정보를 등록하였습니다.", "메인화면으로 이동합니다.", [
           {
-            text: '예',
-            onPress: () => navigation.navigate('Home', { screen: 'Main' }),
+            text: "예",
+            onPress: () => navigation.navigate("Home", { screen: "Main" }),
           },
-        ]);
+        ])
       }
-    });
-  };
+    })
+  }
 
-  const introduceRef = React.useRef(null);
-  const majorMenuRef = React.useRef(null);
+  const introduceRef = React.useRef(null)
+  const majorMenuRef = React.useRef(null)
 
   const onModifyStoreSetting = () => {
-    if (setting.do_take_out === null || setting.do_take_out === '') {
-      Alert.alert('포장 가능 여부를 지정해주세요.', '', [
+    if (setting.do_take_out === null || setting.do_take_out === "") {
+      Alert.alert("포장 가능 여부를 지정해주세요.", "", [
         {
-          text: '확인',
+          text: "확인",
         },
-      ]);
-    } else if (setting.do_coupon_use === null || setting.do_coupon_use === '') {
-      Alert.alert('쿠폰 사용 가능 여부를 지정해주세요.', '', [
+      ])
+    } else if (setting.do_coupon_use === null || setting.do_coupon_use === "") {
+      Alert.alert("쿠폰 사용 가능 여부를 지정해주세요.", "", [
         {
-          text: '확인',
+          text: "확인",
         },
-      ]);
-    } else if (setting.mt_sound === null || setting.mt_sound === '') {
-      Alert.alert('알림음을 설정해주세요.', '', [
+      ])
+    } else if (setting.mt_sound === null || setting.mt_sound === "") {
+      Alert.alert("알림음을 설정해주세요.", "", [
         {
-          text: '확인',
+          text: "확인",
         },
-      ]);
+      ])
     } else {
       const param = {
-        mode: 'update',
+        mode: "update",
         jumju_id: mt_id,
         jumju_code: mt_jumju_code,
         do_take_out: setting.do_take_out,
@@ -134,7 +134,7 @@ const StoreSetting = props => {
         mt_sound: setting.mt_sound,
         mt_print: setting.mt_print,
         RangeType: range,
-      };
+      }
 
       // else if (setting.mt_print === null || setting.mt_print === "") {
       //   Alert.alert("주문 접수시 자동 프린트 여부를 지정해주세요.", "", [
@@ -144,41 +144,41 @@ const StoreSetting = props => {
       //   ]);
       // }
 
-      console.log('param', param);
+      console.log("param", param)
 
-      Api.send('store_setting_update', param, args => {
-        const resultItem = args.resultItem;
-        let arrItems = args.arrItems;
-        if (resultItem.result === 'Y') {
-          Alert.alert('매장설정을 수정하였습니다.', '메인화면으로 이동하시겠습니까?', [
+      Api.send("store_setting_update", param, args => {
+        const resultItem = args.resultItem
+        let arrItems = args.arrItems
+        if (resultItem.result === "Y") {
+          Alert.alert("매장설정을 수정하였습니다.", "메인화면으로 이동하시겠습니까?", [
             {
-              text: '예',
-              onPress: () => navigation.navigate('Home', { screen: 'Main' }),
+              text: "예",
+              onPress: () => navigation.navigate("Home", { screen: "Main" }),
             },
             {
-              text: '아니요',
+              text: "아니요",
             },
-          ]);
+          ])
         } else {
           Alert.alert(
-            '매장설정을 수정하는 중에 오류가 발생했습니다.',
-            '계속 오류가 발생할 경우 관리자에게 문의 해주세요.',
+            "매장설정을 수정하는 중에 오류가 발생했습니다.",
+            "계속 오류가 발생할 경우 관리자에게 문의 해주세요.",
             [
               {
-                text: '확인',
+                text: "확인",
               },
-            ],
-          );
+            ]
+          )
         }
-      });
+      })
     }
-  };
+  }
 
-  console.log('setting', setting);
-  console.log('range', range);
+  console.log("setting", setting)
+  console.log("range", range)
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <Header navigation={navigation} title="매장설정" />
 
       {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
@@ -201,7 +201,8 @@ const StoreSetting = props => {
                     ...BaseStyle.ko15,
                     ...BaseStyle.font_bold,
                     ...BaseStyle.mr5,
-                  }}>
+                  }}
+                >
                   알림음 설정
                 </Text>
                 <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
@@ -209,14 +210,15 @@ const StoreSetting = props => {
               <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, mt_sound: '3' })}
+                  onPress={() => setSetting({ ...setting, mt_sound: "3" })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}>
+                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                >
                   <Image
                     source={
-                      setting.mt_sound === '3'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                      setting.mt_sound === "3"
+                        ? require("../images/ic_check_on.png")
+                        : require("../images/ic_check_off.png")
                     }
                     style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                     resizeMode="contain"
@@ -227,14 +229,15 @@ const StoreSetting = props => {
 
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, mt_sound: '5' })}
+                  onPress={() => setSetting({ ...setting, mt_sound: "5" })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}>
+                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                >
                   <Image
                     source={
-                      setting.mt_sound === '5'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                      setting.mt_sound === "5"
+                        ? require("../images/ic_check_on.png")
+                        : require("../images/ic_check_off.png")
                     }
                     style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                     resizeMode="contain"
@@ -245,14 +248,15 @@ const StoreSetting = props => {
 
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, mt_sound: '7' })}
+                  onPress={() => setSetting({ ...setting, mt_sound: "7" })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}>
+                  style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                >
                   <Image
                     source={
-                      setting.mt_sound === '7'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                      setting.mt_sound === "7"
+                        ? require("../images/ic_check_on.png")
+                        : require("../images/ic_check_off.png")
                     }
                     style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                     resizeMode="contain"
@@ -325,14 +329,15 @@ const StoreSetting = props => {
               <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, do_take_out: 'Y' })}
+                  onPress={() => setSetting({ ...setting, do_take_out: "Y" })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}>
+                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                >
                   <Image
                     source={
-                      setting.do_take_out === 'Y'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                      setting.do_take_out === "Y"
+                        ? require("../images/ic_check_on.png")
+                        : require("../images/ic_check_off.png")
                     }
                     style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                     resizeMode="contain"
@@ -342,14 +347,15 @@ const StoreSetting = props => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, do_take_out: 'N' })}
+                  onPress={() => setSetting({ ...setting, do_take_out: "N" })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}>
+                  style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                >
                   <Image
                     source={
-                      setting.do_take_out === 'N'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                      setting.do_take_out === "N"
+                        ? require("../images/ic_check_on.png")
+                        : require("../images/ic_check_off.png")
                     }
                     style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                     resizeMode="contain"
@@ -372,7 +378,8 @@ const StoreSetting = props => {
                     ...BaseStyle.ko15,
                     ...BaseStyle.font_bold,
                     ...BaseStyle.mr5,
-                  }}>
+                  }}
+                >
                   쿠폰 사용 가능 여부
                 </Text>
                 <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
@@ -380,14 +387,15 @@ const StoreSetting = props => {
               <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, do_coupon_use: 'Y' })}
+                  onPress={() => setSetting({ ...setting, do_coupon_use: "Y" })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}>
+                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                >
                   <Image
                     source={
-                      setting.do_coupon_use === 'Y'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                      setting.do_coupon_use === "Y"
+                        ? require("../images/ic_check_on.png")
+                        : require("../images/ic_check_off.png")
                     }
                     style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                     resizeMode="contain"
@@ -397,14 +405,15 @@ const StoreSetting = props => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, do_coupon_use: 'N' })}
+                  onPress={() => setSetting({ ...setting, do_coupon_use: "N" })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}>
+                  style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                >
                   <Image
                     source={
-                      setting.do_coupon_use === 'N'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                      setting.do_coupon_use === "N"
+                        ? require("../images/ic_check_on.png")
+                        : require("../images/ic_check_off.png")
                     }
                     style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                     resizeMode="contain"
@@ -511,33 +520,35 @@ const StoreSetting = props => {
         <View style={{ ...BaseStyle.container, ...BaseStyle.ph20 }}>
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => setRange('all')}
+            onPress={() => setRange("all")}
             style={{
               flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: range === 'all' ? Primary.PointColor01 : '#ececec',
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: range === "all" ? Primary.PointColor01 : "#ececec",
               paddingVertical: 20,
               borderTopLeftRadius: 5,
               borderBottomLeftRadius: 5,
-            }}>
-            <Text style={{ ...BaseStyle.ko15, color: range === 'all' ? '#fff' : '#aaa' }}>
+            }}
+          >
+            <Text style={{ ...BaseStyle.ko15, color: range === "all" ? "#fff" : "#aaa" }}>
               전체 매장 적용
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => setRange('curr')}
+            onPress={() => setRange("curr")}
             style={{
               flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: range === 'curr' ? Primary.PointColor01 : '#ececec',
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: range === "curr" ? Primary.PointColor01 : "#ececec",
               paddingVertical: 20,
               borderTopRightRadius: 5,
               borderBottomRightRadius: 5,
-            }}>
-            <Text style={{ ...BaseStyle.ko15, color: range === 'curr' ? '#fff' : '#aaa' }}>
+            }}
+          >
+            <Text style={{ ...BaseStyle.ko15, color: range === "curr" ? "#fff" : "#aaa" }}>
               해당 매장만 적용
             </Text>
           </TouchableOpacity>
@@ -547,7 +558,8 @@ const StoreSetting = props => {
         <TouchableOpacity
           activeOpacity={1}
           onPress={onModifyStoreSetting}
-          style={{ ...BaseStyle.mainBtnBottom }}>
+          style={{ ...BaseStyle.mainBtnBottom }}
+        >
           <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
             수정하기
           </Text>
@@ -556,7 +568,8 @@ const StoreSetting = props => {
         <TouchableOpacity
           activeOpacity={1}
           onPress={onSubmitStoreInfo}
-          style={{ ...BaseStyle.mainBtnBottom }}>
+          style={{ ...BaseStyle.mainBtnBottom }}
+        >
           <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold }}>등록하기</Text>
         </TouchableOpacity>
       )}
@@ -568,7 +581,7 @@ const StoreSetting = props => {
         <Text style={{...BaseStyle.ko18, ...BaseStyle.font_bold}}>나가기</Text>
       </TouchableOpacity> */}
     </View>
-  );
-};
+  )
+}
 
-export default StoreSetting;
+export default StoreSetting

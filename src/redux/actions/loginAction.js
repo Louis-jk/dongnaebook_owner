@@ -1,7 +1,7 @@
-import types from './types';
+import types from "./types"
 
 export function updateLogin(data) {
-  const args = JSON.parse(data);
+  const args = JSON.parse(data)
 
   return {
     type: types.UPDATE_LOGIN_CK,
@@ -24,14 +24,14 @@ export function updateLogin(data) {
     mt_addr: args.mt_addr ? args.mt_addr : null, // add
     mt_lat: args.mt_lat ? args.mt_lat : null, // add
     mt_lng: args.mt_lng ? args.mt_lng : null, // add
-  };
+  }
 }
 
 export function updateToken(data) {
-  const args = JSON.parse(data);
+  const args = JSON.parse(data)
 
   return {
     type: types.UPDATE_FCM_TOKEN,
     mt_app_token: args,
-  };
+  }
 }
