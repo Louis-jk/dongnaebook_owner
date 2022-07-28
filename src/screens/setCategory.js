@@ -62,7 +62,7 @@ const setCategory = props => {
 
     Api.send("store_item_category", param, args => {
       const resultItem = args.resultItem
-      let arrItems = args.arrItems
+      const arrItems = args.arrItems
 
       if (resultItem.result === "Y") {
         arrItems.map(item => {
@@ -91,10 +91,6 @@ const setCategory = props => {
     return () => getMenuCategoryHandler()
   }, [])
 
-  console.log("====================================")
-  console.log("menuCategory >>> ", menuCategory)
-  console.log("====================================")
-
   const addCategoryHandler = () => {
     const param = {
       encodeJson: true,
@@ -106,22 +102,14 @@ const setCategory = props => {
 
     Api.send("store_item_category_input", param, args => {
       const resultItem = args.resultItem
-      let arrItems = args.arrItems
-
-      console.log("====================================")
-      console.log("store_item_category_input resultItem", resultItem)
-      console.log("store_item_category_input arrItems", arrItems)
-      console.log("====================================")
+      const arrItems = args.arrItems
 
       if (resultItem.result === "Y") {
         setMenuCategory([])
         getMenuCategoryHandler()
         toggleModal()
       } else {
-        // getMenuCategoryHandler();
-        console.log("====================================")
-        console.log("오류 발생")
-        console.log("====================================")
+        cusToast("오류가 발생하였습니다.\n관리자에게 문의해주세요.", 1500)
       }
     })
   }
@@ -142,12 +130,7 @@ const setCategory = props => {
 
     Api.send("store_item_category_update", param, args => {
       const resultItem = args.resultItem
-      let arrItems = args.arrItems
-
-      console.log("====================================")
-      console.log("store_item_category_update resultItem", resultItem)
-      console.log("store_item_category_update arrItems", arrItems)
-      console.log("====================================")
+      const arrItems = args.arrItems
 
       if (resultItem.result === "Y") {
         cusToast("카테고리가 수정되었습니다.")
@@ -156,9 +139,7 @@ const setCategory = props => {
         // getMenuCategoryHandler();
       } else {
         // getMenuCategoryHandler();
-        console.log("====================================")
-        console.log("오류 발생")
-        console.log("====================================")
+        cusToast("카테고리 수정 중에 오류가 발생하였습니다.\n관리자에게 문의해주세요.", 1500)
       }
     })
   }
