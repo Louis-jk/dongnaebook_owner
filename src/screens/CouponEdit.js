@@ -342,89 +342,7 @@ const CouponEdit = props => {
           </View>
           {/* // 쿠폰명 */}
 
-          {/* 최소 주문 금액 */}
-          <View style={{...BaseStyle.mv10}}>
-            <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
-              최소 주문 금액
-            </Text>
-            <View
-              style={{
-                ...BaseStyle.container5,
-                borderWidth: 1,
-                borderColor: "#E3E3E3",
-                ...BaseStyle.round05,
-                ...BaseStyle.inputH,
-                ...BaseStyle.ph10,
-              }}>
-              <TextInput
-                value={minPrice}
-                placeholder="0"
-                style={{
-                  width: "95%",
-                  ...BaseStyle.inputH,
-                  textAlign: "right",
-                }}
-                onChangeText={text => {
-                  const re = /^[0-9\b]+$/;
-                  if (text === "" || re.test(text)) {
-                    const changed = text.replace(/(^0+)/, "");
-                    setMinPrice(changed);
-                  } else {
-                    setMinPrice("0");
-                  }
-                }}
-                keyboardType="number-pad"
-                autoCapitalize="none"
-              />
-              <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>원</Text>
-            </View>
-          </View>
-          {/* // 최소 주문 금액 */}
-
-          {/* 최대 할인 금액 */}
-          {priceType === "1" && (
-            <View style={{...BaseStyle.mv10}}>
-              <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
-                최대 할인 금액
-              </Text>
-              <View
-                style={{
-                  ...BaseStyle.container5,
-                  borderWidth: 1,
-                  borderColor: "#E3E3E3",
-                  ...BaseStyle.round05,
-                  ...BaseStyle.inputH,
-                  ...BaseStyle.ph10,
-                }}>
-                <TextInput
-                  ref={couponMaxPriceRef}
-                  value={maxPrice}
-                  placeholder="0"
-                  style={{
-                    width: "95%",
-                    ...BaseStyle.inputH,
-                    textAlign: "right",
-                  }}
-                  onChangeText={text => {
-                    const re = /^[0-9\b]+$/;
-                    if (text === "" || re.test(text)) {
-                      const changed = text.replace(/(^0+)/, "");
-                      setMaxPrice(changed);
-                    } else {
-                      setMaxPrice("0");
-                    }
-                  }}
-                  keyboardType="number-pad"
-                  autoCapitalize="none"
-                />
-                <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>원</Text>
-              </View>
-            </View>
-          )}
-          {/* // 최대 할인 금액 */}
-
           {/* 할인 금액 */}
-
           <View style={{...BaseStyle.mv10}}>
             <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               할인 {priceType === "0" ? "금액" : "비율"}
@@ -518,6 +436,87 @@ const CouponEdit = props => {
             </View>
           </View>
           {/* // 할인 금액 */}
+
+          {/* 최소 주문 금액 */}
+          <View style={{...BaseStyle.mv10}}>
+            <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
+              최소 주문 금액
+            </Text>
+            <View
+              style={{
+                ...BaseStyle.container5,
+                borderWidth: 1,
+                borderColor: "#E3E3E3",
+                ...BaseStyle.round05,
+                ...BaseStyle.inputH,
+                ...BaseStyle.ph10,
+              }}>
+              <TextInput
+                value={minPrice}
+                placeholder="0"
+                style={{
+                  width: "95%",
+                  ...BaseStyle.inputH,
+                  textAlign: "right",
+                }}
+                onChangeText={text => {
+                  const re = /^[0-9\b]+$/;
+                  if (text === "" || re.test(text)) {
+                    const changed = text.replace(/(^0+)/, "");
+                    setMinPrice(changed);
+                  } else {
+                    setMinPrice("0");
+                  }
+                }}
+                keyboardType="number-pad"
+                autoCapitalize="none"
+              />
+              <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>원</Text>
+            </View>
+          </View>
+          {/* // 최소 주문 금액 */}
+
+          {/* 최대 할인 금액 */}
+          {priceType === "1" && (
+            <View style={{...BaseStyle.mv10}}>
+              <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
+                최대 할인 금액
+              </Text>
+              <View
+                style={{
+                  ...BaseStyle.container5,
+                  borderWidth: 1,
+                  borderColor: "#E3E3E3",
+                  ...BaseStyle.round05,
+                  ...BaseStyle.inputH,
+                  ...BaseStyle.ph10,
+                }}>
+                <TextInput
+                  ref={couponMaxPriceRef}
+                  value={maxPrice}
+                  placeholder="0"
+                  style={{
+                    width: "95%",
+                    ...BaseStyle.inputH,
+                    textAlign: "right",
+                  }}
+                  onChangeText={text => {
+                    const re = /^[0-9\b]+$/;
+                    if (text === "" || re.test(text)) {
+                      const changed = text.replace(/(^0+)/, "");
+                      setMaxPrice(changed);
+                    } else {
+                      setMaxPrice("0");
+                    }
+                  }}
+                  keyboardType="number-pad"
+                  autoCapitalize="none"
+                />
+                <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>원</Text>
+              </View>
+            </View>
+          )}
+          {/* // 최대 할인 금액 */}
 
           {/* 다운로드 유효 기간  */}
           <View style={{...BaseStyle.mv10}}>
