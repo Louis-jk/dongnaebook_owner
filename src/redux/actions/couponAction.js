@@ -5,6 +5,6 @@ export function updateCoupon(data) {
 
   return {
     type: types.UPDATE_COUPON_LIST,
-    coupon: args !== null ? args : null
+    coupon: args !== null ? args : null,
   };
 }

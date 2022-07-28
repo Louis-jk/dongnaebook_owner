@@ -7,120 +7,120 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import CalculateList from '../components/CalculateList';
 import moment from 'moment';
 
-const Tab = createMaterialTopTabNavigator()
+const Tab = createMaterialTopTabNavigator();
 
 const CalculateTabView = () => {
   const Month = () => {
-    const [selectedYear, setSelectedYear] = React.useState('') // 년 선택
-    const [selectedMonth, setSelectedMonth] = React.useState('') // 월 선택
+    const [selectedYear, setSelectedYear] = React.useState(''); // 년 선택
+    const [selectedMonth, setSelectedMonth] = React.useState(''); // 월 선택
 
     // 년도 배열 만들기
-    const [yearArr, setYearArr] = React.useState([])
+    const [yearArr, setYearArr] = React.useState([]);
     const getYearRangeHandler = (param1, param2) => {
-      const arr = []
+      const arr = [];
 
-      let start = param1
-      let end = param2
+      let start = param1;
+      let end = param2;
 
-      let i = start
+      let i = start;
       for (i; i <= end; i++) {
         // arr.push(i);
         arr.push({
           label: i + '년',
-          value: i
-        })
+          value: i,
+        });
       }
 
-      setYearArr(arr)
+      setYearArr(arr);
     };
 
     const initialSelectedYear = payload => {
-      setSelectedYear(payload)
+      setSelectedYear(payload);
     };
 
     const initialSelectedMonth = payload => {
-      setSelectedMonth(payload)
+      setSelectedMonth(payload);
     };
 
     React.useEffect(() => {
-      const getNow = new Date()
-      const getNowYear = getNow.getFullYear()
-      const getNowMonth = getNow.getMonth() + 1
+      const getNow = new Date();
+      const getNowYear = getNow.getFullYear();
+      const getNowMonth = getNow.getMonth() + 1;
 
       // getStatisticsAPI();
-      getYearRangeHandler(2021, getNowYear)
-      initialSelectedYear(getNowYear)
-      initialSelectedMonth(getNowMonth)
-    }, [])
+      getYearRangeHandler(2021, getNowYear);
+      initialSelectedYear(getNowYear);
+      initialSelectedMonth(getNowMonth);
+    }, []);
 
     const monthArr = [
       {
         label: '1월',
-        value: 1
+        value: 1,
       },
       {
         label: '2월',
-        value: 2
+        value: 2,
       },
       {
         label: '3월',
-        value: 3
+        value: 3,
       },
       {
         label: '4월',
-        value: 4
+        value: 4,
       },
       {
         label: '5월',
-        value: 5
+        value: 5,
       },
       {
         label: '6월',
-        value: 6
+        value: 6,
       },
       {
         label: '7월',
-        value: 7
+        value: 7,
       },
       {
         label: '8월',
-        value: 8
+        value: 8,
       },
       {
         label: '9월',
-        value: 9
+        value: 9,
       },
       {
         label: '10월',
-        value: 10
+        value: 10,
       },
       {
         label: '11월',
-        value: 11
+        value: 11,
       },
       {
         label: '12월',
-        value: 12
-      }
-    ]
+        value: 12,
+      },
+    ];
 
     const data = [
       {
         month: 3,
         calPrice: '5,795,000',
-        status: 0
+        status: 0,
       },
       {
         month: 2,
         calPrice: '1,995,000',
-        status: 1
+        status: 1,
       },
       {
         month: 1,
         calPrice: '2,775,000',
-        status: 1
-      }
-    ]
+        status: 1,
+      },
+    ];
 
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', ...BaseStyle.ph20 }}>
@@ -145,17 +145,17 @@ const CalculateTabView = () => {
                 backgroundColor: '#fff',
                 ...BaseStyle.pl20,
                 placeholder: {
-                  color: '#888'
-                }
+                  color: '#888',
+                },
               }}
               Icon={() => {
                 return (
                   <Image
                     source={require('../images/ic_select.png')}
                     style={{ width: 50, height: 50 }}
-                    resizeMode='center'
+                    resizeMode="center"
                   />
-                )
+                );
               }}
             />
           </View>
@@ -176,17 +176,17 @@ const CalculateTabView = () => {
                 backgroundColor: '#fff',
                 ...BaseStyle.pl20,
                 placeholder: {
-                  color: '#888'
-                }
+                  color: '#888',
+                },
               }}
               Icon={() => {
                 return (
                   <Image
                     source={require('../images/ic_select.png')}
                     style={{ width: 50, height: 50 }}
-                    resizeMode='center'
+                    resizeMode="center"
                   />
-                )
+                );
               }}
             />
           </View>
@@ -199,102 +199,100 @@ const CalculateTabView = () => {
               borderColor: Primary.PointColor01,
               ...BaseStyle.inputH,
               flex: 1,
-              backgroundColor: Primary.PointColor01
-            }}
-          >
+              backgroundColor: Primary.PointColor01,
+            }}>
             <Text
               style={{
                 ...BaseStyle.ko15,
                 marginTop: 2,
                 ...BaseStyle.font_bold,
-                ...BaseStyle.textWhite
-              }}
-            >
+                ...BaseStyle.textWhite,
+              }}>
               조회
             </Text>
           </TouchableOpacity>
         </View>
         <CalculateList data={data} />
       </View>
-    )
+    );
   };
 
   const During = () => {
     // 데이트 셀렉터
-    const [date, setDate] = React.useState(new Date())
-    const [startDate, setStartDate] = React.useState(new Date())
-    const [endDate, setEndDate] = React.useState(new Date())
-    const [mode, setMode] = React.useState('date')
-    const [show, setShow] = React.useState(false)
-    const [dateType, setDateType] = React.useState('')
-    const [timeType, setTimeType] = React.useState('')
+    const [date, setDate] = React.useState(new Date());
+    const [startDate, setStartDate] = React.useState(new Date());
+    const [endDate, setEndDate] = React.useState(new Date());
+    const [mode, setMode] = React.useState('date');
+    const [show, setShow] = React.useState(false);
+    const [dateType, setDateType] = React.useState('');
+    const [timeType, setTimeType] = React.useState('');
 
     const onChange = (event, selectedValue) => {
-      const currentValue = selectedValue || date
-      setShow(Platform.OS === 'ios')
+      const currentValue = selectedValue || date;
+      setShow(Platform.OS === 'ios');
 
       if (selectedValue > date) {
         Alert.alert('선택하신 날짜가 오늘 이후입니다.', '오늘까지 선택 가능합니다.', [
           {
-            text: '확인'
-          }
-        ])
+            text: '확인',
+          },
+        ]);
       } else {
         if (dateType === 'start') {
           if (currentValue > endDate) {
             Alert.alert('시작 날짜는 마감 날짜와 같거나 이전이어야 합니다.', '다시 선택해주세요.', [
               {
-                text: '확인'
-              }
-            ])
+                text: '확인',
+              },
+            ]);
           } else {
-            setStartDate(currentValue)
+            setStartDate(currentValue);
           }
         } else {
           if (currentValue < startDate) {
             Alert.alert('마감 날짜는 시작 날짜와 같거나 이후이어야 합니다.', '다시 선택해주세요.', [
               {
-                text: '확인'
-              }
-            ])
+                text: '확인',
+              },
+            ]);
           } else {
-            setEndDate(currentValue)
+            setEndDate(currentValue);
           }
         }
       }
-    }
+    };
 
     const showMode = (currentMode, payload) => {
-      setDateType(payload)
-      setShow(true)
-      setMode(currentMode)
+      setDateType(payload);
+      setShow(true);
+      setMode(currentMode);
     };
 
     const showDatepicker = payload => {
-      showMode('date', payload)
+      showMode('date', payload);
     };
 
     const showTimepicker = payload => {
-      showMode('time', payload)
+      showMode('time', payload);
     };
 
     const data = [
       {
         month: 3,
         calPrice: '5,795,000',
-        status: 0
+        status: 0,
       },
       {
         month: 2,
         calPrice: '1,995,000',
-        status: 1
+        status: 1,
       },
       {
         month: 1,
         calPrice: '2,775,000',
-        status: 1
-      }
-    ]
+        status: 1,
+      },
+    ];
 
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', ...BaseStyle.ph20 }}>
@@ -309,13 +307,12 @@ const CalculateTabView = () => {
               ...BaseStyle.mr5,
               ...BaseStyle.pl10,
               flex: 1.5,
-              backgroundColor: '#fff'
-            }}
-          >
+              backgroundColor: '#fff',
+            }}>
             <Image
               source={require('../images/ico_calendar.png')}
               style={{ width: 18, height: 18, marginRight: 2 }}
-              resizeMode='contain'
+              resizeMode="contain"
             />
             <Text style={{ ...BaseStyle.ko14, marginTop: 2 }}>
               {moment(startDate).format('YYYY-MM-DD')}
@@ -332,13 +329,12 @@ const CalculateTabView = () => {
               flex: 1.5,
               ...BaseStyle.mr5,
               backgroundColor: '#fff',
-              ...BaseStyle.pl10
-            }}
-          >
+              ...BaseStyle.pl10,
+            }}>
             <Image
               source={require('../images/ico_calendar.png')}
               style={{ width: 18, height: 18, marginRight: 2 }}
-              resizeMode='contain'
+              resizeMode="contain"
             />
             <Text style={{ ...BaseStyle.ko14, marginTop: 2 }}>
               {moment(endDate).format('YYYY-MM-DD')}
@@ -353,17 +349,15 @@ const CalculateTabView = () => {
               borderColor: Primary.PointColor01,
               ...BaseStyle.inputH,
               flex: 1,
-              backgroundColor: Primary.PointColor01
-            }}
-          >
+              backgroundColor: Primary.PointColor01,
+            }}>
             <Text
               style={{
                 ...BaseStyle.ko15,
                 marginTop: 2,
                 ...BaseStyle.font_bold,
-                ...BaseStyle.textWhite
-              }}
-            >
+                ...BaseStyle.textWhite,
+              }}>
               조회
             </Text>
           </TouchableOpacity>
@@ -371,49 +365,46 @@ const CalculateTabView = () => {
         <CalculateList data={data} />
         {show && (
           <DateTimePicker
-            testID='dateTimePicker'
+            testID="dateTimePicker"
             value={date}
             mode={mode}
             is24Hour
-            display='default'
+            display="default"
             onChange={onChange}
           />
         )}
       </View>
-    )
+    );
   };
 
   return (
     <Tab.Navigator
-      initialRouteName='menu01'
+      initialRouteName="menu01"
       screenOptions={{
         tabBarActiveTintColor: '#222',
         tabBarLabelStyle: { ...BaseStyle.ko14 },
         tabBarInactiveTintColor: '#AEAEAE',
         tabBarIndicatorStyle: {
-          backgroundColor: Primary.PointColor01
+          backgroundColor: Primary.PointColor01,
         },
-        tabBarPressColor: 'transparent'
-      }}
-    >
+        tabBarPressColor: 'transparent',
+      }}>
       <Tab.Screen
-        name='menu01'
+        name="menu01"
         options={{
-          tabBarLabel: '월별 조회'
-        }}
-      >
+          tabBarLabel: '월별 조회',
+        }}>
         {props => <Month {...props} />}
       </Tab.Screen>
       <Tab.Screen
-        name='menu02'
+        name="menu02"
         options={{
-          tabBarLabel: '기간 조회'
-        }}
-      >
+          tabBarLabel: '기간 조회',
+        }}>
         {props => <During {...props} />}
       </Tab.Screen>
     </Tab.Navigator>
-  )
+  );
 };
 
-export default CalculateTabView
+export default CalculateTabView;

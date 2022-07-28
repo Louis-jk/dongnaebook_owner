@@ -23,15 +23,15 @@ export function updateLogin(data) {
     mb_ca_name: args.mb_ca_name ? args.mb_ca_name : null, // add
     mt_addr: args.mt_addr ? args.mt_addr : null, // add
     mt_lat: args.mt_lat ? args.mt_lat : null, // add
-    mt_lng: args.mt_lng ? args.mt_lng : null // add
+    mt_lng: args.mt_lng ? args.mt_lng : null, // add
   };
 }
 
 export function updateToken(data) {
   const args = JSON.parse(data);
-  
+
   return {
     type: types.UPDATE_FCM_TOKEN,
-    mt_app_token: args
+    mt_app_token: args,
   };
 }

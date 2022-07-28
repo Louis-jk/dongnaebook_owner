@@ -7,7 +7,7 @@ import {
   FlatList,
   Dimensions,
   ActivityIndicator,
-  BackHandler
+  BackHandler,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import { useSelector } from 'react-redux';
@@ -20,76 +20,76 @@ import Api from '../Api';
 import cusToast from '../components/CusToast';
 import AnimateLoading from '../components/AnimateLoading';
 
-const { width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window');
 
 const SetTips = props => {
-  const { navigation } = props
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { navigation } = props;
+  const { mt_id, mt_jumju_code } = useSelector(state => state.login);
 
-  const [isLoading, setLoading] = React.useState(false)
-  const [list, setList] = React.useState([]) // 팁 리스트
-  const [tipId, setTipId] = React.useState('') // 팁 ID
+  const [isLoading, setLoading] = React.useState(false);
+  const [list, setList] = React.useState([]); // 팁 리스트
+  const [tipId, setTipId] = React.useState(''); // 팁 ID
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
-    navigation.goBack()
+    navigation.goBack();
 
-    return true
+    return true;
   };
 
   React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backAction)
-    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
-  }, [])
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => BackHandler.removeEventListener('hardwareBackPress', backAction);
+  }, []);
 
   // 팁 모달
-  const [isModalVisible, setModalVisible] = React.useState(false)
+  const [isModalVisible, setModalVisible] = React.useState(false);
   const toggleModal = () => {
-    setModalVisible(!isModalVisible)
+    setModalVisible(!isModalVisible);
   };
 
   // 삭제 모달
-  const [isDelModalVisible, setDelModalVisible] = React.useState(false)
+  const [isDelModalVisible, setDelModalVisible] = React.useState(false);
   const toggleDelModal = () => {
-    setDelModalVisible(!isDelModalVisible)
+    setDelModalVisible(!isDelModalVisible);
   };
 
   // 금액 추가 모달 핸들러
-  const [modalType, setModalType] = React.useState('')
+  const [modalType, setModalType] = React.useState('');
   const toggleModalHandler = payload => {
-    setModalType(payload)
-    toggleModal()
+    setModalType(payload);
+    toggleModal();
   };
 
   // 사용 체크
-  const [use, setUse] = React.useState(false)
+  const [use, setUse] = React.useState(false);
   const useToggle = () => {
-    setUse(prev => !prev)
+    setUse(prev => !prev);
   };
 
   const getTips = () => {
-    setLoading(true)
+    setLoading(true);
 
     const param = {
       jumju_id: mt_id,
-      jumju_code: mt_jumju_code
-    }
+      jumju_code: mt_jumju_code,
+    };
 
     Api.send('store_delivery', param, args => {
-      const resultItem = args.resultItem
-      let arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      let arrItems = args.arrItems;
       if (resultItem.result === 'Y') {
-        setList(arrItems)
+        setList(arrItems);
       } else {
-        setList(arrItems)
+        setList(arrItems);
       }
-      setLoading(false)
-    })
+      setLoading(false);
+    });
   };
 
   React.useEffect(() => {
-    getTips()
-  }, [])
+    getTips();
+  }, []);
 
   const tipDelHandler = () => {
     // let toIntId = parseInt(tipId);
@@ -98,27 +98,27 @@ const SetTips = props => {
       jumju_id: mt_id,
       jumju_code: mt_jumju_code,
       mode: 'delete',
-      dd_id: tipId
-    }
+      dd_id: tipId,
+    };
 
     Api.send('store_delivery_input', param, args => {
-      const resultItem = args.resultItem
-      let arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      let arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
-        toggleDelModal()
-        getTips()
-        cusToast('해당 배달팁이 삭제되었습니다.')
+        toggleDelModal();
+        getTips();
+        cusToast('해당 배달팁이 삭제되었습니다.');
       } else {
-        cusToast('해당 배달팁을 삭제할 수 없습니다.')
+        cusToast('해당 배달팁을 삭제할 수 없습니다.');
       }
-    })
+    });
   };
 
-  const [isEditModal, setEditModal] = React.useState(false)
-  const [editPrice, setEditPrice] = React.useState({})
+  const [isEditModal, setEditModal] = React.useState(false);
+  const [editPrice, setEditPrice] = React.useState({});
   const editTipsModalHandler = () => {
-    setEditModal(!isEditModal)
+    setEditModal(!isEditModal);
   };
 
   const renderRow = ({ item, index }) => {
@@ -130,13 +130,12 @@ const SetTips = props => {
             style={{
               height: '100%',
               justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
+              alignItems: 'center',
+            }}>
             <Image
               source={require('../images/edit.png')}
               style={{ width: 20, height: 20, marginBottom: 10 }}
-              resizeMode='center'
+              resizeMode="center"
             />
             <Text style={{ ...BaseStyle.ko14 }}>수정</Text>
           </View>
@@ -150,10 +149,10 @@ const SetTips = props => {
             dd_id: item.dd_id,
             minPrice: item.dd_charge_start,
             maxPrice: item.dd_charge_end,
-            deliveryPrice: item.dd_charge_price
-          })
-          editTipsModalHandler()
-        }
+            deliveryPrice: item.dd_charge_price,
+          });
+          editTipsModalHandler();
+        },
       },
       {
         text: '삭제',
@@ -162,13 +161,12 @@ const SetTips = props => {
             style={{
               height: '100%',
               justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
+              alignItems: 'center',
+            }}>
             <Image
               source={require('../images/delete_wh.png')}
               style={{ width: 20, height: 20, marginBottom: 10 }}
-              resizeMode='center'
+              resizeMode="center"
             />
             <Text style={{ ...BaseStyle.ko14, color: '#fff' }}>삭제</Text>
           </View>
@@ -177,28 +175,26 @@ const SetTips = props => {
         backgroundColor: Primary.PointColor02,
         underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
         onPress: () => {
-          setTipId(item.dd_id)
-          toggleDelModal()
-        }
-      }
-    ]
+          setTipId(item.dd_id);
+          toggleDelModal();
+        },
+      },
+    ];
 
     return (
       <Swipeout
         right={swipeBtns}
         autoClose
-        backgroundColor='transparent'
-        style={{ height: 190, ...BaseStyle.mv10 }}
-      >
+        backgroundColor="transparent"
+        style={{ height: 190, ...BaseStyle.mv10 }}>
         <View
           activeOpacity={1}
           style={{
             ...BaseStyle.mh20,
             borderWidth: 1,
             borderColor: '#E3E3E3',
-            borderRadius: 5
-          }}
-        >
+            borderRadius: 5,
+          }}>
           <View
             style={{
               flexDirection: 'row',
@@ -206,16 +202,15 @@ const SetTips = props => {
               alignItems: 'center',
               backgroundColor: Primary.PointColor01,
               ...BaseStyle.ph15,
-              ...BaseStyle.pv10
-            }}
-          >
+              ...BaseStyle.pv10,
+            }}>
             <View>
               <Text style={{ ...BaseStyle.font_white }}>배달팁{index + 1}</Text>
             </View>
             <Image
               source={require('../images/logo.png')}
               style={{ width: 80, height: 20 }}
-              resizeMode='contain'
+              resizeMode="contain"
             />
           </View>
           <View
@@ -223,9 +218,8 @@ const SetTips = props => {
               ...BaseStyle.container7,
               ...BaseStyle.mb10,
               ...BaseStyle.ph20,
-              ...BaseStyle.pv10
-            }}
-          >
+              ...BaseStyle.pv10,
+            }}>
             <View style={{ flex: 1 }}>
               <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
                 <View style={{ flex: 1, ...BaseStyle.container, ...BaseStyle.mr5 }}>
@@ -238,9 +232,8 @@ const SetTips = props => {
                       ...BaseStyle.round05,
                       ...BaseStyle.inputH,
                       ...BaseStyle.ph10,
-                      justifyContent: 'flex-end'
-                    }}
-                  >
+                      justifyContent: 'flex-end',
+                    }}>
                     <Text style={{ ...BaseStyle.ko14, textAlign: 'right' }}>
                       {item.dd_charge_start}
                     </Text>
@@ -259,9 +252,8 @@ const SetTips = props => {
                       ...BaseStyle.round05,
                       ...BaseStyle.inputH,
                       ...BaseStyle.ph10,
-                      justifyContent: 'flex-end'
-                    }}
-                  >
+                      justifyContent: 'flex-end',
+                    }}>
                     <Text style={{ ...BaseStyle.ko14, textAlign: 'right' }}>
                       {item.dd_charge_end}
                     </Text>
@@ -284,9 +276,8 @@ const SetTips = props => {
                       ...BaseStyle.round05,
                       ...BaseStyle.inputH,
                       ...BaseStyle.ph10,
-                      justifyContent: 'flex-end'
-                    }}
-                  >
+                      justifyContent: 'flex-end',
+                    }}>
                     <Text style={{ ...BaseStyle.ko14, textAlign: 'right' }}>
                       {item.dd_charge_price}
                     </Text>
@@ -298,12 +289,12 @@ const SetTips = props => {
           </View>
         </View>
       </Swipeout>
-    )
+    );
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='배달팁 설정' toggleModal={toggleModal} />
+      <Header navigation={navigation} title="배달팁 설정" toggleModal={toggleModal} />
       {/* // 추가 모달 */}
       <TipsModal
         navigation={navigation}
@@ -333,8 +324,7 @@ const SetTips = props => {
         onBackdropPress={toggleDelModal}
         transparent
         statusBarTranslucent
-        style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
-      >
+        style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}>
         <View
           style={{
             backgroundColor: '#fff',
@@ -342,9 +332,8 @@ const SetTips = props => {
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 5,
-            position: 'relative'
-          }}
-        >
+            position: 'relative',
+          }}>
           <TouchableOpacity
             activeOpacity={1}
             onPress={toggleDelModal}
@@ -357,15 +346,14 @@ const SetTips = props => {
               width: 30,
               height: 30,
               justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
+              alignItems: 'center',
+            }}>
             <Image
               source={require('../images/close.png')}
               style={{
                 width: 12,
                 height: 12,
-                resizeMode: 'center'
+                resizeMode: 'center',
               }}
             />
           </TouchableOpacity>
@@ -379,9 +367,8 @@ const SetTips = props => {
                 width: 90,
                 ...BaseStyle.pv10,
                 borderRadius: 5,
-                ...BaseStyle.mr5
-              }}
-            >
+                ...BaseStyle.mr5,
+              }}>
               <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>확인</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -395,9 +382,8 @@ const SetTips = props => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
-                ...BaseStyle.ml5
-              }}
-            >
+                ...BaseStyle.ml5,
+              }}>
               <Text style={{ ...BaseStyle.ko14 }}>아니오</Text>
             </TouchableOpacity>
           </View>
@@ -418,10 +404,9 @@ const SetTips = props => {
                 width: '20%',
                 justifyContent: 'center',
                 alignContent: 'center',
-                ...BaseStyle.pv7
+                ...BaseStyle.pv7,
               }}
-              hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            >
+              hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
               <Text style={{ ...BaseStyle.ko13, ...BaseStyle.textWhite }}>추가</Text>
             </TouchableOpacity>
           </View>
@@ -434,26 +419,23 @@ const SetTips = props => {
               flexDirection: 'row',
               justifyContent: 'flex-start',
               alignItems: 'center',
-              ...BaseStyle.mb5
-            }}
-          >
+              ...BaseStyle.mb5,
+            }}>
             <View style={{ flexDirection: 'row', width: '80%' }}>
               <Text
                 style={{
                   ...BaseStyle.ko12,
                   ...BaseStyle.lh17,
-                  color: Primary.PointColor02
-                }}
-              >
+                  color: Primary.PointColor02,
+                }}>
                 {'※ '}
               </Text>
               <Text
                 style={{
                   ...BaseStyle.ko12,
                   ...BaseStyle.lh17,
-                  color: Primary.PointColor02
-                }}
-              >
+                  color: Primary.PointColor02,
+                }}>
                 {
                   '배달팁을 편집 또는 삭제하시려면\n해당 배달팁을 오른쪽에서 왼쪽으로 스와이프해주세요.'
                 }
@@ -463,7 +445,7 @@ const SetTips = props => {
               <Image
                 source={require('../images/swipe_m.png')}
                 style={{ width: 100, height: 25 }}
-                resizeMode='contain'
+                resizeMode="contain"
               />
             </View>
           </View>
@@ -473,15 +455,14 @@ const SetTips = props => {
 
       {/* 리스트 */}
       {isLoading ? (
-        <AnimateLoading description='잠시만 기다려주세요.' />
+        <AnimateLoading description="잠시만 기다려주세요." />
       ) : (
         <View
           style={{
             flex: 1,
             justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
+            alignItems: 'center',
+          }}>
           <FlatList
             data={list}
             renderItem={renderRow}
@@ -498,9 +479,8 @@ const SetTips = props => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   flex: 1,
-                  height: Dimensions.get('window').height - 300
-                }}
-              >
+                  height: Dimensions.get('window').height - 300,
+                }}>
                 <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
                   아직 설정하신 배달팁이 없습니다.
                 </Text>
@@ -519,7 +499,7 @@ const SetTips = props => {
         <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>배달팁 추가</Text>
       </TouchableOpacity> */}
     </View>
-  )
+  );
 };
 
-export default SetTips
+export default SetTips;

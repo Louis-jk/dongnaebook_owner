@@ -9,7 +9,7 @@ import {
   ScrollView,
   Linking,
   Alert,
-  BackHandler
+  BackHandler,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useSelector, useDispatch } from 'react-redux';
@@ -23,111 +23,111 @@ import Api from '../Api';
 import OrderCheckModal from '../components/OrderCheckModal';
 import * as orderAction from '../redux/actions/orderAction';
 
-const { width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window');
 
 const OrderDetail = props => {
-  const { navigation } = props
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
-  const { od_id, od_time, type } = props.route.params
-  const [detailStore, setDetailStore] = React.useState(null)
-  const [detailOrder, setDetailOrder] = React.useState(null)
-  const [detailProduct, setDetailProduct] = React.useState([])
+  const { navigation } = props;
 
-  const dispatch = useDispatch()
+  const { od_id, od_time, type, jumjuId, jumjuCode } = props.route.params;
+  const [detailStore, setDetailStore] = React.useState(null);
+  const [detailOrder, setDetailOrder] = React.useState(null);
+  const [detailProduct, setDetailProduct] = React.useState([]);
+
+  const dispatch = useDispatch();
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
-    navigation.goBack()
+    navigation.goBack();
 
-    return true
+    return true;
   };
 
   React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backAction)
-    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
-  }, [])
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => BackHandler.removeEventListener('hardwareBackPress', backAction);
+  }, []);
 
   const getOrderDetailHandler = () => {
     const param = {
       encodeJson: true,
       od_id,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code
-    }
+      jumju_id: jumjuId,
+      jumju_code: jumjuCode,
+    };
 
     Api.send('store_order_detail', param, args => {
-      const resultItem = args.resultItem
-      let arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      const arrItems = args.arrItems;
 
-      console.log('====================================')
-      console.log('order Detail resultItem >>>>> ', resultItem)
-      console.log('order Detail arrItems >>>>> ', arrItems)
-      console.log('====================================')
+      console.log('====================================');
+      console.log('order Detail resultItem >>>>> ', resultItem);
+      console.log('order Detail arrItems >>>>> ', arrItems);
+      console.log('====================================');
 
       if (resultItem.result === 'Y') {
-        setDetailStore(arrItems.store)
-        setDetailOrder(arrItems.order)
-        setDetailProduct(arrItems.orderDetail)
+        setDetailStore(arrItems.store);
+        setDetailOrder(arrItems.order);
+        setDetailProduct(arrItems.orderDetail);
       } else {
         Alert.alert('데이터를 받아오는데 오류가 발생하였습니다.', '관리자에게 문의해주세요.', [
           {
-            text: '확인'
-          }
-        ])
+            text: '확인',
+          },
+        ]);
       }
-    })
+    });
   };
 
   React.useEffect(() => {
-    getOrderDetailHandler()
-  }, [])
+    getOrderDetailHandler();
+  }, []);
 
-  console.log('====================================')
-  console.log('detailStore', detailStore)
-  console.log('detailOrder', detailOrder)
-  console.log('detailProduct', detailProduct)
-  console.log('====================================')
+  console.log('====================================');
+  console.log('detailStore', detailStore);
+  console.log('detailOrder', detailOrder);
+  console.log('detailProduct', detailProduct);
+  console.log('====================================');
 
   // 예상시간 입력
-  const [deliveryTime, setDeliveryTime] = React.useState('')
+  const [deliveryTime, setDeliveryTime] = React.useState('');
 
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState(null)
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(null);
   const [items, setItems] = React.useState([
     { label: '주문이 많아 시간이 소요됩니다.', value: 'v01' },
     { label: '준비중입니다. 잠시만 기다려주세요.', value: 'v02' },
-    { label: '빨리 보내드리겠습니다.', value: 'v03' }
-  ])
+    { label: '빨리 보내드리겠습니다.', value: 'v03' },
+  ]);
 
   // 주문 거부
-  const [isModalVisible, setModalVisible] = React.useState(false)
-  const [modalType, setModalType] = React.useState('')
+  const [isModalVisible, setModalVisible] = React.useState(false);
+  const [modalType, setModalType] = React.useState('');
   const toggleModal = payload => {
-    setModalType(payload)
-    setModalVisible(!isModalVisible)
+    setModalType(payload);
+    setModalVisible(!isModalVisible);
   };
 
   // 제목 설정
-  const [title, setTitle] = React.useState('')
+  const [title, setTitle] = React.useState('');
 
   React.useEffect(() => {
     if (type === 'ready') {
-      setTitle('신규주문')
+      setTitle('신규주문');
     } else if (type === 'doing') {
-      setTitle('접수완료')
+      setTitle('접수완료');
     } else if (type === 'going') {
-      setTitle('배달중')
+      setTitle('배달중');
     } else if (type === 'cancel') {
-      setTitle('주문취소')
+      setTitle('주문취소');
     } else {
-      setTitle('처리완료')
+      setTitle('처리완료');
     }
-  }, [])
+  }, []);
 
   // 주문 접수
-  const [isOrderCheckModalVisible, setOrderCheckModalVisible] = React.useState(false)
+  const [isOrderCheckModalVisible, setOrderCheckModalVisible] = React.useState(false);
   const toggleOrderCheckModal = () => {
-    setOrderCheckModalVisible(!isOrderCheckModalVisible)
+    setOrderCheckModalVisible(!isOrderCheckModalVisible);
   };
 
   // 주문 배달처리 후 리스트 갱신
@@ -136,50 +136,50 @@ const OrderDetail = props => {
       encodeJson: true,
       item_count: 0,
       limit_count: 10,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
-      od_process_status: '접수완료'
-    }
+      jumju_id: jumjuId,
+      jumju_code: jumjuCode,
+      od_process_status: '접수완료',
+    };
 
     Api.send('store_order_list', param, args => {
-      const resultItem = args.resultItem
-      const arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      const arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
-        dispatch(orderAction.updateCheckOrder(JSON.stringify(arrItems)))
+        dispatch(orderAction.updateCheckOrder(JSON.stringify(arrItems)));
       } else {
-        dispatch(orderAction.updateCheckOrder(null))
+        dispatch(orderAction.updateCheckOrder(null));
       }
-    })
+    });
   };
 
   // 주문 배달처리
   const sendDeliverHandler = () => {
     const param = {
       od_id,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
-      od_process_status: detailOrder.od_type === '배달' ? '배달중' : '포장완료'
+      jumju_id: jumjuId,
+      jumju_code: jumjuCode,
+      od_process_status: detailOrder.od_type === '배달' ? '배달중' : '포장완료',
       // delivery_time: time01,
       // visit_time: time02
-    }
+    };
 
     Api.send('store_order_status_update', param, args => {
-      const resultItem = args.resultItem
-      let arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      const arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
-        getOrderListHandlerCheck()
+        getOrderListHandlerCheck();
         Alert.alert(
           `주문을 ${detailOrder.od_type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`,
           '',
           [
             {
               text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'Main' })
-            }
-          ]
-        )
+              onPress: () => navigation.navigate('Home', { screen: 'Main' }),
+            },
+          ],
+        );
       } else {
         Alert.alert(
           `주문을 ${
@@ -189,12 +189,12 @@ const OrderDetail = props => {
           [
             {
               text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'Main' })
-            }
-          ]
-        )
+              onPress: () => navigation.navigate('Home', { screen: 'Main' }),
+            },
+          ],
+        );
       }
-    })
+    });
   };
 
   const deliveryOrderHandler = () => {
@@ -202,28 +202,28 @@ const OrderDetail = props => {
       Alert.alert('주문을 배달 처리하시겠습니까?', '', [
         {
           text: '네 배달처리',
-          onPress: () => sendDeliverHandler()
+          onPress: () => sendDeliverHandler(),
         },
         {
-          text: '아니요'
-        }
-      ])
+          text: '아니요',
+        },
+      ]);
     } else {
       Alert.alert('주문을 포장완료 처리하시겠습니까?', '', [
         {
           text: '네 포장완료',
-          onPress: () => sendDeliverHandler()
+          onPress: () => sendDeliverHandler(),
         },
         {
-          text: '아니요'
-        }
-      ])
+          text: '아니요',
+        },
+      ]);
     }
-  }
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title={title} type='default' />
+      <Header navigation={navigation} title={title} type="default" />
       {/* <StatusMenu navigation={navigation} /> */}
 
       {detailStore && detailOrder && detailProduct && (
@@ -249,32 +249,52 @@ const OrderDetail = props => {
           {/* // 주문 취소/거부 모달 */}
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ ...BaseStyle.ph20 }}>
+              {/* 주문 번호 */}
+
+              {/* // 주문 번호 */}
+              <View
+                style={{
+                  ...BaseStyle.container5,
+                  ...BaseStyle.pv15,
+                  ...BaseStyle.ph10,
+                  ...BaseStyle.mb20,
+                  borderRadius: 5,
+                  backgroundColor: Primary.PointColor01,
+                }}>
+                <Text
+                  style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                  주문번호
+                </Text>
+                <Text
+                  style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                  {detailOrder.order_id}
+                </Text>
+              </View>
               {/* 취소건 일 때 취소 사유 */}
               {type === 'cancel' && (
-                <View style={{ ...BaseStyle.mb15 }}>
-                  {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15}}>기본 정보</Text> */}
-                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
-                    취소 사유
-                  </Text>
-                  <View
-                    style={{
-                      ...BaseStyle.pv15,
-                      ...BaseStyle.ph15,
-                      backgroundColor: '#FCA000aa',
-                      borderRadius: 5
-                    }}
-                  >
-                    <Text
-                      style={{
-                        ...BaseStyle.ko14,
-                        ...BaseStyle.font_333,
-                        ...BaseStyle.lh17
-                      }}
-                    >
-                      {detailOrder.od_cancle_memo}
+                <>
+                  <View style={{ ...BaseStyle.mb15 }}>
+                    {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15}}>기본 정보</Text> */}
+                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
+                      취소 사유
                     </Text>
-                  </View>
-                  {/* <View style={{...BaseStyle.container5, ...BaseStyle.mb10}}>
+                    <View
+                      style={{
+                        ...BaseStyle.pv15,
+                        ...BaseStyle.ph15,
+                        backgroundColor: '#FCA000aa',
+                        borderRadius: 5,
+                      }}>
+                      <Text
+                        style={{
+                          ...BaseStyle.ko14,
+                          ...BaseStyle.font_333,
+                          ...BaseStyle.lh17,
+                        }}>
+                        {detailOrder.od_cancle_memo}
+                      </Text>
+                    </View>
+                    {/* <View style={{...BaseStyle.container5, ...BaseStyle.mb10}}>
                     <View style={{width: "30%"}}>
                       <Text style={{...BaseStyle.ko14, ...BaseStyle.font_999, ...BaseStyle.lh17}}>
                         상호명
@@ -292,13 +312,14 @@ const OrderDetail = props => {
                       </Text>
                     </View>
                   </View> */}
-                </View>
+                  </View>
+                  <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+                </>
               )}
               {/* // 취소건 일 때 취소 사유 */}
-              <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
 
               {/* 기본 정보 리스트 */}
-              <View style={{ ...BaseStyle.mv15 }}>
+              <View style={{ ...BaseStyle.mv15, marginTop: type === 'cancel' ? 15 : 0 }}>
                 {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15}}>기본 정보</Text> */}
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
                   주문 매장
@@ -315,9 +336,8 @@ const OrderDetail = props => {
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_333,
                         ...BaseStyle.lh17,
-                        textAlign: 'right'
-                      }}
-                    >
+                        textAlign: 'right',
+                      }}>
                       {detailStore.mb_company}
                     </Text>
                   </View>
@@ -354,9 +374,8 @@ const OrderDetail = props => {
                   style={{
                     ...BaseStyle.container3,
                     justifyContent: 'space-between',
-                    ...BaseStyle.mb10
-                  }}
-                >
+                    ...BaseStyle.mb10,
+                  }}>
                   <View style={{ width: '30%' }}>
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_999 }}>배달주소</Text>
                   </View>
@@ -367,9 +386,8 @@ const OrderDetail = props => {
                           ...BaseStyle.ko14,
                           ...BaseStyle.font_333,
                           ...BaseStyle.lh17,
-                          textAlign: 'right'
-                        }}
-                      >
+                          textAlign: 'right',
+                        }}>
                         {`${detailOrder.order_addr1}`}
                       </Text>
                       <Text
@@ -377,10 +395,20 @@ const OrderDetail = props => {
                           ...BaseStyle.ko14,
                           ...BaseStyle.font_333,
                           ...BaseStyle.lh17,
-                          textAlign: 'right'
-                        }}
-                      >
+                          textAlign: 'right',
+                        }}>
                         {`${detailOrder.order_addr3}`}
+                      </Text>
+                    </View>
+                    <View style={{ ...BaseStyle.mb10 }}>
+                      <Text
+                        style={{
+                          ...BaseStyle.ko14,
+                          ...BaseStyle.font_333,
+                          ...BaseStyle.lh17,
+                          textAlign: 'right',
+                        }}>
+                        {`${detailOrder.od_addr_jibeon}`}
                       </Text>
                     </View>
                   </View>
@@ -395,14 +423,13 @@ const OrderDetail = props => {
                       Alert.alert('주문자에게 전화를 거시겠습니까?', '', [
                         {
                           text: '전화걸기',
-                          onPress: () => Linking.openURL(`tel: ${detailOrder.order_hp}`)
+                          onPress: () => Linking.openURL(`tel: ${detailOrder.order_hp}`),
                         },
                         {
-                          text: '취소'
-                        }
-                      ])
-                    }}
-                  >
+                          text: '취소',
+                        },
+                      ]);
+                    }}>
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, textAlign: 'right' }}>
                       {Api.phoneFomatter(detailOrder.order_hp)}
                     </Text>
@@ -428,38 +455,35 @@ const OrderDetail = props => {
                         borderRadius: 5,
                         ...BaseStyle.ph15,
                         ...BaseStyle.pv15,
-                        ...BaseStyle.mb10
-                      }}
-                    >
+                        ...BaseStyle.mb10,
+                      }}>
                       <View
                         style={{
                           flexDirection: 'row',
                           justifyContent: 'space-between',
                           alignItems: 'flex-start',
-                          ...BaseStyle.mb7
-                        }}
-                      >
+                          ...BaseStyle.mb7,
+                        }}>
                         <Text
                           style={{
                             flex: 1,
                             ...BaseStyle.ko16,
                             ...BaseStyle.font_bold,
                             ...BaseStyle.mr10,
-                            ...BaseStyle.mb7
-                          }}
-                        >
+                            ...BaseStyle.mb7,
+                          }}>
                           {menu.it_name}
                         </Text>
-                        <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.mb7 }}>
+                        <Text
+                          style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.mb7 }}>
                           {Api.comma(menu.sum_price)}원
                         </Text>
                       </View>
                       <View
                         style={{
                           marginBottom:
-                            menu.cart_add_option && menu.cart_add_option.length > 0 ? 10 : 0
-                        }}
-                      >
+                            menu.cart_add_option && menu.cart_add_option.length > 0 ? 10 : 0,
+                        }}>
                         {menu.cart_option &&
                           menu.cart_option.length > 0 &&
                           menu.cart_option.map((defaultOption, key) => (
@@ -471,27 +495,24 @@ const OrderDetail = props => {
                                   menu.cart_add_option &&
                                   menu.cart_add_option.length === 0
                                     ? 0
-                                    : 10
-                              }}
-                            >
+                                    : 10,
+                              }}>
                               <View
                                 style={{
                                   flexDirection: 'row',
                                   justifyContent: 'flex-start',
                                   alignItems: 'flex-start',
                                   ...BaseStyle.mb7,
-                                  flexWrap: 'wrap'
-                                }}
-                              >
+                                  flexWrap: 'wrap',
+                                }}>
                                 <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_999 }}>└ </Text>
                                 <Text
                                   style={{
                                     ...BaseStyle.ko14,
-                                    ...BaseStyle.font_999
+                                    ...BaseStyle.font_999,
                                     // backgroundColor: Primary.PointColor01,
                                     // color: '#222',
-                                  }}
-                                >
+                                  }}>
                                   기본옵션 : {defaultOption.ct_option}
                                 </Text>
                               </View>
@@ -501,9 +522,8 @@ const OrderDetail = props => {
                                   justifyContent: 'flex-start',
                                   alignItems: 'flex-start',
                                   ...BaseStyle.mb3,
-                                  flexWrap: 'wrap'
-                                }}
-                              >
+                                  flexWrap: 'wrap',
+                                }}>
                                 <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_999 }}>└ </Text>
                                 <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_999 }}>
                                   옵션금액 : {Api.comma(defaultOption.io_price)}원
@@ -518,18 +538,16 @@ const OrderDetail = props => {
                           <View
                             key={`addOption-${key}`}
                             style={{
-                              marginBottom: key === menu.cart_add_option.length - 1 ? 0 : 10
-                            }}
-                          >
+                              marginBottom: key === menu.cart_add_option.length - 1 ? 0 : 10,
+                            }}>
                             <View
                               style={{
                                 flexDirection: 'row',
                                 justifyContent: 'flex-start',
                                 alignItems: 'flex-start',
                                 ...BaseStyle.mb3,
-                                flexWrap: 'wrap'
-                              }}
-                            >
+                                flexWrap: 'wrap',
+                              }}>
                               <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_999 }}>└ </Text>
                               <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_999 }}>
                                 추가옵션 : {addOption.ct_option}
@@ -541,9 +559,8 @@ const OrderDetail = props => {
                                 justifyContent: 'flex-start',
                                 alignItems: 'flex-start',
                                 ...BaseStyle.mb3,
-                                flexWrap: 'wrap'
-                              }}
-                            >
+                                flexWrap: 'wrap',
+                              }}>
                               <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_999 }}>└ </Text>
                               <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_999 }}>
                                 옵션금액 : {Api.comma(addOption.io_price)}원
@@ -573,9 +590,8 @@ const OrderDetail = props => {
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_333,
                         ...BaseStyle.lh17,
-                        textAlign: 'right'
-                      }}
-                    >
+                        textAlign: 'right',
+                      }}>
                       {detailOrder.order_seller ? detailOrder.order_seller : '요청사항이 없습니다.'}
                     </Text>
                   </View>
@@ -586,9 +602,8 @@ const OrderDetail = props => {
                       style={{
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_999,
-                        ...BaseStyle.lh17
-                      }}
-                    >
+                        ...BaseStyle.lh17,
+                      }}>
                       배달기사님께
                     </Text>
                   </View>
@@ -598,9 +613,8 @@ const OrderDetail = props => {
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_333,
                         ...BaseStyle.lh17,
-                        textAlign: 'right'
-                      }}
-                    >
+                        textAlign: 'right',
+                      }}>
                       {detailOrder.order_officer
                         ? detailOrder.order_officer
                         : '요청사항이 없습니다.'}
@@ -613,9 +627,8 @@ const OrderDetail = props => {
                       style={{
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_999,
-                        ...BaseStyle.lh17
-                      }}
-                    >
+                        ...BaseStyle.lh17,
+                      }}>
                       일회용 수저, 포크 유무
                     </Text>
                   </View>
@@ -625,9 +638,8 @@ const OrderDetail = props => {
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_333,
                         ...BaseStyle.lh17,
-                        textAlign: 'right'
-                      }}
-                    >
+                        textAlign: 'right',
+                      }}>
                       {detailOrder.od_no_spoon == '1' ? '필요없음' : '필요함'}
                     </Text>
                   </View>
@@ -644,9 +656,8 @@ const OrderDetail = props => {
                   ...BaseStyle.pv20,
                   ...BaseStyle.ph15,
                   ...BaseStyle.mt20,
-                  ...BaseStyle.mb15
-                }}
-              >
+                  ...BaseStyle.mb15,
+                }}>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
                   결제정보
                 </Text>
@@ -711,7 +722,12 @@ const OrderDetail = props => {
                   </View>
                 </View>
                 <View
-                  style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3', ...BaseStyle.mb20 }}
+                  style={{
+                    height: 1,
+                    width: '100%',
+                    backgroundColor: '#E3E3E3',
+                    ...BaseStyle.mb20,
+                  }}
                 />
                 <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
                   <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>총 결제금액</Text>
@@ -741,9 +757,8 @@ const OrderDetail = props => {
                   width: '50%',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  ...BaseStyle.pv15
-                }}
-              >
+                  ...BaseStyle.pv15,
+                }}>
                 <Text style={{ ...BaseStyle.ko14 }}>주문거부</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -754,10 +769,10 @@ const OrderDetail = props => {
                   width: '50%',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  ...BaseStyle.pv15
-                }}
-              >
-                <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                  ...BaseStyle.pv15,
+                }}>
+                <Text
+                  style={{ ...BaseStyle.ko14, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
                   접수 완료
                 </Text>
               </TouchableOpacity>
@@ -775,9 +790,8 @@ const OrderDetail = props => {
                   width: '50%',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  ...BaseStyle.pv15
-                }}
-              >
+                  ...BaseStyle.pv15,
+                }}>
                 <Text style={{ ...BaseStyle.ko14 }}>주문취소</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -788,9 +802,8 @@ const OrderDetail = props => {
                   width: '50%',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  ...BaseStyle.pv15
-                }}
-              >
+                  ...BaseStyle.pv15,
+                }}>
                 <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>
                   {detailOrder.od_type === '배달' ? '배달처리' : '포장완료'}
                 </Text>
@@ -800,7 +813,7 @@ const OrderDetail = props => {
         </>
       )}
     </View>
-  )
+  );
 };
 
-export default OrderDetail
+export default OrderDetail;

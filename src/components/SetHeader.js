@@ -5,7 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import BaseStyle, { Primary } from '../styles/Base';
 
 const SetHeader = props => {
-  const { navigation, title, type, toggleModal } = props
+  const { navigation, title, type, toggleModal } = props;
 
   return (
     <SafeAreaView>
@@ -13,12 +13,11 @@ const SetHeader = props => {
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => navigation.goBack()}
-          hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
-        >
+          hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}>
           <Image
             source={require('../images/top_ic_history.png')}
             style={{ width: 30, height: 20 }}
-            resizeMode='contain'
+            resizeMode="contain"
           />
         </TouchableOpacity>
         <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold }}>{title}</Text>
@@ -27,13 +26,12 @@ const SetHeader = props => {
             activeOpacity={1}
             onPress={() => {
               if (type === 'add') {
-                toggleModal()
+                toggleModal();
               } else {
-                alert('저장')
+                alert('저장');
               }
             }}
-            hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
-          >
+            hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_bold }}>
               {type === 'add' ? '추가' : '저장'}
             </Text>
@@ -42,19 +40,18 @@ const SetHeader = props => {
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-            hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
-          >
+            hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <Image
               source={require('../images/ic_menu.png')}
               style={{ width: 30, height: 30 }}
-              resizeMode='contain'
+              resizeMode="contain"
             />
           </TouchableOpacity>
         )}
       </View>
       <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3', ...BaseStyle.mb20 }} />
     </SafeAreaView>
-  )
+  );
 };
 
-export default SetHeader
+export default SetHeader;

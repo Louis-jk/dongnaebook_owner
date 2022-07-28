@@ -7,30 +7,30 @@ import BaseStyle, { Primary } from '../styles/Base';
 import Api from '../Api';
 
 const NoticeDetail = props => {
-  const { navigation } = props
-  const { item } = props.route.params
+  const { navigation } = props;
+  const { item } = props.route.params;
 
-  const contentWidth = useWindowDimensions().width
+  const contentWidth = useWindowDimensions().width;
 
-  const [detail, setDetail] = React.useState('')
+  const [detail, setDetail] = React.useState('');
 
   const getNoticeDetailHandler = payload => {
     const param = {
       encodeJson: true,
       bo_table: 'notice',
-      wr_id: payload
-    }
+      wr_id: payload,
+    };
 
     Api.send('store_board_detail', param, args => {
-      const resultItem = args.resultItem
-      let arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      let arrItems = args.arrItems;
       if (resultItem.result === 'Y') {
-        console.log('====================================')
-        console.log('arrItems', arrItems)
-        console.log('====================================')
-        setDetail(arrItems)
+        console.log('====================================');
+        console.log('arrItems', arrItems);
+        console.log('====================================');
+        setDetail(arrItems);
       } else {
-        setDetail(arrItems)
+        setDetail(arrItems);
         // Alert.alert('접속이 잘 못 되었습니다.','다시 확인 후 로그인해주세요.', [
         //   {
         //     text: '확인'
@@ -38,33 +38,31 @@ const NoticeDetail = props => {
         // ]);
         // setButtonDisabled(false);
       }
-    })
+    });
   };
 
   React.useEffect(() => {
-    getNoticeDetailHandler(props.route.params.item.wr_id)
-  }, [])
+    getNoticeDetailHandler(props.route.params.item.wr_id);
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='공지사항' />
+      <Header navigation={navigation} title="공지사항" />
       <View
         style={{
           ...BaseStyle.ph20,
           ...BaseStyle.pv20,
           ...BaseStyle.container5,
-          alignItems: 'flex-start'
-        }}
-      >
+          alignItems: 'flex-start',
+        }}>
         <View style={{ marginTop: -2 }}>
           <Text
             style={{
               ...BaseStyle.ko18,
               ...BaseStyle.font_bold,
               ...BaseStyle.lh24,
-              ...BaseStyle.mb10
-            }}
-          >
+              ...BaseStyle.mb10,
+            }}>
             제목 : {detail.subject}
           </Text>
           <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>
@@ -75,7 +73,7 @@ const NoticeDetail = props => {
           <Image
             source={require('../images/eye.png')}
             style={{ width: 20, height: 17, ...BaseStyle.mr5 }}
-            resizeMode='contain'
+            resizeMode="contain"
           />
           <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>{detail.wr_hit}</Text>
         </View>
@@ -93,7 +91,7 @@ const NoticeDetail = props => {
         </View>
       )}
     </View>
-  )
+  );
 };
 
-export default NoticeDetail
+export default NoticeDetail;

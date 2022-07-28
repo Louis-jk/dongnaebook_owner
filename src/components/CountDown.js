@@ -9,28 +9,28 @@ const CountDown = ({
   setSeconds,
   onFailConfirm,
   timeOver,
-  setTimeOver
+  setTimeOver,
 }) => {
   React.useEffect(() => {
-    setTimeOver(false)
+    setTimeOver(false);
     const countdown = setInterval(() => {
       if (parseInt(seconds) > 0) {
-        setSeconds(parseInt(seconds) - 1)
+        setSeconds(parseInt(seconds) - 1);
       }
       if (parseInt(seconds) === 0) {
         if (parseInt(minutes) === 0) {
-          clearInterval(countdown)
-          onFailConfirm()
-          setTimeOver(true)
-          cusToast('인증번호 입력시간이 초과되었습니다.\n인증번호를 다시 전송해주세요.', 2500)
+          clearInterval(countdown);
+          onFailConfirm();
+          setTimeOver(true);
+          cusToast('인증번호 입력시간이 초과되었습니다.\n인증번호를 다시 전송해주세요.', 2500);
         } else {
-          setMinutes(parseInt(minutes) - 1)
-          setSeconds(59)
+          setMinutes(parseInt(minutes) - 1);
+          setSeconds(59);
         }
       }
-    }, 1000)
-    return () => clearInterval(countdown)
-  }, [minutes, seconds])
+    }, 1000);
+    return () => clearInterval(countdown);
+  }, [minutes, seconds]);
 
   return (
     <>
@@ -43,22 +43,20 @@ const CountDown = ({
       ) : (
         <View
           style={{
-            marginBottom: 10
-          }}
-        >
+            marginBottom: 10,
+          }}>
           <Text
             style={{
               fontSize: 12,
               color: '#ff5e78',
-              marginRight: 5
-            }}
-          >
+              marginRight: 5,
+            }}>
             입력시간이 초과되었습니다.
           </Text>
         </View>
       )}
     </>
-  )
+  );
 };
 
-export default CountDown
+export default CountDown;

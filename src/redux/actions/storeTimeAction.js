@@ -5,6 +5,6 @@ export function updateStoreTime(data) {
 
   return {
     type: types.UPDATE_STORE_TIME,
-    storeTime: args
+    storeTime: args,
   };
 }

@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   SafeAreaView,
   Image,
-  Alert
+  Alert,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import Api from '../Api';
@@ -17,38 +17,38 @@ import * as storeTimeAction from '../redux/actions/storeTimeAction';
 import AnimateLoading from './AnimateLoading';
 
 const StoreTime = props => {
-  const navigation = props.navigation
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
-  const { storeTime } = useSelector(state => state.storeTime)
+  const navigation = props.navigation;
+  const { mt_id, mt_jumju_code } = useSelector(state => state.login);
+  const { storeTime } = useSelector(state => state.storeTime);
 
-  const [isLoading, setLoading] = React.useState(false)
-  const [storeTimeList, setStoreTimeList] = React.useState(null) // 영업시간
+  const [isLoading, setLoading] = React.useState(false);
+  const [storeTimeList, setStoreTimeList] = React.useState(null); // 영업시간
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const getStoreTimeHandler = () => {
     const param = {
       encodeJson: true,
       jumju_id: mt_id,
       jumju_code: mt_jumju_code,
-      mode: 'list'
-    }
+      mode: 'list',
+    };
     Api.send('store_service_hour', param, args => {
-      const resultItem = args.resultItem
-      const arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      const arrItems = args.arrItems;
 
-      console.log('resultItem', resultItem)
+      console.log('resultItem', resultItem);
 
       if (resultItem.result === 'Y') {
-        setStoreTimeList(arrItems)
-        dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)))
+        setStoreTimeList(arrItems);
+        dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)));
       } else {
-        setStoreTimeList(null)
-        dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)))
+        setStoreTimeList(null);
+        dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)));
       }
 
-      setLoading(false)
-    })
+      setLoading(false);
+    });
   };
 
   const delStoreTimeHandler = st_idx => {
@@ -57,30 +57,30 @@ const StoreTime = props => {
       jumju_id: mt_id,
       jumju_code: mt_jumju_code,
       st_idx,
-      mode: 'delete'
-    }
+      mode: 'delete',
+    };
     Api.send('store_service_hour', param, args => {
-      const resultItem = args.resultItem
-      const arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      const arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
-        getStoreTimeHandler()
+        getStoreTimeHandler();
       } else {
         Alert.alert('영업시간을 삭제할 수 없습니다.', '다시 한번 확인해주세요.', [
           {
-            text: '확인'
-          }
-        ])
+            text: '확인',
+          },
+        ]);
       }
-    })
+    });
   };
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getStoreTimeHandler()
-    })
-    return unsubscribe
-  }, [navigation])
+      getStoreTimeHandler();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <SafeAreaView>
@@ -88,7 +88,7 @@ const StoreTime = props => {
         <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>영업시간</Text>
       </View>
       {isLoading ? (
-        <AnimateLoading description='잠시만 기다려주세요' />
+        <AnimateLoading description="잠시만 기다려주세요" />
       ) : (
         <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv15 }}>
           {/* 영업시간 리스트 */}
@@ -110,19 +110,19 @@ const StoreTime = props => {
                       [
                         {
                           text: '예',
-                          onPress: () => delStoreTimeHandler(item.st_idx)
+                          onPress: () => delStoreTimeHandler(item.st_idx),
                         },
                         {
-                          text: '아니오'
-                        }
-                      ]
-                    )}
-                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                >
+                          text: '아니오',
+                        },
+                      ],
+                    )
+                  }
+                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
                   <Image
                     source={require('../images/popup_close.png')}
                     style={{ width: 18, height: 18, borderRadius: 18, opacity: 0.5 }}
-                    resizeMode='cover'
+                    resizeMode="cover"
                   />
                 </TouchableOpacity>
               </View>
@@ -132,23 +132,21 @@ const StoreTime = props => {
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => navigation.navigate('Home', { screen: 'SetTime' })}
-            style={{ ...BaseStyle.mainBtn, ...BaseStyle.mv10 }}
-          >
+            style={{ ...BaseStyle.mainBtn, ...BaseStyle.mv10 }}>
             <Text
               style={{
                 ...BaseStyle.ko15,
                 ...BaseStyle.font_bold,
                 ...BaseStyle.font_222,
-                ...BaseStyle.textWhite
-              }}
-            >
+                ...BaseStyle.textWhite,
+              }}>
               영업시간 추가
             </Text>
           </TouchableOpacity>
         </View>
       )}
     </SafeAreaView>
-  )
+  );
 };
 
-export default StoreTime
+export default StoreTime;

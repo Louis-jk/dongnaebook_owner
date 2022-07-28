@@ -20,7 +20,7 @@ const ActionCreators = Object.assign(
   regularHolidayAction,
   storeTimeAction,
   closedDayAction,
-  orderAction
+  orderAction,
 );
 
 export default ActionCreators;

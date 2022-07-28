@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
 import loginReducer from './loginReducer';
 import indexReducer from './indexReducer';
@@ -23,5 +23,5 @@ export default combineReducers({
   regularHoliday: holidayReducer,
   storeTime: storeTimeReducer,
   closedDay: closeDayReducer,
-  order: orderReducer
+  order: orderReducer,
 });

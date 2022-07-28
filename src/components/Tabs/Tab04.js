@@ -9,15 +9,15 @@ import BaseStyle, { Primary } from '../../styles/Base';
 
 // 처리완료
 const Tab04 = props => {
-  const { navigation, list, dispatch } = props
-  const { mt_id: jumjuId, mt_jumju_code: jumjuCode } = useSelector(state => state.login)
-  const { doneOrder } = useSelector(state => state.order)
+  const { navigation, list, dispatch } = props;
+  const { mt_id: jumjuId, mt_jumju_code: jumjuCode } = useSelector(state => state.login);
+  const { doneOrder } = useSelector(state => state.order);
 
-  console.log('포장완료', doneOrder)
+  console.log('포장완료', doneOrder);
 
   // 주문 건
-  const [orderList, setOrderList] = React.useState([])
-  const [refleshing, setReflashing] = React.useState(false)
+  const [orderList, setOrderList] = React.useState([]);
+  const [refleshing, setReflashing] = React.useState(false);
 
   const getOrderListHandler = () => {
     const param = {
@@ -26,38 +26,38 @@ const Tab04 = props => {
       limit_count: 10,
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
-      od_process_status: '배달완료'
-    }
+      od_process_status: '배달완료',
+    };
 
     Api.send('store_order_list', param, args => {
-      const resultItem = args.resultItem
-      const arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      const arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
-        setOrderList(arrItems)
-        dispatch(orderAction.updateDoneOrder(JSON.stringify(arrItems)))
-        setReflashing(false)
+        setOrderList(arrItems);
+        dispatch(orderAction.updateDoneOrder(JSON.stringify(arrItems)));
+        setReflashing(false);
       } else {
-        setOrderList([])
-        dispatch(orderAction.updateDoneOrder(null))
-        setReflashing(false)
+        setOrderList([]);
+        dispatch(orderAction.updateDoneOrder(null));
+        setReflashing(false);
         // Alert.alert('데이터를 받아오는데 오류가 발생하였습니다.','관리자에게 문의해주세요.', [
         //   {
         //     text: '확인'
         //   }
         // ]);
       }
-    })
+    });
   };
 
   React.useEffect(() => {
-    getOrderListHandler()
-    return () => getOrderListHandler()
-  }, [doneOrder])
+    getOrderListHandler();
+    return () => getOrderListHandler();
+  }, [doneOrder]);
 
   const onHandleRefresh = () => {
-    setReflashing(true)
-    getOrderListHandler()
+    setReflashing(true);
+    getOrderListHandler();
   };
 
   const renderRow = ({ item, index }) => {
@@ -69,9 +69,8 @@ const Tab04 = props => {
             width: '100%',
             ...BaseStyle.pv10,
             ...BaseStyle.ph20,
-            ...BaseStyle.mb10
-          }}
-        >
+            ...BaseStyle.mb10,
+          }}>
           <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_gray_a1 }}>
             {moment(item.od_time).format('YYYY년 M월 D일 HH:mm')}
           </Text>
@@ -84,27 +83,25 @@ const Tab04 = props => {
               navigation.navigate('OrderDetail', {
                 od_id: item.od_id,
                 od_time: item.od_time,
-                type: 'done'
-              })}
-          >
+                type: 'done',
+              })
+            }>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'flex-start',
                 alignContent: 'center',
                 width: '100%',
-                maxWidth: 270
-              }}
-            >
+                maxWidth: 270,
+              }}>
               <Text
                 style={{
                   ...BaseStyle.ko15,
                   ...BaseStyle.font_bold,
                   ...BaseStyle.mr10,
-                  lineHeight: 21
+                  lineHeight: 21,
                 }}
-                numberOfLines={1}
-              >
+                numberOfLines={1}>
                 {item.mb_company}
               </Text>
               <View
@@ -113,16 +110,14 @@ const Tab04 = props => {
                     item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
                   paddingHorizontal: 10,
                   paddingVertical: 5,
-                  borderRadius: 5
-                }}
-              >
+                  borderRadius: 5,
+                }}>
                 <Text
                   style={{
                     ...BaseStyle.ko12,
                     ...BaseStyle.font_bold,
-                    color: '#fff'
-                  }}
-                >
+                    color: '#fff',
+                  }}>
                   {item.od_type}
                 </Text>
               </View>
@@ -132,9 +127,8 @@ const Tab04 = props => {
               <Text
                 style={[
                   { ...BaseStyle.ko12 },
-                  item.od_settle_case === '선결제' ? BaseStyle.font_blue : BaseStyle.font_pink
-                ]}
-              >
+                  item.od_settle_case === '선결제' ? BaseStyle.font_blue : BaseStyle.font_pink,
+                ]}>
                 {item.od_settle_case}
               </Text>
               <Text style={{ ...BaseStyle.ko12 }}> / </Text>
@@ -150,36 +144,36 @@ const Tab04 = props => {
                   alignItems: 'center',
                   width: 40,
                   height: 40,
-                  ...BaseStyle.mr10
-                }}
-              >
+                  ...BaseStyle.mr10,
+                }}>
                 <Image
                   source={require('../../images/ic_map.png')}
                   style={{ width: '100%', height: '100%' }}
-                  resizeMode='center'
+                  resizeMode="center"
                 />
               </View>
               <View>
                 <Text
                   style={{
                     ...BaseStyle.ko12,
-                    ...BaseStyle.lh17
-                  }}
-                >
+                    ...BaseStyle.lh17,
+                  }}>
                   {`${item.od_addr1} ${item.od_addr2}`}
                 </Text>
                 {item.od_addr3 ? (
                   <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>{item.od_addr3}</Text>
                 ) : null}
                 {item.od_addr_jibeon ? (
-                  <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>{item.od_addr_jibeon}</Text>
+                  <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>
+                    {item.od_addr_jibeon}
+                  </Text>
                 ) : null}
               </View>
             </View>
           </TouchableOpacity>
         </View>
       </View>
-    )
+    );
   };
 
   return (
@@ -201,9 +195,8 @@ const Tab04 = props => {
               justifyContent: 'center',
               alignItems: 'center',
               flex: 1,
-              height: Dimensions.get('window').height - 300
-            }}
-          >
+              height: Dimensions.get('window').height - 300,
+            }}>
             <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
               아직 배달완료된 주문이 없습니다.
             </Text>
@@ -211,7 +204,7 @@ const Tab04 = props => {
         }
       />
     </View>
-  )
+  );
 };
 
-export default Tab04
+export default Tab04;

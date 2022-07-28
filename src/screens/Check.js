@@ -1,17 +1,17 @@
-import * as React from "react";
-import {View, Text, ActivityIndicator, Image, Alert} from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import messaging from "@react-native-firebase/messaging";
-import {CommonActions} from "@react-navigation/native";
-import {useDispatch, useSelector} from "react-redux";
-import * as loginAction from "../redux/actions/loginAction";
-import BaseStyle, {Primary} from "../styles/Base";
-import Api from "../Api";
+import * as React from 'react';
+import { View, Text, ActivityIndicator, Image, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import messaging from '@react-native-firebase/messaging';
+import { CommonActions } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import * as loginAction from '../redux/actions/loginAction';
+import BaseStyle, { Primary } from '../styles/Base';
+import Api from '../Api';
 
 const Check = props => {
-  const {navigation} = props;
+  const { navigation } = props;
   const dispatch = useDispatch();
-  const [temFcmToken, setTempFcmToken] = React.useState("");
+  const [temFcmToken, setTempFcmToken] = React.useState('');
 
   // FCM 토큰 가져오기
   const getTokenPlatformAPI = async () => {
@@ -21,19 +21,19 @@ const Check = props => {
         setTempFcmToken(currentToken);
       })
       .catch(err => {
-        console.log("token err :: ", err);
+        console.log('token err :: ', err);
       });
   };
 
   //  자동 토큰 업데이트
   const storeAddToken = async () => {
     try {
-      const jsonValue = JSON.stringify({token: temFcmToken});
-      await AsyncStorage.setItem("@dongnaebookownerToken", jsonValue);
+      const jsonValue = JSON.stringify({ token: temFcmToken });
+      await AsyncStorage.setItem('@dongnaebookownerToken', jsonValue);
     } catch (e) {
-      Alert.alert(e, "관리자에게 문의하세요", [
+      Alert.alert(e, '관리자에게 문의하세요', [
         {
-          text: "확인",
+          text: '확인',
         },
       ]);
     }
@@ -46,25 +46,25 @@ const Check = props => {
       mt_app_token: temFcmToken,
     };
 
-    Api.send("store_login", param, args => {
+    Api.send('store_login', param, args => {
       const resultItem = args.resultItem;
       let arrItems = args.arrItems;
 
-      console.log("====================================");
-      console.log("로그인 resultItem ::", resultItem);
-      console.log("로그인 arrItems ::", arrItems);
-      console.log("====================================");
+      console.log('====================================');
+      console.log('로그인 resultItem ::', resultItem);
+      console.log('로그인 arrItems ::', arrItems);
+      console.log('====================================');
 
-      if (resultItem.result === "Y") {
+      if (resultItem.result === 'Y') {
         storeAddToken();
         dispatch(loginAction.updateLogin(JSON.stringify(arrItems)));
         const resetAction = CommonActions.reset({
           index: 1,
-          routes: [{name: "Main"}],
+          routes: [{ name: 'Main' }],
         });
         navigation.dispatch(resetAction);
       } else {
-        navigation.navigate("Home", {screen: "Login"});
+        navigation.navigate('Home', { screen: 'Login' });
       }
     });
   };
@@ -72,10 +72,10 @@ const Check = props => {
   //  Async Storage에 UserID, UserPwd가 있는지 확인(자동로그인의 경우)
   const getData = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem("@dongnaebookownerUser");
+      const jsonValue = await AsyncStorage.getItem('@dongnaebookownerUser');
       //   const jsonToken = await AsyncStorage.getItem('@dongnaebookownerToken');
       if (jsonValue !== null) {
-        console.log("dongnaebookownerUser get ::", JSON.parse(jsonValue));
+        console.log('dongnaebookownerUser get ::', JSON.parse(jsonValue));
         // console.log('dongnaebookownerToken get ::', JSON.parse(jsonToken));
 
         const UserInfo = JSON.parse(jsonValue);
@@ -85,11 +85,11 @@ const Check = props => {
         // // 있다면 로그인API 호출 (UserID, UserPwd, FcmToken, Platform)
         // login(uId, uPwd, token, device);
       } else {
-        navigation.navigate("Home", {screen: "Login"});
+        navigation.navigate('Home', { screen: 'Login' });
       }
     } catch (err) {
-      console.log("storage get item err :", err);
-      navigation.navigate("Home", {screen: "Login"});
+      console.log('storage get item err :', err);
+      navigation.navigate('Home', { screen: 'Login' });
     }
   };
 
@@ -102,15 +102,15 @@ const Check = props => {
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
         // backgroundColor: Primary.PointColor03
-        backgroundColor: "#fff",
+        backgroundColor: '#fff',
       }}>
       <Image
         // source={require('../images/c_logo.png')}
-        source={require("../images/c_logo.png")}
-        style={{width: 80, height: 80}}
+        source={require('../images/c_logo.png')}
+        style={{ width: 80, height: 80 }}
         resizeMode="contain"
       />
       <Text

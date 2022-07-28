@@ -11,7 +11,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Alert,
-  BackHandler
+  BackHandler,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select'; // 셀렉트박스 패키지
 import ImagePicker from 'react-native-image-crop-picker'; // 이미지 업로드 패키지
@@ -24,45 +24,45 @@ import cusToast from '../components/CusToast';
 import Api from '../Api';
 import AnimateLoading from '../components/AnimateLoading';
 
-const { width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window');
 
 const setCategory = props => {
-  const { navigation } = props
+  const { navigation } = props;
 
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
-  const [isModalVisible, setIsModalVisible] = React.useState(false)
-  const [refleshing, setReflashing] = React.useState(false)
-  const [isLoading, setLoading] = React.useState(true)
+  const { mt_id, mt_jumju_code } = useSelector(state => state.login);
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const [refleshing, setReflashing] = React.useState(false);
+  const [isLoading, setLoading] = React.useState(true);
 
-  const [menuCategory, setMenuCategory] = React.useState([]) // 카테고리 리스트
-  const [newCategory, setNewCategory] = React.useState('') // 신규 카테고리 명
-  const [newCategoryVisible, setNewCategoryVisible] = React.useState(false) // 신규 카테고리 등록(모달) 카테고리 사용여부
+  const [menuCategory, setMenuCategory] = React.useState([]); // 카테고리 리스트
+  const [newCategory, setNewCategory] = React.useState(''); // 신규 카테고리 명
+  const [newCategoryVisible, setNewCategoryVisible] = React.useState(false); // 신규 카테고리 등록(모달) 카테고리 사용여부
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
-    navigation.goBack()
+    navigation.goBack();
 
-    return true
+    return true;
   };
 
   React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backAction)
-    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
-  }, [])
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => BackHandler.removeEventListener('hardwareBackPress', backAction);
+  }, []);
 
   const toggleCateVisible = () => {
-    setNewCategoryVisible(prev => !prev)
+    setNewCategoryVisible(prev => !prev);
   };
 
   const getMenuCategoryHandler = () => {
     const param = {
       jumju_id: mt_id,
-      jumju_code: mt_jumju_code
-    }
+      jumju_code: mt_jumju_code,
+    };
 
     Api.send('store_item_category', param, args => {
-      const resultItem = args.resultItem
-      let arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      let arrItems = args.arrItems;
 
       if (resultItem.result === 'Y') {
         arrItems.map(item => {
@@ -71,29 +71,29 @@ const setCategory = props => {
             {
               ca_id: item.ca_id,
               ca_name: item.ca_name,
-              ca_use: item.ca_use
-            }
-          ])
-        })
-        setReflashing(false)
+              ca_use: item.ca_use,
+            },
+          ]);
+        });
+        setReflashing(false);
       } else {
-        setMenuCategory(null)
-        setReflashing(false)
+        setMenuCategory(null);
+        setReflashing(false);
       }
 
-      setLoading(false)
-    })
+      setLoading(false);
+    });
   };
 
   React.useEffect(() => {
-    getMenuCategoryHandler()
+    getMenuCategoryHandler();
 
-    return () => getMenuCategoryHandler()
-  }, [])
+    return () => getMenuCategoryHandler();
+  }, []);
 
-  console.log('====================================')
-  console.log('menuCategory >>> ', menuCategory)
-  console.log('====================================')
+  console.log('====================================');
+  console.log('menuCategory >>> ', menuCategory);
+  console.log('====================================');
 
   const addCategoryHandler = () => {
     const param = {
@@ -101,29 +101,29 @@ const setCategory = props => {
       jumju_id: mt_id,
       jumju_code: mt_jumju_code,
       ca_name: newCategory,
-      ca_use: newCategoryVisible ? '1' : '0'
-    }
+      ca_use: newCategoryVisible ? '1' : '0',
+    };
 
     Api.send('store_item_category_input', param, args => {
-      const resultItem = args.resultItem
-      let arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      let arrItems = args.arrItems;
 
-      console.log('====================================')
-      console.log('store_item_category_input resultItem', resultItem)
-      console.log('store_item_category_input arrItems', arrItems)
-      console.log('====================================')
+      console.log('====================================');
+      console.log('store_item_category_input resultItem', resultItem);
+      console.log('store_item_category_input arrItems', arrItems);
+      console.log('====================================');
 
       if (resultItem.result === 'Y') {
-        setMenuCategory([])
-        getMenuCategoryHandler()
-        toggleModal()
+        setMenuCategory([]);
+        getMenuCategoryHandler();
+        toggleModal();
       } else {
         // getMenuCategoryHandler();
-        console.log('====================================')
-        console.log('오류 발생')
-        console.log('====================================')
+        console.log('====================================');
+        console.log('오류 발생');
+        console.log('====================================');
       }
-    })
+    });
   };
 
   // 카테고리 수정
@@ -133,43 +133,43 @@ const setCategory = props => {
       jumju_code: mt_jumju_code,
       ca_id: cId,
       ca_name: cName,
-      ca_use: cUse
-    }
+      ca_use: cUse,
+    };
 
-    console.log('cUse >>>', cUse)
-    console.log('edit param >>>', param)
+    console.log('cUse >>>', cUse);
+    console.log('edit param >>>', param);
     // return false;
 
     Api.send('store_item_category_update', param, args => {
-      const resultItem = args.resultItem
-      let arrItems = args.arrItems
+      const resultItem = args.resultItem;
+      let arrItems = args.arrItems;
 
-      console.log('====================================')
-      console.log('store_item_category_update resultItem', resultItem)
-      console.log('store_item_category_update arrItems', arrItems)
-      console.log('====================================')
+      console.log('====================================');
+      console.log('store_item_category_update resultItem', resultItem);
+      console.log('store_item_category_update arrItems', arrItems);
+      console.log('====================================');
 
       if (resultItem.result === 'Y') {
-        cusToast('카테고리가 수정되었습니다.')
+        cusToast('카테고리가 수정되었습니다.');
 
         // setMenuCategory([]);
         // getMenuCategoryHandler();
       } else {
         // getMenuCategoryHandler();
-        console.log('====================================')
-        console.log('오류 발생')
-        console.log('====================================')
+        console.log('====================================');
+        console.log('오류 발생');
+        console.log('====================================');
       }
-    })
+    });
   };
 
   // 모달 토글
   const toggleModal = () => {
-    setIsModalVisible(prev => !prev)
+    setIsModalVisible(prev => !prev);
   };
 
   const onHandleRefresh = () => {
-    getMenuCategoryHandler()
+    getMenuCategoryHandler();
   };
 
   const renderRow = ({ item, index }) => {
@@ -179,27 +179,33 @@ const setCategory = props => {
           {/* <Text style={{...BaseStyle.ko16}}>{item.ca_name}</Text> */}
           <TextInput
             value={item.ca_name}
-            placeholder='카테고리명을 입력해주세요.'
-            style={{ ...BaseStyle.border, ...BaseStyle.pv10, ...BaseStyle.ph20, ...BaseStyle.inputH }}
+            placeholder="카테고리명을 입력해주세요."
+            style={{
+              ...BaseStyle.border,
+              ...BaseStyle.pv10,
+              ...BaseStyle.ph20,
+              ...BaseStyle.inputH,
+            }}
             onChangeText={val =>
               setMenuCategory(menuCategory => {
-                const result = [...menuCategory]
-                result[index].ca_name = val
-                return result
-              })}
+                const result = [...menuCategory];
+                result[index].ca_name = val;
+                return result;
+              })
+            }
           />
         </View>
 
         <TouchableOpacity
           onPress={() =>
             setMenuCategory(menuCategory => {
-              const result = [...menuCategory]
+              const result = [...menuCategory];
               result[index].ca_use = item.ca_use === '1' ? '0' : '1';
-              return result
-            })}
+              return result;
+            })
+          }
           activeOpacity={1}
-          style={{ ...BaseStyle.mr20 }}
-        >
+          style={{ ...BaseStyle.mr20 }}>
           <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb5, textAlign: 'center' }}>
             {item.ca_use === '1' ? '사용' : '미사용'}
           </Text>
@@ -210,15 +216,14 @@ const setCategory = props => {
                 : require('../images/off_btn.png')
             }
             style={{ width: 50, height: 25, borderRadius: 20 }}
-            resizeMode='cover'
+            resizeMode="cover"
             fadeDuration={0}
           />
         </TouchableOpacity>
 
         <TouchableOpacity
           activeOpacity={0.85}
-          onPress={() => onEditCategoryHandler(item.ca_id, item.ca_name, item.ca_use)}
-        >
+          onPress={() => onEditCategoryHandler(item.ca_id, item.ca_name, item.ca_use)}>
           <View
             style={{
               ...BaseStyle.border,
@@ -226,35 +231,32 @@ const setCategory = props => {
               ...BaseStyle.ph20,
               ...BaseStyle.inputH,
               backgroundColor: Primary.PointColor01,
-              borderColor: Primary.PointColor01
-            }}
-          >
+              borderColor: Primary.PointColor01,
+            }}>
             <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_white }}>수정</Text>
           </View>
         </TouchableOpacity>
       </View>
-    )
+    );
   };
 
   return isLoading ? (
-    <AnimateLoading description='잠시만 기다려주세요.' />
+    <AnimateLoading description="잠시만 기다려주세요." />
   ) : (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='카테고리 관리' />
+      <Header navigation={navigation} title="카테고리 관리" />
       <Modal
         isVisible={isModalVisible}
         // onBackdropPress={toggleModal}
         transparent
         statusBarTranslucent
         style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
-        animationIn='bounceInUp'
-        animationInTiming={500}
-      >
+        animationIn="bounceInUp"
+        animationInTiming={500}>
         <KeyboardAvoidingView
-          behavior='position'
+          behavior="position"
           style={{ backgroundColor: '#fff', borderRadius: 15 }}
-          enabled
-        >
+          enabled>
           <View
             style={{
               position: 'relative',
@@ -262,9 +264,8 @@ const setCategory = props => {
               ...BaseStyle.pv30,
               justifyContent: 'center',
               alignItems: 'center',
-              borderRadius: 15
-            }}
-          >
+              borderRadius: 15,
+            }}>
             <TouchableOpacity
               activeOpacity={1}
               onPress={toggleModal}
@@ -275,13 +276,12 @@ const setCategory = props => {
                 right: -10,
                 backgroundColor: Primary.PointColor02,
                 borderRadius: 50,
-                padding: 10
-              }}
-            >
+                padding: 10,
+              }}>
               <Image
                 source={require('../images/close_wh.png')}
                 style={{ width: 10, height: 10 }}
-                resizeMode='center'
+                resizeMode="center"
               />
             </TouchableOpacity>
             <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>
@@ -290,13 +290,13 @@ const setCategory = props => {
             <View style={{ ...BaseStyle.container }}>
               <TextInput
                 value={newCategory}
-                placeholder='예: 세트류 or 밥류 or 면류 등'
+                placeholder="예: 세트류 or 밥류 or 면류 등"
                 style={{
                   ...BaseStyle.border,
                   ...BaseStyle.inputH,
                   ...BaseStyle.ph20,
                   width: '75%',
-                  ...BaseStyle.mr5
+                  ...BaseStyle.mr5,
                 }}
                 onChangeText={text => setNewCategory(text)}
               />
@@ -311,7 +311,7 @@ const setCategory = props => {
                       : require('../images/off_btn.png')
                   }
                   style={{ width: 50, height: 25, borderRadius: 5 }}
-                  resizeMode='cover'
+                  resizeMode="cover"
                   fadeDuration={0}
                 />
               </TouchableOpacity>
@@ -319,10 +319,9 @@ const setCategory = props => {
             <TouchableWithoutFeedback
               onPress={() => {
                 if (newCategory !== null && newCategory !== '') {
-                  addCategoryHandler()
+                  addCategoryHandler();
                 }
-              }}
-            >
+              }}>
               <View
                 style={{
                   width: 150,
@@ -335,16 +334,14 @@ const setCategory = props => {
                     newCategory !== '' && newCategory !== null ? Primary.PointColor01 : '#fff',
                   paddingVertical: 15,
                   borderRadius: 5,
-                  ...BaseStyle.mt20
-                }}
-              >
+                  ...BaseStyle.mt20,
+                }}>
                 <Text
                   style={{
                     ...BaseStyle.ko14,
                     ...BaseStyle.font_bold,
-                    color: newCategory !== '' && newCategory !== null ? '#fff' : '#e5e5e5'
-                  }}
-                >
+                    color: newCategory !== '' && newCategory !== null ? '#fff' : '#e5e5e5',
+                  }}>
                   등록하기
                 </Text>
               </View>
@@ -371,9 +368,8 @@ const setCategory = props => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 flex: 1,
-                height: Dimensions.get('window').height - 300
-              }}
-            >
+                height: Dimensions.get('window').height - 300,
+              }}>
               <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
                 아직 등록된 카테고리가 없습니다.
               </Text>
@@ -384,44 +380,43 @@ const setCategory = props => {
       <TouchableOpacity
         activeOpacity={1}
         onPress={toggleModal}
-        style={{ ...BaseStyle.mainBtnBottom }}
-      >
+        style={{ ...BaseStyle.mainBtnBottom }}>
         <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
           추가하기
         </Text>
       </TouchableOpacity>
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
   section: {
-    marginBottom: 25
+    marginBottom: 25,
   },
   sectionLabel: {
     fontSize: 15,
-    color: Primary.PointColor01
+    color: Primary.PointColor01,
   },
   photoOutlinedButton: {
     borderColor: Primary.PointColor01,
     borderWidth: 1,
     backgroundColor: 'white',
     paddingVertical: 5,
-    paddingHorizontal: 13
+    paddingHorizontal: 13,
   },
   photoOutlinedButtonText: {
     fontSize: 14,
-    color: Primary.PointColor01
+    color: Primary.PointColor01,
   },
   outlinedButton: {
     height: 42,
     borderColor: Primary.PointColor01,
     borderWidth: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   outlinedButtonText: {
-    color: Primary.PointColor01
-  }
-})
+    color: Primary.PointColor01,
+  },
+});
 
-export default setCategory
+export default setCategory;

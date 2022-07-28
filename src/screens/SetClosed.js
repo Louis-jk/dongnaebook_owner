@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   View,
   Text,
@@ -8,17 +8,17 @@ import {
   Alert,
   ScrollView,
   Dimensions,
-} from "react-native";
-import {useSelector, useDispatch} from "react-redux";
-import Header from "../components/SubHeader";
-import BaseStyle, {Primary} from "../styles/Base";
-import Api from "../Api";
-import * as regHolidayAction from "../redux/actions/regularHolidayAction";
-import cusToast from "../components/CusToast";
+} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import Header from '../components/SubHeader';
+import BaseStyle, { Primary } from '../styles/Base';
+import Api from '../Api';
+import * as regHolidayAction from '../redux/actions/regularHolidayAction';
+import cusToast from '../components/CusToast';
 
 const SetClosed = props => {
-  const {navigation} = props;
-  const {mt_id, mt_jumju_code} = useSelector(state => state.login);
+  const { navigation } = props;
+  const { mt_id, mt_jumju_code } = useSelector(state => state.login);
 
   const dispatch = useDispatch();
 
@@ -38,39 +38,39 @@ const SetClosed = props => {
   // 주일
   const weekData = [
     {
-      idx: "0",
-      en: "sun",
-      ko: "일",
+      idx: '0',
+      en: 'sun',
+      ko: '일',
     },
     {
-      idx: "1",
-      en: "mon",
-      ko: "월",
+      idx: '1',
+      en: 'mon',
+      ko: '월',
     },
     {
-      idx: "2",
-      en: "tue",
-      ko: "화",
+      idx: '2',
+      en: 'tue',
+      ko: '화',
     },
     {
-      idx: "3",
-      en: "wed",
-      ko: "수",
+      idx: '3',
+      en: 'wed',
+      ko: '수',
     },
     {
-      idx: "4",
-      en: "thu",
-      ko: "목",
+      idx: '4',
+      en: 'thu',
+      ko: '목',
     },
     {
-      idx: "5",
-      en: "fri",
-      ko: "금",
+      idx: '5',
+      en: 'fri',
+      ko: '금',
     },
     {
-      idx: "6",
-      en: "sat",
-      ko: "토",
+      idx: '6',
+      en: 'sat',
+      ko: '토',
     },
   ];
 
@@ -88,24 +88,24 @@ const SetClosed = props => {
   };
   const weekArr = [
     {
-      key: "1",
-      value: "1주",
+      key: '1',
+      value: '1주',
     },
     {
-      key: "2",
-      value: "2주",
+      key: '2',
+      value: '2주',
     },
     {
-      key: "3",
-      value: "3주",
+      key: '3',
+      value: '3주',
     },
     {
-      key: "4",
-      value: "4주",
+      key: '4',
+      value: '4주',
     },
     {
-      key: "5",
-      value: "5주",
+      key: '5',
+      value: '5주',
     },
   ];
 
@@ -114,13 +114,13 @@ const SetClosed = props => {
       encodeJson: true,
       jumju_id: mt_id,
       jumju_code: mt_jumju_code,
-      mode: "list",
+      mode: 'list',
     };
-    Api.send("store_regular_hoilday", param, args => {
+    Api.send('store_regular_hoilday', param, args => {
       const resultItem = args.resultItem;
       let arrItems = args.arrItems;
 
-      if (resultItem.result === "Y") {
+      if (resultItem.result === 'Y') {
         // setStoreRHoliday(arrItems);
         dispatch(regHolidayAction.updateRegularHoliday(JSON.stringify(arrItems[0])));
       } else {
@@ -141,30 +141,30 @@ const SetClosed = props => {
     const selectDayFormat = selectDay.join();
     let selectWeekFormat = selectWeek.join();
 
-    if (selectDay === null || selectDay === "" || selectDay.length === 0) {
-      cusToast("요일을 선택해주세요.");
-    } else if (selectWeek === null || selectWeek === "" || selectWeek.length === 0) {
-      cusToast("주를 선택해주세요.");
+    if (selectDay === null || selectDay === '' || selectDay.length === 0) {
+      cusToast('요일을 선택해주세요.');
+    } else if (selectWeek === null || selectWeek === '' || selectWeek.length === 0) {
+      cusToast('주를 선택해주세요.');
     } else {
       const param = {
         encodeJson: true,
         jumju_id: mt_id,
         jumju_code: mt_jumju_code,
-        mode: "update",
+        mode: 'update',
         st_yoil: selectDayFormat,
         st_week: selectWeekFormat,
       };
-      Api.send("store_regular_hoilday", param, args => {
+      Api.send('store_regular_hoilday', param, args => {
         const resultItem = args.resultItem;
         let arrItems = args.arrItems;
 
-        if (resultItem.result === "Y") {
-          navigation.navigate("Home", {screen: "SetDayTime"});
+        if (resultItem.result === 'Y') {
+          navigation.navigate('Home', { screen: 'SetDayTime' });
         } else {
-          Alert.alert("정기휴일을 추가할 수 없습니다.", "다시 한번 시도해주세요.", [
+          Alert.alert('정기휴일을 추가할 수 없습니다.', '다시 한번 시도해주세요.', [
             {
-              text: "확인",
-              onPress: () => navigation.navigate("Home", {screen: "SetDayTime"}),
+              text: '확인',
+              onPress: () => navigation.navigate('Home', { screen: 'SetDayTime' }),
             },
           ]);
         }
@@ -173,34 +173,34 @@ const SetClosed = props => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: "#fff"}}>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title="정기휴일 설정" type="save" />
       {/* <StatusMenu navigation={navigation} /> */}
 
       <ScrollView>
-        <View style={{height: 1, width: "100%", backgroundColor: "#E3E3E3", ...BaseStyle.mb20}} />
+        <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3', ...BaseStyle.mb20 }} />
 
         {/* 요일 선택 */}
-        <View style={{...BaseStyle.ph20, ...BaseStyle.mv10, ...BaseStyle.container5}}>
+        <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv10, ...BaseStyle.container5 }}>
           {weekData.map((day, index) => (
             <TouchableOpacity
               key={index}
               activeOpacity={1}
               onPress={() => selectDayHandler(day.idx)}
               style={{
-                justifyContent: "center",
-                alignItems: "center",
-                width: Dimensions.get("window").width / 9.8,
-                height: Dimensions.get("window").width / 9.8,
-                borderRadius: Dimensions.get("window").width / 9.8,
-                backgroundColor: selectDay.includes(day.idx) ? Primary.PointColor01 : "#fff",
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: Dimensions.get('window').width / 9.8,
+                height: Dimensions.get('window').width / 9.8,
+                borderRadius: Dimensions.get('window').width / 9.8,
+                backgroundColor: selectDay.includes(day.idx) ? Primary.PointColor01 : '#fff',
                 borderWidth: 1,
-                borderColor: selectDay.includes(day.idx) ? Primary.PointColor01 : "#E3E3E3",
+                borderColor: selectDay.includes(day.idx) ? Primary.PointColor01 : '#E3E3E3',
                 marginLeft: index !== 0 ? 10 : 0,
               }}>
               <Text
                 style={{
-                  color: selectDay.includes(day.idx) ? "#fff" : "#222",
+                  color: selectDay.includes(day.idx) ? '#fff' : '#222',
                 }}>
                 {day.ko}
               </Text>
@@ -209,12 +209,12 @@ const SetClosed = props => {
         </View>
         {/* //요일 선택 */}
 
-        <View style={{...BaseStyle.ph20}}>
+        <View style={{ ...BaseStyle.ph20 }}>
           <View
             style={{
               height: 1,
-              width: "100%",
-              backgroundColor: "#E3E3E3",
+              width: '100%',
+              backgroundColor: '#E3E3E3',
               ...BaseStyle.mv10,
               ...BaseStyle.mb20,
             }}
@@ -232,14 +232,14 @@ const SetClosed = props => {
                 <Image
                   source={
                     selectWeek.includes(week.key)
-                      ? require("../images/ic_check_on.png")
-                      : require("../images/ic_check_off.png")
+                      ? require('../images/ic_check_on.png')
+                      : require('../images/ic_check_off.png')
                   }
-                  style={{width: 25, height: 25, ...BaseStyle.mr10}}
+                  style={{ width: 25, height: 25, ...BaseStyle.mr10 }}
                   resizeMode="contain"
                   fadeDuration={100}
                 />
-                <Text style={{...BaseStyle.ko16}}>{week.value}</Text>
+                <Text style={{ ...BaseStyle.ko16 }}>{week.value}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -272,8 +272,8 @@ const SetClosed = props => {
       <TouchableOpacity
         activeOpacity={1}
         onPress={setStoreRHolidayHandler}
-        style={{...BaseStyle.mainBtnBottom}}>
-        <Text style={{...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white}}>
+        style={{ ...BaseStyle.mainBtnBottom }}>
+        <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
           저장하기
         </Text>
       </TouchableOpacity>

@@ -5,6 +5,6 @@ export function updateClosedDay(data) {
 
   return {
     type: types.UPDATE_CLOSED_LIST,
-    markedDay: args
+    markedDay: args,
   };
 }

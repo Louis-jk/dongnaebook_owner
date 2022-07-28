@@ -164,7 +164,7 @@ export const s01_list = [
     },
   },
 ];
-  
+
 export const s02_list = [
   {
     order: '2020년 8월 13일 17:45',
@@ -259,7 +259,7 @@ export const s02_list = [
     },
   },
 ];
-  
+
 export const s03_list = [
   {
     order: '2020년 8월 13일 17:45',

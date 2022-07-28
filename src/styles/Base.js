@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { Fonts } from './Fonts';
-const SCREEN_HEIGHT = Dimensions.get('window').height
-const SCREEN_WIDTH = Dimensions.get('window').width
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export const main = '#20ABC8';
 export const mint = '#5AC69F';
@@ -12,8 +12,8 @@ export const green = '#58BC1F';
 export const Primary = {
   PointColor01: main,
   PointColor02: mint,
-  PointColor03: grey
-}
+  PointColor03: grey,
+};
 
 export const customPickerStyles = StyleSheet.create({
   inputIOS: {
@@ -25,7 +25,7 @@ export const customPickerStyles = StyleSheet.create({
     borderRadius: 5,
     height: 45,
     color: '#000',
-    paddingRight: 30 // to ensure the text is never behind the icon
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 14,
@@ -36,9 +36,9 @@ export const customPickerStyles = StyleSheet.create({
     borderRadius: 5,
     height: 45,
     color: 'black',
-    paddingRight: 30 // to ensure the text is never behind the icon
-  }
-})
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
 
 export default StyleSheet.create({
   h0: { fontSize: 20, lineHeight: 25 },
@@ -238,32 +238,32 @@ export default StyleSheet.create({
     lineHeight: 20,
     fontWeight: 'bold',
     color: '#222',
-    /* textAlign: 'center', marginLeft: 24 */ marginLeft: 9
+    /* textAlign: 'center', marginLeft: 24 */ marginLeft: 9,
   },
   menuTrigger: {
     justifyContent: 'center',
     alignItems: 'center',
     width: 44,
-    height: 48
+    height: 48,
   },
   headRight: {
     position: 'absolute',
     top: -2,
     right: 0,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   headLeft: { alignItems: 'center', justifyContent: 'center', width: 44 },
   headLeftIcn: {
     flexDirection: 'row',
-    justifyContent: 'center' /* justifyContent: 'flex-start', paddingLeft: 6, */
+    justifyContent: 'center' /* justifyContent: 'flex-start', paddingLeft: 6, */,
   },
   headBack: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 44,
     height: 44,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   footWr: {
     flex: 1,
@@ -271,7 +271,7 @@ export default StyleSheet.create({
     paddingVertical: 0,
     flexDirection: 'row',
     backgroundColor: '#1F4C06',
-    overflow: 'hidden'
+    overflow: 'hidden',
   } /* overflow: 'hidden', borderTopLeftRadius:20, borderTopRightRadius:20, overflow:"hidden", */,
   footIcn: { width: 25, height: 25 },
 
@@ -294,14 +294,14 @@ export default StyleSheet.create({
     width: '100%',
     backgroundColor: main,
     paddingVertical: 14,
-    borderRadius: 5
+    borderRadius: 5,
   },
   mainBtnBottom: {
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     backgroundColor: main,
-    paddingVertical: 18
+    paddingVertical: 18,
   },
   mainBorderBtn: {
     alignItems: 'center',
@@ -311,7 +311,7 @@ export default StyleSheet.create({
     borderColor: main,
     backgroundColor: '#fff',
     paddingVertical: 15,
-    borderRadius: 5
+    borderRadius: 5,
   },
   mintBorderBtn: {
     alignItems: 'center',
@@ -321,12 +321,12 @@ export default StyleSheet.create({
     borderColor: mint,
     backgroundColor: '#fff',
     paddingVertical: 15,
-    borderRadius: 5
+    borderRadius: 5,
   },
   mainBorderBtnText: {
     fontFamily: Fonts.NotoSansR,
     fontSize: 14,
-    color: main
+    color: main,
   },
   BorderBtn: {
     alignItems: 'center',
@@ -336,7 +336,7 @@ export default StyleSheet.create({
     borderColor: '#222',
     backgroundColor: '#fff',
     paddingVertical: 12,
-    borderRadius: 5
+    borderRadius: 5,
   },
 
   round05: { borderRadius: 5 },
@@ -364,7 +364,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   btnConfirm2: { position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10 },
   btnConfirm2In: {
@@ -372,7 +372,7 @@ export default StyleSheet.create({
     backgroundColor: '#F8F8F8E6',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderWidth: 0
+    borderWidth: 0,
   },
 
   // main menu
@@ -381,7 +381,7 @@ export default StyleSheet.create({
     height: 80,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 
   // reservation1
@@ -395,7 +395,7 @@ export default StyleSheet.create({
     paddingHorizontal: 19,
     borderWidth: 1,
     borderColor: '#EEEEEE',
-    borderTopColor: '#fff'
+    borderTopColor: '#fff',
   },
 
   // roominfo
@@ -404,7 +404,7 @@ export default StyleSheet.create({
     height: 250,
     backgroundColor: '#fff',
     alignItems: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   line: {
     borderTopWidth: 1,
@@ -412,7 +412,7 @@ export default StyleSheet.create({
     width: '100%',
     height: 1,
     marginTop: 15,
-    marginBottom: 15
+    marginBottom: 15,
   },
   cureSort: { position: 'absolute', paddingRight: 5, paddingVertical: 5 },
 
@@ -420,7 +420,13 @@ export default StyleSheet.create({
   list_item: { marginLeft: 0, paddingRight: 5, marginRight: 0, width: '100%' },
   list_right_img: { width: 10, height: 20, resizeMode: 'contain' },
   btGreen: { borderRadius: 20, alignItems: 'center', paddingRight: 10, paddingLeft: 5 },
-  ticket_left: { width: '65%', zIndex: 9, borderWidth: 1, borderColor: '#eee', borderRightWidth: 0 },
+  ticket_left: {
+    width: '65%',
+    zIndex: 9,
+    borderWidth: 1,
+    borderColor: '#eee',
+    borderRightWidth: 0,
+  },
   ticket_right: {
     width: '35%',
     borderWidth: 1,
@@ -428,7 +434,7 @@ export default StyleSheet.create({
     zIndex: 9,
     borderLeftWidth: 0,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   ticket_radius: {
     borderWidth: 1,
@@ -441,7 +447,7 @@ export default StyleSheet.create({
     top: -25,
     right: -20,
     borderRadius: 20,
-    borderTopWidth: 0
+    borderTopWidth: 0,
   },
   ticket_radius_bottom: {
     borderWidth: 1,
@@ -454,11 +460,16 @@ export default StyleSheet.create({
     bottom: -25,
     right: -20,
     borderRadius: 20,
-    borderTopWidth: 0
+    borderTopWidth: 0,
   },
 
   // ticket guide
-  ticket_wrapper: { paddingVertical: 19, paddingHorizontal: 20, borderWidth: 1, borderColor: '#eee' },
+  ticket_wrapper: {
+    paddingVertical: 19,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    borderColor: '#eee',
+  },
   // list reservation
   res_list: { borderWidth: 1, borderColor: '#eee' },
 
@@ -470,7 +481,7 @@ export default StyleSheet.create({
     paddingVertical: 13,
     borderWidth: 2,
     borderColor: '#EEEEEE',
-    marginBottom: 10
+    marginBottom: 10,
   },
 
   // board qa
@@ -480,7 +491,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 13,
     borderWidth: 2,
-    borderColor: '#EEEEEE'
+    borderColor: '#EEEEEE',
   },
 
   // 정보수정
@@ -489,5 +500,5 @@ export default StyleSheet.create({
   // 약관동의
   img80: { width: 80, height: 80 },
   img50: { width: 50, height: 50, marginLeft: -25 },
-  img30: { width: 30, height: 30, marginLeft: -15 }
-})
+  img30: { width: 30, height: 30, marginLeft: -15 },
+});
