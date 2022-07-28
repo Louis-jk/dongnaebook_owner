@@ -171,15 +171,22 @@ const CouponEdit = props => {
           onPress: () => couponMinPriceRef.current.focus(),
         },
       ]);
-    } else if (maxPrice === null || maxPrice === "") {
+    } else if (priceType === "1" && (maxPrice === null || maxPrice === "")) {
       Alert.alert("최대 할인 금액을 입력해주세요.", "", [
         {
           text: "확인",
           onPress: () => couponMaxPriceRef.current.focus(),
         },
       ]);
+    } else if (priceType === "1" && maxPrice <= 0) {
+      Alert.alert("최대 할인 금액은 0원 이상으로 입력해주세요.", "", [
+        {
+          text: "확인",
+          onPress: () => couponMaxPriceRef.current.focus(),
+        },
+      ]);
     } else if (discountPrice === null || discountPrice === "") {
-      if (priceType === "0") {
+      if (priceType === "1") {
         Alert.alert("할인 금액을 입력해주세요.", "", [
           {
             text: "확인",
@@ -230,7 +237,7 @@ const CouponEdit = props => {
         cz_price: discountPrice,
         cz_price_type: priceType,
         cz_minimum: minPrice,
-        cz_maximum: maxPrice,
+        cz_maximum: priceType === "1" ? maxPrice : 0,
       };
 
       Api.send("store_couponzone_update", param, args => {
@@ -375,43 +382,45 @@ const CouponEdit = props => {
           {/* // 최소 주문 금액 */}
 
           {/* 최대 할인 금액 */}
-          <View style={{...BaseStyle.mv10}}>
-            <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
-              최대 할인 금액
-            </Text>
-            <View
-              style={{
-                ...BaseStyle.container5,
-                borderWidth: 1,
-                borderColor: "#E3E3E3",
-                ...BaseStyle.round05,
-                ...BaseStyle.inputH,
-                ...BaseStyle.ph10,
-              }}>
-              <TextInput
-                ref={couponMaxPriceRef}
-                value={maxPrice}
-                placeholder="0"
+          {priceType === "1" && (
+            <View style={{...BaseStyle.mv10}}>
+              <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
+                최대 할인 금액
+              </Text>
+              <View
                 style={{
-                  width: "95%",
+                  ...BaseStyle.container5,
+                  borderWidth: 1,
+                  borderColor: "#E3E3E3",
+                  ...BaseStyle.round05,
                   ...BaseStyle.inputH,
-                  textAlign: "right",
-                }}
-                onChangeText={text => {
-                  const re = /^[0-9\b]+$/;
-                  if (text === "" || re.test(text)) {
-                    const changed = text.replace(/(^0+)/, "");
-                    setMaxPrice(changed);
-                  } else {
-                    setMaxPrice("0");
-                  }
-                }}
-                keyboardType="number-pad"
-                autoCapitalize="none"
-              />
-              <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>원</Text>
+                  ...BaseStyle.ph10,
+                }}>
+                <TextInput
+                  ref={couponMaxPriceRef}
+                  value={maxPrice}
+                  placeholder="0"
+                  style={{
+                    width: "95%",
+                    ...BaseStyle.inputH,
+                    textAlign: "right",
+                  }}
+                  onChangeText={text => {
+                    const re = /^[0-9\b]+$/;
+                    if (text === "" || re.test(text)) {
+                      const changed = text.replace(/(^0+)/, "");
+                      setMaxPrice(changed);
+                    } else {
+                      setMaxPrice("0");
+                    }
+                  }}
+                  keyboardType="number-pad"
+                  autoCapitalize="none"
+                />
+                <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>원</Text>
+              </View>
             </View>
-          </View>
+          )}
           {/* // 최대 할인 금액 */}
 
           {/* 할인 금액 */}
