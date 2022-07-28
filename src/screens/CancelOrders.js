@@ -55,7 +55,16 @@ const CancelOrders = props => {
   const renderRow = ({item, index}) => {
     console.log("cancel item::", item);
     return (
-      <View key={index}>
+      <TouchableOpacity
+        key={index}
+        activeOpacity={1}
+        onPress={() =>
+          navigation.navigate("OrderDetail", {
+            od_id: item.od_id,
+            od_time: item.od_time,
+            type: "cancel",
+          })
+        }>
         <View
           style={{
             backgroundColor: "#F8F8F8",
@@ -69,16 +78,7 @@ const CancelOrders = props => {
           </Text>
         </View>
         <View style={{...BaseStyle.container7, ...BaseStyle.mb20, ...BaseStyle.ph20}}>
-          <TouchableOpacity
-            activeOpacity={1}
-            style={{width: "76%"}}
-            onPress={() =>
-              navigation.navigate("OrderDetail", {
-                od_id: item.od_id,
-                od_time: item.od_time,
-                type: "cancel",
-              })
-            }>
+          <View style={{width: "76%"}}>
             <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb5}}>
               {item.mb_company}
             </Text>
@@ -128,7 +128,7 @@ const CancelOrders = props => {
                 ) : null}
               </View>
             </View>
-          </TouchableOpacity>
+          </View>
           <View
             style={{
               backgroundColor: Primary.PointColor03,
@@ -142,7 +142,7 @@ const CancelOrders = props => {
             <Text style={{...BaseStyle.ko13}}>취소됨</Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
