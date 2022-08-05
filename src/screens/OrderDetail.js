@@ -47,7 +47,7 @@ const OrderDetail = props => {
     return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
   }, [])
 
-  const getOrderDetailHandler = () => {
+  function getOrderDetailHandler () {
     const param = {
       encodeJson: true,
       od_id: orderId,
@@ -102,7 +102,8 @@ const OrderDetail = props => {
   // 주문 거부
   const [isModalVisible, setModalVisible] = React.useState(false)
   const [modalType, setModalType] = React.useState('')
-  const toggleModal = payload => {
+
+  function toggleModal (payload) {
     setModalType(payload)
     setModalVisible(!isModalVisible)
   }
@@ -131,7 +132,7 @@ const OrderDetail = props => {
   }
 
   // 주문 배달처리 후 리스트 갱신
-  const getOrderListHandlerCheck = () => {
+  function getOrderListHandlerCheck () {
     const param = {
       encodeJson: true,
       item_count: 0,
@@ -154,7 +155,7 @@ const OrderDetail = props => {
   }
 
   // 주문 배달처리
-  const sendDeliverHandler = () => {
+  function sendDeliverHandler () {
     const param = {
       od_id: orderId,
       jumju_id: jumjuId,
@@ -197,7 +198,7 @@ const OrderDetail = props => {
     })
   }
 
-  const deliveryOrderHandler = () => {
+  function deliveryOrderHandler () {
     if (detailOrder.od_type === '배달') {
       Alert.alert('주문을 배달 처리하시겠습니까?', '', [
         {
@@ -329,12 +330,12 @@ const OrderDetail = props => {
                       상호명
                     </Text>
                   </View>
-                  <View>
+                  <View style={{ width: '65%' }}>
                     <Text
                       style={{
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_333,
-                        ...BaseStyle.lh17,
+                        ...BaseStyle.lh24,
                         textAlign: 'right'
                       }}
                     >
@@ -346,7 +347,7 @@ const OrderDetail = props => {
                   <View style={{ width: '30%' }}>
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>주문시간</Text>
                   </View>
-                  <View>
+                  <View style={{ width: '65%' }}>
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, textAlign: 'right' }}>
                       {moment(orderTime).format('YYYY년 M월 D일, HH시 mm분')}
                     </Text>
@@ -356,7 +357,7 @@ const OrderDetail = props => {
                   <View style={{ width: '30%' }}>
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>주문방법</Text>
                   </View>
-                  <View>
+                  <View style={{ width: '65%' }}>
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, textAlign: 'right' }}>
                       {detailOrder.od_type} 주문
                     </Text>
@@ -380,13 +381,13 @@ const OrderDetail = props => {
                   <View style={{ width: '30%' }}>
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>배달주소</Text>
                   </View>
-                  <View style={{ marginTop: -2 }}>
+                  <View style={{ marginTop: -2, width: '65%' }}>
                     <View style={{ ...BaseStyle.mb10 }}>
                       <Text
                         style={{
                           ...BaseStyle.ko14,
                           ...BaseStyle.font_333,
-                          ...BaseStyle.lh17,
+                          ...BaseStyle.lh24,
                           textAlign: 'right'
                         }}
                       >
@@ -423,6 +424,7 @@ const OrderDetail = props => {
                   </View>
                   <TouchableOpacity
                     activeOpacity={1}
+                    style={{ width: '65%' }}
                     onPress={() => {
                       Alert.alert('주문자에게 전화를 거시겠습니까?', '', [
                         {
@@ -601,12 +603,12 @@ const OrderDetail = props => {
                       사장님께
                     </Text>
                   </View>
-                  <View>
+                  <View style={{ width: '65%' }}>
                     <Text
                       style={{
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_333,
-                        ...BaseStyle.lh17,
+                        ...BaseStyle.lh24,
                         textAlign: 'right'
                       }}
                     >
@@ -626,12 +628,12 @@ const OrderDetail = props => {
                       배달기사님께
                     </Text>
                   </View>
-                  <View>
+                  <View style={{ width: '65%' }}>
                     <Text
                       style={{
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_333,
-                        ...BaseStyle.lh17,
+                        ...BaseStyle.lh24,
                         textAlign: 'right'
                       }}
                     >
@@ -642,23 +644,23 @@ const OrderDetail = props => {
                   </View>
                 </View>
                 <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                  <View style={{ width: '40%' }}>
+                  <View style={{ width: '50%' }}>
                     <Text
                       style={{
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_222,
-                        ...BaseStyle.lh17
+                        ...BaseStyle.lh24
                       }}
                     >
                       일회용 수저, 포크 유무
                     </Text>
                   </View>
-                  <View>
+                  <View style={{ width: '45%' }}>
                     <Text
                       style={{
                         ...BaseStyle.ko14,
                         ...BaseStyle.font_333,
-                        ...BaseStyle.lh17,
+                        ...BaseStyle.lh24,
                         textAlign: 'right'
                       }}
                     >
@@ -675,6 +677,7 @@ const OrderDetail = props => {
                   borderWidth: 1,
                   borderColor: '#E3E3E3',
                   borderRadius: 5,
+                  backgroundColor: '#E8F7FA',
                   ...BaseStyle.pv20,
                   ...BaseStyle.ph15,
                   ...BaseStyle.mt20,
