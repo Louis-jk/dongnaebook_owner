@@ -74,6 +74,8 @@ const OrderDetail = props => {
 
   React.useEffect(() => {
     getOrderDetailHandler()
+
+    return () => getOrderDetailHandler()
   }, [])
 
   console.log('====================================')
@@ -105,7 +107,7 @@ const OrderDetail = props => {
   // 제목 설정
   const [title, setTitle] = React.useState('')
 
-  React.useEffect(() => {
+  function setHeaderTitleHandler () {
     if (type === 'ready') {
       setTitle('신규주문')
     } else if (type === 'doing') {
@@ -117,7 +119,13 @@ const OrderDetail = props => {
     } else {
       setTitle('처리완료')
     }
-  }, [])
+  }
+
+  React.useEffect(() => {
+    setHeaderTitleHandler()
+
+    return () => setHeaderTitleHandler()
+  }, [type])
 
   // 주문 접수
   const [isOrderCheckModalVisible, setOrderCheckModalVisible] = React.useState(false)

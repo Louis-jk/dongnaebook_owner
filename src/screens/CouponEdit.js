@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 import {
   View,
   Text,
@@ -9,20 +9,20 @@ import {
   ScrollView,
   Image,
   Alert,
-  Platform,
-} from "react-native"
-import DateTimePicker from "@react-native-community/datetimepicker"
-import moment from "moment"
-import "moment/locale/ko"
-import RNPickerSelect from "react-native-picker-select"
-import { useSelector, useDispatch } from "react-redux"
-import Header from "../components/SubHeader"
-import BaseStyle, { Primary } from "../styles/Base"
-import Api from "../Api"
-import * as couponAction from "../redux/actions/couponAction"
-import cusToast from "../components/CusToast"
+  Platform
+} from 'react-native'
+import DateTimePicker from '@react-native-community/datetimepicker'
+import moment from 'moment'
+import 'moment/locale/ko'
+import RNPickerSelect from 'react-native-picker-select'
+import { useSelector, useDispatch } from 'react-redux'
+import Header from '../components/SubHeader'
+import BaseStyle, { Primary } from '../styles/Base'
+import Api from '../Api'
+import * as couponAction from '../redux/actions/couponAction'
+import cusToast from '../components/CusToast'
 
-const { width, height } = Dimensions.get("window")
+const { width, height } = Dimensions.get('window')
 
 const CouponEdit = props => {
   const { navigation } = props
@@ -34,24 +34,24 @@ const CouponEdit = props => {
   const minPriceRef = React.useRef(null) // 최소 주문 금액
   const discountPriceRef = React.useRef(null) // 할인 금액
 
-  const [no, setNo] = React.useState("") // 쿠폰 No
-  const [type, setType] = React.useState("") // 쿠폰 구분
-  const [name, setName] = React.useState("") // 쿠폰명
-  const [minPrice, setMinPrice] = React.useState("") // 최소 주문 금액
-  const [maxPrice, setMaxPrice] = React.useState("") // 최대 할인 금액
-  const [maxDate, setMaxDate] = React.useState("") // 쿠폰 사용 기한
-  const [discountPrice, setDiscountPrice] = React.useState("") // 할인 금액
-  const [priceType, setPriceType] = React.useState("0") // type(정액할인: 0, 정률할인(%): 1)
+  const [no, setNo] = React.useState('') // 쿠폰 No
+  const [type, setType] = React.useState('') // 쿠폰 구분
+  const [name, setName] = React.useState('') // 쿠폰명
+  const [minPrice, setMinPrice] = React.useState('') // 최소 주문 금액
+  const [maxPrice, setMaxPrice] = React.useState('') // 최대 할인 금액
+  const [maxDate, setMaxDate] = React.useState('') // 쿠폰 사용 기한
+  const [discountPrice, setDiscountPrice] = React.useState('') // 할인 금액
+  const [priceType, setPriceType] = React.useState('0') // type(정액할인: 0, 정률할인(%): 1)
 
   // 패키지
   const [date, setDate] = React.useState(new Date())
   const [startDate, setStartDate] = React.useState(new Date())
   const [endDate, setEndDate] = React.useState(new Date())
-  const [mode, setMode] = React.useState("date")
+  const [mode, setMode] = React.useState('date')
   const [show, setShow] = React.useState(false)
-  const [dateType, setDateType] = React.useState("")
+  const [dateType, setDateType] = React.useState('')
 
-  React.useEffect(() => {
+  function couponInit () {
     setNo(props.route.params.item.cz_no)
     setType(props.route.params.item.cz_type)
     setName(props.route.params.item.cz_subject)
@@ -62,20 +62,25 @@ const CouponEdit = props => {
     setStartDate(props.route.params.item.cz_start)
     setEndDate(props.route.params.item.cz_end)
     setMaxDate(props.route.params.item.cz_period)
+  }
+
+  React.useEffect(() => {
+    couponInit()
+    return () => couponInit()
   }, [])
 
   // 할인 금액 (원/%) 체인지 핸들러
   const onChangePriceAndRatioHandler = payload => {
     const discountPriceToInt = Number(discountPrice)
 
-    if (payload === "0") {
+    if (payload === '0') {
       setPriceType(payload)
-    } else if (payload === "1") {
+    } else if (payload === '1') {
       setPriceType(payload)
 
       if (discountPriceToInt > 99) {
-        cusToast("할인 비율을 다시 입력해주세요.")
-        setDiscountPrice("")
+        cusToast('할인 비율을 다시 입력해주세요.')
+        setDiscountPrice('')
         couponDiscountPriceRef.current.focus()
       }
     } else {
@@ -85,24 +90,24 @@ const CouponEdit = props => {
 
   const onChange = (event, selectedValue) => {
     const currentValue = selectedValue || date
-    setShow(Platform.OS === "ios")
+    setShow(Platform.OS === 'ios')
 
-    if (dateType === "start") {
+    if (dateType === 'start') {
       if (currentValue > endDate) {
-        Alert.alert("다운로드 유효기간 시작일이 마지막 날짜보다 클 수 없습니다.", "", [
+        Alert.alert('다운로드 유효기간 시작일이 마지막 날짜보다 클 수 없습니다.', '', [
           {
-            text: "확인",
-          },
+            text: '확인'
+          }
         ])
       } else {
         setStartDate(currentValue)
       }
     } else {
       if (currentValue < startDate) {
-        Alert.alert("다운로드 유효기간 마지막 날짜가 시작 날짜보다 작을 수 없습니다.", "", [
+        Alert.alert('다운로드 유효기간 마지막 날짜가 시작 날짜보다 작을 수 없습니다.', '', [
           {
-            text: "확인",
-          },
+            text: '확인'
+          }
         ])
       } else {
         setEndDate(currentValue)
@@ -117,7 +122,7 @@ const CouponEdit = props => {
   }
 
   const showDatepicker = payload => {
-    showMode("date", payload)
+    showMode('date', payload)
   }
 
   const getCouponListHandler = () => {
@@ -125,14 +130,14 @@ const CouponEdit = props => {
       item_count: 0,
       limit_count: 10,
       jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_code: mt_jumju_code
     }
 
-    Api.send("store_couponzone_list", param, args => {
+    Api.send('store_couponzone_list', param, args => {
       const resultItem = args.resultItem
-      let arrItems = args.arrItems
+      const arrItems = args.arrItems
 
-      if (resultItem.result === "Y") {
+      if (resultItem.result === 'Y') {
         dispatch(couponAction.updateCoupon(JSON.stringify(arrItems)))
       } else {
         dispatch(couponAction.updateCoupon(null))
@@ -147,82 +152,82 @@ const CouponEdit = props => {
   const couponUseDayRef = React.useRef(null)
 
   const addCouponHandler = () => {
-    const startDateFormat = moment(startDate).format("YYYY-MM-DD")
-    let endDateFormat = moment(endDate).format("YYYY-MM-DD")
-    let toIntDiscountPrice = parseInt(discountPrice)
+    const startDateFormat = moment(startDate).format('YYYY-MM-DD')
+    const endDateFormat = moment(endDate).format('YYYY-MM-DD')
+    const toIntDiscountPrice = parseInt(discountPrice)
 
-    if (type === null || type === "") {
-      Alert.alert("구분을 선택해주세요.", "", [
+    if (type === null || type === '') {
+      Alert.alert('구분을 선택해주세요.', '', [
         {
-          text: "확인",
-        },
+          text: '확인'
+        }
       ])
-    } else if (name === null || name === "") {
-      Alert.alert("쿠폰명을 입력해주세요.", "", [
+    } else if (name === null || name === '') {
+      Alert.alert('쿠폰명을 입력해주세요.', '', [
         {
-          text: "확인",
-          onPress: () => couponNameRef.current.focus(),
-        },
+          text: '확인',
+          onPress: () => couponNameRef.current.focus()
+        }
       ])
-    } else if (minPrice === null || minPrice === "") {
-      Alert.alert("최소 주문 금액을 입력해주세요.", "", [
+    } else if (minPrice === null || minPrice === '') {
+      Alert.alert('최소 주문 금액을 입력해주세요.', '', [
         {
-          text: "확인",
-          onPress: () => couponMinPriceRef.current.focus(),
-        },
+          text: '확인',
+          onPress: () => couponMinPriceRef.current.focus()
+        }
       ])
-    } else if (priceType === "1" && (maxPrice === null || maxPrice === "")) {
-      Alert.alert("최대 할인 금액을 입력해주세요.", "", [
+    } else if (priceType === '1' && (maxPrice === null || maxPrice === '')) {
+      Alert.alert('최대 할인 금액을 입력해주세요.', '', [
         {
-          text: "확인",
-          onPress: () => couponMaxPriceRef.current.focus(),
-        },
+          text: '확인',
+          onPress: () => couponMaxPriceRef.current.focus()
+        }
       ])
-    } else if (priceType === "1" && maxPrice <= 0) {
-      Alert.alert("최대 할인 금액은 0원 이상으로 입력해주세요.", "", [
+    } else if (priceType === '1' && maxPrice <= 0) {
+      Alert.alert('최대 할인 금액은 0원 이상으로 입력해주세요.', '', [
         {
-          text: "확인",
-          onPress: () => couponMaxPriceRef.current.focus(),
-        },
+          text: '확인',
+          onPress: () => couponMaxPriceRef.current.focus()
+        }
       ])
-    } else if (discountPrice === null || discountPrice === "") {
-      if (priceType === "1") {
-        Alert.alert("할인 금액을 입력해주세요.", "", [
+    } else if (discountPrice === null || discountPrice === '') {
+      if (priceType === '1') {
+        Alert.alert('할인 금액을 입력해주세요.', '', [
           {
-            text: "확인",
-            onPress: () => couponDiscountPriceRef.current.focus(),
-          },
+            text: '확인',
+            onPress: () => couponDiscountPriceRef.current.focus()
+          }
         ])
       } else {
-        Alert.alert("할인 비율을 입력해주세요.", "", [
+        Alert.alert('할인 비율을 입력해주세요.', '', [
           {
-            text: "확인",
-            onPress: () => couponDiscountPriceRef.current.focus(),
-          },
+            text: '확인',
+            onPress: () => couponDiscountPriceRef.current.focus()
+          }
         ])
       }
     } else if (toIntDiscountPrice <= 0) {
-      if (priceType === "0") {
-        Alert.alert("할인 금액은 0원 이상으로 설정해주세요.", "", [
+      if (priceType === '0') {
+        Alert.alert('할인 금액은 0원 이상으로 설정해주세요.', '', [
           {
-            text: "확인",
-            onPress: () => couponDiscountPriceRef.current.focus(),
-          },
+            text: '확인',
+            onPress: () => couponDiscountPriceRef.current.focus()
+          }
         ])
       } else {
-        Alert.alert("할인 비율은 0% 이상 100% 이하로 설정해주세요.", "", [
+        Alert.alert('할인 비율은 0% 이상 100% 이하로 설정해주세요.', '', [
           {
-            text: "확인",
-            onPress: () => couponDiscountPriceRef.current.focus(),
-          },
+            text: '확인',
+            onPress: () => couponDiscountPriceRef.current.focus()
+          }
         ])
       }
-    } else if (maxDate === null || maxDate === "") {
-      Alert.alert("쿠폰 사용기간을 입력해주세요.", "", [
+    } else if (maxDate === null || maxDate === '') {
+      Alert.alert('쿠폰 사용기간을 입력해주세요.', '', [
         {
-          text: "확인",
-          onPress: () => couponUseDayRef.current.focus(),
-        },
+          text: '확인',
+          onPress: () => couponUseDayRef.current.focus()
+        }
       ])
     } else {
       const param = {
@@ -237,31 +242,31 @@ const CouponEdit = props => {
         cz_price: discountPrice,
         cz_price_type: priceType,
         cz_minimum: minPrice,
-        cz_maximum: priceType === "1" ? maxPrice : 0,
+        cz_maximum: priceType === '1' ? maxPrice : 0
       }
 
-      Api.send("store_couponzone_update", param, args => {
+      Api.send('store_couponzone_update', param, args => {
         const resultItem = args.resultItem
-        let arrItems = args.arrItems
+        const arrItems = args.arrItems
 
-        if (resultItem.result === "Y") {
+        if (resultItem.result === 'Y') {
           getCouponListHandler()
-          Alert.alert("쿠폰이 수정되었습니다.", "쿠폰리스트로 이동합니다.", [
+          Alert.alert('쿠폰이 수정되었습니다.', '쿠폰리스트로 이동합니다.', [
             {
-              text: "확인",
-              onPress: () => navigation.navigate("Home", { screen: "Coupon" }),
+              text: '확인',
+              onPress: () => navigation.navigate('Home', { screen: 'Coupon' })
             },
             {
-              text: "메인으로",
-              onPress: () => navigation.navigate("Home", { screen: "Main" }),
-            },
+              text: '메인으로',
+              onPress: () => navigation.navigate('Home', { screen: 'Main' })
+            }
           ])
         } else {
-          Alert.alert("쿠폰을 수정할 수 없습니다.", "다시 시도 해주세요.", [
+          Alert.alert('쿠폰을 수정할 수 없습니다.', '다시 시도 해주세요.', [
             {
-              text: "확인",
-              onPress: () => navigation.navigate("Home", { screen: "Coupon" }),
-            },
+              text: '확인',
+              onPress: () => navigation.navigate('Home', { screen: 'Coupon' })
+            }
           ])
         }
       })
@@ -269,8 +274,8 @@ const CouponEdit = props => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
-      <Header navigation={navigation} title="쿠폰수정" />
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <Header navigation={navigation} title='쿠폰수정' />
 
       {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
 
@@ -285,29 +290,29 @@ const CouponEdit = props => {
               fixAndroidTouchableBug
               value={type}
               useNativeAndroidPickerStyle={false}
-              placeholder={{ label: "선택해주세요.", value: null }}
+              placeholder={{ label: '선택해주세요.', value: null }}
               onValueChange={value => setType(value)}
               items={[
-                { label: "모두 사용가능", value: "0" },
-                { label: "포장용 쿠폰", value: "1" },
-                { label: "배달용 쿠폰", value: "2" },
+                { label: '모두 사용가능', value: '0' },
+                { label: '포장용 쿠폰', value: '1' },
+                { label: '배달용 쿠폰', value: '2' }
               ]}
               style={{
                 ...customPickerStyles,
                 borderWidth: 1,
-                borderColor: "#E3E3E3",
+                borderColor: '#E3E3E3',
                 ...BaseStyle.round05,
                 ...BaseStyle.inputH,
                 placeholder: {
-                  color: "#888",
-                },
+                  color: '#888'
+                }
               }}
               Icon={() => {
                 return (
                   <Image
-                    source={require("../images/ic_select.png")}
+                    source={require('../images/ic_select.png')}
                     style={{ width: 50, height: 50 }}
-                    resizeMode="center"
+                    resizeMode='center'
                   />
                 )
               }}
@@ -324,22 +329,22 @@ const CouponEdit = props => {
               style={{
                 ...BaseStyle.container5,
                 borderWidth: 1,
-                borderColor: "#E3E3E3",
+                borderColor: '#E3E3E3',
                 ...BaseStyle.round05,
                 ...BaseStyle.inputH,
-                ...BaseStyle.ph10,
+                ...BaseStyle.ph10
               }}
             >
               <TextInput
                 ref={couponNameRef}
                 value={name}
-                placeholder="쿠폰명을 입력해주세요."
+                placeholder='쿠폰명을 입력해주세요.'
                 style={{
-                  width: "95%",
-                  ...BaseStyle.inputH,
+                  width: '95%',
+                  ...BaseStyle.inputH
                 }}
                 onChangeText={text => setName(text)}
-                autoCapitalize="none"
+                autoCapitalize='none'
               />
             </View>
           </View>
@@ -348,7 +353,7 @@ const CouponEdit = props => {
           {/* 할인 금액 */}
           <View style={{ ...BaseStyle.mv10 }}>
             <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
-              할인 {priceType === "0" ? "금액" : "비율"}
+              할인 {priceType === '0' ? '금액' : '비율'}
             </Text>
             <View style={{ ...BaseStyle.container }}>
               <View
@@ -358,31 +363,31 @@ const CouponEdit = props => {
                   ...BaseStyle.round05,
                   ...BaseStyle.inputH,
                   ...BaseStyle.mr5,
-                  ...BaseStyle.border,
+                  ...BaseStyle.border
                 }}
               >
                 <TextInput
                   ref={couponDiscountPriceRef}
                   value={discountPrice}
-                  placeholder="0"
+                  placeholder='0'
                   style={{
-                    width: "90%",
+                    width: '90%',
                     ...BaseStyle.inputH,
-                    textAlign: "right",
-                    ...BaseStyle.pl10,
+                    textAlign: 'right',
+                    ...BaseStyle.pl10
                   }}
                   onChangeText={text => {
                     const re = /^[0-9\b]+$/
-                    if (text === "" || re.test(text)) {
-                      const changed = text.replace(/(^0+)/, "")
+                    if (text === '' || re.test(text)) {
+                      const changed = text.replace(/(^0+)/, '')
 
-                      if (priceType === "1") {
+                      if (priceType === '1') {
                         const toIntText = Number(changed)
                         if (toIntText > 99) {
-                          cusToast("할인 비율은 99%까지 입력 가능합니다.")
-                          setDiscountPrice("")
-                        } else if (priceType === "0") {
-                          cusToast("할인 비율은 0% 이상이어야 합니다.")
+                          cusToast('할인 비율은 99%까지 입력 가능합니다.')
+                          setDiscountPrice('')
+                        } else if (priceType === '0') {
+                          cusToast('할인 비율은 0% 이상이어야 합니다.')
                         } else {
                           setDiscountPrice(changed)
                         }
@@ -390,54 +395,54 @@ const CouponEdit = props => {
                         setDiscountPrice(changed)
                       }
                     } else {
-                      cusToast("잘못된 입력입니다.")
+                      cusToast('잘못된 입력입니다.')
                     }
                   }}
-                  keyboardType="number-pad"
-                  autoCapitalize="none"
+                  keyboardType='number-pad'
+                  autoCapitalize='none'
                 />
                 <View
                   style={{
-                    height: "100%",
-                    justifyContent: "center",
-                    alignItems: "flex-start",
-                    width: "10%",
+                    height: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'flex-start',
+                    width: '10%'
                   }}
                 >
-                  <Text>{priceType === "1" ? "%" : "원"}</Text>
+                  <Text>{priceType === '1' ? '%' : '원'}</Text>
                 </View>
               </View>
               <View style={{ ...BaseStyle.container, ...BaseStyle.border, ...BaseStyle.inputH }}>
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => onChangePriceAndRatioHandler("0")}
+                  onPress={() => onChangePriceAndRatioHandler('0')}
                   style={{
-                    height: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    height: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     ...BaseStyle.ph20,
-                    backgroundColor: priceType === "0" ? Primary.PointColor01 : "#fff",
+                    backgroundColor: priceType === '0' ? Primary.PointColor01 : '#fff',
                     borderTopLeftRadius: 3,
-                    borderBottomLeftRadius: 3,
+                    borderBottomLeftRadius: 3
                   }}
                 >
-                  <Text style={{ color: priceType === "0" ? "#fff" : "#222" }}>원</Text>
+                  <Text style={{ color: priceType === '0' ? '#fff' : '#222' }}>원</Text>
                 </TouchableOpacity>
-                <View style={{ height: "100%", width: 1, backgroundColor: "#e5e5e5" }} />
+                <View style={{ height: '100%', width: 1, backgroundColor: '#e5e5e5' }} />
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => onChangePriceAndRatioHandler("1")}
+                  onPress={() => onChangePriceAndRatioHandler('1')}
                   style={{
-                    height: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    height: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     ...BaseStyle.ph20,
-                    backgroundColor: priceType === "1" ? Primary.PointColor01 : "#fff",
+                    backgroundColor: priceType === '1' ? Primary.PointColor01 : '#fff',
                     borderTopRightRadius: 3,
-                    borderBottomRightRadius: 3,
+                    borderBottomRightRadius: 3
                   }}
                 >
-                  <Text style={{ color: priceType === "1" ? "#fff" : "#222" }}>%</Text>
+                  <Text style={{ color: priceType === '1' ? '#fff' : '#222' }}>%</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -453,31 +458,31 @@ const CouponEdit = props => {
               style={{
                 ...BaseStyle.container5,
                 borderWidth: 1,
-                borderColor: "#E3E3E3",
+                borderColor: '#E3E3E3',
                 ...BaseStyle.round05,
                 ...BaseStyle.inputH,
-                ...BaseStyle.ph10,
+                ...BaseStyle.ph10
               }}
             >
               <TextInput
                 value={minPrice}
-                placeholder="0"
+                placeholder='0'
                 style={{
-                  width: "95%",
+                  width: '95%',
                   ...BaseStyle.inputH,
-                  textAlign: "right",
+                  textAlign: 'right'
                 }}
                 onChangeText={text => {
                   const re = /^[0-9\b]+$/
-                  if (text === "" || re.test(text)) {
-                    const changed = text.replace(/(^0+)/, "")
+                  if (text === '' || re.test(text)) {
+                    const changed = text.replace(/(^0+)/, '')
                     setMinPrice(changed)
                   } else {
-                    setMinPrice("0")
+                    setMinPrice('0')
                   }
                 }}
-                keyboardType="number-pad"
-                autoCapitalize="none"
+                keyboardType='number-pad'
+                autoCapitalize='none'
               />
               <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
             </View>
@@ -485,7 +490,7 @@ const CouponEdit = props => {
           {/* // 최소 주문 금액 */}
 
           {/* 최대 할인 금액 */}
-          {priceType === "1" && (
+          {priceType === '1' && (
             <View style={{ ...BaseStyle.mv10 }}>
               <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
                 최대 할인 금액
@@ -494,32 +499,32 @@ const CouponEdit = props => {
                 style={{
                   ...BaseStyle.container5,
                   borderWidth: 1,
-                  borderColor: "#E3E3E3",
+                  borderColor: '#E3E3E3',
                   ...BaseStyle.round05,
                   ...BaseStyle.inputH,
-                  ...BaseStyle.ph10,
+                  ...BaseStyle.ph10
                 }}
               >
                 <TextInput
                   ref={couponMaxPriceRef}
                   value={maxPrice}
-                  placeholder="0"
+                  placeholder='0'
                   style={{
-                    width: "95%",
+                    width: '95%',
                     ...BaseStyle.inputH,
-                    textAlign: "right",
+                    textAlign: 'right'
                   }}
                   onChangeText={text => {
                     const re = /^[0-9\b]+$/
-                    if (text === "" || re.test(text)) {
-                      const changed = text.replace(/(^0+)/, "")
+                    if (text === '' || re.test(text)) {
+                      const changed = text.replace(/(^0+)/, '')
                       setMaxPrice(changed)
                     } else {
-                      setMaxPrice("0")
+                      setMaxPrice('0')
                     }
                   }}
-                  keyboardType="number-pad"
-                  autoCapitalize="none"
+                  keyboardType='number-pad'
+                  autoCapitalize='none'
                 />
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
               </View>
@@ -536,34 +541,34 @@ const CouponEdit = props => {
             <View style={{ ...BaseStyle.container, ...BaseStyle.mb10 }}>
               <TouchableOpacity
                 activeOpacity={1}
-                onPress={() => showDatepicker("start")}
+                onPress={() => showDatepicker('start')}
                 style={{
                   flex: 3,
                   ...BaseStyle.container5,
                   borderWidth: 1,
-                  borderColor: "#E3E3E3",
+                  borderColor: '#E3E3E3',
                   ...BaseStyle.round05,
                   ...BaseStyle.inputH,
                   ...BaseStyle.ph10,
-                  ...BaseStyle.mr5,
+                  ...BaseStyle.mr5
                 }}
               >
                 <View style={{ ...BaseStyle.container }}>
                   <Image
-                    source={require("../images/ico_calendar.png")}
+                    source={require('../images/ico_calendar.png')}
                     style={{ width: 25, height: 25 }}
-                    resizeMode="contain"
+                    resizeMode='contain'
                   />
                   <View
                     style={{
                       ...BaseStyle.inputH,
-                      textAlign: "right",
-                      justifyContent: "center",
-                      ...BaseStyle.ml10,
+                      textAlign: 'right',
+                      justifyContent: 'center',
+                      ...BaseStyle.ml10
                     }}
                   >
                     <Text style={{ ...BaseStyle.ko15, marginTop: 3 }}>
-                      {moment(startDate).format("YYYY-MM-DD")}
+                      {moment(startDate).format('YYYY-MM-DD')}
                     </Text>
                   </View>
                 </View>
@@ -575,34 +580,34 @@ const CouponEdit = props => {
             <View style={{ ...BaseStyle.container }}>
               <TouchableOpacity
                 activeOpacity={1}
-                onPress={() => showDatepicker("end")}
+                onPress={() => showDatepicker('end')}
                 style={{
                   flex: 3,
                   ...BaseStyle.container5,
                   borderWidth: 1,
-                  borderColor: "#E3E3E3",
+                  borderColor: '#E3E3E3',
                   ...BaseStyle.round05,
                   ...BaseStyle.inputH,
                   ...BaseStyle.ph10,
-                  ...BaseStyle.mr5,
+                  ...BaseStyle.mr5
                 }}
               >
                 <View style={{ ...BaseStyle.container }}>
                   <Image
-                    source={require("../images/ico_calendar.png")}
+                    source={require('../images/ico_calendar.png')}
                     style={{ width: 25, height: 25 }}
-                    resizeMode="contain"
+                    resizeMode='contain'
                   />
                   <View
                     style={{
                       ...BaseStyle.inputH,
-                      textAlign: "right",
-                      justifyContent: "center",
-                      ...BaseStyle.ml10,
+                      textAlign: 'right',
+                      justifyContent: 'center',
+                      ...BaseStyle.ml10
                     }}
                   >
                     <Text style={{ ...BaseStyle.ko15, marginTop: 3 }}>
-                      {moment(endDate).format("YYYY-MM-DD")}
+                      {moment(endDate).format('YYYY-MM-DD')}
                     </Text>
                   </View>
                 </View>
@@ -613,11 +618,11 @@ const CouponEdit = props => {
           </View>
           {show && (
             <DateTimePicker
-              testID="dateTimePicker"
+              testID='dateTimePicker'
               value={date}
               mode={mode}
               is24Hour
-              display="default"
+              display='default'
               onChange={onChange}
             />
           )}
@@ -632,32 +637,32 @@ const CouponEdit = props => {
               style={{
                 ...BaseStyle.container5,
                 borderWidth: 1,
-                borderColor: "#E3E3E3",
+                borderColor: '#E3E3E3',
                 ...BaseStyle.round05,
                 ...BaseStyle.inputH,
-                ...BaseStyle.ph10,
+                ...BaseStyle.ph10
               }}
             >
               <TextInput
                 ref={couponUseDayRef}
                 value={maxDate}
-                placeholder="0"
+                placeholder='0'
                 style={{
-                  width: "95%",
+                  width: '95%',
                   ...BaseStyle.inputH,
-                  textAlign: "right",
+                  textAlign: 'right'
                 }}
                 onChangeText={text => {
-                  const filteredText = text.replace(/(-)|(\.)/gi, "")
+                  const filteredText = text.replace(/(-)|(\.)/gi, '')
 
-                  if (filteredText !== null || filteredText !== "") {
+                  if (filteredText !== null || filteredText !== '') {
                     setMaxDate(filteredText)
                   } else {
-                    setMaxDate("0")
+                    setMaxDate('0')
                   }
                 }}
-                keyboardType="number-pad"
-                autoCapitalize="none"
+                keyboardType='number-pad'
+                autoCapitalize='none'
               />
               <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>일</Text>
             </View>
@@ -685,23 +690,23 @@ const customPickerStyles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: "#E3E3E3",
+    borderColor: '#E3E3E3',
     borderRadius: 5,
     height: 50,
-    color: "black",
-    paddingRight: 30, // to ensure the text is never behind the icon
+    color: 'black',
+    paddingRight: 30 // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 14,
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderWidth: 1,
-    borderColor: "#E3E3E3",
+    borderColor: '#E3E3E3',
     borderRadius: 5,
     height: 50,
-    color: "black",
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
+    color: 'black',
+    paddingRight: 30 // to ensure the text is never behind the icon
+  }
 })
 
 export default CouponEdit

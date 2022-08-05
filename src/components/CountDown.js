@@ -1,6 +1,6 @@
-import { View, Text, Alert } from "react-native"
-import React from "react"
-import cusToast from "./CusToast"
+import { View, Text, Alert } from 'react-native'
+import React from 'react'
+import cusToast from './CusToast'
 
 const CountDown = ({
   minutes,
@@ -9,7 +9,7 @@ const CountDown = ({
   setSeconds,
   onFailConfirm,
   timeOver,
-  setTimeOver,
+  setTimeOver
 }) => {
   React.useEffect(() => {
     setTimeOver(false)
@@ -22,7 +22,7 @@ const CountDown = ({
           clearInterval(countdown)
           onFailConfirm()
           setTimeOver(true)
-          cusToast("인증번호 입력시간이 초과되었습니다.\n인증번호를 다시 전송해주세요.", 2500)
+          cusToast('인증번호 입력시간이 초과되었습니다.\n인증번호를 다시 전송해주세요.', 2500)
         } else {
           setMinutes(parseInt(minutes) - 1)
           setSeconds(59)
@@ -34,23 +34,24 @@ const CountDown = ({
 
   return (
     <>
-      {!timeOver ? (
+      {!timeOver && (
         <View>
-          <Text style={{ color: "#000" }}>
+          <Text style={{ color: '#000' }}>
             {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
           </Text>
         </View>
-      ) : (
+      )}
+      {timeOver && (
         <View
           style={{
-            marginBottom: 10,
+            marginBottom: 10
           }}
         >
           <Text
             style={{
               fontSize: 12,
-              color: "#ff5e78",
-              marginRight: 5,
+              color: '#ff5e78',
+              marginRight: 5
             }}
           >
             입력시간이 초과되었습니다.
