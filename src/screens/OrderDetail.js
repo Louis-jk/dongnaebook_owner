@@ -268,6 +268,7 @@ const OrderDetail = props => {
                   {detailOrder.order_id}
                 </Text>
               </View>
+
               {/* 취소건 일 때 취소 사유 */}
               {type === 'cancel' && (
                 <>
