@@ -240,6 +240,7 @@ const OrderDetail = props => {
             od_id={orderId}
           />
           {/* // 주문 취소/거부 모달 */}
+
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ ...BaseStyle.ph20 }}>
               {/* 주문 번호 */}
