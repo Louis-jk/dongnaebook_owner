@@ -3,17 +3,13 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
-  TextInput,
   Dimensions,
   ScrollView,
   Linking,
   Alert,
   BackHandler
 } from 'react-native'
-import DropDownPicker from 'react-native-dropdown-picker'
-import { useSelector, useDispatch } from 'react-redux'
-import Modal from 'react-native-modal'
+import { useDispatch } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import Header from '../components/SetHeader'
@@ -22,8 +18,6 @@ import OrderRejectCancelModal from '../components/OrderRejectCancelModal'
 import Api from '../Api'
 import OrderCheckModal from '../components/OrderCheckModal'
 import * as orderAction from '../redux/actions/orderAction'
-
-const { width, height } = Dimensions.get('window')
 
 const OrderDetail = props => {
   const { navigation } = props
@@ -161,8 +155,6 @@ const OrderDetail = props => {
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
       od_process_status: detailOrder.od_type === '배달' ? '배달중' : '포장완료'
-      // delivery_time: time01,
-      // visit_time: time02
     }
 
     Api.send('store_order_status_update', param, args => {
@@ -366,7 +358,9 @@ const OrderDetail = props => {
                 </View>
               </View>
               {/* // 기본 정보 리스트 */}
+
               <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+
               {/* 배달 정보 리스트 */}
               <View style={{ ...BaseStyle.mv15 }}>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
@@ -445,7 +439,9 @@ const OrderDetail = props => {
                 </View>
               </View>
               {/* // 배달 정보 리스트 */}
+
               <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+
               {/* 메뉴 정보 리스트 */}
               <View style={{ ...BaseStyle.mv15 }}>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
@@ -592,7 +588,9 @@ const OrderDetail = props => {
                   ))}
               </View>
               {/* // 메뉴 정보 리스트 */}
+
               <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+
               {/* 요청사항 리스트 */}
               <View style={{ ...BaseStyle.mv15 }}>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
@@ -671,7 +669,9 @@ const OrderDetail = props => {
                 </View>
               </View>
               {/* // 요청사항 리스트 */}
+
               <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+
               {/* 결제정보 리스트 */}
               <View
                 style={{
