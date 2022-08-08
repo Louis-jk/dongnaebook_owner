@@ -231,6 +231,8 @@ const OrderDetail = props => {
             oderId={orderId}
             orderType={detailOrder.od_type}
             navigation={navigation}
+            jumjuId={jumjuId}
+            jumjuCode={jumjuCode}
           />
           {/* // 접수 완료시 모달 */}
 
@@ -241,6 +243,8 @@ const OrderDetail = props => {
             toggleModal={toggleModal}
             modalType={modalType}
             od_id={orderId}
+            jumjuId={jumjuId}
+            jumjuCode={jumjuCode}
           />
           {/* // 주문 취소/거부 모달 */}
 
