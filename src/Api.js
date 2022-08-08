@@ -86,7 +86,7 @@ class Api {
       this.state.option.headers
     )
       .then(response => {
-        console.log("Axios response :: ", response)
+        
         const decoded_jwt = jwt_decode(response.data.jwt, jwt_secret)
         //console.warn(decoded_jwt);
         /*
@@ -174,7 +174,7 @@ class Api {
 
   //formdata 로 변경
   makeFormData3(method = "", datas, filedatas) {
-    console.log(datas)
+    
     let formdata = new FormData()
     formdata.append("method", method)
     formdata.append("secretKey", "1111882EAD94E9C493CEF089E1B023A2122BA778")
@@ -187,7 +187,7 @@ class Api {
     this.state.path = "/api/proc_" + method + ".php"
     this.state.option.body = formdata
 
-    console.log("formdata3", formdata)
+    
   }
 
   // 기본03
@@ -198,15 +198,13 @@ class Api {
     const jwt_data = jwt(datas, jwt_secret)
     //console.log("jwtData : " + jwt_data);
 
-    console.log("send3 method", method)
-    console.log("send3 datas", datas)
-    console.log("send3 filedatas", filedatas)
+    
 
     this.makeFormData3(method, jwt_data, filedatas)
 
     this.state.isLoading = true
 
-    console.log(this.state.url + this.state.path)
+    
     return Axios.post(
       this.state.url + this.state.path,
       this.state.option.body,
