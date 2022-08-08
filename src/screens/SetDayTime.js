@@ -2,24 +2,17 @@ import * as React from 'react'
 import {
   View,
   Text,
-  TouchableOpacity,
   Image,
-  TextInput,
-  Alert,
   ScrollView,
-  FlatList,
-  Dimensions,
   BackHandler
 } from 'react-native'
-import DropDownPicker from 'react-native-dropdown-picker'
 import Header from '../components/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
-import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars'
-import { useSelector, useDispatch } from 'react-redux'
+import { Calendar, LocaleConfig } from 'react-native-calendars'
+import { useSelector } from 'react-redux'
 import Api from '../Api'
 import StoreTime from '../components/StoreTime'
 import StoreRegularHoliday from '../components/StoreRegularHoliday'
-import * as closedDayAction from '../redux/actions/closedDayAction'
 
 export function ListCheckbox (props) {
   return <View />
@@ -29,7 +22,7 @@ const SetDayTime = props => {
   const [listCheckbox, setListCheckbox] = React.useState()
 
   const { navigation } = props
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
   const { markedDay } = useSelector(state => state.closedDay)
 
   // 안드로이드 뒤로가기 버튼 제어
@@ -38,11 +31,6 @@ const SetDayTime = props => {
 
     return true
   }
-
-  React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backAction)
-    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
-  }, [])
 
   // 휴무일 마킹
   const [marking, setMarking] = React.useState({})
@@ -77,8 +65,8 @@ const SetDayTime = props => {
     // setCaIsLoading(false);
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       mode: 'list'
     }
 
@@ -142,8 +130,8 @@ const SetDayTime = props => {
   const selectHolidayHandler = payload => {
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       sh_date: payload,
       mode: 'update'
     }
@@ -168,9 +156,18 @@ const SetDayTime = props => {
     })
   }
 
+  // React.useEffect(() => {
+  //   BackHandler.addEventListener('hardwareBackPress', backAction)
+  //   return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
+  // }, [])
+
   React.useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backAction)
     getHolidayAllListHandler()
-    return () => getHolidayAllListHandler()
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backAction)
+      getHolidayAllListHandler()
+    }
   }, [])
 
   const _renderArrow = direction => {

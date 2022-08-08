@@ -5,20 +5,17 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
-  Alert,
-  ActivityIndicator
+  Alert
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import Api from '../Api'
-import BaseStyle, { Primary } from '../styles/Base'
-import moment from 'moment'
-import 'moment/locale/ko'
+import BaseStyle from '../styles/Base'
 import * as regHolidayAction from '../redux/actions/regularHolidayAction'
 
 const StoreRegularHoliday = props => {
   const navigation = props.navigation
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
-  const { st_yoil, st_yoil_txt, st_week } = useSelector(state => state.regularHoliday)
+  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
+  const { st_yoil: stYoil, st_yoil_txt: stYoilTxt, st_week: stWeek } = useSelector(state => state.regularHoliday)
 
   const [isLoading, setLoading] = React.useState(false)
   const [storeRHoliday, setStoreRHoliday] = React.useState(null) // 정기휴일
@@ -30,8 +27,8 @@ const StoreRegularHoliday = props => {
 
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       mode: 'list'
     }
     Api.send('store_regular_hoilday', param, args => {
@@ -60,8 +57,8 @@ const StoreRegularHoliday = props => {
   const delStoreRegularHoliday = () => {
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       mode: 'delete'
     }
     Api.send('store_regular_hoilday', param, args => {
@@ -78,15 +75,6 @@ const StoreRegularHoliday = props => {
         )
       )
       getStoreRegularHoliday()
-      // if (resultItem.result === 'Y') {
-      //   getStoreRegularHoliday();
-      // } else {
-      //   Alert.alert('정기휴일을 삭제할 수 없습니다.', '다시 한번 확인해주세요.', [
-      //     {
-      //       text: '확인'
-      //     }
-      //   ]);
-      // }
     })
   }
 
@@ -102,21 +90,16 @@ const StoreRegularHoliday = props => {
       <View style={{ ...BaseStyle.pv15, backgroundColor: '#F8F8F8', ...BaseStyle.ph20 }}>
         <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>정기휴일</Text>
       </View>
-      {/*
-      {isLoading ?
-        <View style={{flex:1, ...BaseStyle.mv20 ,justifyContent:'center', alignItems:'center'}}>
-          <ActivityIndicator size="large" color="#FCDD00" />
-        </View>
-        : */}
+
       <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv15 }}>
         {/* 정기휴일 리스트 */}
-        {st_week !== null && st_yoil_txt !== null ? (
+        {stWeek && stYoilTxt && (
           <View style={{ ...BaseStyle.container5, ...BaseStyle.mv10 }}>
             <View style={{ ...BaseStyle.container }}>
               <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_bold, ...BaseStyle.mr10 }}>
-                {st_week}
+                {stWeek}
               </Text>
-              <Text style={{ ...BaseStyle.ko14 }}>{st_yoil_txt}</Text>
+              <Text style={{ ...BaseStyle.ko14 }}>{stYoilTxt}</Text>
             </View>
             <TouchableOpacity
               activeOpacity={1}
@@ -143,7 +126,8 @@ const StoreRegularHoliday = props => {
               />
             </TouchableOpacity>
           </View>
-        ) : (
+        )}
+        {!stWeek && !stYoilTxt && (
           <View
             style={{
               justifyContent: 'center',
@@ -158,7 +142,7 @@ const StoreRegularHoliday = props => {
           </View>
         )}
         {/* // 정기휴일 리스트 */}
-        {st_week !== null && st_yoil_txt !== null ? (
+        {stWeek && stYoilTxt && (
           <View style={{ ...BaseStyle.mainBtn, ...BaseStyle.mv10, backgroundColor: '#f5f5f5' }}>
             <Text
               style={{
@@ -170,7 +154,8 @@ const StoreRegularHoliday = props => {
               정기휴일 추가완료
             </Text>
           </View>
-        ) : (
+        )}
+        {!stWeek && !stYoilTxt && (
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => navigation.navigate('Home', { screen: 'SetClosed' })}

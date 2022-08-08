@@ -97,6 +97,7 @@ const SetTime = props => {
   React.useEffect(() => {
     if (isDrawerOpen) {
       Keyboard.dismiss()
+      return () => Keyboard.dismiss()
     }
   }, [isDrawerOpen])
 
