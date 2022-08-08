@@ -68,9 +68,15 @@ const OrderDetail = props => {
   }
 
   React.useEffect(() => {
-    getOrderDetailHandler()
+    let isSubscribed = true
 
-    return () => getOrderDetailHandler()
+    if (isSubscribed) {
+      getOrderDetailHandler()
+    }
+
+    return () => {
+      isSubscribed = false
+    }
   }, [])
 
   // console.log('====================================')

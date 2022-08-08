@@ -82,9 +82,15 @@ const setCategory = props => {
   }
 
   React.useEffect(() => {
-    getMenuCategoryHandler()
+    let isSubscribed = true
 
-    return () => getMenuCategoryHandler()
+    if (isSubscribed) {
+      getMenuCategoryHandler()
+    }
+
+    return () => {
+      isSubscribed = false
+    }
   }, [])
 
   function addCategoryHandler () {

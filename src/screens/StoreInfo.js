@@ -24,7 +24,7 @@ const MAIN_IMAGE_THUMB_WIDTH = (Dimensions.get('window').width - 40) / 5 - 4
 
 const StoreInfo = props => {
   const { navigation } = props
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
 
   const [storeInit, setStoreInit] = React.useState(false) // 매장 정보 초기값 유무
   const [descriptionStore, setDescriptionStore] = React.useState('') // 매장 소개
@@ -57,11 +57,6 @@ const StoreInfo = props => {
     return true
   }
 
-  React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backAction)
-    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
-  }, [])
-
   // 매장소개 정보
   const [info, setInfo] = React.useState({
     do_jumju_introduction: null, // 매장소개
@@ -82,8 +77,8 @@ const StoreInfo = props => {
 
   const param = {
     encodeJson: true,
-    jumju_id: mt_id,
-    jumju_code: mt_jumju_code
+    jumju_id: mtId,
+    jumju_code: mtJumjuCode
   }
 
   const getStoreInfo = () => {
@@ -142,26 +137,28 @@ const StoreInfo = props => {
   }
 
   React.useEffect(() => {
-    getStoreInfo()
+    let isSubscribed = true
 
-    return () => getStoreInfo()
+    if (isSubscribed) {
+      getStoreInfo()
+    }
+
+    return () => {
+      isSubscribed = false
+    }
   }, [])
 
-  console.log('info', info)
-  console.log('before source', source)
-
-  console.log('detailImgs01', detailImgs01)
-  console.log('detailImgs02', detailImgs02)
-  console.log('detailImgs03', detailImgs03)
-  console.log('detailImgs04', detailImgs04)
-  console.log('detailImgs05', detailImgs05)
+  React.useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backAction)
+    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
+  }, [])
 
   const onSubmitStoreInfo = () => {
     const data = {
       mode: 'insert',
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       do_jumju_introduction: info.do_jumju_introduction,
       do_jumju_guide: info.do_jumju_guide,
       do_jumju_menu_info: info.do_jumju_menu_info,
@@ -220,8 +217,8 @@ const StoreInfo = props => {
       const data = {
         mode: 'update',
         encodeJson: true,
-        jumju_id: mt_id,
-        jumju_code: mt_jumju_code,
+        jumju_id: mtId,
+        jumju_code: mtJumjuCode,
         do_jumju_introduction: info.do_jumju_introduction,
         do_jumju_guide: info.do_jumju_guide,
         do_jumju_menu_info: info.do_jumju_menu_info,

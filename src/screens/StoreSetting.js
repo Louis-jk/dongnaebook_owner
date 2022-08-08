@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Dimensions,
   Alert,
   ScrollView,
   BackHandler
@@ -16,7 +15,7 @@ import Api from '../Api'
 
 const StoreSetting = props => {
   const { navigation } = props
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
 
   const [storeInit, setStoreInit] = React.useState(false) // 매장 정보 초기값 유무
   const [range, setRange] = React.useState('curr')
@@ -28,11 +27,6 @@ const StoreSetting = props => {
     return true
   }
 
-  React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backAction)
-    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
-  }, [])
-
   // 매장소개 정보
   const [setting, setSetting] = React.useState({
     do_coupon_use: '', // 쿠폰 사용 가능 여부 'Y' | 'N'
@@ -43,8 +37,8 @@ const StoreSetting = props => {
 
   const param = {
     encodeJson: true,
-    jumju_id: mt_id,
-    jumju_code: mt_jumju_code
+    jumju_id: mtId,
+    jumju_code: mtJumjuCode
   }
 
   const getStoreInfo = () => {
@@ -73,17 +67,28 @@ const StoreSetting = props => {
   }
 
   React.useEffect(() => {
-    getStoreInfo()
+    let isSubscribed = true
 
-    return () => getStoreInfo()
+    if (isSubscribed) {
+      getStoreInfo()
+    }
+
+    return () => {
+      isSubscribed = false
+    }
+  }, [])
+
+  React.useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backAction)
+    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
   }, [])
 
   const onSubmitStoreInfo = () => {
     const data = {
       mode: 'insert',
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       do_take_out: setting.do_take_out,
       do_coupon_use: setting.do_coupon_use,
       mt_sound: setting.mt_sound,
@@ -129,8 +134,8 @@ const StoreSetting = props => {
     } else {
       const param = {
         mode: 'update',
-        jumju_id: mt_id,
-        jumju_code: mt_jumju_code,
+        jumju_id: mtId,
+        jumju_code: mtJumjuCode,
         do_take_out: setting.do_take_out,
         do_coupon_use: setting.do_coupon_use,
         mt_sound: setting.mt_sound,
@@ -176,14 +181,9 @@ const StoreSetting = props => {
     }
   }
 
-  console.log('setting', setting)
-  console.log('range', range)
-
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='매장설정' />
-
-      {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
@@ -194,9 +194,7 @@ const StoreSetting = props => {
 
             {/* 알림음 설정 */}
             <View style={{ ...BaseStyle.mv10 }}>
-              {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
-              주문마감 여부
-              </Text> */}
+
               <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
                 <Text
                   style={{

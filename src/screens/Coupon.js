@@ -26,7 +26,7 @@ const { width, height } = Dimensions.get('window')
 
 const Coupon = props => {
   const { navigation } = props
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
   const { coupons } = useSelector(state => state.coupon)
   const [useCoupon, setUseCoupon] = React.useState(false)
   const [isLoading, setLoading] = React.useState(true)
@@ -40,11 +40,6 @@ const Coupon = props => {
     return true
   }
 
-  React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backAction)
-    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
-  }, [])
-
   const [refleshing, setReflashing] = React.useState(false) // FlatList refleshing
   const [list, setList] = React.useState([]) // 쿠폰 리스트
   const [endCount, setEndCount] = React.useState(5) // 가져올 limit 아이템수
@@ -53,8 +48,8 @@ const Coupon = props => {
     const param = {
       item_count: 0,
       limit_count: endCount,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode
     }
 
     Api.send('store_couponzone_list', param, args => {
@@ -82,9 +77,20 @@ const Coupon = props => {
   }
 
   React.useEffect(() => {
-    getCouponListHandler()
+    let isSubscribed = true
 
-    return () => getCouponListHandler()
+    if (isSubscribed) {
+      getCouponListHandler()
+    }
+
+    return () => {
+      isSubscribed = false
+    }
+  }, [])
+
+  React.useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backAction)
+    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
   }, [])
 
   const onHandleRefresh = () => {
@@ -96,8 +102,8 @@ const Coupon = props => {
 
   const deleteCoupon = czNo => {
     const param = {
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       cz_no: czNo
     }
 
