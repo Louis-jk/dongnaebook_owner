@@ -48,9 +48,15 @@ const Notice = props => {
   }
 
   React.useEffect(() => {
-    getNoticeListHandler()
+    let isSubscribed = true
 
-    return () => getNoticeListHandler()
+    if (isSubscribed) {
+      getNoticeListHandler()
+    }
+
+    return () => {
+      isSubscribed = false
+    }
   }, [])
 
   // 안드로이드 뒤로가기 버튼 제어

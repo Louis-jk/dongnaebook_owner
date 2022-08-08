@@ -141,32 +141,29 @@ const SetDayTime = props => {
 
       if (resultItem.result === 'Y') {
         // getHolidayAllListHandler();
-        console.log('====================================')
-        console.log('resultItem 캘린더 ::: ', resultItem)
-        console.log('arrItems 캘린더 ::: ', arrItems)
-        console.log('====================================')
+        // console.log('====================================')
+        // console.log('resultItem 캘린더 ::: ', resultItem)
+        // console.log('arrItems 캘린더 ::: ', arrItems)
+        // console.log('====================================')
       } else {
         console.log('선택 날짜 ? ', arrItems)
-        // Alert.alert('데이터를 받아오는데 오류가 발생하였습니다.','관리자에게 문의해주세요.', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ]);
       }
     })
   }
 
-  // React.useEffect(() => {
-  //   BackHandler.addEventListener('hardwareBackPress', backAction)
-  //   return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
-  // }, [])
-
   React.useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', backAction)
-    getHolidayAllListHandler()
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', backAction)
+    return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
+  }, [])
+
+  React.useEffect(() => {
+    let isSubscribed = true
+
+    if (isSubscribed) {
       getHolidayAllListHandler()
+    }
+    return () => {
+      isSubscribed = false
     }
   }, [])
 

@@ -153,12 +153,15 @@ const SetMenuEdit = props => {
   }
 
   React.useEffect(() => {
-    getMenuCategoryHandler()
-    getMenuDetailHandler()
+    let isSubscribed = true
 
-    return () => {
+    if (isSubscribed) {
       getMenuCategoryHandler()
       getMenuDetailHandler()
+    }
+
+    return () => {
+      isSubscribed = false
     }
   }, [])
 

@@ -42,9 +42,15 @@ const NoticeDetail = props => {
   }
 
   React.useEffect(() => {
-    const detail = getNoticeDetailHandler(props.route.params.item.wr_id)
+    let isSubscribed = true
 
-    return () => detail
+    if (isSubscribed) {
+      getNoticeDetailHandler(props.route.params.item.wr_id)
+    }
+
+    return () => {
+      isSubscribed = false
+    }
   }, [])
 
   return (

@@ -74,9 +74,15 @@ const SetMenuAdd = props => {
   }
 
   React.useEffect(() => {
-    getMenuCategoryHandler()
+    let isSubscribed = true
 
-    return () => getMenuCategoryHandler()
+    if (isSubscribed) {
+      getMenuCategoryHandler()
+    }
+
+    return () => {
+      isSubscribed = false
+    }
   }, [])
 
   // 모달 토글

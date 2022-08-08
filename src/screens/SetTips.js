@@ -88,8 +88,15 @@ const SetTips = props => {
   }
 
   React.useEffect(() => {
-    const init = getTips()
-    return () => init
+    let isSubscribed = true
+
+    if (isSubscribed) {
+      getTips()
+    }
+
+    return () => {
+      isSubscribed = false
+    }
   }, [])
 
   const tipDelHandler = () => {
