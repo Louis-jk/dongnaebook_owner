@@ -53,11 +53,6 @@ const OrderDetail = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
-      console.log('====================================')
-      console.log('order Detail resultItem >>>>> ', resultItem)
-      console.log('order Detail arrItems >>>>> ', arrItems)
-      console.log('====================================')
-
       if (resultItem.result === 'Y') {
         setDetailStore(arrItems.store)
         setDetailOrder(arrItems.order)
@@ -78,11 +73,11 @@ const OrderDetail = props => {
     return () => getOrderDetailHandler()
   }, [])
 
-  console.log('====================================')
-  console.log('detailStore', detailStore)
-  console.log('detailOrder', detailOrder)
-  console.log('detailProduct', detailProduct)
-  console.log('====================================')
+  // console.log('====================================')
+  // console.log('detailStore', detailStore)
+  // console.log('detailOrder', detailOrder)
+  // console.log('detailProduct', detailProduct)
+  // console.log('====================================')
 
   // 예상시간 입력
   const [deliveryTime, setDeliveryTime] = React.useState('')
@@ -456,7 +451,7 @@ const OrderDetail = props => {
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
                   메뉴 정보
                 </Text>
-                {/* {console.log('detailProduct', detailProduct)} */}
+
                 {detailProduct.length > 0 &&
                   detailProduct.map((menu, index) => (
                     <View
