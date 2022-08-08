@@ -3,26 +3,20 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
-  Platform,
   Alert,
   ScrollView,
   Dimensions,
   Keyboard
 } from 'react-native'
-import Modal from 'react-native-modal'
 import Header from '../components/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
-import DateTimePicker from '@react-native-community/datetimepicker'
 import { useSelector, useDispatch } from 'react-redux'
-import moment from 'moment'
-import 'moment/locale/ko'
 import Api from '../Api'
 import * as storeTimeAction from '../redux/actions/storeTimeAction'
 import cusToast from '../components/CusToast'
-import Base from '../styles/Base'
-import { TextInput, TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { TextInput } from 'react-native-gesture-handler'
 import { useDrawerStatus } from '@react-navigation/drawer'
+import { weekData } from '../data/week'
 
 const SetTime = props => {
   const { navigation } = props
@@ -30,51 +24,7 @@ const SetTime = props => {
   const [existWeek, setExistWeek] = React.useState([])
 
   const dispatch = useDispatch()
-  const isDrawerOpen = useDrawerStatus() === 'open'
-
-  console.log('navigation ?', navigation)
-  console.log('navigation getState?', navigation.getState())
-  console.log('navigation isFocused?', navigation.isFocused())
-  console.log('isDrawerOpen ?', isDrawerOpen)
-
-  // 주일
-  const weekData = [
-    {
-      idx: '0',
-      en: 'sun',
-      ko: '일'
-    },
-    {
-      idx: '1',
-      en: 'mon',
-      ko: '월'
-    },
-    {
-      idx: '2',
-      en: 'tue',
-      ko: '화'
-    },
-    {
-      idx: '3',
-      en: 'wed',
-      ko: '수'
-    },
-    {
-      idx: '4',
-      en: 'thu',
-      ko: '목'
-    },
-    {
-      idx: '5',
-      en: 'fri',
-      ko: '금'
-    },
-    {
-      idx: '6',
-      en: 'sat',
-      ko: '토'
-    }
-  ]
+  const isDrawerOpen = useDrawerStatus() === 'open' // 드로어 펼침 여부 체킹
 
   const [selectDay, setSelectDay] = React.useState([])
   const selectDayHandler = payload => {
@@ -189,8 +139,14 @@ const SetTime = props => {
   }
 
   React.useEffect(() => {
-    getStoreTimeHandler()
-    return () => getStoreTimeHandler()
+    let isSubscribed = true
+
+    if (isSubscribed) {
+      getStoreTimeHandler()
+    }
+    return () => {
+      isSubscribed = false
+    }
   }, [])
 
   return (

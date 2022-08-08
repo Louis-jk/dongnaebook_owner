@@ -18,6 +18,7 @@ import 'moment/locale/ko'
 import Api from '../Api'
 import * as storeTimeAction from '../redux/actions/storeTimeAction'
 import cusToast from '../components/CusToast'
+import { weekData } from '../data/week'
 
 const SetTime = props => {
   const { navigation } = props
@@ -25,45 +26,6 @@ const SetTime = props => {
   const [existWeek, setExistWeek] = React.useState([])
 
   const dispatch = useDispatch()
-
-  // 주일
-  const weekData = [
-    {
-      idx: '0',
-      en: 'sun',
-      ko: '일'
-    },
-    {
-      idx: '1',
-      en: 'mon',
-      ko: '월'
-    },
-    {
-      idx: '2',
-      en: 'tue',
-      ko: '화'
-    },
-    {
-      idx: '3',
-      en: 'wed',
-      ko: '수'
-    },
-    {
-      idx: '4',
-      en: 'thu',
-      ko: '목'
-    },
-    {
-      idx: '5',
-      en: 'fri',
-      ko: '금'
-    },
-    {
-      idx: '6',
-      en: 'sat',
-      ko: '토'
-    }
-  ]
 
   const [selectDay, setSelectDay] = React.useState([])
   const selectDayHandler = payload => {
