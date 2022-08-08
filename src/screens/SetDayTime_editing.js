@@ -29,7 +29,7 @@ const SetDayTime = props => {
   const [listCheckbox, setListCheckbox] = React.useState()
 
   const { navigation } = props
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
 
   const { storeTime } = useSelector(state => state.storeTime)
 
@@ -42,8 +42,8 @@ const SetDayTime = props => {
   const getStoreTimeHandler = () => {
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       mode: 'list'
     }
     Api.send('store_service_hour', param, args => {
@@ -63,8 +63,8 @@ const SetDayTime = props => {
   const delStoreTimeHandler = st_idx => {
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       st_idx,
       mode: 'delete'
     }
@@ -161,8 +161,8 @@ const SetDayTime = props => {
     // setCaIsLoading(false);
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       mode: 'list'
     }
 
@@ -226,8 +226,8 @@ const SetDayTime = props => {
   const selectHolidayHandler = payload => {
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       sh_date: payload,
       mode: 'update'
     }
@@ -320,7 +320,7 @@ const SetDayTime = props => {
                   current={new Date()}
                   onDayPress={day => setMarkedDays(day.dateString)}
                   onDayLongPress={day => setMarkedDays(day.dateString)}
-                  monthFormat="yyyy년 M월"
+                  monthFormat='yyyy년 M월'
                   onMonthChange={month => {
                     console.log('month changed', month)
                   }}

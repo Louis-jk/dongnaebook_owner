@@ -17,7 +17,7 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('screen')
 
 const SetNewPwd = props => {
   const { navigation } = props
-  const { mt_id } = props.route.params
+  const { mt_id: mtId } = props.route.params
 
   const [userId, setUserId] = React.useState('')
   const [userMobile, setUserMobile] = React.useState('') // 휴대폰 번호
@@ -39,7 +39,7 @@ const SetNewPwd = props => {
   const newPwdReRef = React.useRef(null)
 
   console.log('props?', props)
-  console.log('mt_id?', mt_id)
+  console.log('mt_id?', mtId)
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
@@ -82,7 +82,7 @@ const SetNewPwd = props => {
     } else {
       const param = {
         encodeJson: true,
-        mt_id,
+        mt_id: mtId,
         mt_pwd: newPwd,
         mt_pwd_re: newPwdRe
       }

@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  Dimensions,
   ScrollView,
   Image,
   Alert,
@@ -22,17 +21,12 @@ import Api from '../Api'
 import * as couponAction from '../redux/actions/couponAction'
 import cusToast from '../components/CusToast'
 
-const { width, height } = Dimensions.get('window')
-
 const CouponEdit = props => {
   const { navigation } = props
   const { item } = props.route.params
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
 
   const dispatch = useDispatch()
-
-  const minPriceRef = React.useRef(null) // 최소 주문 금액
-  const discountPriceRef = React.useRef(null) // 할인 금액
 
   const [no, setNo] = React.useState('') // 쿠폰 No
   const [type, setType] = React.useState('') // 쿠폰 구분
@@ -129,8 +123,8 @@ const CouponEdit = props => {
     const param = {
       item_count: 0,
       limit_count: 10,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode
     }
 
     Api.send('store_couponzone_list', param, args => {
@@ -232,8 +226,8 @@ const CouponEdit = props => {
     } else {
       const param = {
         cz_no: no,
-        jumju_id: mt_id,
-        jumju_code: mt_jumju_code,
+        jumju_id: mtId,
+        jumju_code: mtJumjuCode,
         cz_type: type,
         cz_subject: name,
         cz_start: startDateFormat,

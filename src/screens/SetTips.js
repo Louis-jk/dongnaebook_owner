@@ -24,7 +24,7 @@ const { width, height } = Dimensions.get('window')
 
 const SetTips = props => {
   const { navigation } = props
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
 
   const [isLoading, setLoading] = React.useState(false)
   const [list, setList] = React.useState([]) // 팁 리스트
@@ -71,8 +71,8 @@ const SetTips = props => {
     setLoading(true)
 
     const param = {
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode
     }
 
     Api.send('store_delivery', param, args => {
@@ -96,8 +96,8 @@ const SetTips = props => {
     // let toIntId = parseInt(tipId);
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       mode: 'delete',
       dd_id: tipId
     }

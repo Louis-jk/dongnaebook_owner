@@ -21,7 +21,7 @@ import cusToast from '../components/CusToast'
 
 const SetTime = props => {
   const { navigation } = props
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
   const [existWeek, setExistWeek] = React.useState([])
 
   const dispatch = useDispatch()
@@ -124,8 +124,8 @@ const SetTime = props => {
   const getStoreTimeHandler = () => {
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       mode: 'list'
     }
     Api.send('store_service_hour', param, args => {
@@ -168,8 +168,8 @@ const SetTime = props => {
     } else {
       const param = {
         encodeJson: true,
-        jumju_id: mt_id,
-        jumju_code: mt_jumju_code,
+        jumju_id: mtId,
+        jumju_code: mtJumjuCode,
         mode: 'update',
         st_yoil: selectDayFormat,
         st_stime: startTimeFormat,

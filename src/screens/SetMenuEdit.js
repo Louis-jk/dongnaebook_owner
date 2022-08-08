@@ -5,12 +5,10 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  Dimensions,
   ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
-  Alert,
-  ActivityIndicator
+  Alert
 } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select' // 셀렉트박스 패키지
 import ImagePicker from 'react-native-image-crop-picker' // 이미지 업로드 패키지
@@ -18,18 +16,16 @@ import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
 import Header from '../components/SubHeader'
 import BaseStyle, { Primary, customPickerStyles } from '../styles/Base'
-import { defaultType, secondType } from '../data/menu'
+
 import cusToast from '../components/CusToast'
 import Api from '../Api'
 import AnimateLoading from '../components/AnimateLoading'
-
-const { width, height } = Dimensions.get('window')
 
 const SetMenuEdit = props => {
   const { navigation } = props
   const { item } = props.route.params
 
-  const { mt_id, mt_jumju_code } = useSelector(state => state.login)
+  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
   const [isLoading, setLoading] = React.useState(false)
 
   const [menuId, setMenuId] = React.useState('') // 메뉴 ID
@@ -53,8 +49,8 @@ const SetMenuEdit = props => {
     setLoading(true)
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       mode: 'select'
     }
 
@@ -91,8 +87,8 @@ const SetMenuEdit = props => {
 
     const param = {
       encodeJson: true,
-      jumju_id: mt_id,
-      jumju_code: mt_jumju_code,
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
       it_id: props.route.params.item.it_id
     }
 
@@ -329,8 +325,8 @@ const SetMenuEdit = props => {
     // }
     else {
       const param = {
-        jumju_id: mt_id,
-        jumju_code: mt_jumju_code,
+        jumju_id: mtId,
+        jumju_code: mtJumjuCode,
         it_id: menuId,
         mode: 'update',
         ca_id2: selectCategory,

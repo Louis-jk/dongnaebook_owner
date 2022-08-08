@@ -18,7 +18,7 @@ const Main = props => {
   const dispatch = useDispatch()
   const { allStore, selectedStore } = useSelector(state => state.store)
   const [channerId, setChannelId] = React.useState('')
-  const { mt_id } = useSelector(state => state.login)
+  const { mt_id: mtId } = useSelector(state => state.login)
 
   let currentCount = 0
 
@@ -46,7 +46,7 @@ const Main = props => {
 
   const getStoreHandler = () => {
     const param = {
-      jumju_id: mt_id,
+      jumju_id: mtId,
       item_count: 0,
       limit_count: 10
     }
@@ -56,7 +56,7 @@ const Main = props => {
       const arrItems = args.arrItems
 
       if (resultItem.result === 'Y') {
-        const initialSelectStore = arrItems.filter(store => store.mt_id === mt_id)
+        const initialSelectStore = arrItems.filter(store => store.mt_id === mtId)
 
         dispatch(dispatch(storeAction.updateStore(arrItems)))
         dispatch(
