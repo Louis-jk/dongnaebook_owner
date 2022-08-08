@@ -1,57 +1,59 @@
-import 'react-native-gesture-handler';
-import * as React from 'react';
-import { View, Text, StatusBar, Dimensions, BackHandler, ToastAndroid, Platform } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import messaging from '@react-native-firebase/messaging';
-import Toast from 'react-native-toast-message';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+import 'react-native-gesture-handler'
+import * as React from 'react'
+import { View, Text, StatusBar, Dimensions, BackHandler, ToastAndroid, Platform, LogBox } from 'react-native'
+import SplashScreen from 'react-native-splash-screen'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import messaging from '@react-native-firebase/messaging'
+import Toast from 'react-native-toast-message'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 // import { Provider } from 'react-redux'; 잠시
 // import initStore from './src/redux/store'; 잠시
-import DrawerMenu from './src/screens/DrawerMenu';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import PushNotification from 'react-native-push-notification';
-import { useSelector, useDispatch } from 'react-redux';
+import DrawerMenu from './src/screens/DrawerMenu'
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import PushNotification from 'react-native-push-notification'
+import { useSelector, useDispatch } from 'react-redux'
 
 /*
  Screen 정의
 */
-import CheckScreen from './src/screens/Check'; // 체크
-import LoginScreen from './src/screens/Login'; // 로그인
-import FindIdScreen from './src/screens/FindId'; // 아이디 찾기
-import FindPwdScreen from './src/screens/FindPwd'; // 비밀번호 찾기
-import SetNewPwdScreen from './src/screens/SetNewPwd'; // 비밀번호 찾기
-import MainScreen from './src/screens/Main'; // 메인
-import CancelOrdersScreen from './src/screens/CancelOrders'; // 주문취소건
-import OrderDetailScreen from './src/screens/OrderDetail'; // 주문내역 상세
-import SetDayTimeScreen from './src/screens/SetDayTime'; // 영업 운영시간 설정
-import SetTimeScreen from './src/screens/SetTime'; // 영업 시간 추가
-import SetClosedScreen from './src/screens/SetClosed'; // 정기 휴일 추가
-import SetCloseDayScreen from './src/screens/SetCloseDay'; // 휴무일 설정
-import SetRestTimeScreen from './src/screens/SetRestTime'; // 휴게시간 설정
-import SetTipsScreen from './src/screens/SetTips'; // 배달팁 설정
-import SelectStoreScreen from './src/screens/SelectStore'; // 매장선택 및 추가
-import CalculateScreen from './src/screens/Calculate'; // 정산내역
-import ReviewsScreen from './src/screens/Reviews'; // 리뷰
-import ReviewNoticeScreen from './src/screens/ReviewNotice'; // 리뷰 공지사항
-import NoticeScreen from './src/screens/Notice'; // 공지사항
-import NoticeDetailScreen from './src/screens/NoticeDetail'; // 공지사항 상세 - 웹뷰
-import CouponScreen from './src/screens/Coupon'; // 쿠폰관리
-import CouponAddScreen from './src/screens/CouponAdd'; // 쿠폰추가
-import CouponEditScreen from './src/screens/CouponEdit'; // 쿠폰수정
-import setCategoryScreen from './src/screens/setCategory'; // 메뉴 카테고리 설정(리스트)
-import SetMenuScreen from './src/screens/SetMenu'; // 메뉴설정(리스트)
-import SetMenuAddScreen from './src/screens/SetMenuAdd'; // 메뉴등록
-import SetMenuEditScreen from './src/screens/SetMenuEdit'; // 메뉴수정
-import StoreInfoScreen from './src/screens/StoreInfo'; // 매장소개
-import StoreSettingScreen from './src/screens/StoreSetting'; // 매장설정
-import setMenuAddOptionScreen from './src/screens/setMenuAddOption'; // 매장소개
+import CheckScreen from './src/screens/Check' // 체크
+import LoginScreen from './src/screens/Login' // 로그인
+import FindIdScreen from './src/screens/FindId' // 아이디 찾기
+import FindPwdScreen from './src/screens/FindPwd' // 비밀번호 찾기
+import SetNewPwdScreen from './src/screens/SetNewPwd' // 비밀번호 찾기
+import MainScreen from './src/screens/Main' // 메인
+import CancelOrdersScreen from './src/screens/CancelOrders' // 주문취소건
+import OrderDetailScreen from './src/screens/OrderDetail' // 주문내역 상세
+import SetDayTimeScreen from './src/screens/SetDayTime' // 영업 운영시간 설정
+import SetTimeScreen from './src/screens/SetTime' // 영업 시간 추가
+import SetClosedScreen from './src/screens/SetClosed' // 정기 휴일 추가
+import SetCloseDayScreen from './src/screens/SetCloseDay' // 휴무일 설정
+import SetRestTimeScreen from './src/screens/SetRestTime' // 휴게시간 설정
+import SetTipsScreen from './src/screens/SetTips' // 배달팁 설정
+import SelectStoreScreen from './src/screens/SelectStore' // 매장선택 및 추가
+import CalculateScreen from './src/screens/Calculate' // 정산내역
+import ReviewsScreen from './src/screens/Reviews' // 리뷰
+import ReviewNoticeScreen from './src/screens/ReviewNotice' // 리뷰 공지사항
+import NoticeScreen from './src/screens/Notice' // 공지사항
+import NoticeDetailScreen from './src/screens/NoticeDetail' // 공지사항 상세 - 웹뷰
+import CouponScreen from './src/screens/Coupon' // 쿠폰관리
+import CouponAddScreen from './src/screens/CouponAdd' // 쿠폰추가
+import CouponEditScreen from './src/screens/CouponEdit' // 쿠폰수정
+import setCategoryScreen from './src/screens/setCategory' // 메뉴 카테고리 설정(리스트)
+import SetMenuScreen from './src/screens/SetMenu' // 메뉴설정(리스트)
+import SetMenuAddScreen from './src/screens/SetMenuAdd' // 메뉴등록
+import SetMenuEditScreen from './src/screens/SetMenuEdit' // 메뉴수정
+import StoreInfoScreen from './src/screens/StoreInfo' // 매장소개
+import StoreSettingScreen from './src/screens/StoreSetting' // 매장설정
+import setMenuAddOptionScreen from './src/screens/setMenuAddOption' // 매장소개
 
-import * as orderAction from './src/redux/actions/orderAction';
+import * as orderAction from './src/redux/actions/orderAction'
 
 const App = () => {
+  LogBox.ignoreLogs(['Reanimated 2'])
+
   const Drawer = createDrawerNavigator()
   const Stack = createStackNavigator()
   // const store = initStore(); 잠시
@@ -59,7 +61,7 @@ const App = () => {
   const dispatch = useDispatch()
   const toggleAlarmOrder = () => {
     dispatch(orderAction.alarmNewOrder(false))
-  };
+  }
 
   PushNotification.configure({
     // (optional) Called when Token is generated (iOS and Android)
@@ -162,7 +164,7 @@ const App = () => {
       number: 10, // (optional) Valid 32 bit integer specified as string. default: none (Cannot be zero)
       repeatType: 'day' // (optional) Repeating interval. Check 'Repeating Notifications' section for more info.
     })
-  };
+  }
 
   // const testCan
 
@@ -265,7 +267,7 @@ const App = () => {
         <Stack.Screen name='StoreSetting' component={StoreSettingScreen} />
       </Stack.Navigator>
     )
-  };
+  }
 
   return (
     <>
@@ -297,6 +299,6 @@ const App = () => {
       {/* </Provider> */}
     </>
   )
-};
+}
 
 export default App
