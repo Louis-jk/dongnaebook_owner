@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Dimensions, TouchableOpacity, Image, ScrollView } from 'react-native'
+import { View, Text, Dimensions, TouchableOpacity, Image, ScrollView, Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import BaseStyle from '../styles/Base'
 import { DrawerMenus } from '../data/drawerMenus'
@@ -14,6 +14,11 @@ const DrawerMenu = props => {
       navigation.navigate('Home', { screen: 'Login' })
     } catch (e) {
       console.log('로그아웃 에러', e)
+      Alert.alert('로그아웃 중 에러가 발생하였습니다.', '다시 시도해보세요', [
+        {
+          text: '확인'
+        }
+      ])
     }
   }
 
