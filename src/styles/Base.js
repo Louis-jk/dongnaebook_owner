@@ -1,18 +1,18 @@
-import React, { Component } from "react"
-import { StyleSheet, Dimensions, Platform } from "react-native"
-import { Fonts } from "./Fonts"
-const SCREEN_HEIGHT = Dimensions.get("window").height
-const SCREEN_WIDTH = Dimensions.get("window").width
+import React, { Component } from 'react'
+import { StyleSheet, Dimensions, Platform } from 'react-native'
+import { Fonts } from './Fonts'
+const SCREEN_HEIGHT = Dimensions.get('window').height
+const SCREEN_WIDTH = Dimensions.get('window').width
 
-export const main = "#20ABC8"
-export const mint = "#5AC69F"
-export const grey = "#ececec"
-export const green = "#58BC1F"
+export const main = '#20ABC8'
+export const mint = '#5AC69F'
+export const grey = '#ececec'
+export const green = '#58BC1F'
 
 export const Primary = {
   PointColor01: main,
   PointColor02: mint,
-  PointColor03: grey,
+  PointColor03: grey
 }
 
 export const customPickerStyles = StyleSheet.create({
@@ -21,23 +21,23 @@ export const customPickerStyles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: "#E3E3E3",
+    borderColor: '#E3E3E3',
     borderRadius: 5,
     height: 45,
-    color: "#000",
-    paddingRight: 30, // to ensure the text is never behind the icon
+    color: '#000',
+    paddingRight: 30 // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 14,
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderWidth: 1,
-    borderColor: "#E3E3E3",
+    borderColor: '#E3E3E3',
     borderRadius: 5,
     height: 45,
-    color: "black",
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
+    color: 'black',
+    paddingRight: 30 // to ensure the text is never behind the icon
+  }
 })
 
 export default StyleSheet.create({
@@ -165,22 +165,22 @@ export default StyleSheet.create({
   mv30: { marginVertical: 30 },
 
   font_main: { color: main },
-  font_blue: { color: "#167AC9" },
-  font_pink: { color: "#FF14A9" },
-  font_white: { color: "#fff" },
-  font_deepred: { color: "#700303" },
-  font_green: { color: "#1A4205" },
-  font_black: { color: "#000" },
-  font_gray_a1: { color: "#A1A1A1" },
-  font_gray_a5: { color: "#A5A5A5" },
+  font_blue: { color: '#167AC9' },
+  font_pink: { color: '#FF14A9' },
+  font_white: { color: '#fff' },
+  font_deepred: { color: '#700303' },
+  font_green: { color: '#1A4205' },
+  font_black: { color: '#000' },
+  font_gray_a1: { color: '#A1A1A1' },
+  font_gray_a5: { color: '#A5A5A5' },
   font_bold: { fontFamily: Fonts.NotoSansB },
-  font_999: { color: "#999" },
-  font_777: { color: "#777" },
-  font_111: { color: "#111" },
-  font_222: { color: "#222" },
-  font_333: { color: "#333" },
-  font_666: { color: "#666" },
-  font_under: { textDecorationLine: "underline" },
+  font_999: { color: '#999' },
+  font_777: { color: '#777' },
+  font_111: { color: '#111' },
+  font_222: { color: '#222' },
+  font_333: { color: '#333' },
+  font_666: { color: '#666' },
+  font_under: { textDecorationLine: 'underline' },
 
   lh17: { lineHeight: 17 },
   lh20: { lineHeight: 20 },
@@ -221,246 +221,246 @@ export default StyleSheet.create({
   // en_bold : {fontFamily: Fonts.DomineB},
 
   // header footer
-  container: { flexDirection: "row", alignItems: "center", justifyContent: "flex-start" },
-  container0: { flexDirection: "row", alignItems: "center", justifyContent: "center" },
-  container1: { flex: 1, alignItems: "center", justifyContent: "center" },
-  container2: { flexDirection: "column", alignItems: "center", justifyContent: "center" },
-  container3: { flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-start" },
-  container4: { flexDirection: "row", alignItems: "center", justifyContent: "space-around" },
-  container5: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  container6: { flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between" },
-  container7: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between" },
+  container: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' },
+  container0: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  container1: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  container2: { flexDirection: 'column', alignItems: 'center', justifyContent: 'center' },
+  container3: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start' },
+  container4: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' },
+  container5: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  container6: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' },
+  container7: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
 
-  containerBottom: { flex: 1, alignItems: "stretch", justifyContent: "flex-end" },
-  header: { shadowColor: "#000000", elevation: 3, borderBottomWidth: 0 },
+  containerBottom: { flex: 1, alignItems: 'stretch', justifyContent: 'flex-end' },
+  header: { shadowColor: '#000000', elevation: 3, borderBottomWidth: 0 },
   headTitle: {
     fontSize: 18,
     lineHeight: 20,
-    fontWeight: "bold",
-    color: "#222",
-    /* textAlign: 'center', marginLeft: 24 */ marginLeft: 9,
+    fontWeight: 'bold',
+    color: '#222',
+    /* textAlign: 'center', marginLeft: 24 */ marginLeft: 9
   },
   menuTrigger: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 44,
-    height: 48,
+    height: 48
   },
   headRight: {
-    position: "absolute",
+    position: 'absolute',
     top: -2,
     right: 0,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  headLeft: { alignItems: "center", justifyContent: "center", width: 44 },
+  headLeft: { alignItems: 'center', justifyContent: 'center', width: 44 },
   headLeftIcn: {
-    flexDirection: "row",
-    justifyContent: "center" /* justifyContent: 'flex-start', paddingLeft: 6, */,
+    flexDirection: 'row',
+    justifyContent: 'center' /* justifyContent: 'flex-start', paddingLeft: 6, */
   },
   headBack: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     width: 44,
     height: 44,
-    flexDirection: "row",
+    flexDirection: 'row'
   },
   footWr: {
     flex: 1,
     top: 1,
     paddingVertical: 0,
-    flexDirection: "row",
-    backgroundColor: "#1F4C06",
-    overflow: "hidden",
+    flexDirection: 'row',
+    backgroundColor: '#1F4C06',
+    overflow: 'hidden'
   } /* overflow: 'hidden', borderTopLeftRadius:20, borderTopRightRadius:20, overflow:"hidden", */,
   footIcn: { width: 25, height: 25 },
 
-  bg0: { backgroundColor: "#1A4205" },
-  bg1: { backgroundColor: "#700303" },
-  bg2: { backgroundColor: "#fff" },
-  bg3: { backgroundColor: "#E93323" },
-  bg4: { backgroundColor: "#888" },
-  bg5: { backgroundColor: "#F5F5F5" },
-  bg6: { backgroundColor: "#E8E8E8" },
-  bg7: { backgroundColor: "#DEDEDE" },
-  bg_gray: { backgroundColor: "#E3E3E3" },
+  bg0: { backgroundColor: '#1A4205' },
+  bg1: { backgroundColor: '#700303' },
+  bg2: { backgroundColor: '#fff' },
+  bg3: { backgroundColor: '#E93323' },
+  bg4: { backgroundColor: '#888' },
+  bg5: { backgroundColor: '#F5F5F5' },
+  bg6: { backgroundColor: '#E8E8E8' },
+  bg7: { backgroundColor: '#DEDEDE' },
+  bg_gray: { backgroundColor: '#E3E3E3' },
 
   inputH: { height: 45 },
-  border: { borderWidth: 1, borderColor: "#E3E3E3", borderRadius: 5 },
-  line01: { height: 1, width: "100%", backgroundColor: "#E3E3E3" },
+  border: { borderWidth: 1, borderColor: '#E3E3E3', borderRadius: 5 },
+  line01: { height: 1, width: '100%', backgroundColor: '#E3E3E3' },
   mainBtn: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
     backgroundColor: main,
     paddingVertical: 14,
-    borderRadius: 5,
+    borderRadius: 5
   },
   mainBtnBottom: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
     backgroundColor: main,
-    paddingVertical: 18,
+    paddingVertical: 18
   },
   mainBorderBtn: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
     borderWidth: 1.5,
     borderColor: main,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     paddingVertical: 15,
-    borderRadius: 5,
+    borderRadius: 5
   },
   mintBorderBtn: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
     borderWidth: 1.5,
     borderColor: mint,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     paddingVertical: 15,
-    borderRadius: 5,
+    borderRadius: 5
   },
   mainBorderBtnText: {
     fontFamily: Fonts.NotoSansR,
     fontSize: 14,
-    color: main,
+    color: main
   },
   BorderBtn: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
     borderWidth: 1,
-    borderColor: "#222",
-    backgroundColor: "#fff",
+    borderColor: '#222',
+    backgroundColor: '#fff',
     paddingVertical: 12,
-    borderRadius: 5,
+    borderRadius: 5
   },
 
   round05: { borderRadius: 5 },
 
-  textWhite: { color: "#fff" },
-  textCenter: { alignItems: "center", justifyContent: "center" },
+  textWhite: { color: '#fff' },
+  textCenter: { alignItems: 'center', justifyContent: 'center' },
 
   // confirm
-  confirm_btn: { width: "50%", alignItems: "center", paddingVertical: 10 },
+  confirm_btn: { width: '50%', alignItems: 'center', paddingVertical: 10 },
 
   // alert
-  check_btn: { width: "100%", alignItems: "center", paddingVertical: 10 },
+  check_btn: { width: '100%', alignItems: 'center', paddingVertical: 10 },
 
   // row
-  row: { flexDirection: "row" },
-  row_between: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  row: { flexDirection: 'row' },
+  row_between: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
 
   // img
-  imgCover: { width: "100%", height: "100%", resizeMode: "cover", borderRadius: 0 },
-  imgContain: { width: "100%", height: "100%", resizeMode: "contain", borderRadius: 0 },
+  imgCover: { width: '100%', height: '100%', resizeMode: 'cover', borderRadius: 0 },
+  imgContain: { width: '100%', height: '100%', resizeMode: 'contain', borderRadius: 0 },
 
   // button
-  btnConfirm: { width: "100%" },
+  btnConfirm: { width: '100%' },
   btnConfirm1: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
-  btnConfirm2: { position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 10 },
+  btnConfirm2: { position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10 },
   btnConfirm2In: {
     height: 70,
-    backgroundColor: "#F8F8F8E6",
+    backgroundColor: '#F8F8F8E6',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderWidth: 0,
+    borderWidth: 0
   },
 
   // main menu
   main_li: {
-    width: "100%",
+    width: '100%',
     height: 80,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
 
   // reservation1
-  stepTitle: { backgroundColor: "#F8F8F8", paddingVertical: 13 },
+  stepTitle: { backgroundColor: '#F8F8F8', paddingVertical: 13 },
 
   // reservation2
-  confirmIcon: { width: 80, height: 80, backgroundColor: "#F3F3F3", borderRadius: 40, padding: 20 },
-  resBox1: { paddingVertical: 17, paddingHorizontal: 19, borderWidth: 1, borderColor: "#EEEEEE" },
+  confirmIcon: { width: 80, height: 80, backgroundColor: '#F3F3F3', borderRadius: 40, padding: 20 },
+  resBox1: { paddingVertical: 17, paddingHorizontal: 19, borderWidth: 1, borderColor: '#EEEEEE' },
   resBox2: {
     paddingVertical: 17,
     paddingHorizontal: 19,
     borderWidth: 1,
-    borderColor: "#EEEEEE",
-    borderTopColor: "#fff",
+    borderColor: '#EEEEEE',
+    borderTopColor: '#fff'
   },
 
   // roominfo
   slideWrapper: {
-    width: "100%",
+    width: '100%',
     height: 250,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    alignSelf: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    alignSelf: 'center'
   },
   line: {
     borderTopWidth: 1,
-    borderTopColor: "#EEEEEE",
-    width: "100%",
+    borderTopColor: '#EEEEEE',
+    width: '100%',
     height: 1,
     marginTop: 15,
-    marginBottom: 15,
+    marginBottom: 15
   },
-  cureSort: { position: "absolute", paddingRight: 5, paddingVertical: 5 },
+  cureSort: { position: 'absolute', paddingRight: 5, paddingVertical: 5 },
 
   // mypage
-  list_item: { marginLeft: 0, paddingRight: 5, marginRight: 0, width: "100%" },
-  list_right_img: { width: 10, height: 20, resizeMode: "contain" },
-  btGreen: { borderRadius: 20, alignItems: "center", paddingRight: 10, paddingLeft: 5 },
+  list_item: { marginLeft: 0, paddingRight: 5, marginRight: 0, width: '100%' },
+  list_right_img: { width: 10, height: 20, resizeMode: 'contain' },
+  btGreen: { borderRadius: 20, alignItems: 'center', paddingRight: 10, paddingLeft: 5 },
   ticket_left: {
-    width: "65%",
+    width: '65%',
     zIndex: 9,
     borderWidth: 1,
-    borderColor: "#eee",
-    borderRightWidth: 0,
+    borderColor: '#eee',
+    borderRightWidth: 0
   },
   ticket_right: {
-    width: "35%",
+    width: '35%',
     borderWidth: 1,
-    borderColor: "#eee",
+    borderColor: '#eee',
     zIndex: 9,
     borderLeftWidth: 0,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   ticket_radius: {
     borderWidth: 1,
     width: 40,
     height: 40,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     zIndex: 14,
-    borderColor: "#eee",
-    position: "absolute",
+    borderColor: '#eee',
+    position: 'absolute',
     top: -25,
     right: -20,
     borderRadius: 20,
-    borderTopWidth: 0,
+    borderTopWidth: 0
   },
   ticket_radius_bottom: {
     borderWidth: 1,
     width: 40,
     height: 40,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     zIndex: 14,
-    borderColor: "#eee",
-    position: "absolute",
+    borderColor: '#eee',
+    position: 'absolute',
     bottom: -25,
     right: -20,
     borderRadius: 20,
-    borderTopWidth: 0,
+    borderTopWidth: 0
   },
 
   // ticket guide
@@ -468,37 +468,37 @@ export default StyleSheet.create({
     paddingVertical: 19,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderColor: "#eee",
+    borderColor: '#eee'
   },
   // list reservation
-  res_list: { borderWidth: 1, borderColor: "#eee" },
+  res_list: { borderWidth: 1, borderColor: '#eee' },
 
   // list usage
   tab_box: {
-    width: "32%",
-    backgroundColor: "#fff",
-    alignItems: "center",
+    width: '32%',
+    backgroundColor: '#fff',
+    alignItems: 'center',
     paddingVertical: 13,
     borderWidth: 2,
-    borderColor: "#EEEEEE",
-    marginBottom: 10,
+    borderColor: '#EEEEEE',
+    marginBottom: 10
   },
 
   // board qa
   tab_qa: {
-    width: "50%",
-    backgroundColor: "#fff",
-    alignItems: "center",
+    width: '50%',
+    backgroundColor: '#fff',
+    alignItems: 'center',
     paddingVertical: 13,
     borderWidth: 2,
-    borderColor: "#EEEEEE",
+    borderColor: '#EEEEEE'
   },
 
   // 정보수정
-  input: { paddingHorizontal: 20, width: "100%", alignItems: "center" },
+  input: { paddingHorizontal: 20, width: '100%', alignItems: 'center' },
 
   // 약관동의
   img80: { width: 80, height: 80 },
   img50: { width: 50, height: 50, marginLeft: -25 },
-  img30: { width: 30, height: 30, marginLeft: -15 },
+  img30: { width: 30, height: 30, marginLeft: -15 }
 })
