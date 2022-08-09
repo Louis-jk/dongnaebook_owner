@@ -1,25 +1,20 @@
 import * as React from 'react'
-import { View, Text, FlatList, TouchableOpacity, Image, Alert, Dimensions, useWindowDimensions } from 'react-native'
+import { useWindowDimensions } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs' // TabView
 import { useSelector, useDispatch } from 'react-redux'
-import moment from 'moment'
-import 'moment/locale/ko'
 import { TabView as LibTabView, SceneMap, TabBar } from 'react-native-tab-view'
 import messaging from '@react-native-firebase/messaging'
-// import Toast from 'react-native-toast-message';
-// import PushNotification from 'react-native-push-notification';
-import BaseStyle, { Primary } from '../styles/Base'
+import { Primary } from '../styles/Base'
 import Api from '../Api'
-import OrderCheckModal from './OrderCheckModal'
-import OrderRejectCancelModal from './OrderRejectCancelModal'
 import * as orderAction from '../redux/actions/orderAction'
 
 import Tab01 from './OrderTabs/Tab01'
 import Tab02 from './OrderTabs/Tab02'
 import Tab03 from './OrderTabs/Tab03'
 import Tab04 from './OrderTabs/Tab04'
+import { OrderCategoryRequest } from '../data/modules/orderApi'
 
-const Tab = createMaterialTopTabNavigator()
+const getOrder = OrderCategoryRequest // 주문 내역 불러오기
 
 const TabView = props => {
   const { navigation } = props
@@ -93,6 +88,35 @@ const TabView = props => {
     })
   }
 
+  // function getOrderListHandler () {
+  //   const call = getOrder.getOrderHandler(mtId, mtJumjuCode, index)
+  //   // const result = getOrder.getItems()
+  //   // const getIndex = getOrder.getIndex()
+
+  //   console.log('=============================')
+  //   console.log('useEffect send Index', index)
+  //   console.log('useEffect call', call)
+  //   // console.log('useEffect result', result)
+  //   // console.log('useEffect result getIndex', getIndex)
+  //   console.log('=============================')
+
+  //   // if (index === 0) {
+  //   //   dispatch(orderAction.updateNewOrder(JSON.stringify(result)))
+  //   // }
+
+  //   // if (index === 1) {
+  //   //   dispatch(orderAction.updateCheckOrder(JSON.stringify(result)))
+  //   // }
+
+  //   // if (index === 2) {
+  //   //   dispatch(orderAction.updateDeliveryOrder(JSON.stringify(result)))
+  //   // }
+
+  //   // if (index === 3) {
+  //   //   dispatch(orderAction.updateDoneOrder(JSON.stringify(result)))
+  //   // }
+  // }
+
   React.useEffect(() => {
     const getMessage = messaging().onMessage(remoteMessage => {
       getOrderListHandler(0)
@@ -104,7 +128,9 @@ const TabView = props => {
   React.useEffect(() => {
     getOrderListHandler(index)
 
-    return () => getOrderListHandler(index)
+    return () => {
+      getOrderListHandler(index)
+    }
   }, [index])
 
   const renderScene = SceneMap({
