@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useWindowDimensions } from 'react-native'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs' // TabView
 import { useSelector, useDispatch } from 'react-redux'
 import { TabView as LibTabView, SceneMap, TabBar } from 'react-native-tab-view'
 import messaging from '@react-native-firebase/messaging'
