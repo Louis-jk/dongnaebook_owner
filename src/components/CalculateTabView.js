@@ -6,6 +6,8 @@ import RNPickerSelect from 'react-native-picker-select' // 셀렉트박스 패�
 import DateTimePicker from '@react-native-community/datetimepicker'
 import CalculateList from '../components/CalculateList'
 import moment from 'moment'
+import { monthArr } from '../data/month'
+import { data } from '../data/calcMockData'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -53,75 +55,6 @@ const CalculateTabView = () => {
 
       return () => initCurrentDate()
     }, [])
-
-    const monthArr = [
-      {
-        label: '1월',
-        value: 1
-      },
-      {
-        label: '2월',
-        value: 2
-      },
-      {
-        label: '3월',
-        value: 3
-      },
-      {
-        label: '4월',
-        value: 4
-      },
-      {
-        label: '5월',
-        value: 5
-      },
-      {
-        label: '6월',
-        value: 6
-      },
-      {
-        label: '7월',
-        value: 7
-      },
-      {
-        label: '8월',
-        value: 8
-      },
-      {
-        label: '9월',
-        value: 9
-      },
-      {
-        label: '10월',
-        value: 10
-      },
-      {
-        label: '11월',
-        value: 11
-      },
-      {
-        label: '12월',
-        value: 12
-      }
-    ]
-
-    const data = [
-      {
-        month: 3,
-        calPrice: '5,795,000',
-        status: 0
-      },
-      {
-        month: 2,
-        calPrice: '1,995,000',
-        status: 1
-      },
-      {
-        month: 1,
-        calPrice: '2,775,000',
-        status: 1
-      }
-    ]
 
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', ...BaseStyle.ph20 }}>
@@ -278,24 +211,6 @@ const CalculateTabView = () => {
     const showTimepicker = payload => {
       showMode('time', payload)
     }
-
-    const data = [
-      {
-        month: 3,
-        calPrice: '5,795,000',
-        status: 0
-      },
-      {
-        month: 2,
-        calPrice: '1,995,000',
-        status: 1
-      },
-      {
-        month: 1,
-        calPrice: '2,775,000',
-        status: 1
-      }
-    ]
 
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', ...BaseStyle.ph20 }}>
