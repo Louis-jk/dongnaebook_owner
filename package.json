@@ -70,7 +70,8 @@
     "@babel/runtime": "^7.14.0",
     "@bam.tech/react-native-make": "^3.0.3",
     "@react-native-community/eslint-config": "^2.0.0",
-    "@testing-library/react-native": "^10.1.1",
+    "@testing-library/jest-native": "^4.0.6",
+    "@testing-library/react-native": "^11.0.0",
     "babel-jest": "^27.0.2",
     "eslint": "^7.28.0",
     "eslint-plugin-prettier": "^3.4.0",
@@ -85,7 +86,14 @@
     "redux-devtools-extension": "^2.13.9"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-(native|universal|navigation)-(.*)|@jest|@react-native|@react-native-community/(.*)|@react-navigation/(.*)|bs-platform|(@[a-zA-Z]+/)?(bs|reason|rescript)-(.*)+)"
+    ],
+    "setupFiles": [
+      "node_modules/react-native-gesture-handler/jestSetup.js"
+    ]
   },
   "lint-staged": {
     "src/**/*.{js,jsx}": [
