@@ -9,7 +9,6 @@ import {
   BackHandler,
   ToastAndroid,
   Alert,
-  ActivityIndicator,
   KeyboardAvoidingView
 } from 'react-native'
 import { CommonActions } from '@react-navigation/native'
@@ -159,9 +158,11 @@ const Login = props => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading && (
         <AnimateLoading description='로그인 중입니다.' />
-      ) : (
+      )}
+
+      {!isLoading && (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
           <View>
             <KeyboardAvoidingView
