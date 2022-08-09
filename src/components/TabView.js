@@ -32,7 +32,7 @@ const TabView = props => {
   ])
 
   // 주문 내역 호출
-  const getOrderListHandler = (index) => {
+  const getOrderListHandler = React.useCallback((index) => {
     const param = {
       encodeJson: true,
       item_count: 0,
@@ -85,36 +85,7 @@ const TabView = props => {
         // setReflashing(false)
       }
     })
-  }
-
-  // function getOrderListHandler () {
-  //   const call = getOrder.getOrderHandler(mtId, mtJumjuCode, index)
-  //   // const result = getOrder.getItems()
-  //   // const getIndex = getOrder.getIndex()
-
-  //   console.log('=============================')
-  //   console.log('useEffect send Index', index)
-  //   console.log('useEffect call', call)
-  //   // console.log('useEffect result', result)
-  //   // console.log('useEffect result getIndex', getIndex)
-  //   console.log('=============================')
-
-  //   // if (index === 0) {
-  //   //   dispatch(orderAction.updateNewOrder(JSON.stringify(result)))
-  //   // }
-
-  //   // if (index === 1) {
-  //   //   dispatch(orderAction.updateCheckOrder(JSON.stringify(result)))
-  //   // }
-
-  //   // if (index === 2) {
-  //   //   dispatch(orderAction.updateDeliveryOrder(JSON.stringify(result)))
-  //   // }
-
-  //   // if (index === 3) {
-  //   //   dispatch(orderAction.updateDoneOrder(JSON.stringify(result)))
-  //   // }
-  // }
+  }, [index])
 
   React.useEffect(() => {
     const getMessage = messaging().onMessage(remoteMessage => {
