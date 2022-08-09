@@ -50,6 +50,8 @@ const Reviews = props => {
   const [wrId, setWrId] = React.useState('') // wr_id
   const [notice, setNotice] = React.useState({}) // Notice
 
+  const [imageLoad, setImageLoad] = React.useState(false)
+
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
     navigation.goBack()
@@ -380,9 +382,9 @@ const Reviews = props => {
                 showsPagination
                 autoplay={false}
                 loop={false}
-                loadMinimal
-                loadMinimalLoader={<ActivityIndicator color='#000' size='small' />}
-                automaticallyAdjustContentInsets
+                // loadMinimal
+                // loadMinimalLoader={<ActivityIndicator color='#000' size='small' />}
+                // automaticallyAdjustContentInsets
               >
                 {item.pic.map((image, index) => (
                   <TouchableOpacity
@@ -396,6 +398,12 @@ const Reviews = props => {
                       setModalImages(formatImg)
                     }}
                   >
+                    {imageLoad && (
+                      <View style={{ position: 'absolute', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', zIndex: 0 }}>
+                        <ActivityIndicator color={Primary.PointColor01} />
+                      </View>
+                    )}
+
                     <Image
                       source={{ uri: `${image}` }}
                       style={{
@@ -403,8 +411,10 @@ const Reviews = props => {
                         height: '100%'
                       }}
                       resizeMode='cover'
-                      loa
+                      onLoadStart={() => setImageLoad(true)}
+                      onLoadEnd={() => setImageLoad(false)}
                     />
+
                   </TouchableOpacity>
                 ))}
               </Swiper>
@@ -431,6 +441,11 @@ const Reviews = props => {
                   setModalImages(formatImg)
                 }}
               >
+                {imageLoad && (
+                  <View style={{ position: 'absolute', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', zIndex: 0 }}>
+                    <ActivityIndicator color={Primary.PointColor01} />
+                  </View>
+                )}
                 <Image
                   source={{ uri: `${item.pic[0]}` }}
                   style={{
@@ -439,6 +454,8 @@ const Reviews = props => {
                     resizeMode: 'cover',
                     marginBottom: 5
                   }}
+                  onLoadStart={() => setImageLoad(true)}
+                  onLoadEnd={() => setImageLoad(false)}
                 />
               </TouchableOpacity>
               <ImageView
