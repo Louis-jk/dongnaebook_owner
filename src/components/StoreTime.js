@@ -78,7 +78,7 @@ const StoreTime = props => {
         <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>영업시간</Text>
       </View>
 
-      {isLoading && <AnimateLoading description='잠시만 기다려주세요' />}
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
       {!isLoading && (
         <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv15 }}>

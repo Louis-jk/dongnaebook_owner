@@ -29,7 +29,7 @@ import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import ImageView from 'react-native-image-viewing'
 import cusToast from '../components/CusToast'
-// import AnimateLoading from '../components/AnimateLoading'
+import AnimateLoading from '../components/AnimateLoading'
 
 // const { width, height } = Dimensions.get('window')
 
@@ -49,6 +49,7 @@ const Reviews = props => {
   const [ItId, setItId] = React.useState('') // it_id
   const [wrId, setWrId] = React.useState('') // wr_id
   const [notice, setNotice] = React.useState({}) // Notice
+  const [isLoading, setLoading] = React.useState(true)
 
   const [imageLoad, setImageLoad] = React.useState(false)
 
@@ -100,6 +101,8 @@ const Reviews = props => {
         setList(null)
         setNotice(null)
       }
+
+      setLoading(false)
     })
   }
 
@@ -377,8 +380,8 @@ const Reviews = props => {
                   height: 250
                 }}
                 dotColor='#fff'
-                dotStyle={{ width: 7, height: 7, borderRadius: 7 }}
-                activeDotStyle={{ width: 7, height: 7, backgroundColor: Primary.PointColor01 }}
+                dotStyle={{ width: 7, height: 7, borderRadius: 7, bottom: -15 }}
+                activeDotStyle={{ width: 7, height: 7, backgroundColor: Primary.PointColor01, bottom: -15 }}
                 showsPagination
                 autoplay={false}
                 loop={false}
@@ -668,131 +671,53 @@ const Reviews = props => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <View style={{ zIndex: 99999, backgroundColor: '#fff' }}>
-        <Header navigation={navigation} title='리뷰관리' />
-      </View>
-      {/* 이미지 모달 */}
-      <Modal
-        isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
-        backdropOpacity={1}
-        transparent
-        statusBarTranslucent
-        style={{ flex: 1, padding: 0, margin: 0 }}
-      >
-        <AutoHeightImage source={{ uri: `${selectImg}` }} width={Dimensions.get('window').width} />
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={toggleModal}
-          style={{
-            position: 'absolute',
-            top: 70,
-            right: 10
-          }}
-        >
-          <Image
-            source={require('../images/ic_del.png')}
-            style={{ width: 30, height: 30, resizeMode: 'contain' }}
-          />
-        </TouchableOpacity>
-      </Modal>
-      {/* //이미지 모달 */}
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
-      {/* 악성 리뷰 신고 모달 */}
-      <Modal
-        isVisible={isSpamReviewModalVisible}
-        onBackdropPress={toggleSpamModal}
-        transparent
-        statusBarTranslucent
-        style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
-        animationIn='slideInUp'
-        animationInTiming={100}
-      >
-        <View
-          style={{
-            backgroundColor: '#fff',
-            ...BaseStyle.pv30,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 5
-          }}
+      {!isLoading &&
+      (<View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <View style={{ zIndex: 99999, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title='리뷰관리' />
+        </View>
+        {/* 이미지 모달 */}
+        <Modal
+          isVisible={isModalVisible}
+          onBackdropPress={toggleModal}
+          backdropOpacity={1}
+          transparent
+          statusBarTranslucent
+          style={{ flex: 1, padding: 0, margin: 0 }}
         >
+          <AutoHeightImage source={{ uri: `${selectImg}` }} width={Dimensions.get('window').width} />
           <TouchableOpacity
             activeOpacity={1}
-            onPress={toggleSpamModal}
+            onPress={toggleModal}
             style={{
               position: 'absolute',
-              top: -10,
-              right: -10,
-              backgroundColor: Primary.PointColor01,
-              borderRadius: 30,
-              width: 30,
-              height: 30,
-              justifyContent: 'center',
-              alignItems: 'center'
+              top: 70,
+              right: 10
             }}
           >
             <Image
-              source={require('../images/close.png')}
-              style={{
-                width: 12,
-                height: 12,
-                resizeMode: 'center'
-              }}
+              source={require('../images/ic_del.png')}
+              style={{ width: 30, height: 30, resizeMode: 'contain' }}
             />
           </TouchableOpacity>
-          <Text style={{ ...BaseStyle.ko14 }}>악성 리뷰로 신고하시겠습니까?</Text>
-          <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph20 }}>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={sendSpamReviewHandler}
-              style={{
-                ...BaseStyle.container1,
-                height: 45,
-                backgroundColor: Primary.PointColor01,
-                borderTopLeftRadius: 5,
-                borderBottomLeftRadius: 5
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>신고하기</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={toggleSpamModal}
-              style={{
-                ...BaseStyle.container1,
-                height: 45,
-                backgroundColor: Primary.PointColor03,
-                borderTopRightRadius: 5,
-                borderBottomRightRadius: 5
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>취소</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      {/* // 악성 리뷰 신고 모달 */}
+        </Modal>
+        {/* //이미지 모달 */}
 
-      {/* 답변 모달 */}
-      <Modal
-        isVisible={isCommentModalVisible}
-        // onBackdropPress={toggleCommentModal}
-        transparent
-        statusBarTranslucent
-        style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
-        animationIn='slideInUp'
-        animationInTiming={100}
-      >
-        <KeyboardAvoidingView
-          behavior='position'
-          style={{ backgroundColor: '#fff', borderRadius: 15 }}
-          enabled
+        {/* 악성 리뷰 신고 모달 */}
+        <Modal
+          isVisible={isSpamReviewModalVisible}
+          onBackdropPress={toggleSpamModal}
+          transparent
+          statusBarTranslucent
+          style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
+          animationIn='slideInUp'
+          animationInTiming={100}
         >
           <View
             style={{
-              position: 'relative',
               backgroundColor: '#fff',
               ...BaseStyle.pv30,
               justifyContent: 'center',
@@ -800,417 +725,522 @@ const Reviews = props => {
               borderRadius: 5
             }}
           >
-            <Text style={{ ...BaseStyle.ko16, ...BaseStyle.mb15, ...BaseStyle.font_bold }}>
-              리뷰에 대한 답변을 입력해주세요.
-            </Text>
-            <View style={{ width: '100%', ...BaseStyle.ph30 }}>
-              <View style={{ ...BaseStyle.ph10, backgroundColor: '#f5f5f5', borderRadius: 5 }}>
-                <TextInput
-                  value={selectReply}
-                  style={{
-                    width: '100%',
-                    ...BaseStyle.ko15,
-                    ...BaseStyle.lh24,
-                    ...BaseStyle.mv15
-                  }}
-                  multiline
-                  numberOfLines={5}
-                  textAlignVertical='top'
-                  placeholder='답변을 입력해주세요.'
-                  underlineColorAndroid='transparent'
-                  onChangeText={text => setSelectReply(text)}
-                  autoCapitalize='none'
-                />
-              </View>
-            </View>
-            <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph30 }}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={toggleSpamModal}
+              style={{
+                position: 'absolute',
+                top: -10,
+                right: -10,
+                backgroundColor: Primary.PointColor01,
+                borderRadius: 30,
+                width: 30,
+                height: 30,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Image
+                source={require('../images/close.png')}
+                style={{
+                  width: 12,
+                  height: 12,
+                  resizeMode: 'center'
+                }}
+              />
+            </TouchableOpacity>
+            <Text style={{ ...BaseStyle.ko14 }}>악성 리뷰로 신고하시겠습니까?</Text>
+            <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph20 }}>
               <TouchableOpacity
                 activeOpacity={1}
-                onPress={() => {
-                  if (selectReply !== null && selectReply !== '') {
-                    setReply()
-                  }
-                }}
+                onPress={sendSpamReviewHandler}
                 style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '100%',
-                  borderWidth: 1,
-                  borderColor: selectReply !== null && selectReply !== '' ? '#20ABC8' : '#e5e5e5',
-                  backgroundColor: selectReply !== null && selectReply !== '' ? '#20ABC8' : '#fff',
-                  paddingVertical: 15,
-                  flex: 1,
-                  ...BaseStyle.pv15,
+                  ...BaseStyle.container1,
+                  height: 45,
+                  backgroundColor: Primary.PointColor01,
                   borderTopLeftRadius: 5,
                   borderBottomLeftRadius: 5
                 }}
               >
-                <Text
-                  style={{
-                    ...BaseStyle.ko14,
-                    color: selectReply !== null && selectReply !== '' ? '#fff' : '#e5e5e5'
-                  }}
-                >
-                  답변 전송
-                </Text>
+                <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>신고하기</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={1}
-                onPress={toggleCommentModal}
+                onPress={toggleSpamModal}
                 style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '100%',
-                  borderWidth: 1,
-                  borderColor: '#e5e5e5',
-                  backgroundColor: '#e5e5e5',
-                  paddingVertical: 15,
-                  flex: 1,
-                  ...BaseStyle.pv15,
+                  ...BaseStyle.container1,
+                  height: 45,
+                  backgroundColor: Primary.PointColor03,
                   borderTopRightRadius: 5,
                   borderBottomRightRadius: 5
                 }}
               >
-                <Text
-                  style={{
-                    ...BaseStyle.ko14,
-                    color: '#666'
-                  }}
-                >
-                  취소
-                </Text>
+                <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>취소</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </KeyboardAvoidingView>
-      </Modal>
+        </Modal>
+        {/* // 악성 리뷰 신고 모달 */}
 
-      {/* // 답변 모달 */}
-
-      {/* 커스텀 총 평점 */}
-      {JSON.stringify(rate) !== '{}' && (
-        <Animated.View
-          style={{
-            justifyContent: 'center',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 10,
-            ...BaseStyle.ph10,
-            backgroundColor: '#fff',
-            // opacity: opacity,
-            transform: [
-              {
-                translateY: translation
-              }
-            ]
-          }}
+        {/* 답변 모달 */}
+        <Modal
+          isVisible={isCommentModalVisible}
+        // onBackdropPress={toggleCommentModal}
+          transparent
+          statusBarTranslucent
+          style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
+          animationIn='slideInUp'
+          animationInTiming={100}
         >
-          {/* <Swipeout right={swipeBtns} autoClose="true" backgroundColor="transparent"> */}
-          <Swipeable renderRightActions={renderRightActions}>
+          <KeyboardAvoidingView
+            behavior='position'
+            style={{ backgroundColor: '#fff', borderRadius: 15 }}
+            enabled
+          >
             <View
               style={{
-                ...styles.rectButton,
-                width: '100%',
-                ...BaseStyle.container5,
-                ...BaseStyle.pv15,
-                ...BaseStyle.ph10
+                position: 'relative',
+                backgroundColor: '#fff',
+                ...BaseStyle.pv30,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5
               }}
             >
-              <View style={{ ...BaseStyle.container }}>
-                <Text
-                  style={{
-                    ...BaseStyle.ko15,
-                    ...BaseStyle.font_bold,
-                    ...BaseStyle.mr20,
-                    maxWidth: Dimensions.get('window').width / 2
-                  }}
-                  numberOfLines={1}
-                  lineBreakMode='tail'
-                >
-                  {mtStore}
-                </Text>
+              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.mb15, ...BaseStyle.font_bold }}>
+                리뷰에 대한 답변을 입력해주세요.
+              </Text>
+              <View style={{ width: '100%', ...BaseStyle.ph30 }}>
+                <View style={{ ...BaseStyle.ph10, backgroundColor: '#f5f5f5', borderRadius: 5 }}>
+                  <TextInput
+                    value={selectReply}
+                    style={{
+                      width: '100%',
+                      ...BaseStyle.ko15,
+                      ...BaseStyle.lh24,
+                      ...BaseStyle.mv15
+                    }}
+                    multiline
+                    numberOfLines={5}
+                    textAlignVertical='top'
+                    placeholder='답변을 입력해주세요.'
+                    underlineColorAndroid='transparent'
+                    onChangeText={text => setSelectReply(text)}
+                    autoCapitalize='none'
+                  />
+                </View>
               </View>
-              <View style={{ ...BaseStyle.container0 }}>
-                <Text style={{ ...BaseStyle.mr5 }}>
-                  평점 :{' '}
-                  <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold }}>{rate.avg}</Text>
-                </Text>
-                <StarRating
+              <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph30 }}>
+                <TouchableOpacity
                   activeOpacity={1}
-                  disabled={false}
-                  emptyStar={require('../images/ico_star_off.png')}
-                  fullStar={require('../images/ico_star_on.png')}
-                  ratingColor='#3498db'
-                  ratingBackgroundColor='#c8c7c8'
-                  maxStars={5}
-                  rating={Math.round(rate.avg)}
-                  starSize={17}
-                />
+                  onPress={() => {
+                    if (selectReply !== null && selectReply !== '') {
+                      setReply()
+                    }
+                  }}
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    borderWidth: 1,
+                    borderColor: selectReply !== null && selectReply !== '' ? '#20ABC8' : '#e5e5e5',
+                    backgroundColor: selectReply !== null && selectReply !== '' ? '#20ABC8' : '#fff',
+                    paddingVertical: 15,
+                    flex: 1,
+                    ...BaseStyle.pv15,
+                    borderTopLeftRadius: 5,
+                    borderBottomLeftRadius: 5
+                  }}
+                >
+                  <Text
+                    style={{
+                      ...BaseStyle.ko14,
+                      color: selectReply !== null && selectReply !== '' ? '#fff' : '#e5e5e5'
+                    }}
+                  >
+                    답변 전송
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={toggleCommentModal}
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    borderWidth: 1,
+                    borderColor: '#e5e5e5',
+                    backgroundColor: '#e5e5e5',
+                    paddingVertical: 15,
+                    flex: 1,
+                    ...BaseStyle.pv15,
+                    borderTopRightRadius: 5,
+                    borderBottomRightRadius: 5
+                  }}
+                >
+                  <Text
+                    style={{
+                      ...BaseStyle.ko14,
+                      color: '#666'
+                    }}
+                  >
+                    취소
+                  </Text>
+                </TouchableOpacity>
               </View>
-              {/* <View style={{...BaseStyle.container5, alignSelf: "flex-end"}}>
+            </View>
+          </KeyboardAvoidingView>
+        </Modal>
+
+        {/* // 답변 모달 */}
+
+        {/* 커스텀 총 평점 */}
+        {JSON.stringify(rate) !== '{}' && (
+          <Animated.View
+            style={{
+              justifyContent: 'center',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 10,
+              ...BaseStyle.ph10,
+              backgroundColor: '#fff',
+              // opacity: opacity,
+              transform: [
+                {
+                  translateY: translation
+                }
+              ]
+            }}
+          >
+            {/* <Swipeout right={swipeBtns} autoClose="true" backgroundColor="transparent"> */}
+            <Swipeable renderRightActions={renderRightActions}>
+              <View
+                style={{
+                  ...styles.rectButton,
+                  width: '100%',
+                  ...BaseStyle.container5,
+                  ...BaseStyle.pv15,
+                  ...BaseStyle.ph10
+                }}
+              >
+                <View style={{ ...BaseStyle.container }}>
+                  <Text
+                    style={{
+                      ...BaseStyle.ko15,
+                      ...BaseStyle.font_bold,
+                      ...BaseStyle.mr20,
+                      maxWidth: Dimensions.get('window').width / 2
+                    }}
+                    numberOfLines={1}
+                    lineBreakMode='tail'
+                  >
+                    {mtStore}
+                  </Text>
+                </View>
+                <View style={{ ...BaseStyle.container0 }}>
+                  <Text style={{ ...BaseStyle.mr5 }}>
+                    평점 :{' '}
+                    <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold }}>{rate.avg}</Text>
+                  </Text>
+                  <StarRating
+                    activeOpacity={1}
+                    disabled={false}
+                    emptyStar={require('../images/ico_star_off.png')}
+                    fullStar={require('../images/ico_star_on.png')}
+                    ratingColor='#3498db'
+                    ratingBackgroundColor='#c8c7c8'
+                    maxStars={5}
+                    rating={Math.round(rate.avg)}
+                    starSize={17}
+                  />
+                </View>
+                {/* <View style={{...BaseStyle.container5, alignSelf: "flex-end"}}>
                 <Image
                   source={require("../images/swipe_m.png")}
                   style={{width: 50, height: 25, marginLeft: 10}}
                   resizeMode="contain"
                 />
               </View> */}
-            </View>
-          </Swipeable>
-          {/* </Swipeout> */}
-          <View style={{ height: 1, backgroundColor: '#e5e5e5' }} />
-        </Animated.View>
-      )}
-      {/* //커스텀 총 평점 */}
+              </View>
+            </Swipeable>
+            {/* </Swipeout> */}
+            <View style={{ height: 1, backgroundColor: '#e5e5e5' }} />
+          </Animated.View>
+        )}
+        {/* //커스텀 총 평점 */}
 
-      {/* 리뷰 리스트 */}
-      <View style={{ flex: 1 }}>
-        <Animated.FlatList
-          data={list}
-          renderItem={renderRow}
-          keyExtractor={(list, index) => index.toString()}
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: {
-                    y: scrolling
+        {/* 리뷰 리스트 */}
+        <View style={{ flex: 1 }}>
+          <Animated.FlatList
+            data={list}
+            renderItem={renderRow}
+            keyExtractor={(list, index) => index.toString()}
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: {
+                      y: scrolling
+                    }
                   }
                 }
-              }
-            ],
-            { useNativeDriver: true }
-          )}
-          scrollEventThrottle={16}
+              ],
+              { useNativeDriver: true }
+            )}
+            scrollEventThrottle={16}
           // pagingEnabled={true}
-          persistentScrollbar
-          showsVerticalScrollIndicator={false}
+            persistentScrollbar
+            showsVerticalScrollIndicator={false}
           // progressViewOffset={true}
-          refreshing
+            refreshing
           // onRefresh={() => onRefresh()}
-          style={{ backgroundColor: '#fff', width: '100%' }}
-          ListHeaderComponent={
-            <View>
-              <View
-                style={{
-                  justifyContent: 'flex-start',
-                  alignItems: 'flex-start',
-                  ...BaseStyle.ph20,
-                  ...BaseStyle.mt20,
-                  ...BaseStyle.mb20
-                }}
-              >
-                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_666, ...BaseStyle.mb10 }}>
-                  총 리뷰 & 평점
-                </Text>
-                <Text style={{ ...BaseStyle.ko20, ...BaseStyle.font_bold }}>{mtStore}</Text>
-              </View>
-
-              <View
-                style={{
-                  ...BaseStyle.container,
-                  ...BaseStyle.ph20,
-                  ...BaseStyle.pb20
-                }}
-              >
-                {/* 평점 별표(큰 부분) */}
-                {rate && (
-                  <View
-                    style={{
-                      flex: 1.5,
-                      justifyContent: 'flex-start',
-                      alignItems: 'center',
-                      height: '100%',
-                      ...BaseStyle.pt10
-                    }}
-                  >
-                    <Text
-                      style={{
-                        ...BaseStyle.font_main,
-                        fontWeight: 'bold',
-                        fontSize: 45,
-                        marginTop: -20
-                      }}
-                    >
-                      {rate.avg}
-                    </Text>
-                    <StarRating
-                      activeOpacity={1}
-                      disabled={false}
-                      emptyStar={require('../images/ico_star_off.png')}
-                      fullStar={require('../images/ico_star_on.png')}
-                      ratingColor='#3498db'
-                      ratingBackgroundColor='#c8c7c8'
-                      maxStars={5}
-                      // rating={Math.round(rate.avg)}
-                      rating={Math.round(rate.avg)}
-                      starSize={17}
-                    />
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mt10 }}>
-                      <Text style={{ ...BaseStyle.ko16, marginTop: 5, ...BaseStyle.mr5 }}>총</Text>
-                      <Text
-                        style={{
-                          fontWeight: 'bold',
-                          ...BaseStyle.ko20,
-                          ...BaseStyle.font_main
-                        }}
-                      >
-                        {rate.total_cnt > 99 ? '99+' : rate.total_cnt}
-                      </Text>
-                      <Text style={{ ...BaseStyle.ko16, marginTop: 5 }}>건</Text>
-                    </View>
-                  </View>
-                )}
-                {/* //평점 별표(큰 부분)   */}
-
-                {/* 중간 선 */}
+            style={{ backgroundColor: '#fff', width: '100%' }}
+            ListHeaderComponent={
+              <View>
                 <View
                   style={{
-                    width: 1,
-                    height: '100%',
-                    backgroundColor: '#ececec',
-                    ...BaseStyle.pv20,
-                    ...BaseStyle.mh30,
-                    ...BaseStyle.mr10
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-start',
+                    ...BaseStyle.ph20,
+                    ...BaseStyle.mt20,
+                    ...BaseStyle.mb20
                   }}
-                />
-                {/* // 중간 선 */}
-                {rate && (
-                  <View style={{ flex: 2 }}>
-                    <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
-                      <Progress.Bar
-                        animated
-                        progress={rate.rating_per5}
-                        width={100}
-                        height={6}
-                        color={Primary.PointColor01}
-                        borderColor='#fff'
-                        borderRadius={10}
-                        style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
-                      />
-                      <Text
-                        style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}
-                      >
-                        5점 ({rate.rating_cnt5 > 99 ? '99+' : rate.rating_cnt5})
-                      </Text>
-                    </View>
-                    <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
-                      <Progress.Bar
-                        animated
-                        progress={rate.rating_per4}
-                        width={100}
-                        height={6}
-                        color={Primary.PointColor01}
-                        borderColor='#fff'
-                        borderRadius={10}
-                        style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
-                      />
-                      <Text
-                        style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}
-                      >
-                        4점 ({rate.rating_cnt4 > 99 ? '99+' : rate.rating_cnt4})
-                      </Text>
-                    </View>
-                    <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
-                      <Progress.Bar
-                        animated
-                        progress={rate.rating_per3}
-                        width={100}
-                        height={6}
-                        color={Primary.PointColor01}
-                        borderColor='#fff'
-                        borderRadius={10}
-                        style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
-                      />
-                      <Text
-                        style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}
-                      >
-                        3점 ({rate.rating_cnt3 > 99 ? '99+' : rate.rating_cnt3})
-                      </Text>
-                    </View>
-                    <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
-                      <Progress.Bar
-                        animated
-                        progress={rate.rating_per2}
-                        width={100}
-                        height={6}
-                        color={Primary.PointColor01}
-                        borderColor='#fff'
-                        borderRadius={10}
-                        style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
-                      />
-                      <Text
-                        style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}
-                      >
-                        2점 ({rate.rating_cnt2 > 99 ? '99+' : rate.rating_cnt2})
-                      </Text>
-                    </View>
-                    <View style={{ ...BaseStyle.container }}>
-                      <Progress.Bar
-                        animated
-                        progress={rate.rating_per1}
-                        width={100}
-                        height={6}
-                        color={Primary.PointColor01}
-                        borderColor='#fff'
-                        borderRadius={10}
-                        style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
-                      />
-                      <Text
-                        style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}
-                      >
-                        1점 ({rate.rating_cnt1 > 99 ? '99+' : rate.rating_cnt1})
-                      </Text>
-                    </View>
-                  </View>
-                )}
-              </View>
+                >
+                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_666, ...BaseStyle.mb10 }}>
+                    총 리뷰 & 평점
+                  </Text>
+                  <Text style={{ ...BaseStyle.ko20, ...BaseStyle.font_bold }}>{mtStore}</Text>
+                </View>
 
-              {/* 공지글 작성 */}
-              {notice && (
-                <>
-                  <View
-                    style={{
-                      ...BaseStyle.mh20,
-                      ...BaseStyle.mb10,
-                      ...BaseStyle.pb10,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderWidth: 1,
-                      borderColor: '#ececec',
-                      borderRadius: 5
-                    }}
-                  >
+                <View
+                  style={{
+                    ...BaseStyle.container,
+                    ...BaseStyle.ph20,
+                    ...BaseStyle.pb20
+                  }}
+                >
+                  {/* 평점 별표(큰 부분) */}
+                  {rate && (
                     <View
                       style={{
-                        justifyContent: 'center',
+                        flex: 1.5,
+                        justifyContent: 'flex-start',
                         alignItems: 'center',
-                        backgroundColor: '#ececec',
-                        width: '100%',
-                        ...BaseStyle.pv10
+                        height: '100%',
+                        ...BaseStyle.pt10
                       }}
                     >
-                      <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>
-                        리뷰 공지사항
+                      <Text
+                        style={{
+                          ...BaseStyle.font_main,
+                          fontWeight: 'bold',
+                          fontSize: 45,
+                          marginTop: -20
+                        }}
+                      >
+                        {rate.avg}
                       </Text>
-                    </View>
-                    <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
-                      <Text style={{ ...BaseStyle.ko14 }}>{notice.noticeContent}</Text>
-                    </View>
-                    {notice.noticePic?.map((pic, index) => (
-                      <AutoHeightImage
-                        key={`${pic}-${index}`}
-                        source={{ uri: `${pic}` }}
-                        width={Dimensions.get('window').width - 60}
+                      <StarRating
+                        activeOpacity={1}
+                        disabled={false}
+                        emptyStar={require('../images/ico_star_off.png')}
+                        fullStar={require('../images/ico_star_on.png')}
+                        ratingColor='#3498db'
+                        ratingBackgroundColor='#c8c7c8'
+                        maxStars={5}
+                      // rating={Math.round(rate.avg)}
+                        rating={Math.round(rate.avg)}
+                        starSize={17}
                       />
-                    ))}
-                  </View>
+                      <View style={{ ...BaseStyle.container5, ...BaseStyle.mt10 }}>
+                        <Text style={{ ...BaseStyle.ko16, marginTop: 5, ...BaseStyle.mr5 }}>총</Text>
+                        <Text
+                          style={{
+                            fontWeight: 'bold',
+                            ...BaseStyle.ko20,
+                            ...BaseStyle.font_main
+                          }}
+                        >
+                          {rate.total_cnt > 99 ? '99+' : rate.total_cnt}
+                        </Text>
+                        <Text style={{ ...BaseStyle.ko16, marginTop: 5 }}>건</Text>
+                      </View>
+                    </View>
+                  )}
+                  {/* //평점 별표(큰 부분)   */}
+
+                  {/* 중간 선 */}
+                  <View
+                    style={{
+                      width: 1,
+                      height: '100%',
+                      backgroundColor: '#ececec',
+                      ...BaseStyle.pv20,
+                      ...BaseStyle.mh30,
+                      ...BaseStyle.mr10
+                    }}
+                  />
+                  {/* // 중간 선 */}
+                  {rate && (
+                    <View style={{ flex: 2 }}>
+                      <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
+                        <Progress.Bar
+                          animated
+                          progress={rate.rating_per5}
+                          width={100}
+                          height={6}
+                          color={Primary.PointColor01}
+                          borderColor='#fff'
+                          borderRadius={10}
+                          style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
+                        />
+                        <Text
+                          style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}
+                        >
+                          5점 ({rate.rating_cnt5 > 99 ? '99+' : rate.rating_cnt5})
+                        </Text>
+                      </View>
+                      <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
+                        <Progress.Bar
+                          animated
+                          progress={rate.rating_per4}
+                          width={100}
+                          height={6}
+                          color={Primary.PointColor01}
+                          borderColor='#fff'
+                          borderRadius={10}
+                          style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
+                        />
+                        <Text
+                          style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}
+                        >
+                          4점 ({rate.rating_cnt4 > 99 ? '99+' : rate.rating_cnt4})
+                        </Text>
+                      </View>
+                      <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
+                        <Progress.Bar
+                          animated
+                          progress={rate.rating_per3}
+                          width={100}
+                          height={6}
+                          color={Primary.PointColor01}
+                          borderColor='#fff'
+                          borderRadius={10}
+                          style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
+                        />
+                        <Text
+                          style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}
+                        >
+                          3점 ({rate.rating_cnt3 > 99 ? '99+' : rate.rating_cnt3})
+                        </Text>
+                      </View>
+                      <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
+                        <Progress.Bar
+                          animated
+                          progress={rate.rating_per2}
+                          width={100}
+                          height={6}
+                          color={Primary.PointColor01}
+                          borderColor='#fff'
+                          borderRadius={10}
+                          style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
+                        />
+                        <Text
+                          style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}
+                        >
+                          2점 ({rate.rating_cnt2 > 99 ? '99+' : rate.rating_cnt2})
+                        </Text>
+                      </View>
+                      <View style={{ ...BaseStyle.container }}>
+                        <Progress.Bar
+                          animated
+                          progress={rate.rating_per1}
+                          width={100}
+                          height={6}
+                          color={Primary.PointColor01}
+                          borderColor='#fff'
+                          borderRadius={10}
+                          style={{ backgroundColor: '#F2F2F2', ...BaseStyle.mr5 }}
+                        />
+                        <Text
+                          style={{ ...BaseStyle.ko14, ...BaseStyle.font_black, ...BaseStyle.ml10 }}
+                        >
+                          1점 ({rate.rating_cnt1 > 99 ? '99+' : rate.rating_cnt1})
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+                </View>
+
+                {/* 공지글 작성 */}
+                {notice && (
+                  <>
+                    <View
+                      style={{
+                        ...BaseStyle.mh20,
+                        ...BaseStyle.mb10,
+                        ...BaseStyle.pb10,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderWidth: 1,
+                        borderColor: '#ececec',
+                        borderRadius: 5
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: '#ececec',
+                          width: '100%',
+                          ...BaseStyle.pv10
+                        }}
+                      >
+                        <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>
+                          리뷰 공지사항
+                        </Text>
+                      </View>
+                      <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
+                        <Text style={{ ...BaseStyle.ko14 }}>{notice.noticeContent}</Text>
+                      </View>
+                      {notice.noticePic?.map((pic, index) => (
+                        <AutoHeightImage
+                          key={`${pic}-${index}`}
+                          source={{ uri: `${pic}` }}
+                          width={Dimensions.get('window').width - 60}
+                        />
+                      ))}
+                    </View>
+                    <View style={{ ...BaseStyle.ph20, ...BaseStyle.pb20 }}>
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={() =>
+                          navigation.navigate('ReviewNotice', { type: 'edit', item: notice })}
+                        style={{
+                          ...BaseStyle.mainBtn
+                        }}
+                      >
+                        <Text
+                          style={{
+                            ...BaseStyle.ko14,
+                            ...BaseStyle.font_bold,
+                            ...BaseStyle.font_white
+                          }}
+                        >
+                          리뷰 공지 수정
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                )}
+
+                {!notice && (
                   <View style={{ ...BaseStyle.ph20, ...BaseStyle.pb20 }}>
                     <TouchableOpacity
                       activeOpacity={0.8}
-                      onPress={() =>
-                        navigation.navigate('ReviewNotice', { type: 'edit', item: notice })}
+                      onPress={() => navigation.navigate('ReviewNotice', { type: 'write' })}
                       style={{
                         ...BaseStyle.mainBtn
                       }}
@@ -1222,48 +1252,27 @@ const Reviews = props => {
                           ...BaseStyle.font_white
                         }}
                       >
-                        리뷰 공지 수정
+                        리뷰 공지 작성
                       </Text>
                     </TouchableOpacity>
                   </View>
-                </>
-              )}
-
-              {!notice && (
-                <View style={{ ...BaseStyle.ph20, ...BaseStyle.pb20 }}>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => navigation.navigate('ReviewNotice', { type: 'write' })}
-                    style={{
-                      ...BaseStyle.mainBtn
-                    }}
-                  >
-                    <Text
-                      style={{
-                        ...BaseStyle.ko14,
-                        ...BaseStyle.font_bold,
-                        ...BaseStyle.font_white
-                      }}
-                    >
-                      리뷰 공지 작성
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-              {/* // 공지글 작성 */}
-            </View>
+                )}
+                {/* // 공지글 작성 */}
+              </View>
           }
-          ListEmptyComponent={
-            <View style={styles.emptyView}>
-              <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-                아직 등록된 리뷰 및 평점이 없습니다.
-              </Text>
-            </View>
+            ListEmptyComponent={
+              <View style={styles.emptyView}>
+                <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
+                  아직 등록된 리뷰 및 평점이 없습니다.
+                </Text>
+              </View>
           }
-        />
-      </View>
-      {/* //리뷰 리스트 */}
-    </View>
+          />
+        </View>
+        {/* //리뷰 리스트 */}
+       </View>
+      )}
+    </>
   )
 }
 

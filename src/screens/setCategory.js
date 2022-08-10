@@ -220,161 +220,165 @@ const setCategory = props => {
     )
   }
 
-  return isLoading ? (
-    <AnimateLoading description='잠시만 기다려주세요.' />
-  ) : (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='카테고리 관리' />
-      <Modal
-        isVisible={isModalVisible}
+  return (
+
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
+
+      {!isLoading && <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <Header navigation={navigation} title='카테고리 관리' />
+        <Modal
+          isVisible={isModalVisible}
         // onBackdropPress={toggleModal}
-        transparent
-        statusBarTranslucent
-        style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
-        animationIn='bounceInUp'
-        animationInTiming={500}
-      >
-        <KeyboardAvoidingView
-          behavior='position'
-          style={{ backgroundColor: '#fff', borderRadius: 15 }}
-          enabled
+          transparent
+          statusBarTranslucent
+          style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
+          animationIn='bounceInUp'
+          animationInTiming={500}
         >
-          <View
-            style={{
-              position: 'relative',
-              backgroundColor: '#fff',
-              ...BaseStyle.pv30,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 15
-            }}
+          <KeyboardAvoidingView
+            behavior='position'
+            style={{ backgroundColor: '#fff', borderRadius: 15 }}
+            enabled
           >
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={toggleModal}
-              hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+            <View
               style={{
-                position: 'absolute',
-                top: -10,
-                right: -10,
-                backgroundColor: Primary.PointColor02,
-                borderRadius: 50,
-                padding: 10
+                position: 'relative',
+                backgroundColor: '#fff',
+                ...BaseStyle.pv30,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 15
               }}
             >
-              <Image
-                source={require('../images/close_wh.png')}
-                style={{ width: 10, height: 10 }}
-                resizeMode='center'
-              />
-            </TouchableOpacity>
-            <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>
-              신규 카테고리를 입력해주세요.
-            </Text>
-            <View style={{ ...BaseStyle.container }}>
-              <TextInput
-                value={newCategory}
-                placeholder='예: 세트류 or 밥류 or 면류 등'
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={toggleModal}
+                hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
                 style={{
-                  ...BaseStyle.border,
-                  ...BaseStyle.inputH,
-                  ...BaseStyle.ph20,
-                  width: '75%',
-                  ...BaseStyle.mr5
+                  position: 'absolute',
+                  top: -10,
+                  right: -10,
+                  backgroundColor: Primary.PointColor02,
+                  borderRadius: 50,
+                  padding: 10
                 }}
-                onChangeText={text => setNewCategory(text)}
-              />
-              <TouchableOpacity onPress={toggleCateVisible} activeOpacity={1}>
-                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb5, textAlign: 'center' }}>
-                  {newCategoryVisible ? '사용' : '미사용'}
-                </Text>
+              >
                 <Image
-                  source={
+                  source={require('../images/close_wh.png')}
+                  style={{ width: 10, height: 10 }}
+                  resizeMode='center'
+                />
+              </TouchableOpacity>
+              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>
+                신규 카테고리를 입력해주세요.
+              </Text>
+              <View style={{ ...BaseStyle.container }}>
+                <TextInput
+                  value={newCategory}
+                  placeholder='예: 세트류 or 밥류 or 면류 등'
+                  style={{
+                    ...BaseStyle.border,
+                    ...BaseStyle.inputH,
+                    ...BaseStyle.ph20,
+                    width: '75%',
+                    ...BaseStyle.mr5
+                  }}
+                  onChangeText={text => setNewCategory(text)}
+                />
+                <TouchableOpacity onPress={toggleCateVisible} activeOpacity={1}>
+                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb5, textAlign: 'center' }}>
+                    {newCategoryVisible ? '사용' : '미사용'}
+                  </Text>
+                  <Image
+                    source={
                     newCategoryVisible
                       ? require('../images/on_btn.png')
                       : require('../images/off_btn.png')
                   }
-                  style={{ width: 50, height: 25, borderRadius: 5 }}
-                  resizeMode='cover'
-                  fadeDuration={0}
-                />
-              </TouchableOpacity>
-            </View>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                if (newCategory !== null && newCategory !== '') {
-                  addCategoryHandler()
-                }
-              }}
-            >
-              <View
-                style={{
-                  width: 150,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderWidth: 1,
-                  borderColor:
-                    newCategory !== '' && newCategory !== null ? Primary.PointColor01 : '#e5e5e5',
-                  backgroundColor:
-                    newCategory !== '' && newCategory !== null ? Primary.PointColor01 : '#fff',
-                  paddingVertical: 15,
-                  borderRadius: 5,
-                  ...BaseStyle.mt20
+                    style={{ width: 50, height: 25, borderRadius: 5 }}
+                    resizeMode='cover'
+                    fadeDuration={0}
+                  />
+                </TouchableOpacity>
+              </View>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  if (newCategory !== null && newCategory !== '') {
+                    addCategoryHandler()
+                  }
                 }}
               >
-                <Text
+                <View
                   style={{
-                    ...BaseStyle.ko14,
-                    ...BaseStyle.font_bold,
-                    color: newCategory !== '' && newCategory !== null ? '#fff' : '#e5e5e5'
+                    width: 150,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderWidth: 1,
+                    borderColor:
+                    newCategory !== '' && newCategory !== null ? Primary.PointColor01 : '#e5e5e5',
+                    backgroundColor:
+                    newCategory !== '' && newCategory !== null ? Primary.PointColor01 : '#fff',
+                    paddingVertical: 15,
+                    borderRadius: 5,
+                    ...BaseStyle.mt20
                   }}
                 >
-                  등록하기
-                </Text>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </KeyboardAvoidingView>
-      </Modal>
-      <View style={{ flex: 1, ...BaseStyle.ph20, ...BaseStyle.mt20 }}>
-        <FlatList
-          data={menuCategory}
-          showVerticalScrollIndicator={false}
-          renderItem={renderRow}
-          keyExtractor={(list, index) => index.toString()}
+                  <Text
+                    style={{
+                      ...BaseStyle.ko14,
+                      ...BaseStyle.font_bold,
+                      color: newCategory !== '' && newCategory !== null ? '#fff' : '#e5e5e5'
+                    }}
+                  >
+                    등록하기
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </KeyboardAvoidingView>
+        </Modal>
+        <View style={{ flex: 1, ...BaseStyle.ph20, ...BaseStyle.mt20 }}>
+          <FlatList
+            data={menuCategory}
+            showVerticalScrollIndicator={false}
+            renderItem={renderRow}
+            keyExtractor={(list, index) => index.toString()}
           // pagingEnabled={true}
-          persistentScrollbar
-          showsVerticalScrollIndicator={false}
+            persistentScrollbar
+            showsVerticalScrollIndicator={false}
           // progressViewOffset={true}
           // refreshing={refleshing}
           // onRefresh={() => onHandleRefresh()}
-          style={{ width: '100%' }}
-          ListEmptyComponent={
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                flex: 1,
-                height: Dimensions.get('window').height - 300
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-                아직 등록된 카테고리가 없습니다.
-              </Text>
-            </View>
+            style={{ width: '100%' }}
+            ListEmptyComponent={
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: 1,
+                  height: Dimensions.get('window').height - 300
+                }}
+              >
+                <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
+                  아직 등록된 카테고리가 없습니다.
+                </Text>
+              </View>
           }
-        />
-      </View>
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={toggleModal}
-        style={{ ...BaseStyle.mainBtnBottom }}
-      >
-        <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
-          추가하기
-        </Text>
-      </TouchableOpacity>
-    </View>
+          />
+        </View>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={toggleModal}
+          style={{ ...BaseStyle.mainBtnBottom }}
+        >
+          <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+            추가하기
+          </Text>
+        </TouchableOpacity>
+                     </View>}
+    </>
+
   )
 }
 

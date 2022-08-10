@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux'
 import Header from '../components/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
+import AnimateLoading from '../components/AnimateLoading'
+import Layout from '../layout'
 
 const { width, height } = Dimensions.get('window')
 
@@ -23,6 +25,7 @@ const SetMenu = props => {
   const [refleshing, setReflashing] = React.useState(false) // FlatList refleshing
   const [menuList, setMenuList] = React.useState([]) // 등록된 메뉴 리스트
   const [endCount, setEndCount] = React.useState(5) // 가져올 limit 아이템수
+  const [isLoading, setLoading] = React.useState(true)
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
@@ -57,12 +60,9 @@ const SetMenu = props => {
       } else {
         setMenuList(arrItems)
         setReflashing(false)
-        // Alert.alert('데이터를 받아오는데 오류가 발생하였습니다.','관리자에게 문의해주세요.', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ]);
       }
+
+      setLoading(false)
     })
   }
 
@@ -180,56 +180,59 @@ const SetMenu = props => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='메뉴설정' />
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
-      {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
+      {!isLoading &&
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title='메뉴설정' />
 
-      <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => navigation.navigate('Home', { screen: 'SetMenuAdd' })}
-          style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
-        >
-          <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
-            메뉴 추가하기 +
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* 메뉴 리스트 */}
-      <View style={{ flex: 1, height }}>
-        <FlatList
-          data={menuList}
-          renderItem={renderRow}
-          keyExtractor={(list, index) => index.toString()}
-          // pagingEnabled={true}
-          persistentScrollbar
-          showsVerticalScrollIndicator={false}
-          // progressViewOffset={true}
-          refreshing={refleshing}
-          onRefresh={() => onHandleRefresh()}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.8}
-          style={{ backgroundColor: '#fff', width: '100%', ...BaseStyle.ph20 }}
-          ListEmptyComponent={
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                flex: 1,
-                height: Dimensions.get('window').height - 300
-              }}
+          <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => navigation.navigate('Home', { screen: 'SetMenuAdd' })}
+              style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
             >
-              <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-                아직 등록된 메뉴가 없습니다.
+              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                메뉴 추가하기 +
               </Text>
-            </View>
+            </TouchableOpacity>
+          </View>
+
+          {/* 메뉴 리스트 */}
+          <View style={{ flex: 1, height }}>
+            <FlatList
+              data={menuList}
+              renderItem={renderRow}
+              keyExtractor={(list, index) => index.toString()}
+          // pagingEnabled={true}
+              persistentScrollbar
+              showsVerticalScrollIndicator={false}
+          // progressViewOffset={true}
+              refreshing={refleshing}
+              onRefresh={() => onHandleRefresh()}
+              onEndReached={handleLoadMore}
+              onEndReachedThreshold={0.8}
+              style={{ backgroundColor: '#fff', width: '100%', ...BaseStyle.ph20 }}
+              ListEmptyComponent={
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1,
+                    height: Dimensions.get('window').height - 300
+                  }}
+                >
+                  <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
+                    아직 등록된 메뉴가 없습니다.
+                  </Text>
+                </View>
           }
-        />
-      </View>
-      {/* //메뉴 리스트 */}
-    </View>
+            />
+          </View>
+          {/* //메뉴 리스트 */}
+        </View>}
+    </>
   )
 }
 

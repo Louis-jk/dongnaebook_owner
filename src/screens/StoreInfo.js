@@ -14,12 +14,11 @@ import { useSelector } from 'react-redux'
 import ImagePicker from 'react-native-image-crop-picker'
 import Modal from 'react-native-modal'
 import Header from '../components/SubHeader'
-import BaseStyle, { Primary, customPickerStyles } from '../styles/Base'
-import { defaultType, secondType, options } from '../data/menu'
+import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import cusToast from '../components/CusToast'
+import AnimateLoading from '../components/AnimateLoading'
 
-const { width, height } = Dimensions.get('window')
 const MAIN_IMAGE_THUMB_WIDTH = (Dimensions.get('window').width - 40) / 5 - 4
 
 const StoreInfo = props => {
@@ -49,6 +48,8 @@ const StoreInfo = props => {
   const [detailImgs03, setDetailImgs03] = React.useState('') // base64 대표이미지03
   const [detailImgs04, setDetailImgs04] = React.useState('') // base64 대표이미지04
   const [detailImgs05, setDetailImgs05] = React.useState('') // base64 대표이미지05
+
+  const [isLoading, setLoading] = React.useState(true)
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
@@ -133,6 +134,8 @@ const StoreInfo = props => {
           pic: []
         })
       }
+
+      setLoading(false)
     })
   }
 
@@ -435,134 +438,139 @@ const StoreInfo = props => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='매장소개' />
 
-      {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
-      <Modal
-        isVisible={mediaChoiceModalVisible}
-        transparent
-        statusBarTranslucent
-        onBackdropPress={imageOrCameraChoiceHandler}
-        style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
-        animationIn='slideInUp'
-        animationInTiming={100}
-      >
-        <View
-          style={{
-            ...BaseStyle.container2,
-            ...BaseStyle.pv30,
-            ...BaseStyle.ph20,
-            position: 'relative',
-            backgroundColor: '#fff',
-            borderRadius: 5
-          }}
-        >
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={imageOrCameraChoiceHandler}
-            style={{
-              position: 'absolute',
-              top: -10,
-              right: -10,
-              backgroundColor: Primary.PointColor01,
-              borderRadius: 30,
-              width: 30,
-              height: 30,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
+      {!isLoading &&
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title='매장소개' />
+
+          {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
+
+          <Modal
+            isVisible={mediaChoiceModalVisible}
+            transparent
+            statusBarTranslucent
+            onBackdropPress={imageOrCameraChoiceHandler}
+            style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
+            animationIn='slideInUp'
+            animationInTiming={100}
           >
-            <Image
-              source={require('../images/close.png')}
-              style={{
-                width: 12,
-                height: 12,
-                resizeMode: 'center'
-              }}
-            />
-          </TouchableOpacity>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.mb20 }}>
-            어떤 방식으로 대표이미지를 올리시겠습니까?
-          </Text>
-          <View
-            style={{
-              ...BaseStyle.container4
-            }}
-          >
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={openPickerHandler}
-              style={{
-                ...BaseStyle.container1,
-                height: 45,
-                backgroundColor: Primary.PointColor01,
-                borderTopLeftRadius: 5,
-                borderBottomLeftRadius: 5
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko1, ...BaseStyle.font_white }}>갤러리선택</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={openCameraHandler}
-              style={{
-                ...BaseStyle.container1,
-                height: 45,
-                backgroundColor: Primary.PointColor02,
-                borderTopRightRadius: 5,
-                borderBottomRightRadius: 5
-              }}
-            >
-              <Text
-                style={{
-                  ...BaseStyle.ko14,
-                  color: '#fff'
-                }}
-              >
-                사진촬영
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View>
-          <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv20 }}>
-            <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mb20 }}>
-              ※ 표시는 필수 입력란 입니다.
-            </Text>
-
-            {/* 대표 이미지 설정 */}
-            <View style={{ ...BaseStyle.container3 }}>
-              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr10 }}>
-                대표 이미지
-              </Text>
-              <View>
-                <Text style={{ ...BaseStyle.ko12, color: '#aaa', ...BaseStyle.mb3 }}>
-                  (대표 이미지는 5장까지 등록 가능합니다.)
-                </Text>
-                <Text style={{ ...BaseStyle.ko12, color: '#aaa' }}>
-                  ※ 이미지는 4:3 비율을 권장합니다.
-                </Text>
-              </View>
-            </View>
             <View
               style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                ...BaseStyle.mv10
+                ...BaseStyle.container2,
+                ...BaseStyle.pv30,
+                ...BaseStyle.ph20,
+                position: 'relative',
+                backgroundColor: '#fff',
+                borderRadius: 5
               }}
             >
-              {/* 신규 */}
-              {detailImgs01 !== '' ? (
-                <View style={{ position: 'relative' }}>
-                  <Image
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={imageOrCameraChoiceHandler}
+                style={{
+                  position: 'absolute',
+                  top: -10,
+                  right: -10,
+                  backgroundColor: Primary.PointColor01,
+                  borderRadius: 30,
+                  width: 30,
+                  height: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Image
+                  source={require('../images/close.png')}
+                  style={{
+                    width: 12,
+                    height: 12,
+                    resizeMode: 'center'
+                  }}
+                />
+              </TouchableOpacity>
+              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.mb20 }}>
+                어떤 방식으로 대표이미지를 올리시겠습니까?
+              </Text>
+              <View
+                style={{
+                  ...BaseStyle.container4
+                }}
+              >
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={openPickerHandler}
+                  style={{
+                    ...BaseStyle.container1,
+                    height: 45,
+                    backgroundColor: Primary.PointColor01,
+                    borderTopLeftRadius: 5,
+                    borderBottomLeftRadius: 5
+                  }}
+                >
+                  <Text style={{ ...BaseStyle.ko1, ...BaseStyle.font_white }}>갤러리선택</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={openCameraHandler}
+                  style={{
+                    ...BaseStyle.container1,
+                    height: 45,
+                    backgroundColor: Primary.PointColor02,
+                    borderTopRightRadius: 5,
+                    borderBottomRightRadius: 5
+                  }}
+                >
+                  <Text
+                    style={{
+                    ...BaseStyle.ko14,
+                    color: '#fff'
+                  }}
+                  >
+                    사진촬영
+              </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View>
+              <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv20 }}>
+                <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mb20 }}>
+                  ※ 표시는 필수 입력란 입니다.
+                </Text>
+
+                {/* 대표 이미지 설정 */}
+                <View style={{ ...BaseStyle.container3 }}>
+                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr10 }}>
+                    대표 이미지
+              </Text>
+                  <View>
+                    <Text style={{ ...BaseStyle.ko12, color: '#aaa', ...BaseStyle.mb3 }}>
+                    (대표 이미지는 5장까지 등록 가능합니다.)
+                </Text>
+                    <Text style={{ ...BaseStyle.ko12, color: '#aaa' }}>
+                    ※ 이미지는 4:3 비율을 권장합니다.
+                </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    ...BaseStyle.mv10
+                  }}
+                >
+                  {/* 신규 */}
+                  {detailImgs01 !== '' ? (
+                    <View style={{ position: 'relative' }}>
+                    <Image
                     source={
                       showDefault
                         ? require('../images/loading_image.png')
@@ -579,7 +587,7 @@ const StoreInfo = props => {
                     onError={() => setImageError(true)}
                     onLoadEnd={() => setShowDefault(false)}
                   />
-                  <TouchableOpacity
+                    <TouchableOpacity
                     activeOpacity={1}
                     onPress={() => deleteImage(1)}
                     style={{
@@ -603,9 +611,9 @@ const StoreInfo = props => {
                       resizeMode='center'
                     />
                   </TouchableOpacity>
-                </View>
-              ) : (
-                <TouchableOpacity
+                  </View>
+                  ) : (
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => imageOrCameraChoiceHandler(1)}
                   style={{
@@ -619,10 +627,10 @@ const StoreInfo = props => {
                 >
                   <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
                 </TouchableOpacity>
-              )}
-              {detailImgs02 !== '' ? (
-                <View style={{ position: 'relative' }}>
-                  <Image
+                  )}
+                  {detailImgs02 !== '' ? (
+                    <View style={{ position: 'relative' }}>
+                    <Image
                     source={
                       showDefault
                         ? require('../images/loading_image.png')
@@ -639,7 +647,7 @@ const StoreInfo = props => {
                     onError={() => setImageError(true)}
                     onLoadEnd={() => setShowDefault(false)}
                   />
-                  <TouchableOpacity
+                    <TouchableOpacity
                     activeOpacity={1}
                     onPress={() => deleteImage(2)}
                     style={{
@@ -663,9 +671,9 @@ const StoreInfo = props => {
                       resizeMode='center'
                     />
                   </TouchableOpacity>
-                </View>
-              ) : (
-                <TouchableOpacity
+                  </View>
+                  ) : (
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => imageOrCameraChoiceHandler(2)}
                   style={{
@@ -679,10 +687,10 @@ const StoreInfo = props => {
                 >
                   <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
                 </TouchableOpacity>
-              )}
-              {detailImgs03 !== '' ? (
-                <View style={{ position: 'relative' }}>
-                  <Image
+                  )}
+                  {detailImgs03 !== '' ? (
+                    <View style={{ position: 'relative' }}>
+                    <Image
                     source={
                       showDefault
                         ? require('../images/loading_image.png')
@@ -699,7 +707,7 @@ const StoreInfo = props => {
                     onError={() => setImageError(true)}
                     onLoadEnd={() => setShowDefault(false)}
                   />
-                  <TouchableOpacity
+                    <TouchableOpacity
                     activeOpacity={1}
                     onPress={() => deleteImage(3)}
                     style={{
@@ -723,9 +731,9 @@ const StoreInfo = props => {
                       resizeMode='center'
                     />
                   </TouchableOpacity>
-                </View>
-              ) : (
-                <TouchableOpacity
+                  </View>
+                  ) : (
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => imageOrCameraChoiceHandler(3)}
                   style={{
@@ -739,10 +747,10 @@ const StoreInfo = props => {
                 >
                   <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
                 </TouchableOpacity>
-              )}
-              {detailImgs04 !== '' ? (
-                <View style={{ position: 'relative' }}>
-                  <Image
+                  )}
+                  {detailImgs04 !== '' ? (
+                    <View style={{ position: 'relative' }}>
+                    <Image
                     source={
                       showDefault
                         ? require('../images/loading_image.png')
@@ -759,7 +767,7 @@ const StoreInfo = props => {
                     onError={() => setImageError(true)}
                     onLoadEnd={() => setShowDefault(false)}
                   />
-                  <TouchableOpacity
+                    <TouchableOpacity
                     activeOpacity={1}
                     onPress={() => deleteImage(4)}
                     style={{
@@ -783,9 +791,9 @@ const StoreInfo = props => {
                       resizeMode='center'
                     />
                   </TouchableOpacity>
-                </View>
-              ) : (
-                <TouchableOpacity
+                  </View>
+                  ) : (
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => imageOrCameraChoiceHandler(4)}
                   style={{
@@ -799,10 +807,10 @@ const StoreInfo = props => {
                 >
                   <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
                 </TouchableOpacity>
-              )}
-              {detailImgs05 !== '' ? (
-                <View style={{ position: 'relative' }}>
-                  <Image
+                  )}
+                  {detailImgs05 !== '' ? (
+                    <View style={{ position: 'relative' }}>
+                    <Image
                     source={
                       showDefault
                         ? require('../images/loading_image.png')
@@ -819,7 +827,7 @@ const StoreInfo = props => {
                     onError={() => setImageError(true)}
                     onLoadEnd={() => setShowDefault(false)}
                   />
-                  <TouchableOpacity
+                    <TouchableOpacity
                     activeOpacity={1}
                     onPress={() => deleteImage(5)}
                     style={{
@@ -843,9 +851,9 @@ const StoreInfo = props => {
                       resizeMode='center'
                     />
                   </TouchableOpacity>
-                </View>
-              ) : (
-                <TouchableOpacity
+                  </View>
+                  ) : (
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => imageOrCameraChoiceHandler(5)}
                   style={{
@@ -859,247 +867,247 @@ const StoreInfo = props => {
                 >
                   <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
                 </TouchableOpacity>
-              )}
+                  )}
 
-              {/* //신규 */}
-            </View>
-            {/* // 대표 이미지 설정 */}
+                  {/* //신규 */}
+                </View>
+                {/* // 대표 이미지 설정 */}
 
-            {/* 매장 소개 */}
-            <View style={{ ...BaseStyle.mv10 }}>
-              {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
+                {/* 매장 소개 */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               매장 소개
               </Text> */}
-              <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
-                  매장 소개
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
+                    매장 소개
                 </Text>
-                <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-              </View>
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: '#E3E3E3',
-                  ...BaseStyle.round05,
-                  ...BaseStyle.ph10,
-                  height: 150
-                }}
-              >
-                <TextInput
-                  ref={introduceRef}
-                  value={info.do_jumju_introduction}
-                  placeholder='매장에 대한 설명을 입력해주세요.'
-                  style={{
+                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                  </View>
+                  <View
+                    style={{
+                    borderWidth: 1,
+                    borderColor: '#E3E3E3',
+                    ...BaseStyle.round05,
+                    ...BaseStyle.ph10,
+                    height: 150
+                  }}
+                  >
+                    <TextInput
+                    ref={introduceRef}
+                    value={info.do_jumju_introduction}
+                    placeholder='매장에 대한 설명을 입력해주세요.'
+                    style={{
                     width: '100%',
                     ...BaseStyle.ko14,
                     ...BaseStyle.lh22,
                     marginTop: 10
                   }}
-                  onChangeText={text => setInfo({ ...info, do_jumju_introduction: text })}
-                  autoCapitalize='none'
-                  multiline
-                />
-              </View>
-            </View>
-            {/* // 매장 소개 */}
+                    onChangeText={text => setInfo({ ...info, do_jumju_introduction: text })}
+                    autoCapitalize='none'
+                    multiline
+                  />
+                  </View>
+                </View>
+                {/* // 매장 소개 */}
 
-            {/* 안내 및 혜택 */}
-            <View style={{ ...BaseStyle.mv10 }}>
-              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
-                안내 및 혜택
+                {/* 안내 및 혜택 */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
+                    안내 및 혜택
               </Text>
-              {/* <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
+                  {/* <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
                 <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>안내 및 혜택</Text>
                 <Text style={{...BaseStyle.ko12, color:Primary.PointColor02}}>※</Text>
               </View> */}
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: '#E3E3E3',
-                  ...BaseStyle.round05,
-                  ...BaseStyle.ph10,
-                  height: 150
-                }}
-              >
-                <TextInput
-                  value={info.do_jumju_guide}
-                  placeholder='안내 및 혜택이 있을 시 입력해주세요.'
-                  style={{
+                  <View
+                    style={{
+                    borderWidth: 1,
+                    borderColor: '#E3E3E3',
+                    ...BaseStyle.round05,
+                    ...BaseStyle.ph10,
+                    height: 150
+                  }}
+                  >
+                    <TextInput
+                    value={info.do_jumju_guide}
+                    placeholder='안내 및 혜택이 있을 시 입력해주세요.'
+                    style={{
                     width: '100%',
                     ...BaseStyle.ko14,
                     ...BaseStyle.lh22,
                     marginTop: 10
                   }}
-                  onChangeText={text => setInfo({ ...info, do_jumju_guide: text })}
-                  autoCapitalize='none'
-                  multiline
-                />
-              </View>
-            </View>
-            {/* // 안내 및 혜택 */}
+                    onChangeText={text => setInfo({ ...info, do_jumju_guide: text })}
+                    autoCapitalize='none'
+                    multiline
+                  />
+                  </View>
+                </View>
+                {/* // 안내 및 혜택 */}
 
-            {/* 메뉴 소개 */}
-            <View style={{ ...BaseStyle.mv10 }}>
-              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
-                안내 및 메뉴 소개
+                {/* 메뉴 소개 */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
+                    안내 및 메뉴 소개
               </Text>
-              {/* <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
+                  {/* <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
                 <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>메뉴 소개</Text>
                 <Text style={{...BaseStyle.ko12, color:Primary.PointColor02}}>※</Text>
               </View> */}
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: '#E3E3E3',
-                  ...BaseStyle.round05,
-                  ...BaseStyle.ph10,
-                  height: 150
-                }}
-              >
-                <TextInput
-                  value={info.do_jumju_menu_info}
-                  placeholder='안내 및 메뉴 소개가 있을 시 입력해주세요.'
-                  style={{
+                  <View
+                    style={{
+                    borderWidth: 1,
+                    borderColor: '#E3E3E3',
+                    ...BaseStyle.round05,
+                    ...BaseStyle.ph10,
+                    height: 150
+                  }}
+                  >
+                    <TextInput
+                    value={info.do_jumju_menu_info}
+                    placeholder='안내 및 메뉴 소개가 있을 시 입력해주세요.'
+                    style={{
                     width: '100%',
                     ...BaseStyle.ko14,
                     ...BaseStyle.lh22,
                     marginTop: 10
                   }}
-                  onChangeText={text => setInfo({ ...info, do_jumju_menu_info: text })}
-                  autoCapitalize='none'
-                  multiline
-                />
-              </View>
-            </View>
-            {/* // 메뉴 소개 */}
+                    onChangeText={text => setInfo({ ...info, do_jumju_menu_info: text })}
+                    autoCapitalize='none'
+                    multiline
+                  />
+                  </View>
+                </View>
+                {/* // 메뉴 소개 */}
 
-            {/* 대표 메뉴 */}
-            <View style={{ ...BaseStyle.mv10 }}>
-              {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
+                {/* 대표 메뉴 */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               대표 메뉴
               </Text> */}
-              <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
-                  대표 메뉴
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
+                    대표 메뉴
                 </Text>
-                <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-              </View>
-              <View
-                style={{
-                  ...BaseStyle.container5,
-                  borderWidth: 1,
-                  borderColor: '#E3E3E3',
-                  ...BaseStyle.round05,
-                  ...BaseStyle.inputH,
-                  ...BaseStyle.ph10
-                }}
-              >
-                <TextInput
-                  ref={majorMenuRef}
-                  value={info.do_major_menu}
-                  placeholder='대표 메뉴을 입력해주세요.'
-                  style={{
+                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                  </View>
+                  <View
+                    style={{
+                    ...BaseStyle.container5,
+                    borderWidth: 1,
+                    borderColor: '#E3E3E3',
+                    ...BaseStyle.round05,
+                    ...BaseStyle.inputH,
+                    ...BaseStyle.ph10
+                  }}
+                  >
+                    <TextInput
+                    ref={majorMenuRef}
+                    value={info.do_major_menu}
+                    placeholder='대표 메뉴을 입력해주세요.'
+                    style={{
                     width: '100%',
                     ...BaseStyle.inputH,
                     ...BaseStyle.ko14,
                     marginTop: 10
                   }}
-                  onChangeText={text => setInfo({ ...info, do_major_menu: text })}
-                  autoCapitalize='none'
-                />
-              </View>
-              {/* <Text style={{...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mt5}}>
+                    onChangeText={text => setInfo({ ...info, do_major_menu: text })}
+                    autoCapitalize='none'
+                  />
+                  </View>
+                  {/* <Text style={{...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mt5}}>
                 대표메뉴 윗부분에 보여지는 글 입니다.
               </Text> */}
-              <View style={{ ...BaseStyle.container3, ...BaseStyle.mt5 }}>
-                <Text
-                  style={{
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mt5 }}>
+                    <Text
+                    style={{
                     ...BaseStyle.ko12,
                     ...BaseStyle.lh17,
                     color: Primary.PointColor02,
                     ...BaseStyle.mr5
                   }}
-                >
-                  ※
+                  >
+                    ※
                 </Text>
-                <Text
-                  style={{
+                    <Text
+                    style={{
                     ...BaseStyle.ko12,
                     ...BaseStyle.lh17,
                     color: Primary.PointColor02,
                     flex: 1,
                     flexWrap: 'wrap'
                   }}
-                >
-                  입력하실 때는 콤마(,)로 구분하여 입력해주세요.
+                  >
+                    입력하실 때는 콤마(,)로 구분하여 입력해주세요.
                 </Text>
-              </View>
-            </View>
-            {/* // 대표 메뉴 */}
+                  </View>
+                </View>
+                {/* // 대표 메뉴 */}
 
-            {/* 원산지 안내 */}
-            <View style={{ ...BaseStyle.mv10 }}>
-              {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
+                {/* 원산지 안내 */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               원산지 안내
               </Text> */}
-              <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
-                  원산지 안내
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
+                    원산지 안내
                 </Text>
-                <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-              </View>
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: '#E3E3E3',
-                  ...BaseStyle.round05,
-                  ...BaseStyle.ph10,
-                  height: 150
-                }}
-              >
-                <TextInput
-                  ref={originRef}
-                  value={info.do_jumju_origin}
-                  placeholder='원산지 안내가 있을 시 입력해주세요.'
-                  style={{
+                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                  </View>
+                  <View
+                    style={{
+                    borderWidth: 1,
+                    borderColor: '#E3E3E3',
+                    ...BaseStyle.round05,
+                    ...BaseStyle.ph10,
+                    height: 150
+                  }}
+                  >
+                    <TextInput
+                    ref={originRef}
+                    value={info.do_jumju_origin}
+                    placeholder='원산지 안내가 있을 시 입력해주세요.'
+                    style={{
                     width: '100%',
                     ...BaseStyle.ko14,
                     ...BaseStyle.lh22,
                     marginTop: 10
                   }}
-                  onChangeText={text => setInfo({ ...info, do_jumju_origin: text })}
-                  autoCapitalize='none'
-                  multiline
-                />
-              </View>
-            </View>
-            {/* // 원산지 안내 */}
+                    onChangeText={text => setInfo({ ...info, do_jumju_origin: text })}
+                    autoCapitalize='none'
+                    multiline
+                  />
+                  </View>
+                </View>
+                {/* // 원산지 안내 */}
 
-            {/* 원산지 표시 유무 삭제요청 */}
-            <View style={{ ...BaseStyle.mv10 }}>
-              {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
+                {/* 원산지 표시 유무 삭제요청 */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               원산지 표시 유무
               </Text> */}
-              <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                <Text
-                  style={{
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                    <Text
+                    style={{
                     ...BaseStyle.ko15,
                     ...BaseStyle.font_bold,
                     ...BaseStyle.mr5
                   }}
-                >
-                  원산지 표시 유무
+                  >
+                    원산지 표시 유무
                 </Text>
-                <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-              </View>
-              <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
-                <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => setInfo({ ...info, do_jumju_origin_use: 'Y' })}
-                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
-                >
-                  <Image
+                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                  </View>
+                  <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
+                    <TouchableOpacity
+                    activeOpacity={1}
+                    onPress={() => setInfo({ ...info, do_jumju_origin_use: 'Y' })}
+                    hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                    style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                  >
+                    <Image
                     source={
                       info.do_jumju_origin_use === 'Y'
                         ? require('../images/ic_check_on.png')
@@ -1109,15 +1117,15 @@ const StoreInfo = props => {
                     resizeMode='contain'
                     fadeDuration={100}
                   />
-                  <Text style={{ ...BaseStyle.ko14 }}>원산지 노출</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => setInfo({ ...info, do_jumju_origin_use: 'N' })}
-                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
-                >
-                  <Image
+                    <Text style={{ ...BaseStyle.ko14 }}>원산지 노출</Text>
+                  </TouchableOpacity>
+                    <TouchableOpacity
+                    activeOpacity={1}
+                    onPress={() => setInfo({ ...info, do_jumju_origin_use: 'N' })}
+                    hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                    style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                  >
+                    <Image
                     source={
                       info.do_jumju_origin_use === 'N'
                         ? require('../images/ic_check_on.png')
@@ -1127,139 +1135,140 @@ const StoreInfo = props => {
                     resizeMode='contain'
                     fadeDuration={100}
                   />
-                  <Text style={{ ...BaseStyle.ko14 }}>원산지 노출 안함</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            {/* // 원산지 표시 유무 */}
+                    <Text style={{ ...BaseStyle.ko14 }}>원산지 노출 안함</Text>
+                  </TouchableOpacity>
+                  </View>
+                </View>
+                {/* // 원산지 표시 유무 */}
 
-            {/* 배달팁 안내 삭제요청(배달팁 안내 페이지로 이동 요청) */}
-            <View style={{ ...BaseStyle.mv10 }}>
-              <Text
-                style={{
-                  ...BaseStyle.ko15,
-                  ...BaseStyle.font_bold,
-                  ...BaseStyle.mb10
-                }}
-              >
-                배달팁 안내
+                {/* 배달팁 안내 삭제요청(배달팁 안내 페이지로 이동 요청) */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  <Text
+                    style={{
+                    ...BaseStyle.ko15,
+                    ...BaseStyle.font_bold,
+                    ...BaseStyle.mb10
+                  }}
+                  >
+                    배달팁 안내
               </Text>
-              {/* <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
+                  {/* <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
                 <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>배달팁 안내</Text>
                 <Text style={{...BaseStyle.ko12, color:Primary.PointColor02}}>※</Text>
               </View> */}
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: '#E3E3E3',
-                  ...BaseStyle.round05,
-                  ...BaseStyle.ph10,
-                  height: 150
-                }}
-              >
-                <TextInput
-                  value={info.do_delivery_guide}
-                  placeholder='배달팁 안내가 있을 시 입력해주세요.'
-                  textContentType='addressCity'
-                  style={{
+                  <View
+                    style={{
+                    borderWidth: 1,
+                    borderColor: '#E3E3E3',
+                    ...BaseStyle.round05,
+                    ...BaseStyle.ph10,
+                    height: 150
+                  }}
+                  >
+                    <TextInput
+                    value={info.do_delivery_guide}
+                    placeholder='배달팁 안내가 있을 시 입력해주세요.'
+                    textContentType='addressCity'
+                    style={{
                     ...BaseStyle.ko14,
                     ...BaseStyle.lh22,
                     marginTop: 10
                   }}
-                  onChangeText={text => setDescriptionTips(text)}
-                  onChangeText={text => setInfo({ ...info, do_delivery_guide: text })}
-                  autoCapitalize='none'
-                  multiline
-                />
-              </View>
-              <View style={{ ...BaseStyle.container3, ...BaseStyle.mt5 }}>
-                <Text
-                  style={{
+                    onChangeText={text => setDescriptionTips(text)}
+                    onChangeText={text => setInfo({ ...info, do_delivery_guide: text })}
+                    autoCapitalize='none'
+                    multiline
+                  />
+                  </View>
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mt5 }}>
+                    <Text
+                    style={{
                     ...BaseStyle.ko12,
                     ...BaseStyle.lh17,
                     color: Primary.PointColor02,
                     ...BaseStyle.mr5
                   }}
-                >
-                  ※
+                  >
+                    ※
                 </Text>
-                <Text
-                  style={{
+                    <Text
+                    style={{
                     ...BaseStyle.ko12,
                     ...BaseStyle.lh17,
                     color: Primary.PointColor02,
                     flex: 1,
                     flexWrap: 'wrap'
                   }}
-                >
-                  {
+                  >
+                    {
                     '배달팁은 가게에서 책정한 금액입니다.\n동네북은 배달팁 결제만 대행할 뿐, 금액은 가게로 전달됩니다'
                   }
-                </Text>
-              </View>
-            </View>
-            {/* // 배달팁 안내 */}
+                  </Text>
+                  </View>
+                </View>
+                {/* // 배달팁 안내 */}
 
-            {/* 평균 배달 시간 */}
-            <View style={{ ...BaseStyle.mv10 }}>
-              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
-                평균 배달 시간
+                {/* 평균 배달 시간 */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
+                    평균 배달 시간
               </Text>
-              <View
-                style={{
-                  ...BaseStyle.container5,
-                  borderWidth: 1,
-                  borderColor: '#E3E3E3',
-                  ...BaseStyle.round05,
-                  ...BaseStyle.inputH,
-                  ...BaseStyle.ph10
-                }}
-              >
-                <TextInput
-                  value={info.do_delivery_time}
-                  placeholder='평균 배달 시간을 입력해주세요.'
-                  style={{
+                  <View
+                    style={{
+                    ...BaseStyle.container5,
+                    borderWidth: 1,
+                    borderColor: '#E3E3E3',
+                    ...BaseStyle.round05,
+                    ...BaseStyle.inputH,
+                    ...BaseStyle.ph10
+                  }}
+                  >
+                    <TextInput
+                    value={info.do_delivery_time}
+                    placeholder='평균 배달 시간을 입력해주세요.'
+                    style={{
                     width: '100%',
                     ...BaseStyle.inputH,
                     ...BaseStyle.ko14,
                     marginTop: 10
                   }}
-                  onChangeText={text => setInfo({ ...info, do_delivery_time: text })}
-                  autoCapitalize='none'
-                />
+                    onChangeText={text => setInfo({ ...info, do_delivery_time: text })}
+                    autoCapitalize='none'
+                  />
+                  </View>
+                </View>
+                {/* // 평균 배달 시간 */}
               </View>
             </View>
-            {/* // 평균 배달 시간 */}
-          </View>
-        </View>
-      </ScrollView>
-      {storeInit ? (
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={onModifyStoreInfo}
-          style={{ ...BaseStyle.mainBtnBottom }}
-        >
-          <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
-            수정하기
-          </Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={onSubmitStoreInfo}
-          style={{ ...BaseStyle.mainBtnBottom }}
-        >
-          <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold }}>등록하기</Text>
-        </TouchableOpacity>
-      )}
-      {/* <TouchableOpacity
+          </ScrollView>
+          {storeInit ? (
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={onModifyStoreInfo}
+              style={{ ...BaseStyle.mainBtnBottom }}
+            >
+              <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                수정하기
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={onSubmitStoreInfo}
+              style={{ ...BaseStyle.mainBtnBottom }}
+            >
+              <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold }}>등록하기</Text>
+            </TouchableOpacity>
+          )}
+          {/* <TouchableOpacity
         activeOpacity={1}
         onPress={() => navigation.goBack()}
         style={{...BaseStyle.mainBtnBottom, backgroundColor:'#e5e5e5'}}
       >
         <Text style={{...BaseStyle.ko18, ...BaseStyle.font_bold}}>나가기</Text>
       </TouchableOpacity> */}
-    </View>
+        </View>}
+    </>
   )
 }
 

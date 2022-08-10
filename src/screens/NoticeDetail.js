@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { View, Text, Platform, Image, useWindowDimensions, ScrollView, Alert } from 'react-native'
-import AutoHeightWebView from 'react-native-autoheight-webview'
+import { View, Text, Image, useWindowDimensions, ScrollView } from 'react-native'
 import HTML from 'react-native-render-html'
 import Header from '../components/Header'
-import BaseStyle, { Primary } from '../styles/Base'
+import BaseStyle from '../styles/Base'
 import Api from '../Api'
+import AnimateLoading from '../components/AnimateLoading'
 
 const NoticeDetail = props => {
   const { navigation } = props
@@ -13,6 +13,7 @@ const NoticeDetail = props => {
   const contentWidth = useWindowDimensions().width
 
   const [detail, setDetail] = React.useState('')
+  const [isLoading, setLoading] = React.useState(true)
 
   const getNoticeDetailHandler = payload => {
     const param = {
@@ -31,13 +32,9 @@ const NoticeDetail = props => {
         setDetail(arrItems)
       } else {
         setDetail(arrItems)
-        // Alert.alert('접속이 잘 못 되었습니다.','다시 확인 후 로그인해주세요.', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ]);
-        // setButtonDisabled(false);
       }
+
+      setLoading(false)
     })
   }
 
@@ -54,53 +51,58 @@ const NoticeDetail = props => {
   }, [])
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='공지사항' />
-      <View
-        style={{
-          ...BaseStyle.ph20,
-          ...BaseStyle.pv20,
-          ...BaseStyle.container5,
-          alignItems: 'flex-start'
-        }}
-      >
-        <View style={{ marginTop: -2 }}>
-          <Text
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
+
+      {!isLoading &&
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title='공지사항' />
+          <View
             style={{
+              ...BaseStyle.ph20,
+              ...BaseStyle.pv20,
+              ...BaseStyle.container5,
+              alignItems: 'flex-start'
+            }}
+          >
+            <View style={{ marginTop: -2 }}>
+              <Text
+              style={{
               ...BaseStyle.ko18,
               ...BaseStyle.font_bold,
               ...BaseStyle.lh24,
               ...BaseStyle.mb10
             }}
-          >
-            제목 : {detail.subject}
-          </Text>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>
-            작성일자 : {detail.datetime}
-          </Text>
-        </View>
-        <View style={{ ...BaseStyle.container }}>
-          <Image
-            source={require('../images/eye.png')}
-            style={{ width: 20, height: 17, ...BaseStyle.mr5 }}
-            resizeMode='contain'
-          />
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>{detail.wr_hit}</Text>
-        </View>
-      </View>
-      <View style={{ height: 1, backgroundColor: '#e5e5e5' }} />
-      {detail.content && (
-        <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv10, flex: 1 }}>
-          <ScrollView>
-            <HTML
+            >
+              제목 : {detail.subject}
+            </Text>
+              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>
+              작성일자 : {detail.datetime}
+            </Text>
+            </View>
+            <View style={{ ...BaseStyle.container }}>
+              <Image
+              source={require('../images/eye.png')}
+              style={{ width: 20, height: 17, ...BaseStyle.mr5 }}
+              resizeMode='contain'
+            />
+              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>{detail.wr_hit}</Text>
+            </View>
+          </View>
+          <View style={{ height: 1, backgroundColor: '#e5e5e5' }} />
+          {detail.content && (
+            <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv10, flex: 1 }}>
+              <ScrollView>
+              <HTML
               source={{ html: detail.content }}
               contentWidth={contentWidth}
               imagesInitialDimensions={{ width: 100, height: 100 }}
             />
-          </ScrollView>
-        </View>
-      )}
-    </View>
+            </ScrollView>
+            </View>
+          )}
+        </View>}
+    </>
   )
 }
 

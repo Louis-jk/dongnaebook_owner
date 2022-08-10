@@ -296,28 +296,30 @@ const Coupon = props => {
     )
   }
 
-  return isLoading ? (
-    <AnimateLoading description='잠시만 기다려주세요.' />
-  ) : (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='쿠폰관리' />
+  return (
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
-      {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
+      {!isLoading &&
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title='쿠폰관리' />
 
-      <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => navigation.navigate('Home', { screen: 'CouponAdd' })}
-          style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
-        >
-          <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
-            쿠폰 추가하기 +
-          </Text>
-        </TouchableOpacity>
-      </View>
+          {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
 
-      {/* 쿠폰 사용여부 위치 이동시 활성 필요 */}
-      {/* <View style={{...BaseStyle.ph20, ...BaseStyle.container5}}>
+          <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => navigation.navigate('Home', { screen: 'CouponAdd' })}
+              style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
+            >
+              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                쿠폰 추가하기 +
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* 쿠폰 사용여부 위치 이동시 활성 필요 */}
+          {/* <View style={{...BaseStyle.ph20, ...BaseStyle.container5}}>
         <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>쿠폰 사용여부</Text>
         <View style={{height: 1, flex: 1, marginHorizontal: 18, backgroundColor: '#222'}} />
         <View style={{...BaseStyle.container}}>
@@ -339,83 +341,84 @@ const Coupon = props => {
           </TouchableOpacity>
         </View>
       </View> */}
-      {/* // 쿠폰 사용여부 */}
+          {/* // 쿠폰 사용여부 */}
 
-      {/* 쿠폰 안내 */}
-      {coupons && coupons.length > 0 && (
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            ...BaseStyle.ph20,
-            ...BaseStyle.mb10
-          }}
-        >
-          <View style={{ flexDirection: 'row', width: '80%' }}>
-            <Text
-              style={{
-                ...BaseStyle.ko12,
-                ...BaseStyle.lh17,
-                color: Primary.PointColor02
-              }}
-            >
-              {'※ '}
-            </Text>
-            <Text
-              style={{
-                ...BaseStyle.ko12,
-                ...BaseStyle.lh17,
-                color: Primary.PointColor02
-              }}
-            >
-              {'쿠폰을 편집 또는 삭제하시려면\n해당 쿠폰을 오른쪽에서 왼쪽으로 스와이프해주세요.'}
-            </Text>
-          </View>
-          <View style={{ width: '20%', justifyContent: 'center', alignItems: 'center' }}>
-            <Image
-              source={require('../images/swipe_m.png')}
-              style={{ width: 100, height: 25 }}
-              resizeMode='contain'
-            />
-          </View>
-        </View>
-      )}
-      {/* // 쿠폰 안내 */}
-
-      {/* 쿠폰 리스트 */}
-      <View style={{ flex: 1, height }}>
-        <FlatList
-          data={coupons}
-          renderItem={renderRow}
-          keyExtractor={(list, index) => index.toString()}
-          // pagingEnabled={true}
-          persistentScrollbar
-          showsVerticalScrollIndicator={false}
-          // progressViewOffset={true}
-          refreshing={refleshing}
-          onRefresh={() => onHandleRefresh()}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.6}
-          style={{ backgroundColor: '#fff', width: '100%' }}
-          ListEmptyComponent={
+          {/* 쿠폰 안내 */}
+          {coupons && coupons.length > 0 && (
             <View
               style={{
-                justifyContent: 'center',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
                 alignItems: 'center',
-                flex: 1,
-                height: Dimensions.get('window').height - 300
+                ...BaseStyle.ph20,
+                ...BaseStyle.mb10
               }}
             >
-              <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-                아직 등록된 쿠폰이 없습니다.
-              </Text>
+              <View style={{ flexDirection: 'row', width: '80%' }}>
+                <Text
+                  style={{
+                    ...BaseStyle.ko12,
+                    ...BaseStyle.lh17,
+                    color: Primary.PointColor02
+                  }}
+                >
+                  {'※ '}
+                </Text>
+                <Text
+                  style={{
+                    ...BaseStyle.ko12,
+                    ...BaseStyle.lh17,
+                    color: Primary.PointColor02
+                  }}
+                >
+                  {'쿠폰을 편집 또는 삭제하시려면\n해당 쿠폰을 오른쪽에서 왼쪽으로 스와이프해주세요.'}
+                </Text>
+              </View>
+              <View style={{ width: '20%', justifyContent: 'center', alignItems: 'center' }}>
+                <Image
+                  source={require('../images/swipe_m.png')}
+                  style={{ width: 100, height: 25 }}
+                  resizeMode='contain'
+                />
+              </View>
             </View>
+          )}
+          {/* // 쿠폰 안내 */}
+
+          {/* 쿠폰 리스트 */}
+          <View style={{ flex: 1, height }}>
+            <FlatList
+              data={coupons}
+              renderItem={renderRow}
+              keyExtractor={(list, index) => index.toString()}
+          // pagingEnabled={true}
+              persistentScrollbar
+              showsVerticalScrollIndicator={false}
+          // progressViewOffset={true}
+              refreshing={refleshing}
+              onRefresh={() => onHandleRefresh()}
+              onEndReached={handleLoadMore}
+              onEndReachedThreshold={0.6}
+              style={{ backgroundColor: '#fff', width: '100%' }}
+              ListEmptyComponent={
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1,
+                    height: Dimensions.get('window').height - 300
+                  }}
+                >
+                  <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
+                    아직 등록된 쿠폰이 없습니다.
+                  </Text>
+                </View>
           }
-        />
-      </View>
-      {/* //쿠폰 리스트 */}
-    </View>
+            />
+          </View>
+          {/* //쿠폰 리스트 */}
+        </View>}
+    </>
   )
 }
 

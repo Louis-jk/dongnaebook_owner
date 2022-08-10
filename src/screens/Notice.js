@@ -4,16 +4,14 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  TextInput,
   Dimensions,
   FlatList,
   BackHandler
 } from 'react-native'
-import DropDownPicker from 'react-native-dropdown-picker'
 import Header from '../components/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
+import BaseStyle from '../styles/Base'
 import Api from '../Api'
-import { notice } from 'npmlog'
+import AnimateLoading from '../components/AnimateLoading'
 
 const { width, height } = Dimensions.get('window')
 
@@ -21,6 +19,7 @@ const Notice = props => {
   const { navigation } = props
 
   const [list, setList] = React.useState([])
+  const [isLoading, setLoading] = React.useState(true)
 
   const param = {
     encodeJson: true,
@@ -37,13 +36,8 @@ const Notice = props => {
         setList(arrItems)
       } else {
         setList(arrItems)
-        // Alert.alert('접속이 잘 못 되었습니다.','', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ]);
-        // setButtonDisabled(false);
       }
+      setLoading(false)
     })
   }
 
@@ -103,41 +97,46 @@ const Notice = props => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='공지사항' />
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
-      {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
+      {!isLoading &&
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title='공지사항' />
 
-      {/* 공지사항 리스트 */}
-      <View style={{ flex: 1, height }}>
-        <FlatList
-          data={list}
-          renderItem={renderRow}
-          keyExtractor={(list, index) => index.toString()}
+          {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
+
+          {/* 공지사항 리스트 */}
+          <View style={{ flex: 1, height }}>
+            <FlatList
+              data={list}
+              renderItem={renderRow}
+              keyExtractor={(list, index) => index.toString()}
           // pagingEnabled={true}
-          persistentScrollbar
-          showsVerticalScrollIndicator={false}
+              persistentScrollbar
+              showsVerticalScrollIndicator={false}
           // progressViewOffset={true}
-          refreshing
-          style={{ backgroundColor: '#fff', width: '100%' }}
-          ListEmptyComponent={
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                flex: 1
-                // height: Dimensions.get('window').height - 300,
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-                등록된 공지사항이 없습니다.
+              refreshing
+              style={{ backgroundColor: '#fff', width: '100%' }}
+              ListEmptyComponent={
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1
+                    // height: Dimensions.get('window').height - 300,
+                  }}
+                >
+                  <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
+                    등록된 공지사항이 없습니다.
               </Text>
-            </View>
+                </View>
           }
-        />
-      </View>
-      {/* //공지사항 리스트 */}
-    </View>
+            />
+          </View>
+          {/* //공지사항 리스트 */}
+        </View>}
+    </>
   )
 }
 

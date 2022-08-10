@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import Header from '../components/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
+import AnimateLoading from '../components/AnimateLoading'
 
 const StoreSetting = props => {
   const { navigation } = props
@@ -19,6 +20,7 @@ const StoreSetting = props => {
 
   const [storeInit, setStoreInit] = React.useState(false) // 매장 정보 초기값 유무
   const [range, setRange] = React.useState('curr')
+  const [isLoading, setLoading] = React.useState(true)
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
@@ -63,6 +65,8 @@ const StoreSetting = props => {
           mt_print: null
         })
       }
+
+      setLoading(false)
     })
   }
 
@@ -182,21 +186,25 @@ const StoreSetting = props => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='매장설정' />
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View>
-          <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv20 }}>
-            <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mb10 }}>
-              ※ 표시는 필수 입력란 입니다.
+      {!isLoading &&
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title='매장설정' />
+
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View>
+              <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv20 }}>
+                <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mb10 }}>
+                  ※ 표시는 필수 입력란 입니다.
             </Text>
 
-            {/* 알림음 설정 */}
-            <View style={{ ...BaseStyle.mv10 }}>
+                {/* 알림음 설정 */}
+                <View style={{ ...BaseStyle.mv10 }}>
 
-              <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                <Text
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                  <Text
                   style={{
                     ...BaseStyle.ko15,
                     ...BaseStyle.font_bold,
@@ -205,10 +213,10 @@ const StoreSetting = props => {
                 >
                   알림음 설정
                 </Text>
-                <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-              </View>
-              <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
-                <TouchableOpacity
+                  <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                </View>
+                  <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => setSetting({ ...setting, mt_sound: '3' })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -227,7 +235,7 @@ const StoreSetting = props => {
                   <Text style={{ ...BaseStyle.ko14 }}>3회 울림</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => setSetting({ ...setting, mt_sound: '5' })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -246,7 +254,7 @@ const StoreSetting = props => {
                   <Text style={{ ...BaseStyle.ko14 }}>5회 울림</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => setSetting({ ...setting, mt_sound: '7' })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -264,12 +272,12 @@ const StoreSetting = props => {
                   />
                   <Text style={{ ...BaseStyle.ko14 }}>7회 울림</Text>
                 </TouchableOpacity>
-              </View>
-            </View>
-            {/* // 알림음 설정 */}
+                </View>
+                </View>
+                {/* // 알림음 설정 */}
 
-            {/* 프린터 자동출력 여부 */}
-            {/* <View style={{...BaseStyle.mv10}}>
+                {/* 프린터 자동출력 여부 */}
+                {/* <View style={{...BaseStyle.mv10}}>
               <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
                 <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>
                   주문 접수시 자동 프린트 출력 여부
@@ -313,21 +321,21 @@ const StoreSetting = props => {
                 </TouchableOpacity>
               </View>
             </View> */}
-            {/* // 프린터 자동출력 여부 */}
+                {/* // 프린터 자동출력 여부 */}
 
-            {/* 포장 가능 여부 */}
-            <View style={{ ...BaseStyle.mv10 }}>
-              {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
+                {/* 포장 가능 여부 */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               포장 가능 여부
               </Text> */}
-              <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
                   주문 포장 가능 여부
                 </Text>
-                <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-              </View>
-              <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
-                <TouchableOpacity
+                  <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                </View>
+                  <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => setSetting({ ...setting, do_take_out: 'Y' })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -345,7 +353,7 @@ const StoreSetting = props => {
                   />
                   <Text style={{ ...BaseStyle.ko14 }}>포장 가능</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => setSetting({ ...setting, do_take_out: 'N' })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -363,17 +371,17 @@ const StoreSetting = props => {
                   />
                   <Text style={{ ...BaseStyle.ko14 }}>포장 불가능</Text>
                 </TouchableOpacity>
-              </View>
-            </View>
-            {/* // 포장 가능 여부 */}
+                </View>
+                </View>
+                {/* // 포장 가능 여부 */}
 
-            {/* 쿠폰 사용 가능 여부 삭제요청(쿠폰등록 페이지로 이동 요청) */}
-            <View style={{ ...BaseStyle.mv10 }}>
-              {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
+                {/* 쿠폰 사용 가능 여부 삭제요청(쿠폰등록 페이지로 이동 요청) */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               쿠폰 사용 가능 여부
               </Text> */}
-              <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                <Text
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                  <Text
                   style={{
                     ...BaseStyle.ko15,
                     ...BaseStyle.font_bold,
@@ -382,10 +390,10 @@ const StoreSetting = props => {
                 >
                   쿠폰 사용 가능 여부
                 </Text>
-                <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-              </View>
-              <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
-                <TouchableOpacity
+                  <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                </View>
+                  <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => setSetting({ ...setting, do_coupon_use: 'Y' })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -403,7 +411,7 @@ const StoreSetting = props => {
                   />
                   <Text style={{ ...BaseStyle.ko14 }}>사용 가능</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                  <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => setSetting({ ...setting, do_coupon_use: 'N' })}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -421,12 +429,12 @@ const StoreSetting = props => {
                   />
                   <Text style={{ ...BaseStyle.ko14 }}>사용 불가능</Text>
                 </TouchableOpacity>
-              </View>
-            </View>
-            {/* // 쿠폰 사용 가능 여부 */}
+                </View>
+                </View>
+                {/* // 쿠폰 사용 가능 여부 */}
 
-            {/* 주문마감 여부 삭제요청(휴무일 영업일 안내 페이지로 이동 요청) */}
-            {/* <View style={{...BaseStyle.mv10}}>
+                {/* 주문마감 여부 삭제요청(휴무일 영업일 안내 페이지로 이동 요청) */}
+                {/* <View style={{...BaseStyle.mv10}}>
               <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
                 <Text
                   style={{
@@ -475,10 +483,10 @@ const StoreSetting = props => {
                 </TouchableOpacity>
               </View>
             </View> */}
-            {/* // 주문마감 여부 */}
+                {/* // 주문마감 여부 */}
 
-            {/* 1인분 가능 여부 */}
-            {/* <View style={{...BaseStyle.mv10}}>
+                {/* 1인분 가능 여부 */}
+                {/* <View style={{...BaseStyle.mv10}}>
               <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
                 <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>1인분 가능 여부</Text>
                 <Text style={{...BaseStyle.ko12, color:Primary.PointColor02}}>※</Text>
@@ -514,73 +522,74 @@ const StoreSetting = props => {
                 </TouchableOpacity>
               </View>
             </View> */}
-            {/* // 1인분 가능 여부 */}
-          </View>
-        </View>
-        <View style={{ ...BaseStyle.container, ...BaseStyle.ph20 }}>
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => setRange('all')}
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: range === 'all' ? Primary.PointColor01 : '#ececec',
-              paddingVertical: 20,
-              borderTopLeftRadius: 5,
-              borderBottomLeftRadius: 5
-            }}
-          >
-            <Text style={{ ...BaseStyle.ko15, color: range === 'all' ? '#fff' : '#aaa' }}>
-              전체 매장 적용
+                {/* // 1인분 가능 여부 */}
+              </View>
+            </View>
+            <View style={{ ...BaseStyle.container, ...BaseStyle.ph20 }}>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => setRange('all')}
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: range === 'all' ? Primary.PointColor01 : '#ececec',
+                  paddingVertical: 20,
+                  borderTopLeftRadius: 5,
+                  borderBottomLeftRadius: 5
+                }}
+              >
+                <Text style={{ ...BaseStyle.ko15, color: range === 'all' ? '#fff' : '#aaa' }}>
+                  전체 매장 적용
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => setRange('curr')}
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: range === 'curr' ? Primary.PointColor01 : '#ececec',
-              paddingVertical: 20,
-              borderTopRightRadius: 5,
-              borderBottomRightRadius: 5
-            }}
-          >
-            <Text style={{ ...BaseStyle.ko15, color: range === 'curr' ? '#fff' : '#aaa' }}>
-              해당 매장만 적용
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => setRange('curr')}
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: range === 'curr' ? Primary.PointColor01 : '#ececec',
+                  paddingVertical: 20,
+                  borderTopRightRadius: 5,
+                  borderBottomRightRadius: 5
+                }}
+              >
+                <Text style={{ ...BaseStyle.ko15, color: range === 'curr' ? '#fff' : '#aaa' }}>
+                  해당 매장만 적용
             </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-      {storeInit ? (
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={onModifyStoreSetting}
-          style={{ ...BaseStyle.mainBtnBottom }}
-        >
-          <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
-            수정하기
-          </Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={onSubmitStoreInfo}
-          style={{ ...BaseStyle.mainBtnBottom }}
-        >
-          <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold }}>등록하기</Text>
-        </TouchableOpacity>
-      )}
-      {/* <TouchableOpacity
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+          {storeInit ? (
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={onModifyStoreSetting}
+              style={{ ...BaseStyle.mainBtnBottom }}
+            >
+              <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                수정하기
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={onSubmitStoreInfo}
+              style={{ ...BaseStyle.mainBtnBottom }}
+            >
+              <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold }}>등록하기</Text>
+            </TouchableOpacity>
+          )}
+          {/* <TouchableOpacity
         activeOpacity={1}
         onPress={() => navigation.goBack()}
         style={{...BaseStyle.mainBtnBottom, backgroundColor:'#e5e5e5'}}
       >
         <Text style={{...BaseStyle.ko18, ...BaseStyle.font_bold}}>나가기</Text>
       </TouchableOpacity> */}
-    </View>
+        </View>}
+    </>
   )
 }
 

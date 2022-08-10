@@ -6,6 +6,7 @@ import 'moment/locale/ko'
 import Header from '../components/SubHeader'
 import Api from '../Api'
 import BaseStyle, { Primary } from '../styles/Base'
+import AnimateLoading from '../components/AnimateLoading'
 
 const CancelOrders = props => {
   const { navigation } = props
@@ -13,6 +14,7 @@ const CancelOrders = props => {
   const [orderId, setOrderId] = React.useState('') // 주문 ID
   const [orderType, setOrderType] = React.useState('') // 주문 Type
   const [refleshing, setReflashing] = React.useState(false)
+  const [isLoading, setLoading] = React.useState(true)
 
   // 주문 취소건
   const [cancelList, setCancelList] = React.useState([])
@@ -36,14 +38,10 @@ const CancelOrders = props => {
       } else {
         setCancelList([])
       }
+
+      setLoading(false)
     })
   }
-
-  // React.useEffect(() => {
-  //   getCancelListHandler()
-
-  //   return () => getCancelListHandler()
-  // }, [])
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -126,14 +124,13 @@ const CancelOrders = props => {
                 >
                   {`${item.od_addr1} ${item.od_addr2}`}
                 </Text>
-                {item.od_addr3 ? (
+                {item.od_addr3 !== '' && (
                   <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>{item.od_addr3}</Text>
-                ) : null}
-                {item.od_addr_jibeon ? (
+                )}
+                {item.od_addr_jibeon !== '' &&
                   <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>
                     {item.od_addr_jibeon}
-                  </Text>
-                ) : null}
+                  </Text>}
               </View>
             </View>
           </View>
@@ -156,35 +153,40 @@ const CancelOrders = props => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='주문취소내역' />
-      <FlatList
-        data={cancelList}
-        renderItem={renderRow}
-        keyExtractor={(list, index) => index.toString()}
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
+
+      {!isLoading &&
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title='주문취소내역' />
+          <FlatList
+            data={cancelList}
+            renderItem={renderRow}
+            keyExtractor={(list, index) => index.toString()}
         // pagingEnabled={true}
-        persistentScrollbar
-        showsVerticalScrollIndicator={false}
+            persistentScrollbar
+            showsVerticalScrollIndicator={false}
         // progressViewOffset={true}
-        refreshing={refleshing}
+            refreshing={refleshing}
         // onRefresh={() => onHandleRefresh()}
-        style={{ backgroundColor: '#fff', width: '100%' }}
-        ListEmptyComponent={
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              flex: 1,
-              height: Dimensions.get('window').height - 300
-            }}
-          >
-            <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-              아직 취소된 주문이 없습니다.
-            </Text>
-          </View>
+            style={{ backgroundColor: '#fff', width: '100%' }}
+            ListEmptyComponent={
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: 1,
+                  height: Dimensions.get('window').height - 300
+                }}
+              >
+                <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
+                  아직 취소된 주문이 없습니다.
+              </Text>
+              </View>
         }
-      />
-    </View>
+          />
+        </View>}
+    </>
   )
 }
 

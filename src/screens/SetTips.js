@@ -6,7 +6,6 @@ import {
   Image,
   FlatList,
   Dimensions,
-  ActivityIndicator,
   BackHandler
 } from 'react-native'
 import Modal from 'react-native-modal'
@@ -20,13 +19,11 @@ import Api from '../Api'
 import cusToast from '../components/CusToast'
 import AnimateLoading from '../components/AnimateLoading'
 
-const { width, height } = Dimensions.get('window')
-
 const SetTips = props => {
   const { navigation } = props
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
 
-  const [isLoading, setLoading] = React.useState(false)
+  const [isLoading, setLoading] = React.useState(true)
   const [list, setList] = React.useState([]) // 팁 리스트
   const [tipId, setTipId] = React.useState('') // 팁 ID
 
@@ -68,8 +65,6 @@ const SetTips = props => {
   }
 
   const getTips = () => {
-    setLoading(true)
-
     const param = {
       jumju_id: mtId,
       jumju_code: mtJumjuCode
@@ -310,223 +305,219 @@ const SetTips = props => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='배달팁 설정' toggleModal={toggleModal} />
-      {/* // 추가 모달 */}
-      <TipsModal
-        navigation={navigation}
-        modalType={modalType}
-        isModalVisible={isModalVisible}
-        toggleModal={toggleModal}
-        getTips={getTips}
-      />
-      {/* // 추가 모달 */}
-      {/* 수정 모달 */}
-      <TipsEditModal
-        navigation={navigation}
-        isModalVisible={isEditModal}
-        toggleModal={editTipsModalHandler}
-        index={editPrice.index}
-        dd_id={editPrice.dd_id}
-        min={editPrice.minPrice}
-        max={editPrice.maxPrice}
-        delivery={editPrice.deliveryPrice}
-        getTips={getTips}
-      />
-      {/* // 수정 모달 */}
+    <>
+      {isLoading && <AnimateLoading description='잠시만 기다려주세요.' />}
 
-      {/* 삭제 모달 */}
-      <Modal
-        isVisible={isDelModalVisible}
-        onBackdropPress={toggleDelModal}
-        transparent
-        statusBarTranslucent
-        style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
-      >
-        <View
-          style={{
-            backgroundColor: '#fff',
-            ...BaseStyle.pv30,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 5,
-            position: 'relative'
-          }}
-        >
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={toggleDelModal}
+      {!isLoading &&
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title='배달팁 설정' toggleModal={toggleModal} />
+          {/* // 추가 모달 */}
+          <TipsModal
+            navigation={navigation}
+            modalType={modalType}
+            isModalVisible={isModalVisible}
+            toggleModal={toggleModal}
+            getTips={getTips}
+          />
+          {/* // 추가 모달 */}
+          {/* 수정 모달 */}
+          <TipsEditModal
+            navigation={navigation}
+            isModalVisible={isEditModal}
+            toggleModal={editTipsModalHandler}
+            index={editPrice.index}
+            dd_id={editPrice.dd_id}
+            min={editPrice.minPrice}
+            max={editPrice.maxPrice}
+            delivery={editPrice.deliveryPrice}
+            getTips={getTips}
+          />
+          {/* // 수정 모달 */}
+
+          {/* 삭제 모달 */}
+          <Modal
+            isVisible={isDelModalVisible}
+            onBackdropPress={toggleDelModal}
+            transparent
+            statusBarTranslucent
+            style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
+          >
+            <View
+              style={{
+                backgroundColor: '#fff',
+                ...BaseStyle.pv30,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5,
+                position: 'relative'
+              }}
+            >
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={toggleDelModal}
+                style={{
+                  position: 'absolute',
+                  top: -10,
+                  right: -10,
+                  backgroundColor: Primary.PointColor01,
+                  borderRadius: 30,
+                  width: 30,
+                  height: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Image
+                  source={require('../images/close.png')}
+                  style={{
+                    width: 12,
+                    height: 12,
+                    resizeMode: 'center'
+                  }}
+                />
+              </TouchableOpacity>
+              <Text style={{ ...BaseStyle.ko14 }}>해당 배달팁을 삭제하시겠습니까?</Text>
+              <View style={{ ...BaseStyle.container, ...BaseStyle.mt20 }}>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={() => tipDelHandler()}
+                  style={{
+                    ...BaseStyle.mainBtn,
+                    width: 90,
+                    ...BaseStyle.pv10,
+                    borderRadius: 5,
+                    ...BaseStyle.mr5
+                  }}
+                >
+                  <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>확인</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={toggleDelModal}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: '#E3E3E3',
+                    width: 90,
+                    ...BaseStyle.pv10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    ...BaseStyle.ml5
+                  }}
+                >
+                  <Text style={{ ...BaseStyle.ko14 }}>아니오</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+          {/* // 삭제 모달 */}
+
+          <View style={{ ...BaseStyle.ph20 }}>
+            {/* 배달팁 */}
+            <View style={{ ...BaseStyle.mv15 }}>
+              <View style={{ ...BaseStyle.container5, ...BaseStyle.mb5 }}>
+                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>배달팁</Text>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={() => toggleModalHandler('minPrice')}
+                  style={{
+                    ...BaseStyle.mainBtn,
+                    width: '20%',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    ...BaseStyle.pv7
+                  }}
+                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                >
+                  <Text style={{ ...BaseStyle.ko13, ...BaseStyle.textWhite }}>추가</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            {/* // 배달팁 */}
+            {/* 배달팁 안내 */}
+            {list && list.length > 0 && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  ...BaseStyle.mb5
+                }}
+              >
+                <View style={{ flexDirection: 'row', width: '80%' }}>
+                  <Text
+                    style={{
+                      ...BaseStyle.ko12,
+                      ...BaseStyle.lh17,
+                      color: Primary.PointColor02
+                    }}
+                  >
+                    {'※ '}
+                  </Text>
+                  <Text
+                    style={{
+                      ...BaseStyle.ko12,
+                      ...BaseStyle.lh17,
+                      color: Primary.PointColor02
+                    }}
+                  >
+                    {
+                  '배달팁을 편집 또는 삭제하시려면\n해당 배달팁을 오른쪽에서 왼쪽으로 스와이프해주세요.'
+                }
+                  </Text>
+                </View>
+                <View style={{ width: '20%', justifyContent: 'center', alignItems: 'center' }}>
+                  <Image
+                    source={require('../images/swipe_m.png')}
+                    style={{ width: 100, height: 25 }}
+                    resizeMode='contain'
+                  />
+                </View>
+              </View>
+            )}
+            {/* // 배달팁 안내 */}
+          </View>
+
+          {/* 리스트 */}
+
+          <View
             style={{
-              position: 'absolute',
-              top: -10,
-              right: -10,
-              backgroundColor: Primary.PointColor01,
-              borderRadius: 30,
-              width: 30,
-              height: 30,
+              flex: 1,
               justifyContent: 'center',
               alignItems: 'center'
             }}
           >
-            <Image
-              source={require('../images/close.png')}
-              style={{
-                width: 12,
-                height: 12,
-                resizeMode: 'center'
-              }}
-            />
-          </TouchableOpacity>
-          <Text style={{ ...BaseStyle.ko14 }}>해당 배달팁을 삭제하시겠습니까?</Text>
-          <View style={{ ...BaseStyle.container, ...BaseStyle.mt20 }}>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => tipDelHandler()}
-              style={{
-                ...BaseStyle.mainBtn,
-                width: 90,
-                ...BaseStyle.pv10,
-                borderRadius: 5,
-                ...BaseStyle.mr5
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>확인</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={toggleDelModal}
-              style={{
-                borderWidth: 1,
-                borderColor: '#E3E3E3',
-                width: 90,
-                ...BaseStyle.pv10,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 5,
-                ...BaseStyle.ml5
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko14 }}>아니오</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      {/* // 삭제 모달 */}
-
-      <View style={{ ...BaseStyle.ph20 }}>
-        {/* 배달팁 */}
-        <View style={{ ...BaseStyle.mv15 }}>
-          <View style={{ ...BaseStyle.container5, ...BaseStyle.mb5 }}>
-            <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>배달팁</Text>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => toggleModalHandler('minPrice')}
-              style={{
-                ...BaseStyle.mainBtn,
-                width: '20%',
-                justifyContent: 'center',
-                alignContent: 'center',
-                ...BaseStyle.pv7
-              }}
-              hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            >
-              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.textWhite }}>추가</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        {/* // 배달팁 */}
-        {/* 배달팁 안내 */}
-        {list && list.length > 0 && (
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              ...BaseStyle.mb5
-            }}
-          >
-            <View style={{ flexDirection: 'row', width: '80%' }}>
-              <Text
-                style={{
-                  ...BaseStyle.ko12,
-                  ...BaseStyle.lh17,
-                  color: Primary.PointColor02
-                }}
-              >
-                {'※ '}
-              </Text>
-              <Text
-                style={{
-                  ...BaseStyle.ko12,
-                  ...BaseStyle.lh17,
-                  color: Primary.PointColor02
-                }}
-              >
-                {
-                  '배달팁을 편집 또는 삭제하시려면\n해당 배달팁을 오른쪽에서 왼쪽으로 스와이프해주세요.'
-                }
-              </Text>
-            </View>
-            <View style={{ width: '20%', justifyContent: 'center', alignItems: 'center' }}>
-              <Image
-                source={require('../images/swipe_m.png')}
-                style={{ width: 100, height: 25 }}
-                resizeMode='contain'
-              />
-            </View>
-          </View>
-        )}
-        {/* // 배달팁 안내 */}
-      </View>
-
-      {/* 리스트 */}
-      {isLoading ? (
-        <AnimateLoading description='잠시만 기다려주세요.' />
-      ) : (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          <FlatList
-            data={list}
-            renderItem={renderRow}
-            keyExtractor={(list, index) => index.toString()}
+            <FlatList
+              data={list}
+              renderItem={renderRow}
+              keyExtractor={(list, index) => index.toString()}
             // pagingEnabled={true}
-            persistentScrollbar
-            showsVerticalScrollIndicator={false}
+              persistentScrollbar
+              showsVerticalScrollIndicator={false}
             // progressViewOffset={true}
             // refreshing={true}
-            style={{ backgroundColor: '#fff', width: '100%' }}
-            ListEmptyComponent={
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flex: 1,
-                  height: Dimensions.get('window').height - 300
-                }}
-              >
-                <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-                  아직 설정하신 배달팁이 없습니다.
-                </Text>
-              </View>
+              style={{ backgroundColor: '#fff', width: '100%' }}
+              ListEmptyComponent={
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1,
+                    height: Dimensions.get('window').height - 300
+                  }}
+                >
+                  <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
+                    아직 설정하신 배달팁이 없습니다.
+                  </Text>
+                </View>
             }
-          />
-        </View>
-      )}
-      {/* // 리스트 */}
+            />
+          </View>
 
-      {/* <TouchableOpacity
-        activeOpacity={1}
-        onPress={() => toggleModalHandler('minPrice')}
-        style={{...BaseStyle.mainBtn}}
-      >
-        <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold}}>배달팁 추가</Text>
-      </TouchableOpacity> */}
-    </View>
+          {/* // 리스트 */}
+
+        </View>}
+    </>
   )
 }
 

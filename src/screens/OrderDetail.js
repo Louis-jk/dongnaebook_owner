@@ -18,6 +18,7 @@ import OrderRejectCancelModal from '../components/OrderRejectCancelModal'
 import Api from '../Api'
 import OrderCheckModal from '../components/OrderCheckModal'
 import * as orderAction from '../redux/actions/orderAction'
+import AnimateLoading from '../components/AnimateLoading'
 
 const OrderDetail = props => {
   const { navigation } = props
@@ -26,6 +27,7 @@ const OrderDetail = props => {
   const [detailStore, setDetailStore] = React.useState(null)
   const [detailOrder, setDetailOrder] = React.useState(null)
   const [detailProduct, setDetailProduct] = React.useState([])
+  const [isLoading, setLoading] = React.useState(true)
 
   const dispatch = useDispatch()
 
@@ -64,6 +66,8 @@ const OrderDetail = props => {
           }
         ])
       }
+
+      setLoading(false)
     })
   }
 
@@ -224,42 +228,46 @@ const OrderDetail = props => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title={title} type='default' />
-      {/* <StatusMenu navigation={navigation} /> */}
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
-      {detailStore && detailOrder && detailProduct && (
-        <>
-          {/* 접수 완료시 모달 */}
-          <OrderCheckModal
-            isModalVisible={isOrderCheckModalVisible}
-            toggleModal={toggleOrderCheckModal}
-            oderId={orderId}
-            orderType={detailOrder.od_type}
-            navigation={navigation}
-            jumjuId={jumjuId}
-            jumjuCode={jumjuCode}
-          />
-          {/* // 접수 완료시 모달 */}
+      {!isLoading &&
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title={title} type='default' />
+          {/* <StatusMenu navigation={navigation} /> */}
 
-          {/* 주문 취소/거부 모달 */}
-          <OrderRejectCancelModal
-            navigation={navigation}
-            isModalVisible={isModalVisible}
-            toggleModal={toggleModal}
-            modalType={modalType}
-            od_id={orderId}
-            jumjuId={jumjuId}
-            jumjuCode={jumjuCode}
-          />
-          {/* // 주문 취소/거부 모달 */}
+          {detailStore && detailOrder && detailProduct && (
+            <>
+              {/* 접수 완료시 모달 */}
+              <OrderCheckModal
+                isModalVisible={isOrderCheckModalVisible}
+                toggleModal={toggleOrderCheckModal}
+                oderId={orderId}
+                orderType={detailOrder.od_type}
+                navigation={navigation}
+                jumjuId={jumjuId}
+                jumjuCode={jumjuCode}
+              />
+              {/* // 접수 완료시 모달 */}
 
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={{ ...BaseStyle.ph20 }}>
-              {/* 주문 번호 */}
+              {/* 주문 취소/거부 모달 */}
+              <OrderRejectCancelModal
+                navigation={navigation}
+                isModalVisible={isModalVisible}
+                toggleModal={toggleModal}
+                modalType={modalType}
+                od_id={orderId}
+                jumjuId={jumjuId}
+                jumjuCode={jumjuCode}
+              />
+              {/* // 주문 취소/거부 모달 */}
 
-              {/* // 주문 번호 */}
-              <View
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{ ...BaseStyle.ph20 }}>
+                {/* 주문 번호 */}
+
+                {/* // 주문 번호 */}
+                <View
                 style={{
                   ...BaseStyle.container5,
                   ...BaseStyle.pv15,
@@ -275,8 +283,8 @@ const OrderDetail = props => {
                 </Text>
               </View>
 
-              {/* 취소건 일 때 취소 사유 */}
-              {type === 'cancel' && (
+                {/* 취소건 일 때 취소 사유 */}
+                {type === 'cancel' && (
                 <>
                   <View style={{ ...BaseStyle.mb15 }}>
                     {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15}}>기본 정보</Text> */}
@@ -323,10 +331,10 @@ const OrderDetail = props => {
                   <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
                 </>
               )}
-              {/* // 취소건 일 때 취소 사유 */}
+                {/* // 취소건 일 때 취소 사유 */}
 
-              {/* 기본 정보 리스트 */}
-              <View style={{ ...BaseStyle.mv15, marginTop: type === 'cancel' ? 15 : 0 }}>
+                {/* 기본 정보 리스트 */}
+                <View style={{ ...BaseStyle.mv15, marginTop: type === 'cancel' ? 15 : 0 }}>
                 {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15}}>기본 정보</Text> */}
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
                   주문 매장
@@ -371,12 +379,12 @@ const OrderDetail = props => {
                   </View>
                 </View>
               </View>
-              {/* // 기본 정보 리스트 */}
+                {/* // 기본 정보 리스트 */}
 
-              <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+                <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
 
-              {/* 배달 정보 리스트 */}
-              <View style={{ ...BaseStyle.mv15 }}>
+                {/* 배달 정보 리스트 */}
+                <View style={{ ...BaseStyle.mv15 }}>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
                   배달 정보
                 </Text>
@@ -452,12 +460,12 @@ const OrderDetail = props => {
                   </TouchableOpacity>
                 </View>
               </View>
-              {/* // 배달 정보 리스트 */}
+                {/* // 배달 정보 리스트 */}
 
-              <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+                <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
 
-              {/* 메뉴 정보 리스트 */}
-              <View style={{ ...BaseStyle.mv15 }}>
+                {/* 메뉴 정보 리스트 */}
+                <View style={{ ...BaseStyle.mv15 }}>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
                   메뉴 정보
                 </Text>
@@ -601,12 +609,12 @@ const OrderDetail = props => {
                     </View>
                   ))}
               </View>
-              {/* // 메뉴 정보 리스트 */}
+                {/* // 메뉴 정보 리스트 */}
 
-              <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+                <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
 
-              {/* 요청사항 리스트 */}
-              <View style={{ ...BaseStyle.mv15 }}>
+                {/* 요청사항 리스트 */}
+                <View style={{ ...BaseStyle.mv15 }}>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
                   요청사항
                 </Text>
@@ -682,12 +690,12 @@ const OrderDetail = props => {
                   </View>
                 </View>
               </View>
-              {/* // 요청사항 리스트 */}
+                {/* // 요청사항 리스트 */}
 
-              <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+                <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
 
-              {/* 결제정보 리스트 */}
-              <View
+                {/* 결제정보 리스트 */}
+                <View
                 style={{
                   borderWidth: 1,
                   borderColor: '#E3E3E3',
@@ -783,14 +791,14 @@ const OrderDetail = props => {
                   </Text>
                 </View>
               </View>
-              {/* // 결제정보 리스트 */}
-            </View>
-          </ScrollView>
+                {/* // 결제정보 리스트 */}
+              </View>
+              </ScrollView>
 
-          {type === 'ready' && (
-            // 접수중일 경우 출력
-            <View style={{ ...BaseStyle.container, width: Dimensions.get('window').width }}>
-              <TouchableOpacity
+              {type === 'ready' && (
+              // 접수중일 경우 출력
+                <View style={{ ...BaseStyle.container, width: Dimensions.get('window').width }}>
+                <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => toggleModal('reject')}
                 style={{
@@ -803,7 +811,7 @@ const OrderDetail = props => {
               >
                 <Text style={{ ...BaseStyle.ko14 }}>주문거부</Text>
               </TouchableOpacity>
-              <TouchableOpacity
+                <TouchableOpacity
                 activeOpacity={1}
                 onPress={toggleOrderCheckModal}
                 style={{
@@ -820,13 +828,13 @@ const OrderDetail = props => {
                   접수 완료
                 </Text>
               </TouchableOpacity>
-            </View>
-          )}
+              </View>
+              )}
 
-          {type === 'doing' && (
-            // 처리중일 경우 출력
-            <View style={{ ...BaseStyle.container, width: Dimensions.get('window').width }}>
-              <TouchableOpacity
+              {type === 'doing' && (
+              // 처리중일 경우 출력
+                <View style={{ ...BaseStyle.container, width: Dimensions.get('window').width }}>
+                <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => toggleModal('cancel')}
                 style={{
@@ -839,7 +847,7 @@ const OrderDetail = props => {
               >
                 <Text style={{ ...BaseStyle.ko14 }}>주문취소</Text>
               </TouchableOpacity>
-              <TouchableOpacity
+                <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => deliveryOrderHandler()}
                 style={{
@@ -854,11 +862,12 @@ const OrderDetail = props => {
                   {detailOrder.od_type === '배달' ? '배달처리' : '포장완료'}
                 </Text>
               </TouchableOpacity>
-            </View>
+              </View>
+              )}
+            </>
           )}
-        </>
-      )}
-    </View>
+        </View>}
+    </>
   )
 }
 
