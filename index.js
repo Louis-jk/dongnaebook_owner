@@ -2,15 +2,15 @@
  * @format
  */
 
-import React from 'react';
-import { AppRegistry, Text, TextInput, Platform, LogBox } from 'react-native';
-import App from './App';
-import { name as appName } from './app.json';
+import React from 'react'
+import { AppRegistry, Text, TextInput, Platform, LogBox } from 'react-native'
+import App from './App'
+import { name as appName } from './app.json'
 
-import messaging from '@react-native-firebase/messaging';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import { Provider } from 'react-redux';
-import initStore from './src/redux/store';
+import messaging from '@react-native-firebase/messaging'
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import { Provider } from 'react-redux'
+import initStore from './src/redux/store'
 
 LogBox.ignoreLogs(['Remote debugger'])
 
