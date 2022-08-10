@@ -64,13 +64,9 @@ const AnimateLoading = ({ description }) => {
         }}
         resizeMode='cover'
       />
-
-      {/* <ActivityIndicator size="large" color="#FCDC00" /> */}
-      {/* <TouchableOpacity onPress={animationHandler}> */}
-      <Text style={{ fontSize: 16, ...BaseStyle.font_666, ...BaseStyle.font_main }}>
+      <Text style={{ fontSize: 14, ...BaseStyle.font_666, ...BaseStyle.font_main }}>
         {description}
       </Text>
-      {/* </TouchableOpacity> */}
     </View>
   )
 }
