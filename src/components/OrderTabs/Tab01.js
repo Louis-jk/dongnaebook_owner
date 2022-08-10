@@ -7,10 +7,12 @@ import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
 import OrderCheckModal from '../OrderCheckModal'
 import OrderRejectCancelModal from '../OrderRejectCancelModal'
+import AnimateLoading from '../AnimateLoading'
 
 const Tab01 = props => {
   const { navigation } = props
-  const { newOrder } = useSelector(state => state.order) // 신규 주문 건
+  const { newOrder, newOrderRefleshing } = useSelector(state => state.order) // 신규 주문 건
+  const [isLoading, setLoading] = React.useState(false)
   const [orderId, setOrderId] = React.useState('') // 주문 ID
   const [orderType, setOrderType] = React.useState('') // 주문 Type
   const [refleshing, setReflashing] = React.useState(false)
@@ -31,6 +33,11 @@ const Tab01 = props => {
   const toggleOrderCheckModal = () => {
     setOrderCheckModalVisible(!isOrderCheckModalVisible)
   }
+
+  React.useEffect(() => {
+    console.log('newOrderRefleshing', newOrderRefleshing)
+    setLoading(newOrderRefleshing)
+  }, [newOrderRefleshing])
 
   function handleLoadMore () {
     setCount(prev => prev + 1)
@@ -196,56 +203,61 @@ const Tab01 = props => {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      {newOrder && newOrder.length > 0 && (
-        <OrderCheckModal
-          isModalVisible={isOrderCheckModalVisible}
-          toggleModal={toggleOrderCheckModal}
-          oderId={orderId}
-          orderType={orderType}
-          navigation={navigation}
-          jumjuId={jumjuId}
-          jumjuCode={jumjuCode}
-        />
-      )}
-      <OrderRejectCancelModal
-        navigation={navigation}
-        isModalVisible={isModalVisible}
-        toggleModal={toggleModal}
-        modalType={modalType}
-        od_id={orderId}
-        jumjuId={jumjuId}
-        jumjuCode={jumjuCode}
-      />
-      <FlatList
-        data={newOrder}
-        renderItem={renderRow}
-        keyExtractor={(list, index) => index.toString()}
+    <>
+      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
+
+      {!isLoading &&
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          {newOrder && newOrder.length > 0 && (
+            <OrderCheckModal
+              isModalVisible={isOrderCheckModalVisible}
+              toggleModal={toggleOrderCheckModal}
+              oderId={orderId}
+              orderType={orderType}
+              navigation={navigation}
+              jumjuId={jumjuId}
+              jumjuCode={jumjuCode}
+            />
+          )}
+          <OrderRejectCancelModal
+            navigation={navigation}
+            isModalVisible={isModalVisible}
+            toggleModal={toggleModal}
+            modalType={modalType}
+            od_id={orderId}
+            jumjuId={jumjuId}
+            jumjuCode={jumjuCode}
+          />
+          <FlatList
+            data={newOrder}
+            renderItem={renderRow}
+            keyExtractor={(list, index) => index.toString()}
           // pagingEnabled={true}
-        persistentScrollbar
-        showsVerticalScrollIndicator={false}
+            persistentScrollbar
+            showsVerticalScrollIndicator={false}
           // progressViewOffset={true}
-        refreshing={refleshing}
-        onRefresh={() => onHandleRefresh()}
+            refreshing={refleshing}
+            onRefresh={() => onHandleRefresh()}
           // onEndReached={handleLoadMore}
           // onEndReachedThreshold={0.01}
-        style={{ backgroundColor: '#fff', width: '100%' }}
-        ListEmptyComponent={
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              flex: 1,
-              height: Dimensions.get('window').height - 300
-            }}
-          >
-            <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-              아직 신규 주문이 없습니다.
-            </Text>
-          </View>
+            style={{ backgroundColor: '#fff', width: '100%' }}
+            ListEmptyComponent={
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: 1,
+                  height: Dimensions.get('window').height - 300
+                }}
+              >
+                <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
+                  아직 신규 주문이 없습니다.
+                </Text>
+              </View>
           }
-      />
-    </View>
+          />
+        </View>}
+    </>
   )
 }
 
