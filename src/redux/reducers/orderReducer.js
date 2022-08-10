@@ -2,6 +2,7 @@ import types from '../actions/types'
 
 const defaultState = {
   new_check: false,
+  newOrderRefleshing: false,
   newOrder: null,
   checkOrder: null,
   deliveryOrder: null,
@@ -17,10 +18,16 @@ export default order = (state = defaultState, action) => {
         ...state,
         new_check: action.payload
       }
+    case types.GET_NEW_ORDER_LIST:
+      return {
+        ...state,
+        newOrderRefleshing: true
+      }
     case types.UPDATE_NEW_ORDER_LIST:
       return {
         ...state,
-        newOrder: action.payload !== null ? action.payload : null
+        newOrder: action.payload !== null ? action.payload : null,
+        newOrderRefleshing: false
       }
     case types.UPDATE_CHECK_ORDER_LIST:
       return {

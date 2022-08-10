@@ -7,6 +7,12 @@ export function alarmNewOrder (data) {
   }
 }
 
+export function getNewOrder () {
+  return {
+    type: types.GET_NEW_ORDER_LIST
+  }
+}
+
 export function updateNewOrder (data) {
   const args = JSON.parse(data)
 
