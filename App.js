@@ -14,6 +14,7 @@ import DrawerMenu from './src/screens/DrawerMenu'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import PushNotification from 'react-native-push-notification'
 import { useSelector, useDispatch } from 'react-redux'
+import * as orderAction from './src/redux/actions/orderAction'
 
 /*
  Screen 정의
@@ -49,8 +50,6 @@ import StoreInfoScreen from './src/screens/StoreInfo' // 매장소개
 import StoreSettingScreen from './src/screens/StoreSetting' // 매장설정
 import setMenuAddOptionScreen from './src/screens/setMenuAddOption' // 매장소개
 
-import * as orderAction from './src/redux/actions/orderAction'
-
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2'])
 
@@ -59,9 +58,6 @@ const App = () => {
   // const store = initStore(); 잠시
 
   const dispatch = useDispatch()
-  const toggleAlarmOrder = () => {
-    dispatch(orderAction.alarmNewOrder(false))
-  }
 
   PushNotification.configure({
     // (optional) Called when Token is generated (iOS and Android)
@@ -178,6 +174,15 @@ const App = () => {
     } else {
       PushNotification.setApplicationIconBadgeNumber(0)
     }
+  }, [])
+
+  // 신규 주문 들어올 때 redux-saga 호출
+  React.useEffect(() => {
+    const getMessage = messaging().onMessage(remoteMessage => {
+      dispatch(orderAction.getNewOrder())
+    })
+
+    return () => getMessage()
   }, [])
 
   const toastConfig = {
