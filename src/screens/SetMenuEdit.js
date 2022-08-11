@@ -21,6 +21,7 @@ import cusToast from '../components/CusToast'
 import Api from '../Api'
 import AnimateLoading from '../components/AnimateLoading'
 import checkMenuValidate from '../modules/menuValidate'
+import { pickGalleryImage, takeCamera } from '../modules/imagePickerOrCamera'
 
 const SetMenuEdit = props => {
   const { navigation } = props
@@ -249,47 +250,13 @@ const SetMenuEdit = props => {
   // 이미지 업로드 핸들러
   const pickImageHandler = () => {
     toggleModal()
-    ImagePicker.openPicker({
-      mediaType: 'photo',
-      sortOrder: 'none',
-      compressImageMaxWidth: 10000,
-      compressImageMaxHeight: 10000,
-      compressImageQuality: 1,
-      compressVideoPreset: 'MediumQuality',
-      includeExif: true,
-      cropperCircleOverlay: false,
-      useFrontCamera: false,
-      // includeBase64: true,
-      cropping: true
-    })
-      .then(img => {
-        // dispatch(UserProfileImg(img.path));
-        setSource({
-          uri: img.path,
-          type: img.mime,
-          name: img.path.slice(img.path.lastIndexOf('/'))
-        })
-        setMenuImage(img.path)
-      })
-      .catch(e => console.log(e))
+    pickGalleryImage(setSource, setMenuImage)
   }
 
   // 카메라 촬영 핸들러
   const openCameraHandler = () => {
     toggleModal()
-    ImagePicker.openCamera({
-      width: 2000,
-      height: 1500,
-      cropping: true
-    }).then(img => {
-      // console.log(img);
-      setSource({
-        uri: img.path,
-        type: img.mime,
-        name: img.path.slice(img.path.lastIndexOf('/'))
-      })
-      setMenuImage(img.path)
-    })
+    takeCamera(setSource, setMenuImage)
   }
 
   const isEmptyObj = obj => {
@@ -323,10 +290,6 @@ const SetMenuEdit = props => {
       if (!isEmptyObj(source)) {
         param.it_img1 = source
       }
-
-      console.log('====================================')
-      console.log('메뉴 수정 param ::', param)
-      console.log('====================================')
 
       Api.send2('store_item_update', param, args => {
         const resultItem = args.resultItem

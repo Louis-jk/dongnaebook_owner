@@ -22,6 +22,7 @@ import { defaultType, secondType } from '../data/menu'
 import cusToast from '../components/CusToast'
 import checkMenuValidate from '../modules/menuValidate'
 import Api from '../Api'
+import { pickGalleryImage, takeCamera } from '../modules/imagePickerOrCamera'
 
 const { width, height } = Dimensions.get('window')
 
@@ -169,46 +170,13 @@ const SetMenuAdd = props => {
   // 이미지 업로드 핸들러
   const pickImageHandler = () => {
     toggleModal()
-    ImagePicker.openPicker({
-      mediaType: 'photo',
-      sortOrder: 'none',
-      compressImageMaxWidth: 10000,
-      compressImageMaxHeight: 10000,
-      compressImageQuality: 1,
-      compressVideoPreset: 'MediumQuality',
-      includeExif: true,
-      cropperCircleOverlay: false,
-      useFrontCamera: false,
-      // includeBase64: true,
-      cropping: true
-    })
-      .then(img => {
-        // dispatch(UserProfileImg(img.path));
-        setSource({
-          uri: img.path,
-          type: img.mime,
-          name: img.path.slice(img.path.lastIndexOf('/'))
-        })
-        setMenuImage(img.path)
-      })
-      .catch(e => console.log(e))
+    pickGalleryImage(setSource, setMenuImage)
   }
 
   // 카메라 촬영 핸들러
   const openCameraHandler = () => {
     toggleModal()
-    ImagePicker.openCamera({
-      width: 2000,
-      height: 1500,
-      cropping: true
-    }).then(img => {
-      setSource({
-        uri: img.path,
-        type: img.mime,
-        name: img.path.slice(img.path.lastIndexOf('/'))
-      })
-      setMenuImage(img.path)
-    })
+    takeCamera(setSource, setMenuImage)
   }
 
   // 빈 오브젝트 체킹
@@ -259,8 +227,6 @@ const SetMenuAdd = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='메뉴등록' />
-
-      {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
 
       {/* 선택 모달 (카메라, 갤러리) */}
       <Modal
