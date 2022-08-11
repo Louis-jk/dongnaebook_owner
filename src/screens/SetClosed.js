@@ -98,15 +98,13 @@ const SetClosed = props => {
         const arrItems = args.arrItems
 
         if (resultItem.result === 'Y') {
-          navigation.navigate('Home', { screen: 'SetDayTime' })
+          cusToast('정기휴일을 추가하였습니다.')
         } else {
-          Alert.alert('정기휴일을 추가할 수 없습니다.', '다시 한번 시도해주세요.', [
-            {
-              text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'SetDayTime' })
-            }
-          ])
+          cusToast('정기휴일을 추가하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 2500)
         }
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'SetDayTime' })
+        }, 1500)
       })
     }
   }

@@ -113,7 +113,8 @@ const ReviewNotice = props => {
     console.log('type', type)
 
     if (!noticeContent) {
-      Alert.alert('공지사항을 입력해주세요.')
+      cusToast('공지사항을 입력해주세요.')
+      // Alert.alert('공지사항을 입력해주세요.')
       return false
     }
 

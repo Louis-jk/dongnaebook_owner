@@ -120,20 +120,14 @@ const SetTime = props => {
 
         if (resultItem.result === 'Y') {
           getStoreTimeHandler()
-          Alert.alert('영업시간을 추가하였습니다.', '리스트로 이동합니다.', [
-            {
-              text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'SetDayTime' })
-            }
-          ])
+          cusToast('영업시간을 추가하였습니다.')
         } else {
-          Alert.alert('영업시간을 추가할 수 없습니다.', '다시 한번 시도해주세요.', [
-            {
-              text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'SetDayTime' })
-            }
-          ])
+          cusToast('영업시간을 추가하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.')
         }
+
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'SetDayTime' })
+        }, 1500)
       })
     }
   }

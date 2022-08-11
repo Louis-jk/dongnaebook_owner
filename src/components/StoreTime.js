@@ -5,6 +5,7 @@ import Api from '../Api'
 import BaseStyle from '../styles/Base'
 import * as storeTimeAction from '../redux/actions/storeTimeAction'
 import AnimateLoading from './AnimateLoading'
+import cusToast from './CusToast'
 
 const StoreTime = props => {
   const navigation = props.navigation
@@ -56,11 +57,12 @@ const StoreTime = props => {
       if (resultItem.result === 'Y') {
         getStoreTimeHandler()
       } else {
-        Alert.alert('영업시간을 삭제할 수 없습니다.', '다시 한번 확인해주세요.', [
-          {
-            text: '확인'
-          }
-        ])
+        cusToast('영업시간을 삭제할 수 없습니다.\n다시 한번 확인해주세요.', 2500)
+        // Alert.alert('영업시간을 삭제할 수 없습니다.', '다시 한번 확인해주세요.', [
+        //   {
+        //     text: '확인'
+        //   }
+        // ])
       }
     })
   }

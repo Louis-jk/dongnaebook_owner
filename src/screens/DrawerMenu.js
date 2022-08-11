@@ -3,6 +3,7 @@ import { View, Text, Dimensions, TouchableOpacity, Image, ScrollView, Alert } fr
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import BaseStyle from '../styles/Base'
 import { DrawerMenus } from '../data/drawerMenus'
+import cusToast from '../components/CusToast'
 
 const DrawerMenu = props => {
   const { navigation } = props
@@ -11,14 +12,16 @@ const DrawerMenu = props => {
   const onLogoutHandler = async () => {
     try {
       await AsyncStorage.removeItem('@dongnaebookownerUser')
+      cusToast('로그아웃 하였습니다.')
       navigation.navigate('Home', { screen: 'Login' })
-    } catch (e) {
-      console.log('로그아웃 에러', e)
-      Alert.alert('로그아웃 중 에러가 발생하였습니다.', '다시 시도해보세요', [
-        {
-          text: '확인'
-        }
-      ])
+    } catch (err) {
+      // console.log('로그아웃 에러', err)
+      cusToast(`로그아웃 중 에러가 발생하였습니다.\n오류:${err}`, 2500)
+      // Alert.alert('로그아웃 중 에러가 발생하였습니다.', '다시 시도해보세요', [
+      //   {
+      //     text: '확인'
+      //   }
+      // ])
     }
   }
 

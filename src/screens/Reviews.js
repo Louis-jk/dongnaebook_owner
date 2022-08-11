@@ -164,11 +164,12 @@ const Reviews = props => {
       setSelectImg(path)
       toggleModal()
     } catch (err) {
-      Alert.alert('선택된 이미지가 없습니다.', '다시 확인해주세요.', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('선택된 이미지가 없습니다.\n다시 확인해주세요.', 2500)
+      // Alert.alert('선택된 이미지가 없습니다.', '다시 확인해주세요.', [
+      //   {
+      //     text: '확인'
+      //   }
+      // ])
     }
   }
 
@@ -176,11 +177,12 @@ const Reviews = props => {
 
   function setReply () {
     if (selectReply === null || selectReply === '') {
-      Alert.alert('답변 내용을 입력해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('답변 내용을 입력해주세요.')
+      // Alert.alert('답변 내용을 입력해주세요.', '', [
+      //   {
+      //     text: '확인'
+      //   }
+      // ])
     } else {
       const param = {
         jumju_id: mtId,
@@ -201,20 +203,25 @@ const Reviews = props => {
           toggleCommentModal()
           getReviewList02Handler()
           setSelectReply('')
-          Alert.alert('답변을 등록하였습니다.', '', [
-            {
-              text: '확인'
-            }
-          ])
+          cusToast('답변을 등록하였습니다.')
+          // Alert.alert('답변을 등록하였습니다.', '', [
+          //   {
+          //     text: '확인'
+          //   }
+          // ])
         } else {
           getReviewList02Handler()
           setSelectReply('')
-          Alert.alert('답변을 등록하지 못하였습니다.', '답변을 등록하는데 문제가 있습니다.', [
-            {
-              text: '확인',
-              onPress: () => toggleCommentModal()
-            }
-          ])
+          cusToast('답변을 등록하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 2500)
+          setTimeout(() => {
+            toggleCommentModal()
+          }, 1000)
+          // Alert.alert('답변을 등록하지 못하였습니다.', '답변을 등록하는데 문제가 있습니다.', [
+          //   {
+          //     text: '확인',
+          //     onPress: () => toggleCommentModal()
+          //   }
+          // ])
         }
       })
     }
@@ -240,17 +247,19 @@ const Reviews = props => {
 
       getReviewList02Handler()
       if (resultItem.result === 'Y') {
-        Alert.alert('답변을 삭제하였습니다.', '', [
-          {
-            text: '확인'
-          }
-        ])
+        cusToast('답변을 삭제하였습니다.')
+        // Alert.alert('답변을 삭제하였습니다.', '', [
+        //   {
+        //     text: '확인'
+        //   }
+        // ])
       } else {
-        Alert.alert('답변을 삭제하지 못하였습니다.', '답변을 삭제하는데 문제가 있습니다.', [
-          {
-            text: '확인'
-          }
-        ])
+        cusToast('답변을 삭제하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 2500)
+        // Alert.alert('답변을 삭제하지 못하였습니다.', '답변을 삭제하는데 문제가 있습니다.', [
+        //   {
+        //     text: '확인'
+        //   }
+        // ])
       }
     })
   }
@@ -1270,7 +1279,7 @@ const Reviews = props => {
           />
         </View>
         {/* //리뷰 리스트 */}
-       </View>
+      </View>
       )}
     </>
   )

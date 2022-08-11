@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import * as orderAction from '../redux/actions/orderAction'
+import cusToast from './CusToast'
 
 const OrderRejectCancelModal = props => {
   const {
@@ -140,16 +141,24 @@ const OrderRejectCancelModal = props => {
 
       if (resultItem.result === 'Y') {
         getOrderListHandler()
-        Alert.alert('주문을 거부하였습니다.', '', [
-          {
-            text: '확인',
-            onPress: () => navigation.navigate('Home', { screen: 'Main' })
-          }
-        ])
+        cusToast('주문을 거부하였습니다.')
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
+        // Alert.alert('주문을 거부하였습니다.', '', [
+        //   {
+        //     text: '확인',
+        //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
+        //   }
+        // ])
       } else {
         // setOrderList(null);
         getOrderListHandler()
-        navigation.navigate('Home', { screen: 'Main' })
+        cusToast('주문을 거부하는 중에 문제가 발생하였습니다.\n다시 시도해주세요.')
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
+        // navigation.navigate('Home', { screen: 'Main' })
       }
     })
   }
@@ -218,15 +227,23 @@ const OrderRejectCancelModal = props => {
 
       if (resultItem.result === 'Y') {
         getOrderListHandler02()
-        Alert.alert('주문을 취소하였습니다.', '', [
-          {
-            text: '확인',
-            onPress: () => navigation.navigate('Home', { screen: 'Main' })
-          }
-        ])
+        cusToast('주문을 취소하였습니다.')
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
+        // Alert.alert('주문을 취소하였습니다.', '', [
+        //   {
+        //     text: '확인',
+        //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
+        //   }
+        // ])
       } else {
         getOrderListHandler02()
-        navigation.navigate('Home', { screen: 'Main' })
+        cusToast('주문을 취소하는 중에 문제가 생겼습니다.\n관리자에게 문의해주세요.')
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
+        // navigation.navigate('Home', { screen: 'Main' })
       }
     })
   }

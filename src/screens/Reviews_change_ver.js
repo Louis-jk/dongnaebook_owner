@@ -26,6 +26,7 @@ import Header from '../components/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import ImageView from 'react-native-image-viewing'
+import cusToast from '../components/CusToast'
 
 const { width, height } = Dimensions.get('window')
 
@@ -150,11 +151,12 @@ const Reviews = props => {
       await setSelectImg(path)
       await toggleModal()
     } catch (err) {
-      Alert.alert('선택된 이미지가 없습니다.', '다시 확인해주세요.', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('선택된 이미지가 없습니다.\n다시 확인해주세요.', 2500)
+      // Alert.alert('선택된 이미지가 없습니다.', '다시 확인해주세요.', [
+      //   {
+      //     text: '확인'
+      //   }
+      // ])
     }
   }
 
@@ -164,11 +166,12 @@ const Reviews = props => {
 
   const setReply = () => {
     if (selectReply === null || selectReply === '') {
-      Alert.alert('답변 내용을 입력해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('답변 내용을 입력해주세요.')
+      // Alert.alert('답변 내용을 입력해주세요.', '', [
+      //   {
+      //     text: '확인'
+      //   }
+      // ])
     } else {
       const param = {
         jumju_id: mt_id,
@@ -189,11 +192,12 @@ const Reviews = props => {
           toggleCommentModal()
           getReviewList02Handler()
           setSelectReply('')
-          Alert.alert('답변을 등록하였습니다.', '', [
-            {
-              text: '확인'
-            }
-          ])
+          cusToast('답변을 등록하였습니다.')
+          // Alert.alert('답변을 등록하였습니다.', '', [
+          //   {
+          //     text: '확인'
+          //   }
+          // ])
         } else {
           getReviewList02Handler()
           setSelectReply('')
@@ -1224,10 +1228,10 @@ const Reviews = props => {
                     {notice.noticePic && notice.noticePic.length > 0
                       ? notice.noticePic.map((pic, index) => (
                         <AutoHeightImage
-                            key={`${pic}-${index}`}
-                            source={{ uri: `${pic}` }}
-                            width={Dimensions.get('window').width - 60}
-                          />
+                          key={`${pic}-${index}`}
+                          source={{ uri: `${pic}` }}
+                          width={Dimensions.get('window').width - 60}
+                        />
                         ))
                       : null}
                   </View>

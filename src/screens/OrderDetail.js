@@ -19,6 +19,7 @@ import Api from '../Api'
 import OrderCheckModal from '../components/OrderCheckModal'
 import * as orderAction from '../redux/actions/orderAction'
 import AnimateLoading from '../components/AnimateLoading'
+import cusToast from '../components/CusToast'
 
 const OrderDetail = props => {
   const { navigation } = props
@@ -60,11 +61,12 @@ const OrderDetail = props => {
         setDetailOrder(arrItems.order)
         setDetailProduct(arrItems.orderDetail)
       } else {
-        Alert.alert('데이터를 받아오는데 오류가 발생하였습니다.', '관리자에게 문의해주세요.', [
-          {
-            text: '확인'
-          }
-        ])
+        cusToast('데이터를 받아오는데 오류가 발생하였습니다.\n관리자에게 문의해주세요')
+        // Alert.alert('데이터를 받아오는데 오류가 발생하였습니다.', '관리자에게 문의해주세요.', [
+        //   {
+        //     text: '확인'
+        //   }
+        // ])
       }
 
       setLoading(false)
@@ -176,29 +178,37 @@ const OrderDetail = props => {
 
       if (resultItem.result === 'Y') {
         getOrderListHandlerCheck()
-        Alert.alert(
-          `주문을 ${detailOrder.od_type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`,
-          '',
-          [
-            {
-              text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'Main' })
-            }
-          ]
-        )
+        cusToast(`주문을 ${detailOrder.od_type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`)
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
+        // Alert.alert(
+        //   `주문을 ${detailOrder.od_type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`,
+        //   '',
+        //   [
+        //     {
+        //       text: '확인',
+        //       onPress: () => navigation.navigate('Home', { screen: 'Main' })
+        //     }
+        //   ]
+        // )
       } else {
-        Alert.alert(
-          `주문을 ${
-            detailOrder.od_type === '배달' ? '배달' : '포장완료'
-          } 처리중 오류가 발생하였습니다.`,
-          '다시 한번 시도해주세요.',
-          [
-            {
-              text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'Main' })
-            }
-          ]
-        )
+        cusToast(`주문을 ${detailOrder.od_type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
+        // Alert.alert(
+        //   `주문을 ${
+        //     detailOrder.od_type === '배달' ? '배달' : '포장완료'
+        //   } 처리중 오류가 발생하였습니다.`,
+        //   '다시 한번 시도해주세요.',
+        //   [
+        //     {
+        //       text: '확인',
+        //       onPress: () => navigation.navigate('Home', { screen: 'Main' })
+        //     }
+        //   ]
+        // )
       }
     })
   }
@@ -697,8 +707,8 @@ const OrderDetail = props => {
                   {/* 결제정보 리스트 */}
                   <View
                     style={{
-                      borderWidth: 1,
-                      borderColor: '#E3E3E3',
+                      // borderWidth: 1,
+                      // borderColor: '#E3E3E3',
                       borderRadius: 5,
                       backgroundColor: '#E8F7FA',
                       ...BaseStyle.pv20,

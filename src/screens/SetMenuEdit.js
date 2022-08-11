@@ -301,32 +301,12 @@ const SetMenuEdit = props => {
   // 메뉴 추가 핸들러
   const editMenuAddHandler = () => {
     if (selectCategory === '' || selectCategory === null) {
-      Alert.alert('분류를 선택해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('분류를 선택해주세요.')
     } else if (name === '' || name === null) {
-      Alert.alert('메뉴명을 입력해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('메뉴명을 입력해주세요.')
     } else if (salePrice === '' || salePrice === null) {
-      Alert.alert('판매가격을 입력해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
-    }
-    // else if (description === '' || description === null) {
-    //   Alert.alert('메뉴 상세 설명을 입력해주세요.', '', [
-    //     {
-    //       text: '확인',
-    //     },
-    //   ]);
-    // }
-    else {
+      cusToast('판매가격을 입력해주세요.')
+    } else {
       const param = {
         jumju_id: mtId,
         jumju_code: mtJumjuCode,
@@ -356,25 +336,14 @@ const SetMenuEdit = props => {
         const arrItems = args.arrItems
 
         if (resultItem.result === 'Y') {
-          console.log('====================================')
-          console.log('메뉴 수정 resultItem :: ', resultItem)
-          console.log('메뉴 수정 :: ', arrItems)
-          console.log('====================================')
-          Alert.alert('메뉴가 수정되었습니다.', '메뉴 리스트로 이동합니다.', [
-            {
-              text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'SetMenu' })
-            }
-          ])
+          cusToast('메뉴가 수정되었습니다.', 1500)
         } else {
-          Alert.alert('오류가 발생하였습니다.', '메뉴 리스트로 이동합니다.', [
-            {
-              text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'SetMenu' })
-            }
-          ])
-          // setButtonDisabled(false);
+          cusToast('메뉴를 수정 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
         }
+
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'SetMenu' })
+        }, 1500)
       })
     }
   }

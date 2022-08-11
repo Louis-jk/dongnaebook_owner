@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import * as orderAction from '../redux/actions/orderAction'
+import cusToast from './CusToast'
 
 const OrderCheckModal = ({
   isModalVisible,
@@ -62,21 +63,29 @@ const OrderCheckModal = ({
       if (resultItem.result === 'Y') {
         getOrderListHandler()
         toggleModal()
-        Alert.alert('주문을 접수하였습니다.', '', [
-          {
-            text: '확인',
-            onPress: () => navigation.navigate('Home', { screen: 'Main' })
-          }
-        ])
+        cusToast('주문을 접수하였습니다.')
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
+        // Alert.alert('주문을 접수하였습니다.', '', [
+        //   {
+        //     text: '확인',
+        //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
+        //   }
+        // ])
       } else {
         getOrderListHandler()
         toggleModal()
-        Alert.alert('주문 접수중 오류가 발생하였습니다.', '다시 한번 시도해주세요.', [
-          {
-            text: '확인',
-            onPress: () => navigation.navigate('Home', { screen: 'Main' })
-          }
-        ])
+        cusToast('주문 접수중 오류가 발생하였습니다.\n다시 한번 시도해주세요.')
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
+        // Alert.alert('주문 접수중 오류가 발생하였습니다.', '다시 한번 시도해주세요.', [
+        //   {
+        //     text: '확인',
+        //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
+        //   }
+        // ])
       }
     })
   }

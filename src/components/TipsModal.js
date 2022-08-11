@@ -27,11 +27,12 @@ const TipsModal = props => {
   // 주문 금액 별 배달팁 전송 API 붙이시면 됩니다.
   const sendConfirmHandler01 = () => {
     toggleModal()
-    Alert.alert('주문 금액별 배달팁을 추가하였습니다.', '', [
-      {
-        text: '확인'
-      }
-    ])
+    cusToast('주문 금액별 배달팁을 추가하였습니다.')
+    // Alert.alert('주문 금액별 배달팁을 추가하였습니다.', '', [
+    //   {
+    //     text: '확인'
+    //   }
+    // ])
   }
 
   // 할증 배달팁 설정
@@ -67,11 +68,12 @@ const TipsModal = props => {
   // 할증 배달팁 전송 API 붙이시면 됩니다.
   const sendConfirmHandler02 = () => {
     toggleModal()
-    Alert.alert('할증 배달팁을 추가하였습니다.', '', [
-      {
-        text: '확인'
-      }
-    ])
+    cusToast('할증 배달팁을 추가하였습니다.')
+    // Alert.alert('할증 배달팁을 추가하였습니다.', '', [
+    //   {
+    //     text: '확인'
+    //   }
+    // ])
   }
 
   const tipAddHandler = () => {
@@ -81,29 +83,33 @@ const TipsModal = props => {
     const intDeliveryPrice = parseInt(deliveryPrice)
 
     if (maxPrice === null || maxPrice === '') {
-      Alert.alert('구매 금액 범위 최대금액을 입력해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('구매 금액 범위 최대금액을 입력해주세요.')
+      // Alert.alert('구매 금액 범위 최대금액을 입력해주세요.', '', [
+      //   {
+      //     text: '확인'
+      //   }
+      // ])
     } else if (intMinPrice >= intMaxPrice) {
-      Alert.alert('최소 금액은 최대 금액보다 낮게 입력해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('최소 금액은 최대 금액보다 낮게 입력해주세요.')
+      // Alert.alert('최소 금액은 최대 금액보다 낮게 입력해주세요.', '', [
+      //   {
+      //     text: '확인'
+      //   }
+      // ])
     } else if (intDeliveryPrice <= 0) {
-      Alert.alert('배달비를 입력해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('배달비를 입력해주세요.')
+      // Alert.alert('배달비를 입력해주세요.', '', [
+      //   {
+      //     text: '확인'
+      //   }
+      // ])
     } else if (deliveryPrice === null || deliveryPrice === '') {
-      Alert.alert('배달비를 입력해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('배달비를 입력해주세요.')
+      // Alert.alert('배달비를 입력해주세요.', '', [
+      //   {
+      //     text: '확인'
+      //   }
+      // ])
     } else {
       const param = {
         encodeJson: true,

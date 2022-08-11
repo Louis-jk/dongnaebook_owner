@@ -180,12 +180,10 @@ const StoreInfo = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
       if (resultItem.result === 'Y') {
-        Alert.alert('매장정보를 등록하였습니다.', '메인화면으로 이동합니다.', [
-          {
-            text: '예',
-            onPress: () => navigation.navigate('Home', { screen: 'Main' })
-          }
-        ])
+        cusToast('매장정보를 등록하였습니다.\메인화면으로 이동합니다.', 1500)
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
       }
     })
   }
@@ -196,26 +194,14 @@ const StoreInfo = props => {
 
   const onModifyStoreInfo = () => {
     if (info.do_jumju_introduction === null || info.do_jumju_introduction === '') {
-      Alert.alert('매장 소개를 입력해주세요.', '', [
-        {
-          text: '확인',
-          onPress: () => introduceRef.current.focus()
-        }
-      ])
+      introduceRef.current.focus()
+      cusToast('매장 소개를 입력해주세요.')
     } else if (info.do_major_menu === null || info.do_major_menu === '') {
-      Alert.alert('대표메뉴를 입력해주세요.', '', [
-        {
-          text: '확인',
-          onPress: () => majorMenuRef.current.focus()
-        }
-      ])
+      majorMenuRef.current.focus()
+      cusToast('대표메뉴를 입력해주세요.')
     } else if (info.do_jumju_origin === null || info.do_jumju_origin === '') {
-      Alert.alert('원산지 안내를 입력해주세요.', '', [
-        {
-          text: '확인',
-          onPress: () => originRef.current.focus()
-        }
-      ])
+      originRef.current.focus()
+      cusToast('원산지 안내를 입력해주세요.')
     } else {
       const data = {
         mode: 'update',
@@ -255,22 +241,13 @@ const StoreInfo = props => {
         const resultItem = args.resultItem
         const arrItems = args.arrItems
 
-        console.log('resultItem', resultItem)
-        console.log('arrItems', arrItems)
-
         if (resultItem.result === 'Y') {
-          Alert.alert('매장정보를 수정 하였습니다.', '메인화면으로 이동합니다.', [
-            {
-              text: '예',
-              onPress: () => navigation.navigate('Home', { screen: 'Main' })
-            }
-          ])
+          cusToast('매장정보를 수정 하였습니다.\n메인화면으로 이동합니다.', 1500)
+          setTimeout(() => {
+            navigation.navigate('Home', { screen: 'Main' })
+          }, 1500)
         } else {
-          Alert.alert('매장정보를 수정하지 못했습니다.', '계속될 경우 관리자에게 문의하세요.', [
-            {
-              text: '예'
-            }
-          ])
+          cusToast('매장정보를 수정하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 2500)
         }
       })
     }
@@ -350,8 +327,6 @@ const StoreInfo = props => {
         imageOrCameraChoiceHandler()
       })
   }
-
-  console.log('source', source)
 
   // 대표이미지 카메라 촬영
   const openCameraHandler = () => {
@@ -525,12 +500,12 @@ const StoreInfo = props => {
                 >
                   <Text
                     style={{
-                    ...BaseStyle.ko14,
-                    color: '#fff'
-                  }}
+                      ...BaseStyle.ko14,
+                      color: '#fff'
+                    }}
                   >
                     사진촬영
-              </Text>
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -547,14 +522,14 @@ const StoreInfo = props => {
                 <View style={{ ...BaseStyle.container3 }}>
                   <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr10 }}>
                     대표 이미지
-              </Text>
+                  </Text>
                   <View>
                     <Text style={{ ...BaseStyle.ko12, color: '#aaa', ...BaseStyle.mb3 }}>
-                    (대표 이미지는 5장까지 등록 가능합니다.)
-                </Text>
+                      (대표 이미지는 5장까지 등록 가능합니다.)
+                    </Text>
                     <Text style={{ ...BaseStyle.ko12, color: '#aaa' }}>
-                    ※ 이미지는 4:3 비율을 권장합니다.
-                </Text>
+                      ※ 이미지는 4:3 비율을 권장합니다.
+                    </Text>
                   </View>
                 </View>
                 <View
@@ -570,303 +545,303 @@ const StoreInfo = props => {
                   {/* 신규 */}
                   {detailImgs01 !== '' ? (
                     <View style={{ position: 'relative' }}>
-                    <Image
-                    source={
+                      <Image
+                        source={
                       showDefault
                         ? require('../images/loading_image.png')
                         : imageError
                           ? require('../images/error_image.png')
                           : { uri: `${detailImgs01}` }
                     }
-                    style={{
-                      width: MAIN_IMAGE_THUMB_WIDTH,
-                      height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                      borderRadius: 5
-                    }}
-                    resizeMode='cover'
-                    onError={() => setImageError(true)}
-                    onLoadEnd={() => setShowDefault(false)}
-                  />
-                    <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => deleteImage(1)}
-                    style={{
-                      position: 'absolute',
-                      top: 2,
-                      right: 2,
-                      width: 20,
-                      height: 20,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: '#222',
-                      borderRadius: 30
-                    }}
-                  >
-                    <Image
-                      source={require('../images/close_wh.png')}
-                      style={{
-                        width: 10,
-                        height: 10
-                      }}
-                      resizeMode='center'
-                    />
-                  </TouchableOpacity>
-                  </View>
+                        style={{
+                          width: MAIN_IMAGE_THUMB_WIDTH,
+                          height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                          borderRadius: 5
+                        }}
+                        resizeMode='cover'
+                        onError={() => setImageError(true)}
+                        onLoadEnd={() => setShowDefault(false)}
+                      />
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => deleteImage(1)}
+                        style={{
+                          position: 'absolute',
+                          top: 2,
+                          right: 2,
+                          width: 20,
+                          height: 20,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: '#222',
+                          borderRadius: 30
+                        }}
+                      >
+                        <Image
+                          source={require('../images/close_wh.png')}
+                          style={{
+                            width: 10,
+                            height: 10
+                          }}
+                          resizeMode='center'
+                        />
+                      </TouchableOpacity>
+                    </View>
                   ) : (
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => imageOrCameraChoiceHandler(1)}
-                  style={{
-                    width: MAIN_IMAGE_THUMB_WIDTH,
-                    height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                    borderRadius: 5,
-                    backgroundColor: '#ececec',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => imageOrCameraChoiceHandler(1)}
+                      style={{
+                        width: MAIN_IMAGE_THUMB_WIDTH,
+                        height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                        borderRadius: 5,
+                        backgroundColor: '#ececec',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
+                    </TouchableOpacity>
                   )}
                   {detailImgs02 !== '' ? (
                     <View style={{ position: 'relative' }}>
-                    <Image
-                    source={
+                      <Image
+                        source={
                       showDefault
                         ? require('../images/loading_image.png')
                         : imageError
                           ? require('../images/error_image.png')
                           : { uri: `${detailImgs02}` }
                     }
-                    style={{
-                      width: MAIN_IMAGE_THUMB_WIDTH,
-                      height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                      borderRadius: 5
-                    }}
-                    resizeMode='cover'
-                    onError={() => setImageError(true)}
-                    onLoadEnd={() => setShowDefault(false)}
-                  />
-                    <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => deleteImage(2)}
-                    style={{
-                      position: 'absolute',
-                      top: 2,
-                      right: 2,
-                      width: 20,
-                      height: 20,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: '#222',
-                      borderRadius: 30
-                    }}
-                  >
-                    <Image
-                      source={require('../images/close_wh.png')}
-                      style={{
-                        width: 10,
-                        height: 10
-                      }}
-                      resizeMode='center'
-                    />
-                  </TouchableOpacity>
-                  </View>
+                        style={{
+                          width: MAIN_IMAGE_THUMB_WIDTH,
+                          height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                          borderRadius: 5
+                        }}
+                        resizeMode='cover'
+                        onError={() => setImageError(true)}
+                        onLoadEnd={() => setShowDefault(false)}
+                      />
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => deleteImage(2)}
+                        style={{
+                          position: 'absolute',
+                          top: 2,
+                          right: 2,
+                          width: 20,
+                          height: 20,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: '#222',
+                          borderRadius: 30
+                        }}
+                      >
+                        <Image
+                          source={require('../images/close_wh.png')}
+                          style={{
+                            width: 10,
+                            height: 10
+                          }}
+                          resizeMode='center'
+                        />
+                      </TouchableOpacity>
+                    </View>
                   ) : (
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => imageOrCameraChoiceHandler(2)}
-                  style={{
-                    width: MAIN_IMAGE_THUMB_WIDTH,
-                    height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                    borderRadius: 5,
-                    backgroundColor: '#ececec',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => imageOrCameraChoiceHandler(2)}
+                      style={{
+                        width: MAIN_IMAGE_THUMB_WIDTH,
+                        height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                        borderRadius: 5,
+                        backgroundColor: '#ececec',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
+                    </TouchableOpacity>
                   )}
                   {detailImgs03 !== '' ? (
                     <View style={{ position: 'relative' }}>
-                    <Image
-                    source={
+                      <Image
+                        source={
                       showDefault
                         ? require('../images/loading_image.png')
                         : imageError
                           ? require('../images/error_image.png')
                           : { uri: `${detailImgs03}` }
                     }
-                    style={{
-                      width: MAIN_IMAGE_THUMB_WIDTH,
-                      height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                      borderRadius: 5
-                    }}
-                    resizeMode='cover'
-                    onError={() => setImageError(true)}
-                    onLoadEnd={() => setShowDefault(false)}
-                  />
-                    <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => deleteImage(3)}
-                    style={{
-                      position: 'absolute',
-                      top: 2,
-                      right: 2,
-                      width: 20,
-                      height: 20,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: '#222',
-                      borderRadius: 30
-                    }}
-                  >
-                    <Image
-                      source={require('../images/close_wh.png')}
-                      style={{
-                        width: 10,
-                        height: 10
-                      }}
-                      resizeMode='center'
-                    />
-                  </TouchableOpacity>
-                  </View>
+                        style={{
+                          width: MAIN_IMAGE_THUMB_WIDTH,
+                          height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                          borderRadius: 5
+                        }}
+                        resizeMode='cover'
+                        onError={() => setImageError(true)}
+                        onLoadEnd={() => setShowDefault(false)}
+                      />
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => deleteImage(3)}
+                        style={{
+                          position: 'absolute',
+                          top: 2,
+                          right: 2,
+                          width: 20,
+                          height: 20,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: '#222',
+                          borderRadius: 30
+                        }}
+                      >
+                        <Image
+                          source={require('../images/close_wh.png')}
+                          style={{
+                            width: 10,
+                            height: 10
+                          }}
+                          resizeMode='center'
+                        />
+                      </TouchableOpacity>
+                    </View>
                   ) : (
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => imageOrCameraChoiceHandler(3)}
-                  style={{
-                    width: MAIN_IMAGE_THUMB_WIDTH,
-                    height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                    borderRadius: 5,
-                    backgroundColor: '#ececec',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => imageOrCameraChoiceHandler(3)}
+                      style={{
+                        width: MAIN_IMAGE_THUMB_WIDTH,
+                        height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                        borderRadius: 5,
+                        backgroundColor: '#ececec',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
+                    </TouchableOpacity>
                   )}
                   {detailImgs04 !== '' ? (
                     <View style={{ position: 'relative' }}>
-                    <Image
-                    source={
+                      <Image
+                        source={
                       showDefault
                         ? require('../images/loading_image.png')
                         : imageError
                           ? require('../images/error_image.png')
                           : { uri: `${detailImgs04}` }
                     }
-                    style={{
-                      width: MAIN_IMAGE_THUMB_WIDTH,
-                      height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                      borderRadius: 5
-                    }}
-                    resizeMode='cover'
-                    onError={() => setImageError(true)}
-                    onLoadEnd={() => setShowDefault(false)}
-                  />
-                    <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => deleteImage(4)}
-                    style={{
-                      position: 'absolute',
-                      top: 2,
-                      right: 2,
-                      width: 20,
-                      height: 20,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: '#222',
-                      borderRadius: 30
-                    }}
-                  >
-                    <Image
-                      source={require('../images/close_wh.png')}
-                      style={{
-                        width: 10,
-                        height: 10
-                      }}
-                      resizeMode='center'
-                    />
-                  </TouchableOpacity>
-                  </View>
+                        style={{
+                          width: MAIN_IMAGE_THUMB_WIDTH,
+                          height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                          borderRadius: 5
+                        }}
+                        resizeMode='cover'
+                        onError={() => setImageError(true)}
+                        onLoadEnd={() => setShowDefault(false)}
+                      />
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => deleteImage(4)}
+                        style={{
+                          position: 'absolute',
+                          top: 2,
+                          right: 2,
+                          width: 20,
+                          height: 20,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: '#222',
+                          borderRadius: 30
+                        }}
+                      >
+                        <Image
+                          source={require('../images/close_wh.png')}
+                          style={{
+                            width: 10,
+                            height: 10
+                          }}
+                          resizeMode='center'
+                        />
+                      </TouchableOpacity>
+                    </View>
                   ) : (
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => imageOrCameraChoiceHandler(4)}
-                  style={{
-                    width: MAIN_IMAGE_THUMB_WIDTH,
-                    height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                    borderRadius: 5,
-                    backgroundColor: '#ececec',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => imageOrCameraChoiceHandler(4)}
+                      style={{
+                        width: MAIN_IMAGE_THUMB_WIDTH,
+                        height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                        borderRadius: 5,
+                        backgroundColor: '#ececec',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
+                    </TouchableOpacity>
                   )}
                   {detailImgs05 !== '' ? (
                     <View style={{ position: 'relative' }}>
-                    <Image
-                    source={
+                      <Image
+                        source={
                       showDefault
                         ? require('../images/loading_image.png')
                         : imageError
                           ? require('../images/error_image.png')
                           : { uri: `${detailImgs05}` }
                     }
-                    style={{
-                      width: MAIN_IMAGE_THUMB_WIDTH,
-                      height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                      borderRadius: 5
-                    }}
-                    resizeMode='cover'
-                    onError={() => setImageError(true)}
-                    onLoadEnd={() => setShowDefault(false)}
-                  />
-                    <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => deleteImage(5)}
-                    style={{
-                      position: 'absolute',
-                      top: 2,
-                      right: 2,
-                      width: 20,
-                      height: 20,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: '#222',
-                      borderRadius: 30
-                    }}
-                  >
-                    <Image
-                      source={require('../images/close_wh.png')}
-                      style={{
-                        width: 10,
-                        height: 10
-                      }}
-                      resizeMode='center'
-                    />
-                  </TouchableOpacity>
-                  </View>
+                        style={{
+                          width: MAIN_IMAGE_THUMB_WIDTH,
+                          height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                          borderRadius: 5
+                        }}
+                        resizeMode='cover'
+                        onError={() => setImageError(true)}
+                        onLoadEnd={() => setShowDefault(false)}
+                      />
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => deleteImage(5)}
+                        style={{
+                          position: 'absolute',
+                          top: 2,
+                          right: 2,
+                          width: 20,
+                          height: 20,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: '#222',
+                          borderRadius: 30
+                        }}
+                      >
+                        <Image
+                          source={require('../images/close_wh.png')}
+                          style={{
+                            width: 10,
+                            height: 10
+                          }}
+                          resizeMode='center'
+                        />
+                      </TouchableOpacity>
+                    </View>
                   ) : (
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => imageOrCameraChoiceHandler(5)}
-                  style={{
-                    width: MAIN_IMAGE_THUMB_WIDTH,
-                    height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                    borderRadius: 5,
-                    backgroundColor: '#ececec',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => imageOrCameraChoiceHandler(5)}
+                      style={{
+                        width: MAIN_IMAGE_THUMB_WIDTH,
+                        height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                        borderRadius: 5,
+                        backgroundColor: '#ececec',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
+                    </TouchableOpacity>
                   )}
 
                   {/* //신규 */}
@@ -880,33 +855,33 @@ const StoreInfo = props => {
               </Text> */}
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
                     <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
-                    매장 소개
-                </Text>
+                      매장 소개
+                    </Text>
                     <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
                   </View>
                   <View
                     style={{
-                    borderWidth: 1,
-                    borderColor: '#E3E3E3',
-                    ...BaseStyle.round05,
-                    ...BaseStyle.ph10,
-                    height: 150
-                  }}
+                      borderWidth: 1,
+                      borderColor: '#E3E3E3',
+                      ...BaseStyle.round05,
+                      ...BaseStyle.ph10,
+                      height: 150
+                    }}
                   >
                     <TextInput
-                    ref={introduceRef}
-                    value={info.do_jumju_introduction}
-                    placeholder='매장에 대한 설명을 입력해주세요.'
-                    style={{
-                    width: '100%',
-                    ...BaseStyle.ko14,
-                    ...BaseStyle.lh22,
-                    marginTop: 10
-                  }}
-                    onChangeText={text => setInfo({ ...info, do_jumju_introduction: text })}
-                    autoCapitalize='none'
-                    multiline
-                  />
+                      ref={introduceRef}
+                      value={info.do_jumju_introduction}
+                      placeholder='매장에 대한 설명을 입력해주세요.'
+                      style={{
+                        width: '100%',
+                        ...BaseStyle.ko14,
+                        ...BaseStyle.lh22,
+                        marginTop: 10
+                      }}
+                      onChangeText={text => setInfo({ ...info, do_jumju_introduction: text })}
+                      autoCapitalize='none'
+                      multiline
+                    />
                   </View>
                 </View>
                 {/* // 매장 소개 */}
@@ -915,33 +890,33 @@ const StoreInfo = props => {
                 <View style={{ ...BaseStyle.mv10 }}>
                   <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
                     안내 및 혜택
-              </Text>
+                  </Text>
                   {/* <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
                 <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>안내 및 혜택</Text>
                 <Text style={{...BaseStyle.ko12, color:Primary.PointColor02}}>※</Text>
               </View> */}
                   <View
                     style={{
-                    borderWidth: 1,
-                    borderColor: '#E3E3E3',
-                    ...BaseStyle.round05,
-                    ...BaseStyle.ph10,
-                    height: 150
-                  }}
+                      borderWidth: 1,
+                      borderColor: '#E3E3E3',
+                      ...BaseStyle.round05,
+                      ...BaseStyle.ph10,
+                      height: 150
+                    }}
                   >
                     <TextInput
-                    value={info.do_jumju_guide}
-                    placeholder='안내 및 혜택이 있을 시 입력해주세요.'
-                    style={{
-                    width: '100%',
-                    ...BaseStyle.ko14,
-                    ...BaseStyle.lh22,
-                    marginTop: 10
-                  }}
-                    onChangeText={text => setInfo({ ...info, do_jumju_guide: text })}
-                    autoCapitalize='none'
-                    multiline
-                  />
+                      value={info.do_jumju_guide}
+                      placeholder='안내 및 혜택이 있을 시 입력해주세요.'
+                      style={{
+                        width: '100%',
+                        ...BaseStyle.ko14,
+                        ...BaseStyle.lh22,
+                        marginTop: 10
+                      }}
+                      onChangeText={text => setInfo({ ...info, do_jumju_guide: text })}
+                      autoCapitalize='none'
+                      multiline
+                    />
                   </View>
                 </View>
                 {/* // 안내 및 혜택 */}
@@ -950,33 +925,33 @@ const StoreInfo = props => {
                 <View style={{ ...BaseStyle.mv10 }}>
                   <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
                     안내 및 메뉴 소개
-              </Text>
+                  </Text>
                   {/* <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
                 <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>메뉴 소개</Text>
                 <Text style={{...BaseStyle.ko12, color:Primary.PointColor02}}>※</Text>
               </View> */}
                   <View
                     style={{
-                    borderWidth: 1,
-                    borderColor: '#E3E3E3',
-                    ...BaseStyle.round05,
-                    ...BaseStyle.ph10,
-                    height: 150
-                  }}
+                      borderWidth: 1,
+                      borderColor: '#E3E3E3',
+                      ...BaseStyle.round05,
+                      ...BaseStyle.ph10,
+                      height: 150
+                    }}
                   >
                     <TextInput
-                    value={info.do_jumju_menu_info}
-                    placeholder='안내 및 메뉴 소개가 있을 시 입력해주세요.'
-                    style={{
-                    width: '100%',
-                    ...BaseStyle.ko14,
-                    ...BaseStyle.lh22,
-                    marginTop: 10
-                  }}
-                    onChangeText={text => setInfo({ ...info, do_jumju_menu_info: text })}
-                    autoCapitalize='none'
-                    multiline
-                  />
+                      value={info.do_jumju_menu_info}
+                      placeholder='안내 및 메뉴 소개가 있을 시 입력해주세요.'
+                      style={{
+                        width: '100%',
+                        ...BaseStyle.ko14,
+                        ...BaseStyle.lh22,
+                        marginTop: 10
+                      }}
+                      onChangeText={text => setInfo({ ...info, do_jumju_menu_info: text })}
+                      autoCapitalize='none'
+                      multiline
+                    />
                   </View>
                 </View>
                 {/* // 메뉴 소개 */}
@@ -988,59 +963,59 @@ const StoreInfo = props => {
               </Text> */}
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
                     <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
-                    대표 메뉴
-                </Text>
+                      대표 메뉴
+                    </Text>
                     <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
                   </View>
                   <View
                     style={{
-                    ...BaseStyle.container5,
-                    borderWidth: 1,
-                    borderColor: '#E3E3E3',
-                    ...BaseStyle.round05,
-                    ...BaseStyle.inputH,
-                    ...BaseStyle.ph10
-                  }}
+                      ...BaseStyle.container5,
+                      borderWidth: 1,
+                      borderColor: '#E3E3E3',
+                      ...BaseStyle.round05,
+                      ...BaseStyle.inputH,
+                      ...BaseStyle.ph10
+                    }}
                   >
                     <TextInput
-                    ref={majorMenuRef}
-                    value={info.do_major_menu}
-                    placeholder='대표 메뉴을 입력해주세요.'
-                    style={{
-                    width: '100%',
-                    ...BaseStyle.inputH,
-                    ...BaseStyle.ko14,
-                    marginTop: 10
-                  }}
-                    onChangeText={text => setInfo({ ...info, do_major_menu: text })}
-                    autoCapitalize='none'
-                  />
+                      ref={majorMenuRef}
+                      value={info.do_major_menu}
+                      placeholder='대표 메뉴을 입력해주세요.'
+                      style={{
+                        width: '100%',
+                        ...BaseStyle.inputH,
+                        ...BaseStyle.ko14,
+                        marginTop: 10
+                      }}
+                      onChangeText={text => setInfo({ ...info, do_major_menu: text })}
+                      autoCapitalize='none'
+                    />
                   </View>
                   {/* <Text style={{...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mt5}}>
                 대표메뉴 윗부분에 보여지는 글 입니다.
               </Text> */}
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mt5 }}>
                     <Text
-                    style={{
-                    ...BaseStyle.ko12,
-                    ...BaseStyle.lh17,
-                    color: Primary.PointColor02,
-                    ...BaseStyle.mr5
-                  }}
-                  >
-                    ※
-                </Text>
+                      style={{
+                        ...BaseStyle.ko12,
+                        ...BaseStyle.lh17,
+                        color: Primary.PointColor02,
+                        ...BaseStyle.mr5
+                      }}
+                    >
+                      ※
+                    </Text>
                     <Text
-                    style={{
-                    ...BaseStyle.ko12,
-                    ...BaseStyle.lh17,
-                    color: Primary.PointColor02,
-                    flex: 1,
-                    flexWrap: 'wrap'
-                  }}
-                  >
-                    입력하실 때는 콤마(,)로 구분하여 입력해주세요.
-                </Text>
+                      style={{
+                        ...BaseStyle.ko12,
+                        ...BaseStyle.lh17,
+                        color: Primary.PointColor02,
+                        flex: 1,
+                        flexWrap: 'wrap'
+                      }}
+                    >
+                      입력하실 때는 콤마(,)로 구분하여 입력해주세요.
+                    </Text>
                   </View>
                 </View>
                 {/* // 대표 메뉴 */}
@@ -1052,33 +1027,33 @@ const StoreInfo = props => {
               </Text> */}
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
                     <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
-                    원산지 안내
-                </Text>
+                      원산지 안내
+                    </Text>
                     <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
                   </View>
                   <View
                     style={{
-                    borderWidth: 1,
-                    borderColor: '#E3E3E3',
-                    ...BaseStyle.round05,
-                    ...BaseStyle.ph10,
-                    height: 150
-                  }}
+                      borderWidth: 1,
+                      borderColor: '#E3E3E3',
+                      ...BaseStyle.round05,
+                      ...BaseStyle.ph10,
+                      height: 150
+                    }}
                   >
                     <TextInput
-                    ref={originRef}
-                    value={info.do_jumju_origin}
-                    placeholder='원산지 안내가 있을 시 입력해주세요.'
-                    style={{
-                    width: '100%',
-                    ...BaseStyle.ko14,
-                    ...BaseStyle.lh22,
-                    marginTop: 10
-                  }}
-                    onChangeText={text => setInfo({ ...info, do_jumju_origin: text })}
-                    autoCapitalize='none'
-                    multiline
-                  />
+                      ref={originRef}
+                      value={info.do_jumju_origin}
+                      placeholder='원산지 안내가 있을 시 입력해주세요.'
+                      style={{
+                        width: '100%',
+                        ...BaseStyle.ko14,
+                        ...BaseStyle.lh22,
+                        marginTop: 10
+                      }}
+                      onChangeText={text => setInfo({ ...info, do_jumju_origin: text })}
+                      autoCapitalize='none'
+                      multiline
+                    />
                   </View>
                 </View>
                 {/* // 원산지 안내 */}
@@ -1090,53 +1065,53 @@ const StoreInfo = props => {
               </Text> */}
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
                     <Text
-                    style={{
-                    ...BaseStyle.ko15,
-                    ...BaseStyle.font_bold,
-                    ...BaseStyle.mr5
-                  }}
-                  >
-                    원산지 표시 유무
-                </Text>
+                      style={{
+                        ...BaseStyle.ko15,
+                        ...BaseStyle.font_bold,
+                        ...BaseStyle.mr5
+                      }}
+                    >
+                      원산지 표시 유무
+                    </Text>
                     <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
                   </View>
                   <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
                     <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => setInfo({ ...info, do_jumju_origin_use: 'Y' })}
-                    hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                    style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
-                  >
-                    <Image
-                    source={
+                      activeOpacity={1}
+                      onPress={() => setInfo({ ...info, do_jumju_origin_use: 'Y' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                    >
+                      <Image
+                        source={
                       info.do_jumju_origin_use === 'Y'
                         ? require('../images/ic_check_on.png')
                         : require('../images/ic_check_off.png')
                     }
-                    style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                    resizeMode='contain'
-                    fadeDuration={100}
-                  />
-                    <Text style={{ ...BaseStyle.ko14 }}>원산지 노출</Text>
-                  </TouchableOpacity>
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>원산지 노출</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => setInfo({ ...info, do_jumju_origin_use: 'N' })}
-                    hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                    style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
-                  >
-                    <Image
-                    source={
+                      activeOpacity={1}
+                      onPress={() => setInfo({ ...info, do_jumju_origin_use: 'N' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                    >
+                      <Image
+                        source={
                       info.do_jumju_origin_use === 'N'
                         ? require('../images/ic_check_on.png')
                         : require('../images/ic_check_off.png')
                     }
-                    style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                    resizeMode='contain'
-                    fadeDuration={100}
-                  />
-                    <Text style={{ ...BaseStyle.ko14 }}>원산지 노출 안함</Text>
-                  </TouchableOpacity>
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>원산지 노출 안함</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
                 {/* // 원산지 표시 유무 */}
@@ -1145,65 +1120,65 @@ const StoreInfo = props => {
                 <View style={{ ...BaseStyle.mv10 }}>
                   <Text
                     style={{
-                    ...BaseStyle.ko15,
-                    ...BaseStyle.font_bold,
-                    ...BaseStyle.mb10
-                  }}
+                      ...BaseStyle.ko15,
+                      ...BaseStyle.font_bold,
+                      ...BaseStyle.mb10
+                    }}
                   >
                     배달팁 안내
-              </Text>
+                  </Text>
                   {/* <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
                 <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>배달팁 안내</Text>
                 <Text style={{...BaseStyle.ko12, color:Primary.PointColor02}}>※</Text>
               </View> */}
                   <View
                     style={{
-                    borderWidth: 1,
-                    borderColor: '#E3E3E3',
-                    ...BaseStyle.round05,
-                    ...BaseStyle.ph10,
-                    height: 150
-                  }}
+                      borderWidth: 1,
+                      borderColor: '#E3E3E3',
+                      ...BaseStyle.round05,
+                      ...BaseStyle.ph10,
+                      height: 150
+                    }}
                   >
                     <TextInput
-                    value={info.do_delivery_guide}
-                    placeholder='배달팁 안내가 있을 시 입력해주세요.'
-                    textContentType='addressCity'
-                    style={{
-                    ...BaseStyle.ko14,
-                    ...BaseStyle.lh22,
-                    marginTop: 10
-                  }}
-                    onChangeText={text => setDescriptionTips(text)}
-                    onChangeText={text => setInfo({ ...info, do_delivery_guide: text })}
-                    autoCapitalize='none'
-                    multiline
-                  />
+                      value={info.do_delivery_guide}
+                      placeholder='배달팁 안내가 있을 시 입력해주세요.'
+                      textContentType='addressCity'
+                      style={{
+                        ...BaseStyle.ko14,
+                        ...BaseStyle.lh22,
+                        marginTop: 10
+                      }}
+                      onChangeText={text => setDescriptionTips(text)}
+                      onChangeText={text => setInfo({ ...info, do_delivery_guide: text })}
+                      autoCapitalize='none'
+                      multiline
+                    />
                   </View>
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mt5 }}>
                     <Text
-                    style={{
-                    ...BaseStyle.ko12,
-                    ...BaseStyle.lh17,
-                    color: Primary.PointColor02,
-                    ...BaseStyle.mr5
-                  }}
-                  >
-                    ※
-                </Text>
+                      style={{
+                        ...BaseStyle.ko12,
+                        ...BaseStyle.lh17,
+                        color: Primary.PointColor02,
+                        ...BaseStyle.mr5
+                      }}
+                    >
+                      ※
+                    </Text>
                     <Text
-                    style={{
-                    ...BaseStyle.ko12,
-                    ...BaseStyle.lh17,
-                    color: Primary.PointColor02,
-                    flex: 1,
-                    flexWrap: 'wrap'
-                  }}
-                  >
-                    {
+                      style={{
+                        ...BaseStyle.ko12,
+                        ...BaseStyle.lh17,
+                        color: Primary.PointColor02,
+                        flex: 1,
+                        flexWrap: 'wrap'
+                      }}
+                    >
+                      {
                     '배달팁은 가게에서 책정한 금액입니다.\n동네북은 배달팁 결제만 대행할 뿐, 금액은 가게로 전달됩니다'
                   }
-                  </Text>
+                    </Text>
                   </View>
                 </View>
                 {/* // 배달팁 안내 */}
@@ -1212,29 +1187,29 @@ const StoreInfo = props => {
                 <View style={{ ...BaseStyle.mv10 }}>
                   <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
                     평균 배달 시간
-              </Text>
+                  </Text>
                   <View
                     style={{
-                    ...BaseStyle.container5,
-                    borderWidth: 1,
-                    borderColor: '#E3E3E3',
-                    ...BaseStyle.round05,
-                    ...BaseStyle.inputH,
-                    ...BaseStyle.ph10
-                  }}
+                      ...BaseStyle.container5,
+                      borderWidth: 1,
+                      borderColor: '#E3E3E3',
+                      ...BaseStyle.round05,
+                      ...BaseStyle.inputH,
+                      ...BaseStyle.ph10
+                    }}
                   >
                     <TextInput
-                    value={info.do_delivery_time}
-                    placeholder='평균 배달 시간을 입력해주세요.'
-                    style={{
-                    width: '100%',
-                    ...BaseStyle.inputH,
-                    ...BaseStyle.ko14,
-                    marginTop: 10
-                  }}
-                    onChangeText={text => setInfo({ ...info, do_delivery_time: text })}
-                    autoCapitalize='none'
-                  />
+                      value={info.do_delivery_time}
+                      placeholder='평균 배달 시간을 입력해주세요.'
+                      style={{
+                        width: '100%',
+                        ...BaseStyle.inputH,
+                        ...BaseStyle.ko14,
+                        marginTop: 10
+                      }}
+                      onChangeText={text => setInfo({ ...info, do_delivery_time: text })}
+                      autoCapitalize='none'
+                    />
                   </View>
                 </View>
                 {/* // 평균 배달 시간 */}

@@ -6,6 +6,7 @@ import 'moment/locale/ko'
 import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
 import OrderRejectCancelModal from '../OrderRejectCancelModal'
+import cusToast from '../CusToast'
 
 const Tab02 = props => {
   const { navigation, getOrderListHandler } = props
@@ -34,24 +35,32 @@ const Tab02 = props => {
 
       if (resultItem.result === 'Y') {
         getOrderListHandler(1)
-        Alert.alert(`주문을 ${type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`, '', [
-          {
-            text: '확인',
-            onPress: () => navigation.navigate('Home', { screen: 'Main' })
-          }
-        ])
+        cusToast(`주문을 ${type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`)
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
+        // Alert.alert(`주문을 ${type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`, '', [
+        //   {
+        //     text: '확인',
+        //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
+        //   }
+        // ])
       } else {
         getOrderListHandler(1)
-        Alert.alert(
-          `주문 ${type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.`,
-          '다시 한번 시도해주세요.',
-          [
-            {
-              text: '확인',
-              onPress: () => navigation.navigate('Home', { screen: 'Main' })
-            }
-          ]
-        )
+        cusToast(`주문 ${type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
+        // Alert.alert(
+        //   `주문 ${type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.`,
+        //   '다시 한번 시도해주세요.',
+        //   [
+        //     {
+        //       text: '확인',
+        //       onPress: () => navigation.navigate('Home', { screen: 'Main' })
+        //     }
+        //   ]
+        // )
       }
     })
   }

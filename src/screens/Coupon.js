@@ -115,11 +115,12 @@ const Coupon = props => {
         getCouponListHandler()
         cusToast('쿠폰을 삭제하였습니다.')
       } else {
-        Alert.alert('쿠폰을 삭제하지 못했습니다.', '관리자에게 문의하세요.', [
-          {
-            text: '확인'
-          }
-        ])
+        cusToast('쿠폰을 삭제하지 못했습니다.\n관리자에게 문의해주세요.')
+        // Alert.alert('쿠폰을 삭제하지 못했습니다.', '관리자에게 문의하세요.', [
+        //   {
+        //     text: '확인'
+        //   }
+        // ])
       }
     })
   }

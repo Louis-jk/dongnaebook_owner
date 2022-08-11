@@ -13,6 +13,7 @@ import Header from '../components/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import AnimateLoading from '../components/AnimateLoading'
+import cusToast from '../components/CusToast'
 
 const StoreSetting = props => {
   const { navigation } = props
@@ -103,12 +104,10 @@ const StoreSetting = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
       if (resultItem.result === 'Y') {
-        Alert.alert('매장정보를 등록하였습니다.', '메인화면으로 이동합니다.', [
-          {
-            text: '예',
-            onPress: () => navigation.navigate('Home', { screen: 'Main' })
-          }
-        ])
+        cusToast('매장정보를 등록하였습니다.\n메인화면으로 이동합니다.', 1500)
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'Main' })
+        }, 1500)
       }
     })
   }
@@ -118,23 +117,11 @@ const StoreSetting = props => {
 
   const onModifyStoreSetting = () => {
     if (setting.do_take_out === null || setting.do_take_out === '') {
-      Alert.alert('포장 가능 여부를 지정해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('포장 가능 여부를 지정해주세요.')
     } else if (setting.do_coupon_use === null || setting.do_coupon_use === '') {
-      Alert.alert('쿠폰 사용 가능 여부를 지정해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('쿠폰 사용 가능 여부를 지정해주세요.')
     } else if (setting.mt_sound === null || setting.mt_sound === '') {
-      Alert.alert('알림음을 설정해주세요.', '', [
-        {
-          text: '확인'
-        }
-      ])
+      cusToast('알림음을 설정해주세요.')
     } else {
       const param = {
         mode: 'update',
@@ -155,31 +142,23 @@ const StoreSetting = props => {
       //   ]);
       // }
 
-      console.log('param', param)
-
       Api.send('store_setting_update', param, args => {
         const resultItem = args.resultItem
         const arrItems = args.arrItems
         if (resultItem.result === 'Y') {
-          Alert.alert('매장설정을 수정하였습니다.', '메인화면으로 이동하시겠습니까?', [
-            {
-              text: '예',
-              onPress: () => navigation.navigate('Home', { screen: 'Main' })
-            },
-            {
-              text: '아니요'
-            }
-          ])
+          cusToast('매장설정을 수정하였습니다.')
+
+          // Alert.alert('매장설정을 수정하였습니다.', '메인화면으로 이동하시겠습니까?', [
+          //   {
+          //     text: '예',
+          //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
+          //   },
+          //   {
+          //     text: '아니요'
+          //   }
+          // ])
         } else {
-          Alert.alert(
-            '매장설정을 수정하는 중에 오류가 발생했습니다.',
-            '계속 오류가 발생할 경우 관리자에게 문의 해주세요.',
-            [
-              {
-                text: '확인'
-              }
-            ]
-          )
+          cusToast('매장설정을 수정하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.')
         }
       })
     }
@@ -198,81 +177,81 @@ const StoreSetting = props => {
               <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv20 }}>
                 <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mb10 }}>
                   ※ 표시는 필수 입력란 입니다.
-            </Text>
+                </Text>
 
                 {/* 알림음 설정 */}
                 <View style={{ ...BaseStyle.mv10 }}>
 
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                  <Text
-                  style={{
-                    ...BaseStyle.ko15,
-                    ...BaseStyle.font_bold,
-                    ...BaseStyle.mr5
-                  }}
-                >
-                  알림음 설정
-                </Text>
-                  <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-                </View>
+                    <Text
+                      style={{
+                        ...BaseStyle.ko15,
+                        ...BaseStyle.font_bold,
+                        ...BaseStyle.mr5
+                      }}
+                    >
+                      알림음 설정
+                    </Text>
+                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                  </View>
                   <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, mt_sound: '3' })}
-                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
-                >
-                  <Image
-                    source={
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, mt_sound: '3' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                    >
+                      <Image
+                        source={
                       setting.mt_sound === '3'
                         ? require('../images/ic_check_on.png')
                         : require('../images/ic_check_off.png')
                     }
-                    style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                    resizeMode='contain'
-                    fadeDuration={100}
-                  />
-                  <Text style={{ ...BaseStyle.ko14 }}>3회 울림</Text>
-                </TouchableOpacity>
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>3회 울림</Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, mt_sound: '5' })}
-                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
-                >
-                  <Image
-                    source={
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, mt_sound: '5' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                    >
+                      <Image
+                        source={
                       setting.mt_sound === '5'
                         ? require('../images/ic_check_on.png')
                         : require('../images/ic_check_off.png')
                     }
-                    style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                    resizeMode='contain'
-                    fadeDuration={100}
-                  />
-                  <Text style={{ ...BaseStyle.ko14 }}>5회 울림</Text>
-                </TouchableOpacity>
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>5회 울림</Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, mt_sound: '7' })}
-                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
-                >
-                  <Image
-                    source={
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, mt_sound: '7' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                    >
+                      <Image
+                        source={
                       setting.mt_sound === '7'
                         ? require('../images/ic_check_on.png')
                         : require('../images/ic_check_off.png')
                     }
-                    style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                    resizeMode='contain'
-                    fadeDuration={100}
-                  />
-                  <Text style={{ ...BaseStyle.ko14 }}>7회 울림</Text>
-                </TouchableOpacity>
-                </View>
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>7회 울림</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
                 {/* // 알림음 설정 */}
 
@@ -329,49 +308,49 @@ const StoreSetting = props => {
               포장 가능 여부
               </Text> */}
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
-                  주문 포장 가능 여부
-                </Text>
-                  <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-                </View>
+                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
+                      주문 포장 가능 여부
+                    </Text>
+                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                  </View>
                   <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, do_take_out: 'Y' })}
-                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
-                >
-                  <Image
-                    source={
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, do_take_out: 'Y' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                    >
+                      <Image
+                        source={
                       setting.do_take_out === 'Y'
                         ? require('../images/ic_check_on.png')
                         : require('../images/ic_check_off.png')
                     }
-                    style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                    resizeMode='contain'
-                    fadeDuration={100}
-                  />
-                  <Text style={{ ...BaseStyle.ko14 }}>포장 가능</Text>
-                </TouchableOpacity>
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, do_take_out: 'N' })}
-                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
-                >
-                  <Image
-                    source={
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>포장 가능</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, do_take_out: 'N' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                    >
+                      <Image
+                        source={
                       setting.do_take_out === 'N'
                         ? require('../images/ic_check_on.png')
                         : require('../images/ic_check_off.png')
                     }
-                    style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                    resizeMode='contain'
-                    fadeDuration={100}
-                  />
-                  <Text style={{ ...BaseStyle.ko14 }}>포장 불가능</Text>
-                </TouchableOpacity>
-                </View>
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>포장 불가능</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
                 {/* // 포장 가능 여부 */}
 
@@ -381,55 +360,55 @@ const StoreSetting = props => {
               쿠폰 사용 가능 여부
               </Text> */}
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                  <Text
-                  style={{
-                    ...BaseStyle.ko15,
-                    ...BaseStyle.font_bold,
-                    ...BaseStyle.mr5
-                  }}
-                >
-                  쿠폰 사용 가능 여부
-                </Text>
-                  <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-                </View>
+                    <Text
+                      style={{
+                        ...BaseStyle.ko15,
+                        ...BaseStyle.font_bold,
+                        ...BaseStyle.mr5
+                      }}
+                    >
+                      쿠폰 사용 가능 여부
+                    </Text>
+                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                  </View>
                   <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, do_coupon_use: 'Y' })}
-                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
-                >
-                  <Image
-                    source={
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, do_coupon_use: 'Y' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                    >
+                      <Image
+                        source={
                       setting.do_coupon_use === 'Y'
                         ? require('../images/ic_check_on.png')
                         : require('../images/ic_check_off.png')
                     }
-                    style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                    resizeMode='contain'
-                    fadeDuration={100}
-                  />
-                  <Text style={{ ...BaseStyle.ko14 }}>사용 가능</Text>
-                </TouchableOpacity>
-                  <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => setSetting({ ...setting, do_coupon_use: 'N' })}
-                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
-                >
-                  <Image
-                    source={
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>사용 가능</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, do_coupon_use: 'N' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                    >
+                      <Image
+                        source={
                       setting.do_coupon_use === 'N'
                         ? require('../images/ic_check_on.png')
                         : require('../images/ic_check_off.png')
                     }
-                    style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                    resizeMode='contain'
-                    fadeDuration={100}
-                  />
-                  <Text style={{ ...BaseStyle.ko14 }}>사용 불가능</Text>
-                </TouchableOpacity>
-                </View>
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>사용 불가능</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
                 {/* // 쿠폰 사용 가능 여부 */}
 
@@ -541,7 +520,7 @@ const StoreSetting = props => {
               >
                 <Text style={{ ...BaseStyle.ko15, color: range === 'all' ? '#fff' : '#aaa' }}>
                   전체 매장 적용
-            </Text>
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={1}
@@ -558,7 +537,7 @@ const StoreSetting = props => {
               >
                 <Text style={{ ...BaseStyle.ko15, color: range === 'curr' ? '#fff' : '#aaa' }}>
                   해당 매장만 적용
-            </Text>
+                </Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
