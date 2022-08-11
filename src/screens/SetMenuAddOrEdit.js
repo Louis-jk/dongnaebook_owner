@@ -286,14 +286,14 @@ const SetMenuAddOrEdit = props => {
           const arrItems = args.arrItems
 
           if (resultItem.result === 'Y') {
-            cusToast('메뉴가 등록되었습니다.\n관리자 승인 후 리스트에 노출됩니다.', 1500)
+            cusToast('메뉴가 등록되었습니다.\n관리자 승인 후 리스트에 노출됩니다.', 1000)
           } else {
             cusToast('메뉴를 등록 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
           }
 
           setTimeout(() => {
             navigation.navigate('Home', { screen: 'SetMenu' })
-          }, 1500)
+          }, 1000)
         })
       }
 
@@ -323,14 +323,14 @@ const SetMenuAddOrEdit = props => {
           const arrItems = args.arrItems
 
           if (resultItem.result === 'Y') {
-            cusToast('메뉴가 수정되었습니다.', 1500)
+            cusToast('메뉴가 수정되었습니다.', 1000)
           } else {
             cusToast('메뉴를 수정 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
           }
 
           setTimeout(() => {
             navigation.navigate('Home', { screen: 'SetMenu' })
-          }, 1500)
+          }, 1000)
         })
       }
     }
@@ -833,7 +833,7 @@ const SetMenuAddOrEdit = props => {
                 {/* // 판매가능 */}
 
                 <View style={styles.section}>
-                  {options.map((option, index) => (
+                  {options?.map((option, index) => (
                     <React.Fragment key={String(index)}>
                       <View
                         style={{
@@ -1014,7 +1014,7 @@ const SetMenuAddOrEdit = props => {
                     </TouchableOpacity>
                   </View>
 
-                  {addOptions.map((option, index) => (
+                  {addOptions?.map((option, index) => (
                     <React.Fragment key={String(index)}>
                       <View
                         style={{

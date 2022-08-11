@@ -52,6 +52,8 @@ const SetMenu = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
+      console.log('menu arrItems', arrItems)
+
       if (resultItem.result === 'Y') {
         setMenuList(arrItems)
         setEndCount(endCount + 5)
@@ -100,10 +102,10 @@ const SetMenu = props => {
         }}
       >
         {item.it_img1 && (
-          <View style={{ ...BaseStyle.ml20 }}>
+          <View style={{ ...BaseStyle.ml20, width: 80, height: 80, borderRadius: 10, backgroundColor: '#000' }}>
             <Image
               source={{ uri: `${item.it_img1}` }}
-              style={{ width: 80, height: 80, borderRadius: 10 }}
+              style={{ width: '100%', height: '100%', borderRadius: 10 }}
               resizeMode='cover'
             />
           </View>
