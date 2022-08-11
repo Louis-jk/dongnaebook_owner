@@ -102,7 +102,7 @@ const SetMenu = props => {
         }}
       >
         {item.it_img1 && (
-          <View style={{ ...BaseStyle.ml20, width: 80, height: 80, borderRadius: 10, backgroundColor: '#000' }}>
+          <View style={{ ...BaseStyle.ml20, width: 80, height: 80, borderRadius: 10, backgroundColor: Primary.PointColor01 }}>
             <Image
               source={{ uri: `${item.it_img1}` }}
               style={{ width: '100%', height: '100%', borderRadius: 10 }}
@@ -188,7 +188,7 @@ const SetMenu = props => {
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
           <Header navigation={navigation} title='메뉴설정' />
 
-          <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
+          {/* <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
             <TouchableOpacity
               activeOpacity={1}
               onPress={() => navigation.navigate('Home', { screen: 'SetMenuAddOrEdit', params: { type: 'add' } })}
@@ -198,10 +198,10 @@ const SetMenu = props => {
                 메뉴 추가하기 +
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           {/* 메뉴 리스트 */}
-          <View style={{ flex: 1, height }}>
+          <View style={{ flex: 1, height, ...BaseStyle.mt10 }}>
             <FlatList
               data={menuList}
               renderItem={renderRow}
@@ -232,6 +232,18 @@ const SetMenu = props => {
             />
           </View>
           {/* //메뉴 리스트 */}
+
+          <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv10 }}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => navigation.navigate('Home', { screen: 'SetMenuAddOrEdit', params: { type: 'add' } })}
+              style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
+            >
+              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                메뉴 추가하기
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>}
     </>
   )
