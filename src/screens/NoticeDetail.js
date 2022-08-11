@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { View, Text, Image, useWindowDimensions, ScrollView } from 'react-native'
-import HTML from 'react-native-render-html'
+import RenderHtml from 'react-native-render-html'
 import Header from '../components/Header'
 import BaseStyle from '../styles/Base'
 import Api from '../Api'
@@ -10,9 +10,10 @@ const NoticeDetail = props => {
   const { navigation } = props
   const { item } = props.route.params
 
-  const contentWidth = useWindowDimensions().width
+  const { width: windowDWidth } = useWindowDimensions()
 
   const [detail, setDetail] = React.useState('')
+  const [content, setContent] = React.useState('')
   const [isLoading, setLoading] = React.useState(true)
 
   const getNoticeDetailHandler = payload => {
@@ -26,10 +27,12 @@ const NoticeDetail = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
       if (resultItem.result === 'Y') {
-        console.log('====================================')
-        console.log('arrItems', arrItems)
-        console.log('====================================')
         setDetail(arrItems)
+
+        if (arrItems.content) {
+          const innerHtml = { html: `<p style="font-size: 16px; line-height: 30px;">${arrItems.content}</p>` }
+          setContent(innerHtml)
+        }
       } else {
         setDetail(arrItems)
       }
@@ -93,9 +96,9 @@ const NoticeDetail = props => {
           {detail.content && (
             <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv10, flex: 1 }}>
               <ScrollView showsVerticalScrollIndicator={false}>
-                <HTML
-                  source={{ html: `<p style="font-size: 16px; line-height: 30px;">${detail.content}</p>` }}
-                  contentWidth={contentWidth}
+                <RenderHtml
+                  source={content}
+                  contentWidth={windowDWidth}
                   imagesInitialDimensions={{ width: 100, height: 100 }}
                 />
               </ScrollView>
