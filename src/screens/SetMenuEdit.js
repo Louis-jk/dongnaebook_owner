@@ -20,6 +20,7 @@ import BaseStyle, { Primary, customPickerStyles } from '../styles/Base'
 import cusToast from '../components/CusToast'
 import Api from '../Api'
 import AnimateLoading from '../components/AnimateLoading'
+import checkMenuValidate from '../modules/menuValidate'
 
 const SetMenuEdit = props => {
   const { navigation } = props
@@ -300,13 +301,9 @@ const SetMenuEdit = props => {
 
   // 메뉴 추가 핸들러
   const editMenuAddHandler = () => {
-    if (selectCategory === '' || selectCategory === null) {
-      cusToast('분류를 선택해주세요.')
-    } else if (name === '' || name === null) {
-      cusToast('메뉴명을 입력해주세요.')
-    } else if (salePrice === '' || salePrice === null) {
-      cusToast('판매가격을 입력해주세요.')
-    } else {
+    const isValidate = checkMenuValidate(selectCategory, name, salePrice)
+
+    if (isValidate) {
       const param = {
         jumju_id: mtId,
         jumju_code: mtJumjuCode,

@@ -20,6 +20,7 @@ import Header from '../components/SubHeader'
 import BaseStyle, { Primary, customPickerStyles } from '../styles/Base'
 import { defaultType, secondType } from '../data/menu'
 import cusToast from '../components/CusToast'
+import checkMenuValidate from '../modules/menuValidate'
 import Api from '../Api'
 
 const { width, height } = Dimensions.get('window')
@@ -217,13 +218,9 @@ const SetMenuAdd = props => {
 
   // 메뉴 추가 핸들러
   const sendMenuAddHandler = () => {
-    if (selectCategory === '' || selectCategory === null) {
-      cusToast('분류를 선택해주세요.')
-    } else if (name === '' || name === null) {
-      cusToast('메뉴명을 입력해주세요.')
-    } else if (salePrice === '' || salePrice === null) {
-      cusToast('판매가격을 입력해주세요.')
-    } else {
+    const isValidate = checkMenuValidate(selectCategory, name, salePrice)
+
+    if (isValidate) {
       const isEmptyImage = isEmptyObject(source)
 
       const param = {
