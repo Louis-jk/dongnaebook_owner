@@ -187,13 +187,13 @@ const StoreInfo = props => {
   const onModifyStoreInfo = () => {
     if (info.do_jumju_introduction === null || info.do_jumju_introduction === '') {
       cusToast('매장 소개를 입력해주세요.', 1500, 'top')
-      introduceRef.current.focus()
+      // introduceRef.current.focus()
     } else if (info.do_major_menu === null || info.do_major_menu === '') {
       cusToast('대표메뉴를 입력해주세요.', 1500, 'top')
-      majorMenuRef.current.focus()
+      // majorMenuRef.current.focus()
     } else if (info.do_jumju_origin === null || info.do_jumju_origin === '') {
       cusToast('원산지 안내를 입력해주세요.', 1500, 'top')
-      originRef.current.focus()
+      // originRef.current.focus()
     } else {
       const data = {
         mode: 'update',
