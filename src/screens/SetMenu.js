@@ -65,16 +65,16 @@ const SetMenu = props => {
     })
   }
 
-  const handleLoadMore = () => {
-    getMenuListHandler()
-  }
-
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getMenuListHandler()
     })
     return unsubscribe
   }, [navigation])
+
+  const handleLoadMore = () => {
+    getMenuListHandler()
+  }
 
   const onHandleRefresh = () => {
     setReflashing(true)
@@ -178,61 +178,58 @@ const SetMenu = props => {
     )
   }
 
-  const Content = () => (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header navigation={navigation} title='메뉴설정' />
-
-      <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => navigation.navigate('Home', { screen: 'SetMenuAdd' })}
-          style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
-        >
-          <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
-            메뉴 추가하기 +
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* 메뉴 리스트 */}
-      <View style={{ flex: 1, height }}>
-        <FlatList
-          data={menuList}
-          renderItem={renderRow}
-          keyExtractor={(list, index) => index.toString()}
-          // pagingEnabled={true}
-          persistentScrollbar
-          showsVerticalScrollIndicator={false}
-          // progressViewOffset={true}
-          refreshing={refleshing}
-          onRefresh={() => onHandleRefresh()}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.8}
-          style={{ backgroundColor: '#fff', width: '100%', ...BaseStyle.ph20 }}
-          ListEmptyComponent={
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                flex: 1,
-                height: Dimensions.get('window').height - 300
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-                아직 등록된 메뉴가 없습니다.
-              </Text>
-            </View>
-          }
-        />
-      </View>
-      {/* //메뉴 리스트 */}
-    </View>
-  )
-
   return (
     <>
       {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
-      {!isLoading && <Layout child={<Content />} props={props} />}
+      {!isLoading &&
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Header navigation={navigation} title='메뉴설정' />
+
+          <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => navigation.navigate('Home', { screen: 'SetMenuAdd' })}
+              style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
+            >
+              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                메뉴 추가하기 +
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* 메뉴 리스트 */}
+          <View style={{ flex: 1, height }}>
+            <FlatList
+              data={menuList}
+              renderItem={renderRow}
+              keyExtractor={(list, index) => index.toString()}
+              // pagingEnabled={true}
+              persistentScrollbar
+              showsVerticalScrollIndicator={false}
+              // progressViewOffset={true}
+              refreshing={refleshing}
+              onRefresh={() => onHandleRefresh()}
+              onEndReached={handleLoadMore}
+              onEndReachedThreshold={0.8}
+              style={{ backgroundColor: '#fff', width: '100%', ...BaseStyle.ph20 }}
+              ListEmptyComponent={
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1,
+                    height: Dimensions.get('window').height - 300
+                  }}
+                >
+                  <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
+                    아직 등록된 메뉴가 없습니다.
+                  </Text>
+                </View>
+              }
+            />
+          </View>
+          {/* //메뉴 리스트 */}
+        </View>}
     </>
   )
 }
