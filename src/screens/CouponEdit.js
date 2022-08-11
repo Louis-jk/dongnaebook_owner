@@ -3,11 +3,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   TextInput,
   ScrollView,
   Image,
-  Alert,
   Platform
 } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -22,6 +20,7 @@ import cusToast from '../components/CusToast'
 import { isHigherException, isLowerException } from '../modules/dateCheck'
 import { checkCouponValidate } from '../modules/couponValidate'
 import CouponCategory from '../components/Coupon/CouponCategory'
+import CurrencyRateConversion from '../modules/currencyRateConversion'
 
 const CouponEdit = props => {
   const { navigation } = props
@@ -67,21 +66,8 @@ const CouponEdit = props => {
 
   // 할인 금액 (원/%) 체인지 핸들러
   const onChangePriceAndRatioHandler = payload => {
-    const discountPriceToInt = Number(discountPrice)
-
-    if (payload === '0') {
-      setPriceType(payload)
-    } else if (payload === '1') {
-      setPriceType(payload)
-
-      if (discountPriceToInt > 99) {
-        cusToast('할인 비율을 다시 입력해주세요.')
-        setDiscountPrice('')
-        couponDiscountPriceRef.current.focus()
-      }
-    } else {
-      return false
-    }
+    const conversion = CurrencyRateConversion(payload, discountPrice)
+    conversion(setPriceType, setDiscountPrice, couponDiscountPriceRef)
   }
 
   const onChange = (event, selectedValue) => {
