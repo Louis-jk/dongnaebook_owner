@@ -163,7 +163,7 @@ const Coupon = props => {
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,
         onPress: () =>
-          navigation.navigate('Home', { screen: 'CouponEdit', params: { item: item } })
+          navigation.navigate('Home', { screen: 'CouponAddOrEdit', params: { type: 'edit', item: item } })
       },
       {
         text: '삭제',
@@ -310,7 +310,7 @@ const Coupon = props => {
           <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={() => navigation.navigate('Home', { screen: 'CouponAdd' })}
+              onPress={() => navigation.navigate('Home', { screen: 'CouponAddOrEdit', params: { type: 'add' } })}
               style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
             >
               <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>

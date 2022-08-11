@@ -37,8 +37,7 @@ import ReviewNoticeScreen from './src/screens/ReviewNotice' // 리뷰 공지사�
 import NoticeScreen from './src/screens/Notice' // 공지사항
 import NoticeDetailScreen from './src/screens/NoticeDetail' // 공지사항 상세 - 웹뷰
 import CouponScreen from './src/screens/Coupon' // 쿠폰관리
-import CouponAddScreen from './src/screens/CouponAdd' // 쿠폰추가
-import CouponEditScreen from './src/screens/CouponEdit' // 쿠폰수정
+import CouponAddOrEditScreen from './src/screens/CouponAddOrEdit' // 쿠폰 추가 또느 수정
 import setCategoryScreen from './src/screens/setCategory' // 메뉴 카테고리 설정(리스트)
 import SetMenuScreen from './src/screens/SetMenu' // 메뉴설정(리스트)
 import SetMenuAddOrEditScreen from './src/screens/SetMenuAddOrEdit' // 메뉴등록 또는 수정
@@ -243,8 +242,7 @@ const App = () => {
         <Stack.Screen name='Notice' component={NoticeScreen} />
         <Stack.Screen name='NoticeDetail' component={NoticeDetailScreen} />
         <Stack.Screen name='Coupon' component={CouponScreen} />
-        <Stack.Screen name='CouponAdd' component={CouponAddScreen} />
-        <Stack.Screen name='CouponEdit' component={CouponEditScreen} />
+        <Stack.Screen name='CouponAddOrEdit' component={CouponAddOrEditScreen} />
         <Stack.Screen name='setCategory' component={setCategoryScreen} />
         <Stack.Screen name='SetMenu' component={SetMenuScreen} />
         <Stack.Screen name='SetMenuAddOrEdit' component={SetMenuAddOrEditScreen} />
