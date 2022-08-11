@@ -1,19 +1,16 @@
 import 'react-native-gesture-handler'
 import * as React from 'react'
-import { View, Text, StatusBar, Dimensions, BackHandler, ToastAndroid, Platform, LogBox } from 'react-native'
+import { View, Text, StatusBar, Dimensions, Platform, LogBox } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import messaging from '@react-native-firebase/messaging'
 import Toast from 'react-native-toast-message'
-import { getStatusBarHeight } from 'react-native-status-bar-height'
-// import { Provider } from 'react-redux'; 잠시
-// import initStore from './src/redux/store'; 잠시
 import DrawerMenu from './src/screens/DrawerMenu'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import PushNotification from 'react-native-push-notification'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import * as orderAction from './src/redux/actions/orderAction'
 
 /*
@@ -44,11 +41,9 @@ import CouponAddScreen from './src/screens/CouponAdd' // 쿠폰추가
 import CouponEditScreen from './src/screens/CouponEdit' // 쿠폰수정
 import setCategoryScreen from './src/screens/setCategory' // 메뉴 카테고리 설정(리스트)
 import SetMenuScreen from './src/screens/SetMenu' // 메뉴설정(리스트)
-import SetMenuAddScreen from './src/screens/SetMenuAdd' // 메뉴등록
-import SetMenuEditScreen from './src/screens/SetMenuEdit' // 메뉴수정
+import SetMenuAddOrEditScreen from './src/screens/SetMenuAddOrEdit' // 메뉴등록 또는 수정
 import StoreInfoScreen from './src/screens/StoreInfo' // 매장소개
 import StoreSettingScreen from './src/screens/StoreSetting' // 매장설정
-import setMenuAddOptionScreen from './src/screens/setMenuAddOption' // 매장소개
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2'])
@@ -203,19 +198,6 @@ const App = () => {
     )
   }
 
-  // React.useEffect(() => {
-  //   messaging().onMessage(remoteMessage => {
-  //     console.log('remoteMessage ?', remoteMessage)
-  //     // Toast.show({
-  //     //   type: 'custom_type',
-  //     //   position: 'top',
-  //     //   text1: remoteMessage.notification.title,
-  //     //   text2: remoteMessage.notification.body
-  //     // })
-  //     PushNotification.onNotification()
-  //   })
-  // }, [])
-
   const StackNavigator = () => {
     return (
       <Stack.Navigator
@@ -265,9 +247,7 @@ const App = () => {
         <Stack.Screen name='CouponEdit' component={CouponEditScreen} />
         <Stack.Screen name='setCategory' component={setCategoryScreen} />
         <Stack.Screen name='SetMenu' component={SetMenuScreen} />
-        <Stack.Screen name='SetMenuAdd' component={SetMenuAddScreen} />
-        <Stack.Screen name='SetMenuEdit' component={SetMenuEditScreen} />
-        <Stack.Screen name='setMenuAddOption' component={setMenuAddOptionScreen} />
+        <Stack.Screen name='SetMenuAddOrEdit' component={SetMenuAddOrEditScreen} />
         <Stack.Screen name='StoreInfo' component={StoreInfoScreen} />
         <Stack.Screen name='StoreSetting' component={StoreSettingScreen} />
       </Stack.Navigator>
@@ -282,7 +262,7 @@ const App = () => {
         backgroundColor='#1543F5'
         hidden={Platform.OS !== 'ios'}
       />
-      {/* <Provider store={store}> */}
+
       <NavigationContainer>
         <Drawer.Navigator
           initialRouteName='Home'
@@ -301,7 +281,6 @@ const App = () => {
         </Drawer.Navigator>
       </NavigationContainer>
       <Toast config={toastConfig} topOffset={10} ref={ref => Toast.setRef(ref)} />
-      {/* </Provider> */}
     </>
   )
 }

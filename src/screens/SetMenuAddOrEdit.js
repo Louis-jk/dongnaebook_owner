@@ -7,31 +7,25 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
-  TouchableWithoutFeedback,
-  Alert
+  TouchableWithoutFeedback
 } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select' // 셀렉트박스 패키지
-import ImagePicker from 'react-native-image-crop-picker' // 이미지 업로드 패키지
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
 import Header from '../components/SubHeader'
 import BaseStyle, { Primary, customPickerStyles } from '../styles/Base'
-
 import cusToast from '../components/CusToast'
+import checkMenuValidate from '../modules/menuValidate'
 import Api from '../Api'
 import AnimateLoading from '../components/AnimateLoading'
-import checkMenuValidate from '../modules/menuValidate'
 import { pickGalleryImage, takeCamera } from '../modules/imagePickerOrCamera'
 
-const SetMenuEdit = props => {
-  const { navigation } = props
-  const { item } = props.route.params
-
+const SetMenuAddOrEdit = props => {
+  const { navigation, route } = props
+  const { type } = route.params
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
-  const [isLoading, setLoading] = React.useState(false)
 
   const [menuId, setMenuId] = React.useState('') // 메뉴 ID
-  const [selectDefault, setSelectDefault] = React.useState('') // 기본분류
   const [selectCategory, setSelectCategory] = React.useState('') // 2차분류
   const [name, setName] = React.useState('') // 상품명
   const [menuShortDesc, setMenuShortDesc] = React.useState('') // 기본설명
@@ -46,9 +40,9 @@ const SetMenuEdit = props => {
   const [optionVisible, setOptionVisible] = React.useState(false) // 옵션노출(비노출)
   const [isModalVisible, setIsModalVisible] = React.useState(false)
   const [menuCategory, setMenuCategory] = React.useState([])
+  const [isLoading, setLoading] = React.useState(true)
 
   const getMenuCategoryHandler = () => {
-    setLoading(true)
     const param = {
       encodeJson: true,
       jumju_id: mtId,
@@ -59,8 +53,9 @@ const SetMenuEdit = props => {
     Api.send('store_item_category', param, args => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
+
       if (resultItem.result === 'Y') {
-        arrItems.map(menu => {
+        arrItems.map((menu) => {
           setMenuCategory(prev => [
             ...prev,
             {
@@ -69,19 +64,10 @@ const SetMenuEdit = props => {
             }
           ])
         })
-        setLoading(false)
       } else {
-        setLoading(false)
         console.log('메뉴를 가져오지 못했습니다.')
       }
     })
-  }
-
-  // 빈 오브젝트 체킹
-  const isEmptyObject = param => {
-    console.log('isEmptyObject param:', param)
-
-    return Object.keys(param)[0] === ''
   }
 
   const getMenuDetailHandler = () => {
@@ -127,45 +113,44 @@ const SetMenuEdit = props => {
           setMenuImage(null)
         }
 
-        const isEmptyOption = isEmptyObject(arrItems.menuOption)
-        const isEmptyAddOption = isEmptyObject(arrItems.menuAddOption)
+        // const isEmptyOption = isEmptyObject(arrItems.menuOption)
+        // const isEmptyAddOption = isEmptyObject(arrItems.menuAddOption)
 
-        console.log('isEmptyOption', isEmptyOption)
-        console.log('isEmptyAddOption', isEmptyAddOption)
+        // console.log('isEmptyOption', isEmptyOption)
+        // console.log('isEmptyAddOption', isEmptyAddOption)
 
         setOptions(arrItems.menuOption)
         setAddOptions(arrItems.menuAddOption)
-
-        setLoading(false)
       } else {
-        setLoading(false)
-        console.log('메뉴를 가져오지 못했습니다.')
-      }
-    })
-  }
+        cusToast('메뉴 상세내용을 가져오는 중 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
 
-  const setProperties = () => {
-    setName(props.route.params.item.it_name)
-    setMenuShortDesc(props.route.params.item.it_basic)
-    setSalePrice(props.route.params.item.it_price)
-    setDescription(props.route.params.item.it_explan)
-    setCheckMain(props.route.params.item.it_type1)
-    setVisible(props.route.params.item.it_use)
-    setName(props.route.params.item.it_img1)
+        setTimeout(() => {
+          navigation.navigate.goBack()
+        }, 1500)
+      }
+
+      setLoading(false)
+    })
   }
 
   React.useEffect(() => {
     let isSubscribed = true
 
-    if (isSubscribed) {
+    if (isSubscribed && type !== '') {
       getMenuCategoryHandler()
-      getMenuDetailHandler()
+
+      if (type === 'add') {
+        setLoading(false)
+      }
+      if (type === 'edit') {
+        getMenuDetailHandler()
+      }
     }
 
     return () => {
       isSubscribed = false
     }
-  }, [])
+  }, [type])
 
   // 모달 토글
   const toggleModal = () => {
@@ -260,6 +245,11 @@ const SetMenuEdit = props => {
     takeCamera(setSource, setMenuImage)
   }
 
+  // 빈 오브젝트 체킹
+  const isEmptyObject = param => {
+    return Object.keys(param).length === 0 && param.constructor === Object
+  }
+
   const isEmptyObj = obj => {
     if (obj.constructor === Object && Object.keys(obj).length === 0) {
       return true
@@ -268,54 +258,90 @@ const SetMenuEdit = props => {
   }
 
   // 메뉴 추가 핸들러
-  const editMenuAddHandler = () => {
+  const sendMenuAddHandler = () => {
     const isValidate = checkMenuValidate(selectCategory, name, salePrice)
 
     if (isValidate) {
-      const param = {
-        jumju_id: mtId,
-        jumju_code: mtJumjuCode,
-        it_id: menuId,
-        mode: 'update',
-        ca_id2: selectCategory,
-        menuName: name,
-        menuInfo: menuShortDesc,
-        menuPrice: salePrice,
-        menuDescription: description,
-        it_type1: checkMain ? '1' : '0',
-        it_use: visible ? '1' : '0',
-        menuOption: JSON.stringify(options),
-        menuAddOption: JSON.stringify(addOptions)
-      }
+      if (type === 'add') {
+        const isEmptyImage = isEmptyObject(source)
 
-      if (!isEmptyObj(source)) {
-        param.it_img1 = source
-      }
-
-      Api.send2('store_item_update', param, args => {
-        const resultItem = args.resultItem
-        const arrItems = args.arrItems
-
-        if (resultItem.result === 'Y') {
-          cusToast('메뉴가 수정되었습니다.', 1500)
-        } else {
-          cusToast('메뉴를 수정 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
+        const param = {
+          jumju_id: mtId,
+          jumju_code: mtJumjuCode,
+          mode: 'insert',
+          ca_id2: selectCategory,
+          menuName: name,
+          menuInfo: menuShortDesc,
+          menuPrice: salePrice,
+          menuDescription: description,
+          it_type1: checkMain ? '1' : '0',
+          it_use: visible,
+          menuOption: JSON.stringify(options),
+          menuAddOption: JSON.stringify(addOptions),
+          it_img1: isEmptyImage ? '' : source
         }
 
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'SetMenu' })
-        }, 1500)
-      })
+        Api.send2('store_item_input', param, args => {
+          const resultItem = args.resultItem
+          const arrItems = args.arrItems
+
+          if (resultItem.result === 'Y') {
+            cusToast('메뉴가 등록되었습니다.\n관리자 승인 후 리스트에 노출됩니다.', 1500)
+          } else {
+            cusToast('메뉴를 등록 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
+          }
+
+          setTimeout(() => {
+            navigation.navigate('Home', { screen: 'SetMenu' })
+          }, 1500)
+        })
+      }
+
+      if (type === 'edit') {
+        const param = {
+          jumju_id: mtId,
+          jumju_code: mtJumjuCode,
+          it_id: menuId,
+          mode: 'update',
+          ca_id2: selectCategory,
+          menuName: name,
+          menuInfo: menuShortDesc,
+          menuPrice: salePrice,
+          menuDescription: description,
+          it_type1: checkMain ? '1' : '0',
+          it_use: visible ? '1' : '0',
+          menuOption: JSON.stringify(options),
+          menuAddOption: JSON.stringify(addOptions)
+        }
+
+        if (!isEmptyObj(source)) {
+          param.it_img1 = source
+        }
+
+        Api.send2('store_item_update', param, args => {
+          const resultItem = args.resultItem
+          const arrItems = args.arrItems
+
+          if (resultItem.result === 'Y') {
+            cusToast('메뉴가 수정되었습니다.', 1500)
+          } else {
+            cusToast('메뉴를 수정 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
+          }
+
+          setTimeout(() => {
+            navigation.navigate('Home', { screen: 'SetMenu' })
+          }, 1500)
+        })
+      }
     }
   }
 
   return (
     <>
       {isLoading && <AnimateLoading description='잠시만 기다려주세요.' />}
-
       {!isLoading &&
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-          <Header navigation={navigation} title='메뉴수정' />
+          <Header navigation={navigation} title={type === 'add' ? '메뉴등록' : '메뉴수정'} />
 
           {/* 선택 모달 (카메라, 갤러리) */}
           <Modal
@@ -324,6 +350,8 @@ const SetMenuEdit = props => {
             transparent
             statusBarTranslucent
             style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
+            animationIn='slideInUp'
+            animationInTiming={100}
           >
             <View
               style={{
@@ -331,7 +359,7 @@ const SetMenuEdit = props => {
                 ...BaseStyle.pv30,
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderRadius: 15
+                borderRadius: 5
               }}
             >
               <TouchableOpacity
@@ -451,36 +479,6 @@ const SetMenuEdit = props => {
                   ※ 표시는 필수 입력란 입니다.
                 </Text>
                 <View style={{ ...BaseStyle.container }}>
-                  {/* 기본분류 */}
-                  {/* <View style={{...BaseStyle.mv10, flex:1, ...BaseStyle.mr5}}>
-                <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
-                  <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>기본분류</Text>
-                  <Text style={{...BaseStyle.ko12, color:Primary.PointColor02}}>※</Text>
-                </View>
-                <RNPickerSelect
-                  value={selectDefault}
-                  useNativeAndroidPickerStyle={false}
-                  placeholder={{label: '선택해주세요.', value: null}}
-                  onValueChange={(value) => setSelectDefault(value)}
-                  items={defaultType}
-                  style={{
-                    ...customPickerStyles,
-                    borderWidth: 1,
-                    borderColor: '#E3E3E3',
-                    ...BaseStyle.round05,
-                    ...BaseStyle.inputH,
-                    placeholder: {
-                      color: '#888',
-                    }
-                  }}
-                  Icon={() => {
-                    return <Image source={require('../images/ic_select.png')} style={{width:50, height:50}} resizeMode='center' />;
-                  }}
-                />
-              </View>
-               */}
-                  {/* // 기본분류 */}
-
                   {/* 분류선택 */}
                   <View style={{ ...BaseStyle.mv10, flex: 1 }}>
                     <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
@@ -489,7 +487,7 @@ const SetMenuEdit = props => {
                       </Text>
                       <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
                     </View>
-                    {menuCategory && menuCategory.length > 0 && (
+                    {menuCategory && menuCategory.length > 0 ? (
                       <RNPickerSelect
                         fixAndroidTouchableBug
                         value={selectCategory}
@@ -517,16 +515,10 @@ const SetMenuEdit = props => {
                           )
                         }}
                       />
-                    )}
-
-                    {!menuCategory && (
+                    ) : (
                       <View>
                         <Text
-                          style={{
-                            ...BaseStyle.ko12,
-                            color: Primary.PointColor02,
-                            ...BaseStyle.mb5
-                          }}
+                          style={{ ...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mb5 }}
                         >
                           등록된 카테고리가 없습니다.
                         </Text>
@@ -535,7 +527,13 @@ const SetMenuEdit = props => {
                           style={{ ...BaseStyle.mainBtn }}
                           onPress={() => navigation.navigate('setCategory')}
                         >
-                          <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>
+                          <Text
+                            style={{
+                              ...BaseStyle.ko15,
+                              ...BaseStyle.font_bold,
+                              ...BaseStyle.font_white
+                            }}
+                          >
                             카테고리 등록하기
                           </Text>
                         </TouchableOpacity>
@@ -593,10 +591,10 @@ const SetMenuEdit = props => {
                     >
                       <Image
                         source={
-                        checkMain
-                          ? require('../images/ic_check_on.png')
-                          : require('../images/ic_check_off.png')
-                      }
+                      checkMain
+                        ? require('../images/ic_check_on.png')
+                        : require('../images/ic_check_off.png')
+                    }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
                         fadeDuration={100}
@@ -692,42 +690,6 @@ const SetMenuEdit = props => {
                 </View>
                 {/* // 기본설명 */}
 
-                {/* 출력순서 */}
-                {/* <View style={{...BaseStyle.mv10}}>
-              <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
-              출력순서
-              </Text>
-              <View
-                style={{
-                  ...BaseStyle.container5,
-                  borderWidth: 1,
-                  borderColor: '#E3E3E3',
-                  ...BaseStyle.round05,
-                  ...BaseStyle.inputH,
-                  ...BaseStyle.ph10,
-                }}>
-                <TextInput
-                  value={menuShortDesc}
-                  placeholder="출력순서을 입력해주세요."
-                  style={{
-                    width: '100%',
-                    ...BaseStyle.inputH,
-                    ...BaseStyle.ko14,
-                    marginTop:10
-                  }}
-                  onChangeText={text => setMenuShortDesc(text)}
-                  autoCapitalize="none"
-                />
-              </View>
-              <View style={{...BaseStyle.container3, ...BaseStyle.mt5}}>
-                <Text style={{...BaseStyle.ko12, ...BaseStyle.lh17, color:Primary.PointColor02, ...BaseStyle.mr5}}>※</Text>
-                <Text style={{...BaseStyle.ko12, ...BaseStyle.lh17, color:Primary.PointColor02, flex:1, flexWrap:'wrap'}}>
-                  {'음수 입력도 가능하며 숫자가 작을 수록 상위에 출력됩니다.\n입력하지 않으면 자동으로 출력됩니다.'}
-                </Text>
-              </View>
-            </View> */}
-                {/* // 출력순서 */}
-
                 {/* 판매가격 */}
                 <View style={{ ...BaseStyle.mv10 }}>
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
@@ -779,11 +741,11 @@ const SetMenuEdit = props => {
                     메뉴 상세 설명
                   </Text>
                   {/* <View style={{...BaseStyle.container3, ...BaseStyle.mb10}}>
-                  <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>
-                    메뉴 상세 설명
-                  </Text>
-                  <Text style={{...BaseStyle.ko12, color: Primary.PointColor02}}>※</Text>
-                </View> */}
+                <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5}}>
+                  메뉴 상세 설명
+                </Text>
+                <Text style={{...BaseStyle.ko12, color: Primary.PointColor02}}>※</Text>
+              </View> */}
                   <View
                     style={{
                       borderWidth: 1,
@@ -824,10 +786,10 @@ const SetMenuEdit = props => {
                     >
                       <Image
                         source={
-                        visible
-                          ? require('../images/ic_check_on.png')
-                          : require('../images/ic_check_off.png')
-                      }
+                      visible
+                        ? require('../images/ic_check_on.png')
+                        : require('../images/ic_check_off.png')
+                    }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
                         fadeDuration={100}
@@ -838,7 +800,7 @@ const SetMenuEdit = props => {
                         </Text>
                       ) : (
                         <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh20, marginTop: 1 }}>
-                          현재 상태에서는 판매 메뉴에 노출되지 않습니다.
+                          판매 메뉴에 노출되지 않습니다.
                         </Text>
                       )}
                     </TouchableOpacity>
@@ -882,11 +844,7 @@ const SetMenuEdit = props => {
                         }}
                       >
                         <Text
-                          style={{
-                            ...BaseStyle.ko15,
-                            ...BaseStyle.font_bold,
-                            ...BaseStyle.font_222
-                          }}
+                          style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.font_222 }}
                         >
                           기본옵션{index + 1}
                         </Text>
@@ -1052,9 +1010,7 @@ const SetMenuEdit = props => {
                       style={{ ...BaseStyle.mainBorderBtn }}
                       onPress={handleOption}
                     >
-                      <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>
-                        기본옵션 추가 +
-                      </Text>
+                      <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>기본옵션 추가 +</Text>
                     </TouchableOpacity>
                   </View>
 
@@ -1069,11 +1025,7 @@ const SetMenuEdit = props => {
                         }}
                       >
                         <Text
-                          style={{
-                            ...BaseStyle.ko15,
-                            ...BaseStyle.font_bold,
-                            ...BaseStyle.font_222
-                          }}
+                          style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.font_222 }}
                         >
                           추가옵션{index + 1}
                         </Text>
@@ -1239,9 +1191,7 @@ const SetMenuEdit = props => {
                       style={{ ...BaseStyle.mintBorderBtn }}
                       onPress={handleAddOption}
                     >
-                      <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>
-                        추가옵션 추가 +
-                      </Text>
+                      <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>추가옵션 추가 +</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -1249,16 +1199,15 @@ const SetMenuEdit = props => {
               </View>
               <TouchableOpacity
                 activeOpacity={1}
-                onPress={editMenuAddHandler}
+                onPress={sendMenuAddHandler}
                 style={{ ...BaseStyle.mainBtnBottom }}
               >
                 <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
-                  수정하기
+                  {type === 'add' ? '등록하기' : '수정하기'}
                 </Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
-
         </View>}
     </>
   )
@@ -1294,4 +1243,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SetMenuEdit
+export default SetMenuAddOrEdit

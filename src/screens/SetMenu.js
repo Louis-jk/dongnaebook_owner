@@ -88,7 +88,7 @@ const SetMenu = props => {
         key={item.it_id + index}
         activeOpacity={1}
         onPress={() =>
-          navigation.navigate('Home', { screen: 'SetMenuEdit', params: { item: item } })}
+          navigation.navigate('Home', { screen: 'SetMenuAddOrEdit', params: { type: 'edit', item: item } })}
         style={{
           ...BaseStyle.container5,
           borderWidth: 1,
@@ -104,6 +104,7 @@ const SetMenu = props => {
             <Image
               source={{ uri: `${item.it_img1}` }}
               style={{ width: 80, height: 80, borderRadius: 10 }}
+              resizeMode='cover'
             />
           </View>
         )}
@@ -188,7 +189,7 @@ const SetMenu = props => {
           <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={() => navigation.navigate('Home', { screen: 'SetMenuAdd' })}
+              onPress={() => navigation.navigate('Home', { screen: 'SetMenuAddOrEdit', params: { type: 'add' } })}
               style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
             >
               <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
