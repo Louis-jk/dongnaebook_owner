@@ -153,6 +153,7 @@ const SetMenuAdd = props => {
       cusToast('최대 10개 입력하실 수 있습니다.')
     }
   }
+
   const [addOptions, setAddOptions] = React.useState([])
   const handleAddOption = () => {
     setAddOptions(addOptions => {
@@ -307,7 +308,8 @@ const SetMenuAdd = props => {
 
       <ScrollView>
         <View>
-          {menuImage ? (
+
+          {menuImage && (
             <TouchableOpacity
               activeOpacity={1}
               onPress={toggleModal}
@@ -337,7 +339,9 @@ const SetMenuAdd = props => {
                 resizeMode='contain'
               />
             </TouchableOpacity>
-          ) : (
+          )}
+
+          {!menuImage && (
             <TouchableOpacity
               activeOpacity={1}
               onPress={toggleModal}
