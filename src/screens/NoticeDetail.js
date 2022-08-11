@@ -67,38 +67,38 @@ const NoticeDetail = props => {
           >
             <View style={{ marginTop: -2 }}>
               <Text
-              style={{
-              ...BaseStyle.ko18,
-              ...BaseStyle.font_bold,
-              ...BaseStyle.lh24,
-              ...BaseStyle.mb10
-            }}
-            >
-              제목 : {detail.subject}
-            </Text>
+                style={{
+                  ...BaseStyle.ko18,
+                  ...BaseStyle.font_bold,
+                  ...BaseStyle.lh24,
+                  ...BaseStyle.mb10
+                }}
+              >
+                제목 : {detail.subject}
+              </Text>
               <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>
-              작성일자 : {detail.datetime}
-            </Text>
+                작성일자 : {detail.datetime}
+              </Text>
             </View>
             <View style={{ ...BaseStyle.container }}>
               <Image
-              source={require('../images/eye.png')}
-              style={{ width: 20, height: 17, ...BaseStyle.mr5 }}
-              resizeMode='contain'
-            />
+                source={require('../images/eye.png')}
+                style={{ width: 20, height: 17, ...BaseStyle.mr5 }}
+                resizeMode='contain'
+              />
               <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>{detail.wr_hit}</Text>
             </View>
           </View>
           <View style={{ height: 1, backgroundColor: '#e5e5e5' }} />
           {detail.content && (
             <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv10, flex: 1 }}>
-              <ScrollView>
-              <HTML
-              source={{ html: detail.content }}
-              contentWidth={contentWidth}
-              imagesInitialDimensions={{ width: 100, height: 100 }}
-            />
-            </ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <HTML
+                  source={{ html: `<p style="font-size: 16px; line-height: 30px;">${detail.content}</p>` }}
+                  contentWidth={contentWidth}
+                  imagesInitialDimensions={{ width: 100, height: 100 }}
+                />
+              </ScrollView>
             </View>
           )}
         </View>}
