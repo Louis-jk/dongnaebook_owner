@@ -1,11 +1,8 @@
-import React from 'react'
 import { Platform } from 'react-native'
-// import { Toast } from 'native-base';
 import Toast from 'react-native-toast-message'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 
 const cusToast = (message, duration, position, offset) => {
-  // Toast.show({ text: message, textStyle: styles.toastTxt, style: styles.toastWr, }); // native-base
   Toast.show({
     type: 'custom_type', // success | error | info
     position: position || (Platform.OS === 'ios' ? 'top' : 'bottom'),
