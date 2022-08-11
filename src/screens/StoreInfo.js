@@ -6,7 +6,6 @@ import {
   Image,
   TextInput,
   Dimensions,
-  Alert,
   ScrollView,
   BackHandler
 } from 'react-native'
@@ -26,14 +25,7 @@ const StoreInfo = props => {
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
 
   const [storeInit, setStoreInit] = React.useState(false) // 매장 정보 초기값 유무
-  const [descriptionStore, setDescriptionStore] = React.useState('') // 매장 소개
-  const [infoStoreBenefit, setInfoStoreBenefit] = React.useState('') // 안내 및 혜택
-  const [infoMenu, setInfoMenu] = React.useState('') // 메뉴 소개
-  const [mainMenu, setMainMenu] = React.useState('') // 대표 메뉴
-  const [infoCountry, setInfoCountry] = React.useState('') // 원산지 안내
-  const [visibleCountry, setVisibleCountry] = React.useState('y') // 원산지 노출(비노출)
-  const [descriptionTips, setDescriptionTips] = React.useState('') // 배달팁 안내 문구
-  const [source, setSource] = React.useState([])
+
   const [showDefault, setShowDefault] = React.useState(true) // 이미지 로딩
   const [imageError, setImageError] = React.useState(false) // 이미지 에러
 
@@ -194,14 +186,14 @@ const StoreInfo = props => {
 
   const onModifyStoreInfo = () => {
     if (info.do_jumju_introduction === null || info.do_jumju_introduction === '') {
+      cusToast('매장 소개를 입력해주세요.', 1500, 'top')
       introduceRef.current.focus()
-      cusToast('매장 소개를 입력해주세요.')
     } else if (info.do_major_menu === null || info.do_major_menu === '') {
+      cusToast('대표메뉴를 입력해주세요.', 1500, 'top')
       majorMenuRef.current.focus()
-      cusToast('대표메뉴를 입력해주세요.')
     } else if (info.do_jumju_origin === null || info.do_jumju_origin === '') {
+      cusToast('원산지 안내를 입력해주세요.', 1500, 'top')
       originRef.current.focus()
-      cusToast('원산지 안내를 입력해주세요.')
     } else {
       const data = {
         mode: 'update',
@@ -1149,7 +1141,6 @@ const StoreInfo = props => {
                         ...BaseStyle.lh22,
                         marginTop: 10
                       }}
-                      onChangeText={text => setDescriptionTips(text)}
                       onChangeText={text => setInfo({ ...info, do_delivery_guide: text })}
                       autoCapitalize='none'
                       multiline

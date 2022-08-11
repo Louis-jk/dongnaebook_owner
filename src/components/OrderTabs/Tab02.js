@@ -7,6 +7,7 @@ import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
 import OrderRejectCancelModal from '../OrderRejectCancelModal'
 import cusToast from '../CusToast'
+import OrderEmpty from './OrderEmpty'
 
 const Tab02 = props => {
   const { navigation, getOrderListHandler } = props
@@ -280,18 +281,7 @@ const Tab02 = props => {
         onRefresh={() => onHandleRefresh()}
         style={{ backgroundColor: '#fff', width: '100%' }}
         ListEmptyComponent={
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              flex: 1,
-              height: Dimensions.get('window').height - 300
-            }}
-          >
-            <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-              아직 접수된 주문이 없습니다.
-            </Text>
-          </View>
+          <OrderEmpty text='접수된' />
         }
       />
     </View>

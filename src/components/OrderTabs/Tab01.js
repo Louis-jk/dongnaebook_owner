@@ -8,6 +8,7 @@ import Api from '../../Api'
 import OrderCheckModal from '../OrderCheckModal'
 import OrderRejectCancelModal from '../OrderRejectCancelModal'
 import AnimateLoading from '../AnimateLoading'
+import OrderEmpty from './OrderEmpty'
 
 const Tab01 = props => {
   const { navigation } = props
@@ -242,18 +243,7 @@ const Tab01 = props => {
           // onEndReachedThreshold={0.01}
             style={{ backgroundColor: '#fff', width: '100%' }}
             ListEmptyComponent={
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flex: 1,
-                  height: Dimensions.get('window').height - 300
-                }}
-              >
-                <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-                  아직 신규 주문이 없습니다.
-                </Text>
-              </View>
+              <OrderEmpty text='신규' />
           }
           />
         </View>}
