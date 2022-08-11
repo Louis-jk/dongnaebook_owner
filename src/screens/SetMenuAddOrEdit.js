@@ -19,6 +19,7 @@ import checkMenuValidate from '../modules/menuValidate'
 import Api from '../Api'
 import AnimateLoading from '../components/AnimateLoading'
 import { pickGalleryImage, takeCamera } from '../modules/imagePickerOrCamera'
+import Categories from '../components/Categories'
 
 const SetMenuAddOrEdit = props => {
   const { navigation, route } = props
@@ -487,35 +488,12 @@ const SetMenuAddOrEdit = props => {
                       </Text>
                       <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
                     </View>
-                    {menuCategory && menuCategory.length > 0 ? (
-                      <RNPickerSelect
-                        fixAndroidTouchableBug
-                        value={selectCategory}
-                        useNativeAndroidPickerStyle={false}
-                        placeholder={{ label: '선택해주세요.', value: null }}
-                        onValueChange={value => setSelectCategory(value)}
-                        items={menuCategory}
-                        style={{
-                          ...customPickerStyles,
-                          borderWidth: 1,
-                          borderColor: '#E3E3E3',
-                          ...BaseStyle.round05,
-                          ...BaseStyle.inputH,
-                          placeholder: {
-                            color: '#888'
-                          }
-                        }}
-                        Icon={() => {
-                          return (
-                            <Image
-                              source={require('../images/ic_select.png')}
-                              style={{ width: 45, height: 45 }}
-                              resizeMode='center'
-                            />
-                          )
-                        }}
-                      />
-                    ) : (
+
+                    {menuCategory && menuCategory.length > 0 && (
+                      <Categories selectCategory={selectCategory} setSelectCategory={setSelectCategory} items={menuCategory} />
+                    )}
+
+                    {!menuCategory && (
                       <View>
                         <Text
                           style={{ ...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mb5 }}
