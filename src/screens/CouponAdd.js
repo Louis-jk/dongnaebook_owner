@@ -21,6 +21,7 @@ import Api from '../Api'
 import * as couponAction from '../redux/actions/couponAction'
 import cusToast from '../components/CusToast'
 import { isHigherException, isLowerException } from '../modules/dateCheck'
+import { checkCouponValidate } from '../modules/couponValidate'
 
 const CouponAdd = props => {
   const { navigation } = props
@@ -71,7 +72,6 @@ const CouponAdd = props => {
       if (currentValue < date) {
         cusToast('오늘 이전 날짜는 지정하실 수 없습니다.')
       }
-
       const isHigher = isHigherException(currentValue, endDate)
       isHigher(setStartDate)
     } else {
@@ -121,99 +121,10 @@ const CouponAdd = props => {
     const endDateFormat = moment(endDate).format('YYYY-MM-DD')
     const toIntDiscountPrice = parseInt(discountPrice)
 
-    if (type === null || type === '') {
-      cusToast('구분을 선택해주세요.')
-      // Alert.alert('구분을 선택해주세요.', '', [
-      //   {
-      //     text: '확인'
-      //   }
-      // ])
-    } else if (name === null || name === '') {
-      couponNameRef.current.focus()
-      cusToast('쿠폰명을 입력해주세요.')
-      // Alert.alert('쿠폰명을 입력해주세요.', '', [
-      //   {
-      //     text: '확인',
-      //     onPress: () => couponNameRef.current.focus()
-      //   }
-      // ])
-    } else if (minPrice === null || minPrice === '') {
-      couponMinPriceRef.current.focus()
-      cusToast('최소 주문 금액을 입력해주세요.')
-      // Alert.alert('최소 주문 금액을 입력해주세요.', '', [
-      //   {
-      //     text: '확인',
-      //     onPress: () => couponMinPriceRef.current.focus()
-      //   }
-      // ])
-    } else if (priceType === '1' && (maxPrice === null || maxPrice === '')) {
-      couponMaxPriceRef.current.focus()
-      cusToast('최대 할인 금액을 입력해주세요.')
-      // Alert.alert('최대 할인 금액을 입력해주세요.', '', [
-      //   {
-      //     text: '확인',
-      //     onPress: () => couponMaxPriceRef.current.focus()
-      //   }
-      // ])
-    } else if (priceType === '1' && maxPrice <= 0) {
-      couponMaxPriceRef.current.focus()
-      cusToast('최대 할인 금액은 0원 이상으로 입력해주세요.')
-      // Alert.alert('최대 할인 금액은 0원 이상으로 입력해주세요.', '', [
-      //   {
-      //     text: '확인',
-      //     onPress: () => couponMaxPriceRef.current.focus()
-      //   }
-      // ])
-    } else if (discountPrice === null || discountPrice === '') {
-      if (priceType === '0') {
-        couponDiscountPriceRef.current.focus()
-        cusToast('할인 금액을 입력해주세요.')
-        // Alert.alert('할인 금액을 입력해주세요.', '', [
-        //   {
-        //     text: '확인',
-        //     onPress: () => couponDiscountPriceRef.current.focus()
-        //   }
-        // ])
-      } else {
-        couponDiscountPriceRef.current.focus()
-        cusToast('할인 비율을 입력해주세요.')
-        // Alert.alert('할인 비율을 입력해주세요.', '', [
-        //   {
-        //     text: '확인',
-        //     onPress: () => couponDiscountPriceRef.current.focus()
-        //   }
-        // ])
-      }
-    } else if (toIntDiscountPrice <= 0) {
-      if (priceType === '0') {
-        couponDiscountPriceRef.current.focus()
-        cusToast('할인 금액은 0원 이상으로 설정해주세요.')
-        // Alert.alert('할인 금액은 0원 이상으로 설정해주세요.', '', [
-        //   {
-        //     text: '확인',
-        //     onPress: () => couponDiscountPriceRef.current.focus()
-        //   }
-        // ])
-      } else {
-        couponDiscountPriceRef.current.focus()
-        cusToast('할인 비율은 0% 이상 100% 이하로 설정해주세요.')
-        // Alert.alert('할인 비율은 0% 이상 100% 이하로 설정해주세요.', '', [
-        //   {
-        //     text: '확인',
-        //     onPress: () => couponDiscountPriceRef.current.focus()
-        //   }
-        // ])
-      }
-    } else if (maxDate === null || maxDate === '') {
-      couponUseDayRef.current.focus()
-      cusToast('쿠폰 사용기간을 입력해주세요.')
-      // Alert.alert('쿠폰 사용기간을 입력해주세요.', '', [
-      //   {
-      //     text: '확인',
-      //     onPress: () => couponUseDayRef.current.focus()
-      //   }
-      // ])
-    } else {
+    // 쿠폰 유효성 체크
+    const isValidate = checkCouponValidate(type, name, minPrice, priceType, maxPrice, discountPrice, toIntDiscountPrice, maxDate, couponNameRef, couponMinPriceRef, couponMaxPriceRef, couponDiscountPriceRef, couponUseDayRef)
+
+    if (isValidate) {
       const param = {
         jumju_id: mtId,
         jumju_code: mtJumjuCode,
@@ -238,23 +149,8 @@ const CouponAdd = props => {
           setTimeout(() => {
             navigation.navigate('Home', { screen: 'Coupon' })
           }, 1500)
-          // Alert.alert('쿠폰이 등록되었습니다.', '쿠폰리스트로 이동합니다.', [
-          //   {
-          //     text: '확인',
-          //     onPress: () => navigation.navigate('Home', { screen: 'Coupon' })
-          //   },
-          //   {
-          //     text: '메인으로',
-          //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
-          //   }
-          // ])
         } else {
-          cusToast('쿠폰을 등록할 수 없습니다.\n다시 시도 해주세요.', 2500)
-          // Alert.alert('쿠폰을 등록할 수 없습니다.', '다시 시도 해주세요.', [
-          //   {
-          //     text: '확인'
-          //   }
-          // ])
+          cusToast('쿠폰을 등록하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 2500)
         }
       })
     }
@@ -263,8 +159,6 @@ const CouponAdd = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='쿠폰추가' />
-
-      {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
 
       <ScrollView>
         <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
