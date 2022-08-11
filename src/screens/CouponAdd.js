@@ -13,7 +13,6 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
 import 'moment/locale/ko'
-import RNPickerSelect from 'react-native-picker-select'
 import { useSelector, useDispatch } from 'react-redux'
 import Header from '../components/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
@@ -22,6 +21,7 @@ import * as couponAction from '../redux/actions/couponAction'
 import cusToast from '../components/CusToast'
 import { isHigherException, isLowerException } from '../modules/dateCheck'
 import { checkCouponValidate } from '../modules/couponValidate'
+import CouponCategory from '../components/Coupon/CouponCategory'
 
 const CouponAdd = props => {
   const { navigation } = props
@@ -167,37 +167,7 @@ const CouponAdd = props => {
             <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
               구분
             </Text>
-            <RNPickerSelect
-              fixAndroidTouchableBug
-              value={type}
-              useNativeAndroidPickerStyle={false}
-              placeholder={{ label: '선택해주세요.', value: null }}
-              onValueChange={value => setType(value)}
-              items={[
-                { label: '모두 사용가능', value: '0' },
-                { label: '포장용 쿠폰', value: '1' },
-                { label: '배달용 쿠폰', value: '2' }
-              ]}
-              style={{
-                ...customPickerStyles,
-                borderWidth: 1,
-                borderColor: '#E3E3E3',
-                ...BaseStyle.round05,
-                ...BaseStyle.inputH,
-                placeholder: {
-                  color: '#888'
-                }
-              }}
-              Icon={() => {
-                return (
-                  <Image
-                    source={require('../images/ic_select.png')}
-                    style={{ width: 45, height: 45 }}
-                    resizeMode='center'
-                  />
-                )
-              }}
-            />
+            <CouponCategory type={type} setType={setType} />
           </View>
           {/* // 구분 */}
 
@@ -565,30 +535,5 @@ const CouponAdd = props => {
     </View>
   )
 }
-
-const customPickerStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 14,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: '#E3E3E3',
-    borderRadius: 5,
-    height: 45,
-    color: 'black',
-    paddingRight: 30 // to ensure the text is never behind the icon
-  },
-  inputAndroid: {
-    fontSize: 14,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: '#E3E3E3',
-    borderRadius: 5,
-    height: 45,
-    color: 'black',
-    paddingRight: 30 // to ensure the text is never behind the icon
-  }
-})
 
 export default CouponAdd
