@@ -20,6 +20,7 @@ import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import * as couponAction from '../redux/actions/couponAction'
 import cusToast from '../components/CusToast'
+import { isHigherException, isLowerException } from '../modules/dateCheck'
 
 const CouponAdd = props => {
   const { navigation } = props
@@ -69,32 +70,13 @@ const CouponAdd = props => {
     if (dateType === 'start') {
       if (currentValue < date) {
         cusToast('오늘 이전 날짜는 지정하실 수 없습니다.')
-        // Alert.alert('오늘 이전 날짜는 지정하실 수 없습니다.', '', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ])
-      } else if (currentValue > endDate) {
-        cusToast('다운로드 유효기간 시작일이 마지막 날짜보다 클 수 없습니다.')
-        // Alert.alert('다운로드 유효기간 시작일이 마지막 날짜보다 클 수 없습니다.', '', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ])
-      } else {
-        setStartDate(currentValue)
       }
+
+      const isHigher = isHigherException(currentValue, endDate)
+      isHigher(setStartDate)
     } else {
-      if (currentValue < startDate) {
-        cusToast('다운로드 유효기간 마지막 날짜가 시작 날짜보다 작을 수 없습니다.')
-        // Alert.alert('다운로드 유효기간 마지막 날짜가 시작 날짜보다 작을 수 없습니다.', '', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ])
-      } else {
-        setEndDate(currentValue)
-      }
+      const isLower = isLowerException(currentValue, startDate)
+      isLower(setEndDate)
     }
   }
 
