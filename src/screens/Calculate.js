@@ -47,7 +47,7 @@ const Calculate = props => {
         <View style={{ ...BaseStyle.container }}>
           <View style={{ flex: 2 }}>
             <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
-              3월 정산 금액{'  '}
+              8월 정산 금액{'  '}
               <Text style={{ color: Primary.PointColor02, ...BaseStyle.ml10 }}>정산중</Text>
             </Text>
           </View>
@@ -61,7 +61,7 @@ const Calculate = props => {
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={{ ...BaseStyle.ko24, ...BaseStyle.font_bold }}>5,795,000원</Text>
+          <Text style={{ ...BaseStyle.ko24, ...BaseStyle.font_bold }}>7,795,000원</Text>
         </View>
       </View>
       {/* //정산 금액 메인 */}
