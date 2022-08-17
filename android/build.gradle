@@ -6,9 +6,10 @@ buildscript {
         firebaseMessagingVersion = "+" // default: "21.1.0"
         buildToolsVersion = "29.0.3"
         minSdkVersion = 21
-        compileSdkVersion = 29
-        targetSdkVersion = 29
+        compileSdkVersion = 31
+        targetSdkVersion = 31
         ndkVersion = "20.1.5948944"
+        androidXCore = "1.7.0" 
     }
     repositories {
         google()
