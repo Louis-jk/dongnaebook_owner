@@ -1,47 +1,44 @@
 import { View, Text, FlatList, Dimensions, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import Header from '../components/SubHeader'
 import Api from '../Api'
 import BaseStyle, { Primary } from '../styles/Base'
-import AnimateLoading from '../components/AnimateLoading'
 import OrderEmpty from '../components/OrderTabs/OrderEmpty'
+import * as orderAction from '../redux/actions/orderAction'
+import OrdersAnimateLoading from '../components/OrdersAnimateLoading'
 
 const CancelOrders = props => {
   const { navigation } = props
   const { mt_id: jumjuId, mt_jumju_code: jumjuCode } = useSelector(state => state.login)
+  const { orderCancel } = useSelector(state => state.order) // 신규 주문 건
+  const { orders, reflesh } = orderCancel
   const [orderId, setOrderId] = React.useState('') // 주문 ID
   const [orderType, setOrderType] = React.useState('') // 주문 Type
   const [refleshing, setReflashing] = React.useState(false)
   const [isLoading, setLoading] = React.useState(true)
+  const [firstInifinite, setFirstInfinite] = React.useState(false);
+  const [orderCnt, setOrderCnt] = React.useState(0);
 
-  // 주문 취소건
-  const [cancelList, setCancelList] = React.useState([])
+  const dispatch = useDispatch()
 
-  const param = {
-    encodeJson: true,
-    item_count: 0,
-    limit_count: 10,
-    jumju_id: jumjuId,
-    jumju_code: jumjuCode,
-    od_process_status: '주문취소'
-  }
+  
+  React.useEffect(() => {
+    setLoading(reflesh)
+    setReflashing(reflesh)
+  }, [reflesh])
+
+  React.useEffect(() => {
+    setOrderCnt(orders.length)
+    return () => setOrderCnt(orders.length)
+  }, [])
+
 
   const getCancelListHandler = () => {
-    Api.send('store_order_list', param, args => {
-      const resultItem = args.resultItem
-      const arrItems = args.arrItems
-
-      if (resultItem.result === 'Y') {
-        setCancelList(arrItems)
-      } else {
-        setCancelList([])
-      }
-
-      setLoading(false)
-    })
+    dispatch(orderAction.initCancelOrderLimit(5))
+    dispatch(orderAction.getCancelOrder())
   }
 
   React.useEffect(() => {
@@ -51,8 +48,33 @@ const CancelOrders = props => {
     return unsubscribe
   }, [navigation])
 
+
+  function handleLoadMore () {
+
+    if(Array.isArray(orders)) {
+      if (isLoading) {
+        setOrderCnt(orders.length)
+        return
+      } else if (orders && orders.length === orderCnt && firstInifinite) {
+        setOrderCnt(orders.length)
+        return
+      } else {
+        setFirstInfinite(true)
+        setOrderCnt(orders.length)
+        dispatch(orderAction.updateCancelOrderLimit(5))
+      }
+    }
+  }
+
+  const onHandleRefresh = () => {
+
+    setReflashing(true)
+    dispatch(orderAction.getCancelOrder())
+  }
+
+
   const renderRow = ({ item, index }) => {
-    console.log('cancel item::', item)
+    
     return (
       <TouchableOpacity
         key={index}
@@ -155,13 +177,13 @@ const CancelOrders = props => {
 
   return (
     <>
-      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
+      {isLoading && <OrdersAnimateLoading description='데이터를 불러오는 중입니다.' />}
 
       {!isLoading &&
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
           <Header navigation={navigation} title='주문취소내역' />
           <FlatList
-            data={cancelList}
+            data={orders}
             renderItem={renderRow}
             keyExtractor={(list, index) => index.toString()}
         // pagingEnabled={true}
@@ -169,7 +191,9 @@ const CancelOrders = props => {
             showsVerticalScrollIndicator={false}
         // progressViewOffset={true}
             refreshing={refleshing}
-        // onRefresh={() => onHandleRefresh()}
+            onRefresh={() => onHandleRefresh()}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.4}
             style={{ backgroundColor: '#fff', width: '100%' }}
             ListEmptyComponent={
               <OrderEmpty text='취소된' />

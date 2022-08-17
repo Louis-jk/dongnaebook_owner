@@ -38,6 +38,8 @@ export default order = (state = defaultState, action) => {
         ...state,
         selectOrderTab: action.payload
       }
+  
+    // 신규 주문
     case types.GET_NEW_ORDER_LIST:
       return {
         ...state,
@@ -73,6 +75,8 @@ export default order = (state = defaultState, action) => {
           limit: action.payload
         }
       }
+
+    // 접수완료
     case types.GET_CHECK_ORDER_LIST:
       return {
         ...state,
@@ -107,6 +111,8 @@ export default order = (state = defaultState, action) => {
             limit: action.payload
           }
       }
+
+    // 배달중
     case types.GET_DELIVERY_ORDER_LIST:
       return {
         ...state,
@@ -141,6 +147,8 @@ export default order = (state = defaultState, action) => {
             limit: action.payload
           }
       }
+
+    // 처리완료
     case types.GET_DONE_ORDER_LIST:
       return {
         ...state,
@@ -174,6 +182,42 @@ export default order = (state = defaultState, action) => {
             ...state.orderDone,
             limit: action.payload
           }
+      }
+
+    // 주문 쉬소
+    case types.GET_CANCEL_ORDER_LIST:
+      return {
+        ...state,
+        selectOrderTab: 4,
+        orderCancel: {
+          ...state.orderCancel,
+          reflesh: true
+        }
+      }
+    case types.UPDATE_CANCEL_ORDER_LIST:
+      return {
+        ...state,
+        orderCancel: {
+          ...state.orderCancel,
+          orders: action.payload !== null ? action.payload : [],
+          reflesh: false
+        }
+      }
+    case types.SET_CANCEL_ORDER_LIMIT:
+      return {
+        ...state,
+        orderCancel: {
+          ...state.orderCancel,
+          limit: state.orderCancel.limit + action.payload
+        }
+      }
+    case types.INIT_CANCEL_ORDER_LIMIT:
+      return {
+        ...state,
+        orderCancel: {
+          ...state.orderCancel,
+          limit: action.payload
+        }
       }
     default:
       return state
