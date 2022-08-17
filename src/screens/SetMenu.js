@@ -9,6 +9,9 @@ import {
   BackHandler
 } from 'react-native'
 import { useSelector } from 'react-redux'
+import NetInfo from '@react-native-community/netinfo'
+import { useQuery, onlineManager } from '@tanstack/react-query'
+
 import Header from '../components/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
@@ -83,6 +86,18 @@ const SetMenu = props => {
     setEndCount(endCount + 10)
     getMenuListHandler()
   }
+
+  onlineManager.setEventListener(setOnline => {
+    return NetInfo.addEventListener(state => {
+      console.log('menu state', state)
+      console.log('!!state.isConnected', !!state.isConnected)
+      setOnline(!!state.isConnected)
+
+      // if (state.isConnected) {
+      //   getMenuListHandler()
+      // }
+    })
+  })
 
   const renderRow = ({ item, index }) => {
     return (
@@ -188,7 +203,7 @@ const SetMenu = props => {
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
           <Header navigation={navigation} title='메뉴설정' />
 
-          {/* <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
+          <View style={{ ...BaseStyle.ph20, ...BaseStyle.pt20, ...BaseStyle.pb10 }}>
             <TouchableOpacity
               activeOpacity={1}
               onPress={() => navigation.navigate('Home', { screen: 'SetMenuAddOrEdit', params: { type: 'add' } })}
@@ -198,10 +213,10 @@ const SetMenu = props => {
                 메뉴 추가하기 +
               </Text>
             </TouchableOpacity>
-          </View> */}
+          </View>
 
           {/* 메뉴 리스트 */}
-          <View style={{ flex: 1, height, ...BaseStyle.mt10 }}>
+          <View style={{ flex: 1, height }}>
             <FlatList
               data={menuList}
               renderItem={renderRow}
@@ -233,17 +248,6 @@ const SetMenu = props => {
           </View>
           {/* //메뉴 리스트 */}
 
-          <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv10 }}>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => navigation.navigate('Home', { screen: 'SetMenuAddOrEdit', params: { type: 'add' } })}
-              style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
-            >
-              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
-                메뉴 추가하기
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>}
     </>
   )
