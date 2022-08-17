@@ -11,16 +11,17 @@ import OrdersAnimateLoading from '../OrdersAnimateLoading'
 
 const Tab04 = props => {
   const { navigation } = props
-  const { doneOrder, doneOrderRefleshing } = useSelector(state => state.order) // 처리완료 건
+  const { doneOrders } = useSelector(state => state.order) // 처리완료 건
+  const { orders, reflesh } = doneOrders
   const [refleshing, setReflashing] = React.useState(false)
   const [isLoading, setLoading] = React.useState(false)
 
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    setLoading(doneOrderRefleshing)
-    setReflashing(doneOrderRefleshing)
-  }, [doneOrderRefleshing])
+    setLoading(reflesh)
+    setReflashing(reflesh)
+  }, [reflesh])
 
   const onHandleRefresh = () => {
     setReflashing(true)
@@ -136,7 +137,7 @@ const Tab04 = props => {
     {!isLoading &&
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <FlatList
-        data={doneOrder}
+        data={orders}
         renderItem={renderRow}
         keyExtractor={(list, index) => index.toString()}
         // pagingEnabled={true}

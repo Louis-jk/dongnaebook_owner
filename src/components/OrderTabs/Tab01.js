@@ -15,7 +15,8 @@ const LIMIT = 10
 
 const Tab01 = props => {
   const { navigation } = props
-  const { newOrder, newOrderRefleshing } = useSelector(state => state.order) // 신규 주문 건
+  const { newOrders } = useSelector(state => state.order) // 신규 주문 건
+  const { orders, reflesh } = newOrders // 신규 주문 건
   const [isLoading, setLoading] = React.useState(false)
   const [orderId, setOrderId] = React.useState('') // 주문 ID
   const [orderType, setOrderType] = React.useState('') // 주문 Type
@@ -23,18 +24,28 @@ const Tab01 = props => {
   const [jumjuId, setJumjuId] = React.useState('') // 해당 점주 아이디
   const [jumjuCode, setJumjuCode] = React.useState('') // 해당 점주 코드
   const [count, setCount] = React.useState(0)
+  const [firstInifinite, setFirstInfinite] = React.useState(false);
+  const [orderCnt, setOrderCnt] = React.useState(0);
   const dispatch = useDispatch()
 
   
   React.useEffect(() => {
 
-    console.log('newOrderRefleshing ??', newOrderRefleshing)
-
-    setLoading(newOrderRefleshing)
-    setReflashing(newOrderRefleshing)
-
+    setLoading(reflesh)
+    setReflashing(reflesh)
     
-  }, [newOrderRefleshing])
+  }, [reflesh])
+
+
+  React.useEffect(() => {
+    if ( orders ) {
+      setOrderCnt(orders.length)
+
+      return () => setOrderCnt(orders.length)
+    }
+  }, [])
+
+  console.log(`orderCnt:: ${orderCnt}`)
 
   // 주문 거부
   const [isModalVisible, setModalVisible] = React.useState(false)
@@ -53,10 +64,18 @@ const Tab01 = props => {
   
   function handleLoadMore () {
     console.log('count ?', count)
+    console.log('orders ?????', orders.length)
+    console.log('orderCnt ?????', orderCnt)
     if (isLoading) {
+      setOrderCnt(orders.length)
+      return
+    } else if (orders && orders.length === orderCnt && firstInifinite) {
+      setOrderCnt(orders.length)
       return
     } else {
-      setCount(count + LIMIT)
+      setFirstInfinite(true)
+      setOrderCnt(orders.length)
+      dispatch(orderAction.updateNewOrderLimit(5))
     }
   }
 
@@ -67,6 +86,7 @@ const Tab01 = props => {
   */
 
   const onHandleRefresh = () => {
+
     setReflashing(true)
     dispatch(orderAction.getNewOrder())
   }
@@ -232,7 +252,7 @@ const Tab01 = props => {
 
       {!isLoading &&
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          {newOrder && newOrder.length > 0 && (
+          {orders && orders.length > 0 && (
             <OrderCheckModal
               isModalVisible={isOrderCheckModalVisible}
               toggleModal={toggleOrderCheckModal}
@@ -253,7 +273,7 @@ const Tab01 = props => {
             jumjuCode={jumjuCode}
           />
           <FlatList
-            data={newOrder}
+            data={orders}
             renderItem={renderRow}
             keyExtractor={(list, index) => index.toString()}
           // pagingEnabled={true}

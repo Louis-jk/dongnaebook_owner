@@ -11,7 +11,8 @@ import OrdersAnimateLoading from '../OrdersAnimateLoading'
 
 const Tab03 = props => {
   const { navigation } = props
-  const { deliveryOrder, deliveryOrderRefleshing } = useSelector(state => state.order) // 배달중인 주문건
+  const { deliveryOrders } = useSelector(state => state.order) // 배달중인 주문건
+  const { orders, reflesh } = deliveryOrders
   const [refleshing, setReflashing] = React.useState(false)
   const [isLoading, setLoading] = React.useState(false)
 
@@ -19,9 +20,9 @@ const Tab03 = props => {
 
   
   React.useEffect(() => {
-    setLoading(deliveryOrderRefleshing)
-    setReflashing(deliveryOrderRefleshing)
-  }, [deliveryOrderRefleshing])
+    setLoading(reflesh)
+    setReflashing(reflesh)
+  }, [reflesh])
 
 
   const onHandleRefresh = () => {
@@ -136,7 +137,7 @@ const Tab03 = props => {
     {!isLoading &&
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <FlatList
-        data={deliveryOrder}
+        data={orders}
         renderItem={renderRow}
         keyExtractor={(list, index) => index.toString()}
         // pagingEnabled={true}

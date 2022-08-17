@@ -13,7 +13,8 @@ import OrdersAnimateLoading from '../OrdersAnimateLoading'
 
 const Tab02 = props => {
   const { navigation, getOrderListHandler } = props
-  const { checkOrder, checkOrderRefleshing } = useSelector(state => state.order) // 접수완료 건
+  const { checkOrders } = useSelector(state => state.order) // 접수완료 건
+  const { orders, reflesh } = checkOrders // 접수완료 건
   const [jumjuId, setJumjuId] = React.useState('') // 해당 점주 아이디
   const [jumjuCode, setJumjuCode] = React.useState('') // 해당 점주 코드
   const [isLoading, setLoading] = React.useState(false)
@@ -25,9 +26,9 @@ const Tab02 = props => {
   const [refleshing, setReflashing] = React.useState(false)
 
   React.useEffect(() => {
-    setLoading(checkOrderRefleshing)
-    setReflashing(checkOrderRefleshing)
-  }, [checkOrderRefleshing])
+    setLoading(reflesh)
+    setReflashing(reflesh)
+  }, [reflesh])
 
   // 주문 배달처리
   const sendDeliverHandler = (type, odId, jumjuId, jumjuCode) => {
@@ -266,7 +267,7 @@ const Tab02 = props => {
             jumjuCode={jumjuCode}
           />
           <FlatList
-            data={checkOrder}
+            data={orders}
             renderItem={renderRow}
             keyExtractor={(list, index) => index.toString()}
         // pagingEnabled={true}
