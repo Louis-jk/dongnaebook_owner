@@ -52,6 +52,22 @@ export function updateCheckOrder (data) {
   }
 }
 
+export function updateCheckOrderLimit (data) {
+
+  return {
+    type: types.SET_CHECK_ORDER_LIMIT,
+    payload: data
+  }
+}
+
+export function initCheckOrderLimit (data) {
+
+  return {
+    type: types.INIT_CHECK_ORDER_LIMIT,
+    payload: data
+  }
+}
+
 export function getDeliveryOrder () {
   return {
     type: types.GET_DELIVERY_ORDER_LIST
@@ -67,6 +83,22 @@ export function updateDeliveryOrder (data) {
   }
 }
 
+export function updateDeliveryOrderLimit (data) {
+
+  return {
+    type: types.SET_DELIVERY_ORDER_LIMIT,
+    payload: data
+  }
+}
+
+export function initDeliveryOrderLimit (data) {
+
+  return {
+    type: types.INIT_DELIVERY_ORDER_LIMIT,
+    payload: data
+  }
+}
+
 export function getDoneOrder () {
   return {
     type: types.GET_DONE_ORDER_LIST
@@ -79,5 +111,21 @@ export function updateDoneOrder (data) {
   return {
     type: types.UPDATE_DONE_ORDER_LIST,
     payload: args !== null ? args : null
+  }
+}
+
+export function updateDoneOrderLimit (data) {
+
+  return {
+    type: types.SET_DONE_ORDER_LIMIT,
+    payload: data
+  }
+}
+
+export function initDoneOrderLimit (data) {
+
+  return {
+    type: types.INIT_DONE_ORDER_LIMIT,
+    payload: data
   }
 }

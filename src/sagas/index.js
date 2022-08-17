@@ -7,13 +7,16 @@ export const getOrderObject = (state) => state.order
 // 주문 리스트 fetch
 function * fetchOrders () {
   const loginInfo = yield select(getLoginObject)  
-  const {selectOrderTab, newOrders} = yield select(getOrderObject)
-  const {orders, limit: newOrderLimit} = newOrders
+  const {selectOrderTab, newOrders, checkOrders, deliveryOrders, doneOrders} = yield select(getOrderObject)
+  const {limit: newOrderLimit} = newOrders
+  const {limit: checkOrderLimit} = checkOrders
+  const {limit: deliveryOrderLimit} = deliveryOrders
+  const {limit: doneOrderLimit} = doneOrders
 
   const param = {
     encodeJson: true,
     item_count: 0,
-    limit_count: selectOrderTab === 0 ? newOrderLimit : 5,
+    limit_count: selectOrderTab === 0 ? newOrderLimit : selectOrderTab === 1 ? checkOrderLimit : selectOrderTab === 2 ? deliveryOrderLimit : selectOrderTab === 3 ? doneOrderLimit : 5,
     jumju_id: loginInfo.mt_id,
     jumju_code: loginInfo.mt_jumju_code,
     od_process_status: selectOrderTab === 0 ? '신규주문' : selectOrderTab === 1 ? '접수완료' : selectOrderTab === 2 ? '배달중' : selectOrderTab === 3 ? '배달완료' : '신규주문'
@@ -24,12 +27,11 @@ function * fetchOrders () {
   yield Api.send('store_order_list', param, args => {
     // const resultItem = args.resultItem
     const arrItems = args.arrItems
-    console.log('get arrItems ::::: ??', arrItems)
-    // console.log('get newOrder ::::: ??', orders)
     
     newOrderArr = arrItems
   }
   )
+
 
   if(selectOrderTab === 0) {
       yield put({ type: 'UPDATE_NEW_ORDER_LIST', payload: newOrderArr })

@@ -11,7 +11,6 @@ import OrderEmpty from './OrderEmpty'
 import * as orderAction from '../../redux/actions/orderAction'
 import OrdersAnimateLoading from '../OrdersAnimateLoading'
 
-const LIMIT = 10
 
 const Tab01 = props => {
   const { navigation } = props
@@ -30,22 +29,15 @@ const Tab01 = props => {
 
   
   React.useEffect(() => {
-
     setLoading(reflesh)
     setReflashing(reflesh)
-    
   }, [reflesh])
 
-
   React.useEffect(() => {
-    if ( orders ) {
-      setOrderCnt(orders.length)
-
-      return () => setOrderCnt(orders.length)
-    }
+    setOrderCnt(orders.length)
+    return () => setOrderCnt(orders.length)
   }, [])
 
-  console.log(`orderCnt:: ${orderCnt}`)
 
   // 주문 거부
   const [isModalVisible, setModalVisible] = React.useState(false)
@@ -63,19 +55,19 @@ const Tab01 = props => {
 
   
   function handleLoadMore () {
-    console.log('count ?', count)
-    console.log('orders ?????', orders.length)
-    console.log('orderCnt ?????', orderCnt)
-    if (isLoading) {
-      setOrderCnt(orders.length)
-      return
-    } else if (orders && orders.length === orderCnt && firstInifinite) {
-      setOrderCnt(orders.length)
-      return
-    } else {
-      setFirstInfinite(true)
-      setOrderCnt(orders.length)
-      dispatch(orderAction.updateNewOrderLimit(5))
+
+    if(Array.isArray(orders)) {
+      if (isLoading) {
+        setOrderCnt(orders.length)
+        return
+      } else if (orders && orders.length === orderCnt && firstInifinite) {
+        setOrderCnt(orders.length)
+        return
+      } else {
+        setFirstInfinite(true)
+        setOrderCnt(orders.length)
+        dispatch(orderAction.updateNewOrderLimit(5))
+      }
     }
   }
 
@@ -283,7 +275,7 @@ const Tab01 = props => {
             refreshing={refleshing}
             onRefresh={() => onHandleRefresh()}
             onEndReached={handleLoadMore}
-            onEndReachedThreshold={0.1}
+            onEndReachedThreshold={0.4}
             style={{ backgroundColor: '#fff', width: '100%' }}
             ListEmptyComponent={
               <OrderEmpty text='신규' />

@@ -15,6 +15,8 @@ const Tab03 = props => {
   const { orders, reflesh } = deliveryOrders
   const [refleshing, setReflashing] = React.useState(false)
   const [isLoading, setLoading] = React.useState(false)
+  const [firstInifinite, setFirstInfinite] = React.useState(false);
+  const [orderCnt, setOrderCnt] = React.useState(0);
 
   const dispatch = useDispatch()
 
@@ -24,6 +26,28 @@ const Tab03 = props => {
     setReflashing(reflesh)
   }, [reflesh])
 
+  React.useEffect(() => {    
+    setOrderCnt(orders.length)
+    return () => setOrderCnt(orders.length)
+  }, [])
+
+
+  function handleLoadMore () {
+
+    if(Array.isArray(orders)) {
+      if (isLoading) {
+        setOrderCnt(orders.length)
+        return
+      } else if (orders && orders.length === orderCnt && firstInifinite) {
+        setOrderCnt(orders.length)
+        return
+      } else {
+        setFirstInfinite(true)
+        setOrderCnt(orders.length)
+        dispatch(orderAction.updateDeliveryOrderLimit(5))
+      }
+    }
+  }
 
   const onHandleRefresh = () => {
     setReflashing(true)
@@ -146,6 +170,8 @@ const Tab03 = props => {
         // progressViewOffset={true}
         refreshing={refleshing}
         onRefresh={() => onHandleRefresh()}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.4}
         style={{ backgroundColor: '#fff', width: '100%' }}
         ListEmptyComponent={
           <OrderEmpty text='배달중인' />

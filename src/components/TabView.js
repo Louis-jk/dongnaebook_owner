@@ -12,7 +12,6 @@ import Tab02 from './OrderTabs/Tab02'
 import Tab03 from './OrderTabs/Tab03'
 import Tab04 from './OrderTabs/Tab04'
 import { OrderCategoryRequest } from '../data/modules/orderApi'
-import AnimateLoading from './AnimateLoading'
 
 const getOrder = OrderCategoryRequest // 주문 내역 불러오기
 
@@ -39,14 +38,17 @@ const TabView = props => {
     }
 
     if(index === 1) {
+      dispatch(orderAction.initCheckOrderLimit(5))
       dispatch(orderAction.getCheckOrder())
     }
 
     if(index === 2) {
+      dispatch(orderAction.initDeliveryOrderLimit(5))
       dispatch(orderAction.getDeliveryOrder())
     }
 
     if(index === 3) {
+      dispatch(orderAction.initDoneOrderLimit(5))
       dispatch(orderAction.getDoneOrder())
     }
 

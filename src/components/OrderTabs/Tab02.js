@@ -18,6 +18,8 @@ const Tab02 = props => {
   const [jumjuId, setJumjuId] = React.useState('') // 해당 점주 아이디
   const [jumjuCode, setJumjuCode] = React.useState('') // 해당 점주 코드
   const [isLoading, setLoading] = React.useState(false)
+  const [firstInifinite, setFirstInfinite] = React.useState(false);
+  const [orderCnt, setOrderCnt] = React.useState(0);
 
   const dispatch = useDispatch()
 
@@ -29,6 +31,12 @@ const Tab02 = props => {
     setLoading(reflesh)
     setReflashing(reflesh)
   }, [reflesh])
+
+  React.useEffect(() => {    
+    setOrderCnt(orders.length)
+    return () => setOrderCnt(orders.length)
+  }, [])
+  
 
   // 주문 배달처리
   const sendDeliverHandler = (type, odId, jumjuId, jumjuCode) => {
@@ -89,6 +97,23 @@ const Tab02 = props => {
   const toggleModal = payload => {
     setModalType(payload)
     setModalVisible(!isModalVisible)
+  }
+
+  function handleLoadMore () {
+
+    if(Array.isArray(orders)) {
+      if (isLoading) {
+        setOrderCnt(orders.length)
+        return
+      } else if (orders && orders.length === orderCnt && firstInifinite) {
+        setOrderCnt(orders.length)
+        return
+      } else {
+        setFirstInfinite(true)
+        setOrderCnt(orders.length)
+        dispatch(orderAction.updateCheckOrderLimit(5))
+      }
+    }
   }
 
   const onHandleRefresh = () => {
@@ -276,6 +301,8 @@ const Tab02 = props => {
         // progressViewOffset={true}
             refreshing={refleshing}
             onRefresh={() => onHandleRefresh()}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.4}
             style={{ backgroundColor: '#fff', width: '100%' }}
             ListEmptyComponent={
               <OrderEmpty text='접수된' />
