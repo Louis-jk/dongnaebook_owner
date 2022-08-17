@@ -14,8 +14,8 @@ import OrdersAnimateLoading from '../OrdersAnimateLoading'
 
 const Tab01 = props => {
   const { navigation } = props
-  const { newOrders } = useSelector(state => state.order) // 신규 주문 건
-  const { orders, reflesh } = newOrders // 신규 주문 건
+  const { orderNew } = useSelector(state => state.order) // 신규 주문 건
+  const { orders, reflesh } = orderNew // 신규 주문 건
   const [isLoading, setLoading] = React.useState(false)
   const [orderId, setOrderId] = React.useState('') // 주문 ID
   const [orderType, setOrderType] = React.useState('') // 주문 Type

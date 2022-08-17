@@ -11,8 +11,8 @@ import OrdersAnimateLoading from '../OrdersAnimateLoading'
 
 const Tab03 = props => {
   const { navigation } = props
-  const { deliveryOrders } = useSelector(state => state.order) // 배달중인 주문건
-  const { orders, reflesh } = deliveryOrders
+  const { orderDelivery } = useSelector(state => state.order) // 배달중인 주문건
+  const { orders, reflesh } = orderDelivery
   const [refleshing, setReflashing] = React.useState(false)
   const [isLoading, setLoading] = React.useState(false)
   const [firstInifinite, setFirstInfinite] = React.useState(false);

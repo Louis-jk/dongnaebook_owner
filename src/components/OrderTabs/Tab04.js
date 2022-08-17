@@ -11,8 +11,8 @@ import OrdersAnimateLoading from '../OrdersAnimateLoading'
 
 const Tab04 = props => {
   const { navigation } = props
-  const { doneOrders } = useSelector(state => state.order) // 처리완료 건
-  const { orders, reflesh } = doneOrders
+  const { orderDone } = useSelector(state => state.order) // 처리완료 건
+  const { orders, reflesh } = orderDone
   const [refleshing, setReflashing] = React.useState(false)
   const [isLoading, setLoading] = React.useState(false)
   const [firstInifinite, setFirstInfinite] = React.useState(false);
@@ -29,7 +29,7 @@ const Tab04 = props => {
     setOrderCnt(orders.length)
     return () => setOrderCnt(orders.length)    
   }, [])
-  
+
 
   function handleLoadMore () {
 

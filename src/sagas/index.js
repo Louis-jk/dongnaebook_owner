@@ -7,11 +7,11 @@ export const getOrderObject = (state) => state.order
 // 주문 리스트 fetch
 function * fetchOrders () {
   const loginInfo = yield select(getLoginObject)  
-  const {selectOrderTab, newOrders, checkOrders, deliveryOrders, doneOrders} = yield select(getOrderObject)
-  const {limit: newOrderLimit} = newOrders
-  const {limit: checkOrderLimit} = checkOrders
-  const {limit: deliveryOrderLimit} = deliveryOrders
-  const {limit: doneOrderLimit} = doneOrders
+  const {selectOrderTab, orderNew, orderCheck, orderDelivery, orderDone} = yield select(getOrderObject)
+  const {limit: newOrderLimit} = orderNew
+  const {limit: checkOrderLimit} = orderCheck
+  const {limit: deliveryOrderLimit} = orderDelivery
+  const {limit: doneOrderLimit} = orderDone
 
   const param = {
     encodeJson: true,

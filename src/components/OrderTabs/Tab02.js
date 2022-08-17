@@ -13,8 +13,8 @@ import OrdersAnimateLoading from '../OrdersAnimateLoading'
 
 const Tab02 = props => {
   const { navigation, getOrderListHandler } = props
-  const { checkOrders } = useSelector(state => state.order) // 접수완료 건
-  const { orders, reflesh } = checkOrders // 접수완료 건
+  const { orderCheck } = useSelector(state => state.order) // 접수완료 건
+  const { orders, reflesh } = orderCheck // 접수완료 건
   const [jumjuId, setJumjuId] = React.useState('') // 해당 점주 아이디
   const [jumjuCode, setJumjuCode] = React.useState('') // 해당 점주 코드
   const [isLoading, setLoading] = React.useState(false)
@@ -36,7 +36,7 @@ const Tab02 = props => {
     setOrderCnt(orders.length)
     return () => setOrderCnt(orders.length)
   }, [])
-  
+
 
   // 주문 배달처리
   const sendDeliverHandler = (type, odId, jumjuId, jumjuCode) => {
