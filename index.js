@@ -10,6 +10,8 @@ import { name as appName } from './app.json'
 import messaging from '@react-native-firebase/messaging'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import { Provider } from 'react-redux'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools, ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools'
 import initStore from './src/redux/store'
 
 LogBox.ignoreLogs(['Remote debugger'])
@@ -54,11 +56,14 @@ requestUserPermission()
 // }
 
 const store = initStore()
+const queryClient = new QueryClient()
 
 const RNRedux = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
+  <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </QueryClientProvider>
 )
 
 AppRegistry.registerComponent(appName, () => RNRedux)
