@@ -1,6 +1,6 @@
 import { View, Text, FlatList, TouchableOpacity, Image, Alert, Dimensions } from 'react-native'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import BaseStyle, { Primary } from '../../styles/Base'
@@ -8,16 +8,26 @@ import Api from '../../Api'
 import OrderRejectCancelModal from '../OrderRejectCancelModal'
 import cusToast from '../CusToast'
 import OrderEmpty from './OrderEmpty'
+import * as orderAction from '../../redux/actions/orderAction'
+import OrdersAnimateLoading from '../OrdersAnimateLoading'
 
 const Tab02 = props => {
   const { navigation, getOrderListHandler } = props
-  const { checkOrder } = useSelector(state => state.order) // 접수완료 건
+  const { checkOrder, checkOrderRefleshing } = useSelector(state => state.order) // 접수완료 건
   const [jumjuId, setJumjuId] = React.useState('') // 해당 점주 아이디
   const [jumjuCode, setJumjuCode] = React.useState('') // 해당 점주 코드
+  const [isLoading, setLoading] = React.useState(false)
+
+  const dispatch = useDispatch()
 
   // 주문 건
   const [orderId, setOrderId] = React.useState('') // 주문 ID
   const [refleshing, setReflashing] = React.useState(false)
+
+  React.useEffect(() => {
+    setLoading(checkOrderRefleshing)
+    setReflashing(checkOrderRefleshing)
+  }, [checkOrderRefleshing])
 
   // 주문 배달처리
   const sendDeliverHandler = (type, odId, jumjuId, jumjuCode) => {
@@ -26,8 +36,6 @@ const Tab02 = props => {
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
       od_process_status: type === '배달' ? '배달중' : '포장완료'
-      // delivery_time: time01,
-      // visit_time: time02
     }
 
     Api.send('store_order_status_update', param, args => {
@@ -37,32 +45,15 @@ const Tab02 = props => {
       if (resultItem.result === 'Y') {
         getOrderListHandler(1)
         cusToast(`주문을 ${type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`)
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'Main' })
-        }, 1500)
-        // Alert.alert(`주문을 ${type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`, '', [
-        //   {
-        //     text: '확인',
-        //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
-        //   }
-        // ])
       } else {
         getOrderListHandler(1)
-        cusToast(`주문 ${type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'Main' })
-        }, 1500)
-        // Alert.alert(
-        //   `주문 ${type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.`,
-        //   '다시 한번 시도해주세요.',
-        //   [
-        //     {
-        //       text: '확인',
-        //       onPress: () => navigation.navigate('Home', { screen: 'Main' })
-        //     }
-        //   ]
-        // )
+        cusToast(`주문 ${type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)        
       }
+
+      setTimeout(() => {
+        navigation.navigate('Home', { screen: 'Main' })
+      }, 1500)        
+
     })
   }
 
@@ -101,7 +92,8 @@ const Tab02 = props => {
 
   const onHandleRefresh = () => {
     setReflashing(true)
-    // getOrderListHandler()
+    dispatch(orderAction.getCheckOrder())
+    getOrderListHandler()
   }
 
   const renderRow = ({ item, index }) => {
@@ -259,32 +251,37 @@ const Tab02 = props => {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <OrderRejectCancelModal
-        navigation={navigation}
-        isModalVisible={isModalVisible}
-        toggleModal={toggleModal}
-        modalType={modalType}
-        od_id={orderId}
-        jumjuId={jumjuId}
-        jumjuCode={jumjuCode}
-      />
-      <FlatList
-        data={checkOrder}
-        renderItem={renderRow}
-        keyExtractor={(list, index) => index.toString()}
+    <>
+      {isLoading && <OrdersAnimateLoading description='데이터를 불러오는 중입니다.' />}
+
+      {!isLoading &&
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <OrderRejectCancelModal
+            navigation={navigation}
+            isModalVisible={isModalVisible}
+            toggleModal={toggleModal}
+            modalType={modalType}
+            od_id={orderId}
+            jumjuId={jumjuId}
+            jumjuCode={jumjuCode}
+          />
+          <FlatList
+            data={checkOrder}
+            renderItem={renderRow}
+            keyExtractor={(list, index) => index.toString()}
         // pagingEnabled={true}
-        persistentScrollbar
-        showsVerticalScrollIndicator={false}
+            persistentScrollbar
+            showsVerticalScrollIndicator={false}
         // progressViewOffset={true}
-        refreshing={refleshing}
-        onRefresh={() => onHandleRefresh()}
-        style={{ backgroundColor: '#fff', width: '100%' }}
-        ListEmptyComponent={
-          <OrderEmpty text='접수된' />
+            refreshing={refleshing}
+            onRefresh={() => onHandleRefresh()}
+            style={{ backgroundColor: '#fff', width: '100%' }}
+            ListEmptyComponent={
+              <OrderEmpty text='접수된' />
         }
-      />
-    </View>
+          />
+        </View>}
+    </>
   )
 }
 

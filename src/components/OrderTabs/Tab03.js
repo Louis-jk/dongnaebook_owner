@@ -1,20 +1,32 @@
 import { View, Text, FlatList, TouchableOpacity, Image, Dimensions } from 'react-native'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
 import OrderEmpty from './OrderEmpty'
+import * as orderAction from '../../redux/actions/orderAction'
+import OrdersAnimateLoading from '../OrdersAnimateLoading'
 
 const Tab03 = props => {
   const { navigation } = props
-  const { deliveryOrder } = useSelector(state => state.order) // 배달중인 주문건
+  const { deliveryOrder, deliveryOrderRefleshing } = useSelector(state => state.order) // 배달중인 주문건
   const [refleshing, setReflashing] = React.useState(false)
+  const [isLoading, setLoading] = React.useState(false)
+
+  const dispatch = useDispatch()
+
+  
+  React.useEffect(() => {
+    setLoading(deliveryOrderRefleshing)
+    setReflashing(deliveryOrderRefleshing)
+  }, [deliveryOrderRefleshing])
+
 
   const onHandleRefresh = () => {
     setReflashing(true)
-    // getOrderListHandler()
+    dispatch(orderAction.getDeliveryOrder())
   }
 
   const renderRow = ({ item, index }) => {
@@ -118,6 +130,10 @@ const Tab03 = props => {
   }
 
   return (
+    <>
+    {isLoading && <OrdersAnimateLoading description='데이터를 불러오는 중입니다.' />}
+
+    {!isLoading &&
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <FlatList
         data={deliveryOrder}
@@ -135,6 +151,8 @@ const Tab03 = props => {
         }
       />
     </View>
+    }
+    </>
   )
 }
 

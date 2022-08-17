@@ -1,14 +1,17 @@
 import { View, Text, FlatList, TouchableOpacity, Image, Dimensions } from 'react-native'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
 import OrderCheckModal from '../OrderCheckModal'
 import OrderRejectCancelModal from '../OrderRejectCancelModal'
-import AnimateLoading from '../AnimateLoading'
 import OrderEmpty from './OrderEmpty'
+import * as orderAction from '../../redux/actions/orderAction'
+import OrdersAnimateLoading from '../OrdersAnimateLoading'
+
+const LIMIT = 10
 
 const Tab01 = props => {
   const { navigation } = props
@@ -20,6 +23,18 @@ const Tab01 = props => {
   const [jumjuId, setJumjuId] = React.useState('') // 해당 점주 아이디
   const [jumjuCode, setJumjuCode] = React.useState('') // 해당 점주 코드
   const [count, setCount] = React.useState(0)
+  const dispatch = useDispatch()
+
+  
+  React.useEffect(() => {
+
+    console.log('newOrderRefleshing ??', newOrderRefleshing)
+
+    setLoading(newOrderRefleshing)
+    setReflashing(newOrderRefleshing)
+
+    
+  }, [newOrderRefleshing])
 
   // 주문 거부
   const [isModalVisible, setModalVisible] = React.useState(false)
@@ -35,17 +50,25 @@ const Tab01 = props => {
     setOrderCheckModalVisible(!isOrderCheckModalVisible)
   }
 
-  React.useEffect(() => {
-    console.log('newOrderRefleshing', newOrderRefleshing)
-    setLoading(newOrderRefleshing)
-  }, [newOrderRefleshing])
-
+  
   function handleLoadMore () {
-    setCount(prev => prev + 1)
+    console.log('count ?', count)
+    if (isLoading) {
+      return
+    } else {
+      setCount(count + LIMIT)
+    }
   }
+
+  /*
+  offset 0, limit 10
+  offset 11, limit 10
+  offset 21, limit 10
+  */
 
   const onHandleRefresh = () => {
     setReflashing(true)
+    dispatch(orderAction.getNewOrder())
   }
 
   const renderRow = ({ item, index }) => {
@@ -159,7 +182,7 @@ const Tab01 = props => {
                 toggleOrderCheckModal()
               }}
               style={{
-                backgroundColor: Primary.PointColor02,
+                backgroundColor: item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
                 width: 80,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -205,7 +228,7 @@ const Tab01 = props => {
 
   return (
     <>
-      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
+      {isLoading && <OrdersAnimateLoading description='데이터를 불러오는 중입니다.' />}
 
       {!isLoading &&
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -239,8 +262,8 @@ const Tab01 = props => {
           // progressViewOffset={true}
             refreshing={refleshing}
             onRefresh={() => onHandleRefresh()}
-          // onEndReached={handleLoadMore}
-          // onEndReachedThreshold={0.01}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.1}
             style={{ backgroundColor: '#fff', width: '100%' }}
             ListEmptyComponent={
               <OrderEmpty text='신규' />
