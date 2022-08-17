@@ -18,10 +18,7 @@ const getOrder = OrderCategoryRequest // 주문 내역 불러오기
 
 const TabView = props => {
   const { navigation } = props
-  const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
-
-  const dispatch = useDispatch()
-  const [isLoading, setLoading] = React.useState(true)
+  const dispatch = useDispatch()  
 
   const layout = useWindowDimensions()
 
@@ -35,69 +32,24 @@ const TabView = props => {
 
   // 주문 내역 호출
   const getOrderListHandler = React.useCallback((index) => {
-    const param = {
-      encodeJson: true,
-      item_count: 0,
-      limit_count: 10,
-      jumju_id: mtId,
-      jumju_code: mtJumjuCode,
-      od_process_status: index === 0 ? '신규주문' : index === 1 ? '접수완료' : index === 2 ? '배달중' : '배달완료'
+
+    if(index === 0) {
+      dispatch(orderAction.getNewOrder())
     }
 
-    Api.send('store_order_list', param, args => {
-      const resultItem = args.resultItem
-      const arrItems = args.arrItems
+    if(index === 1) {
+      dispatch(orderAction.getCheckOrder())
+    }
 
-      if (resultItem.result === 'Y') {
-        // setOrderList(arrItems)
-        if (index === 0) {
-          dispatch(orderAction.updateNewOrder(JSON.stringify(arrItems)))
-        }
+    if(index === 2) {
+      dispatch(orderAction.getDeliveryOrder())
+    }
 
-        if (index === 1) {
-          dispatch(orderAction.updateCheckOrder(JSON.stringify(arrItems)))
-        }
+    if(index === 3) {
+      dispatch(orderAction.getDoneOrder())
+    }
 
-        if (index === 2) {
-          dispatch(orderAction.updateDeliveryOrder(JSON.stringify(arrItems)))
-        }
-
-        if (index === 3) {
-          dispatch(orderAction.updateDoneOrder(JSON.stringify(arrItems)))
-        }
-
-        // setReflashing(false)
-      } else {
-        // setOrderList([])
-        if (index === 0) {
-          dispatch(orderAction.updateNewOrder(null))
-        }
-
-        if (index === 1) {
-          dispatch(orderAction.updateCheckOrder(null))
-        }
-
-        if (index === 2) {
-          dispatch(orderAction.updateDeliveryOrder(null))
-        }
-
-        if (index === 3) {
-          dispatch(orderAction.updateDoneOrder(null))
-        }
-        // setReflashing(false)
-      }
-
-      setLoading(false)
-    })
   }, [index])
-
-  React.useEffect(() => {
-    const getMessage = messaging().onMessage(remoteMessage => {
-      getOrderListHandler(0)
-    })
-
-    return () => getMessage()
-  }, [])
 
   React.useEffect(() => {
     getOrderListHandler(index)
@@ -126,19 +78,13 @@ const TabView = props => {
   )
 
   return (
-    <>
-      {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
-
-      {!isLoading &&
         <LibTabView
           navigationState={{ index, routes }}
           renderTabBar={renderTabBar}
           renderScene={renderScene}
           onIndexChange={setIndex}
           initialLayout={{ width: layout.width }}
-          lazy
-        />}
-    </>
+        />
   )
 }
 
