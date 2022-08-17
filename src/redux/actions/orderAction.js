@@ -21,6 +21,22 @@ export function updateNewOrder (data) {
   }
 }
 
+export function updateNewOrderLimit (data) {
+
+  return {
+    type: types.SET_NEW_ORDER_LIMIT,
+    payload: data
+  }
+}
+
+export function initNewOrderLimit (data) {
+
+  return {
+    type: types.INIT_NEW_ORDER_LIMIT,
+    payload: data
+  }
+}
+
 export function getCheckOrder () {
   return {
     type: types.GET_CHECK_ORDER_LIST
