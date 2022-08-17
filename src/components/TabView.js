@@ -34,6 +34,7 @@ const TabView = props => {
   const getOrderListHandler = React.useCallback((index) => {
 
     if(index === 0) {
+      dispatch(orderAction.initNewOrderLimit(5))
       dispatch(orderAction.getNewOrder())
     }
 
