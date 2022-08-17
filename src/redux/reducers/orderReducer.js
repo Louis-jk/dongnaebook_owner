@@ -2,14 +2,26 @@ import types from '../actions/types'
 
 const defaultState = {
   selectOrderTab: 0,
-  newOrderRefleshing: false,
-  newOrder: null,
-  checkOrderRefleshing: false,
-  checkOrder: null,
-  deliveryOrderRefleshing: false,
-  deliveryOrder: null,
-  doneOrderRefleshing: false,
-  doneOrder: null
+  newOrders: {
+    reflesh: false, 
+    orders: null,
+    limit: 0 
+  },
+  checkOrders: {
+    reflesh: false, 
+    orders: null,
+    limit: 0 
+  },
+  deliveryOrders: {
+    reflesh: false, 
+    orders: null,
+    limit: 0 
+  },
+  doneOrders: {
+    reflesh: false, 
+    orders: null,
+    limit: 0 
+  }
 }
 
 export default order = (state = defaultState, action) => {
@@ -25,49 +37,90 @@ export default order = (state = defaultState, action) => {
       return {
         ...state,
         selectOrderTab: 0,
-        newOrderRefleshing: true
+        newOrders: {
+          ...state.newOrders,
+          reflesh: true
+        }
       }
     case types.UPDATE_NEW_ORDER_LIST:
+      console.log('action.payload ??', action.payload)
       return {
         ...state,
-        newOrder: action.payload !== null ? action.payload : null,
-        newOrderRefleshing: false
+        newOrders: {
+          ...state.newOrders,
+          orders: action.payload !== null ? action.payload : null,
+          reflesh: false
+        }
+      }
+    case types.SET_NEW_ORDER_LIMIT:
+      return {
+        ...state,
+        newOrders: {
+          ...state.newOrders,
+          limit: state.limit + action.payload
+        }
+      }
+    case types.INIT_NEW_ORDER_LIMIT:
+      return {
+        ...state,
+        newOrders: {
+          ...state.newOrders,
+          limit: action.payload
+        }
       }
     case types.GET_CHECK_ORDER_LIST:
       return {
         ...state,
         selectOrderTab: 1,
-        checkOrderRefleshing: true
+        checkOrders: {
+          ...state.checkOrders,
+          reflesh: true
+        }
       }
     case types.UPDATE_CHECK_ORDER_LIST:
       return {
         ...state,
-        checkOrder: action.payload !== null ? action.payload : null,
-        checkOrderRefleshing: false
+        checkOrders: {
+          ...state.checkOrders,
+          orders: action.payload !== null ? action.payload : null,
+          reflesh: false
+        }
       }
     case types.GET_DELIVERY_ORDER_LIST:
       return {
         ...state,
         selectOrderTab: 2,
-        deliveryOrderRefleshing: true
+        deliveryOrders: {
+          ...state.deliveryOrders,
+          reflesh: true
+        }
       }
     case types.UPDATE_DELIVERY_ORDER_LIST:
       return {
         ...state,
-        deliveryOrder: action.payload !== null ? action.payload : null,
-        deliveryOrderRefleshing: false
+        deliveryOrders: {
+          ...state.deliveryOrders,
+          orders: action.payload !== null ? action.payload : null,
+          reflesh: false
+        }
       }
     case types.GET_DONE_ORDER_LIST:
       return {
         ...state,
         selectOrderTab: 3,
-        doneOrderRefleshing: true
+        doneOrders: {
+          ...state.doneOrders,
+          reflesh: true
+        }
       }
     case types.UPDATE_DONE_ORDER_LIST:
       return {
         ...state,
-        doneOrder: action.payload !== null ? action.payload : null,
-        doneOrderRefleshing: false
+        doneOrders: {
+          ...state.doneOrders,
+          orders: action.payload !== null ? action.payload : null,
+          reflesh: false
+        }
       }
     default:
       return state
