@@ -274,9 +274,14 @@ const OrderDetail = props => {
 
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ ...BaseStyle.ph20 }}>
-                  {/* 주문 번호 */}
 
-                  {/* // 주문 번호 */}
+                {/* 주문 방식 */}
+                <View style={{...BaseStyle.ph15, ...BaseStyle.pv15, backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02}}>
+                  <Text style={{ ...BaseStyle.font_bold, color: '#fff'}}>{detailOrder.od_type} 주문</Text>
+                </View>
+                {/* //주문 방식 */}
+
+                  {/* 주문 번호 */}
                   <View
                     style={{
                       ...BaseStyle.container5,
@@ -292,6 +297,7 @@ const OrderDetail = props => {
                       {detailOrder.order_id}
                     </Text>
                   </View>
+                  {/* // 주문 번호 */}
 
                   {/* 취소건 일 때 취소 사유 */}
                   {type === 'cancel' && (
@@ -396,8 +402,9 @@ const OrderDetail = props => {
                   {/* 배달 정보 리스트 */}
                   <View style={{ ...BaseStyle.mv15 }}>
                     <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
-                      배달 정보
+                      {detailOrder.od_type} 정보
                     </Text>
+                    {detailOrder.od_type === '배달' &&
                     <View
                       style={{
                         ...BaseStyle.container3,
@@ -445,6 +452,7 @@ const OrderDetail = props => {
                         </View>
                       </View>
                     </View>
+                  }
                     <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
                       <View style={{ width: '30%' }}>
                         <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>전화번호</Text>
@@ -825,7 +833,7 @@ const OrderDetail = props => {
                     activeOpacity={1}
                     onPress={toggleOrderCheckModal}
                     style={{
-                      backgroundColor: '#20ABC8',
+                      backgroundColor: detailOrder.od_type === '배달' ? '#20ABC8' : Primary.PointColor02,
                       width: '50%',
                       justifyContent: 'center',
                       alignItems: 'center',
