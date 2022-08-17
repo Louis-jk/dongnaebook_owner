@@ -2,22 +2,27 @@ import types from '../actions/types'
 
 const defaultState = {
   selectOrderTab: 0,
-  newOrders: {
+  orderNew: {
     reflesh: false, 
     orders: [],
     limit: 5 
   },
-  checkOrders: {
+  orderCheck: {
     reflesh: false, 
     orders: [],
     limit: 5 
   },
-  deliveryOrders: {
+  orderDelivery: {
     reflesh: false, 
     orders: [],
     limit: 5 
   },
-  doneOrders: {
+  orderDone: {
+    reflesh: false, 
+    orders: [],
+    limit: 5 
+  },
+  orderCancel: {
     reflesh: false, 
     orders: [],
     limit: 5 
@@ -37,8 +42,8 @@ export default order = (state = defaultState, action) => {
       return {
         ...state,
         selectOrderTab: 0,
-        newOrders: {
-          ...state.newOrders,
+        orderNew: {
+          ...state.orderNew,
           reflesh: true
         }
       }
@@ -46,8 +51,8 @@ export default order = (state = defaultState, action) => {
       console.log('action.payload ??', action.payload)
       return {
         ...state,
-        newOrders: {
-          ...state.newOrders,
+        orderNew: {
+          ...state.orderNew,
           orders: action.payload !== null ? action.payload : [],
           reflesh: false
         }
@@ -55,16 +60,16 @@ export default order = (state = defaultState, action) => {
     case types.SET_NEW_ORDER_LIMIT:
       return {
         ...state,
-        newOrders: {
-          ...state.newOrders,
-          limit: state.newOrders.limit + action.payload
+        orderNew: {
+          ...state.orderNew,
+          limit: state.orderNew.limit + action.payload
         }
       }
     case types.INIT_NEW_ORDER_LIMIT:
       return {
         ...state,
-        newOrders: {
-          ...state.newOrders,
+        orderNew: {
+          ...state.orderNew,
           limit: action.payload
         }
       }
@@ -72,16 +77,16 @@ export default order = (state = defaultState, action) => {
       return {
         ...state,
         selectOrderTab: 1,
-        checkOrders: {
-          ...state.checkOrders,
+        orderCheck: {
+          ...state.orderCheck,
           reflesh: true
         }
       }
     case types.UPDATE_CHECK_ORDER_LIST:
       return {
         ...state,
-        checkOrders: {
-          ...state.checkOrders,
+        orderCheck: {
+          ...state.orderCheck,
           orders: action.payload !== null ? action.payload : [],
           reflesh: false
         }
@@ -89,16 +94,16 @@ export default order = (state = defaultState, action) => {
     case types.SET_CHECK_ORDER_LIMIT:
         return {
           ...state,
-          checkOrders: {
-            ...state.checkOrders,
-            limit: state.checkOrders.limit + action.payload
+          orderCheck: {
+            ...state.orderCheck,
+            limit: state.orderCheck.limit + action.payload
           }
       }
     case types.INIT_CHECK_ORDER_LIMIT:
         return {
           ...state,
-          checkOrders: {
-            ...state.checkOrders,
+          orderCheck: {
+            ...state.orderCheck,
             limit: action.payload
           }
       }
@@ -106,16 +111,16 @@ export default order = (state = defaultState, action) => {
       return {
         ...state,
         selectOrderTab: 2,
-        deliveryOrders: {
-          ...state.deliveryOrders,
+        orderDelivery: {
+          ...state.orderDelivery,
           reflesh: true
         }
       }
     case types.UPDATE_DELIVERY_ORDER_LIST:
       return {
         ...state,
-        deliveryOrders: {
-          ...state.deliveryOrders,
+        orderDelivery: {
+          ...state.orderDelivery,
           orders: action.payload !== null ? action.payload : [],
           reflesh: false
         }
@@ -123,16 +128,16 @@ export default order = (state = defaultState, action) => {
     case types.SET_DELIVERY_ORDER_LIMIT:
         return {
           ...state,
-          deliveryOrders: {
-            ...state.deliveryOrders,
-            limit: state.deliveryOrders.limit + action.payload
+          orderDelivery: {
+            ...state.orderDelivery,
+            limit: state.orderDelivery.limit + action.payload
           }
       }
     case types.INIT_DELIVERY_ORDER_LIMIT:
         return {
           ...state,
-          deliveryOrders: {
-            ...state.deliveryOrders,
+          orderDelivery: {
+            ...state.orderDelivery,
             limit: action.payload
           }
       }
@@ -140,16 +145,16 @@ export default order = (state = defaultState, action) => {
       return {
         ...state,
         selectOrderTab: 3,
-        doneOrders: {
-          ...state.doneOrders,
+        orderDone: {
+          ...state.orderDone,
           reflesh: true
         }
       }
     case types.UPDATE_DONE_ORDER_LIST:
       return {
         ...state,
-        doneOrders: {
-          ...state.doneOrders,
+        orderDone: {
+          ...state.orderDone,
           orders: action.payload !== null ? action.payload : [],
           reflesh: false
         }
@@ -157,16 +162,16 @@ export default order = (state = defaultState, action) => {
     case types.SET_DONE_ORDER_LIMIT:
         return {
           ...state,
-          doneOrders: {
-            ...state.doneOrders,
-            limit: state.doneOrders.limit + action.payload
+          orderDone: {
+            ...state.orderDone,
+            limit: state.orderDone.limit + action.payload
           }
       }
     case types.INIT_DONE_ORDER_LIMIT:
         return {
           ...state,
-          doneOrders: {
-            ...state.doneOrders,
+          orderDone: {
+            ...state.orderDone,
             limit: action.payload
           }
       }
