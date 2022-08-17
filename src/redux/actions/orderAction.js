@@ -1,9 +1,8 @@
 import types from './types'
 
-export function alarmNewOrder (data) {
+export function selectOrderTab () {
   return {
-    type: types.TOGGLE_NEW_ORDER_LIST,
-    payload: data => !data
+    type: types.SELECT_ORDER_TAB
   }
 }
 
@@ -22,6 +21,12 @@ export function updateNewOrder (data) {
   }
 }
 
+export function getCheckOrder () {
+  return {
+    type: types.GET_CHECK_ORDER_LIST
+  }
+}
+
 export function updateCheckOrder (data) {
   const args = JSON.parse(data)
 
@@ -31,12 +36,24 @@ export function updateCheckOrder (data) {
   }
 }
 
+export function getDeliveryOrder () {
+  return {
+    type: types.GET_DELIVERY_ORDER_LIST
+  }
+}
+
 export function updateDeliveryOrder (data) {
   const args = JSON.parse(data)
 
   return {
     type: types.UPDATE_DELIVERY_ORDER_LIST,
     payload: args !== null ? args : null
+  }
+}
+
+export function getDoneOrder () {
+  return {
+    type: types.GET_DONE_ORDER_LIST
   }
 }
 
