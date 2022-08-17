@@ -5,6 +5,7 @@
 	};
 	objectVersion = 54;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* dongnaebookownerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* dongnaebookownerTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -13,6 +14,8 @@
 		60B5CB11208765BA604F2C93 /* libPods-dongnaebookowner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEF0DACBB6A774CA464A946 /* libPods-dongnaebookowner.a */; };
 		647634EDD4C9D759F9385D22 /* libPods-dongnaebookowner-dongnaebookownerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 928772108D962092CB3CF4B9 /* libPods-dongnaebookowner-dongnaebookownerTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		B868826328AB2A0900F4F10F /* RNPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9422037DBCF8443AAB0E56BE /* RNPlaceholder.swift */; };
+		B868826728AB2C6E00F4F10F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B868826628AB2C6E00F4F10F /* GoogleService-Info.plist */; };
 		D05E1A2668674804B417DA8D /* RNPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9422037DBCF8443AAB0E56BE /* RNPlaceholder.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,11 +43,13 @@
 		672A1834AC70AA7E3C03FFB3 /* Pods-dongnaebookowner-dongnaebookownerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dongnaebookowner-dongnaebookownerTests.release.xcconfig"; path = "Target Support Files/Pods-dongnaebookowner-dongnaebookownerTests/Pods-dongnaebookowner-dongnaebookownerTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = dongnaebookowner/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		928772108D962092CB3CF4B9 /* libPods-dongnaebookowner-dongnaebookownerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-dongnaebookowner-dongnaebookownerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9422037DBCF8443AAB0E56BE /* RNPlaceholder.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; path = RNPlaceholder.swift; sourceTree = "<group>"; };
 		A867FD5AC6C168CFE1625904 /* Pods-dongnaebookowner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dongnaebookowner.debug.xcconfig"; path = "Target Support Files/Pods-dongnaebookowner/Pods-dongnaebookowner.debug.xcconfig"; sourceTree = "<group>"; };
 		ACC3F0B06E704C4563DBC24A /* Pods-dongnaebookowner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dongnaebookowner.release.xcconfig"; path = "Target Support Files/Pods-dongnaebookowner/Pods-dongnaebookowner.release.xcconfig"; sourceTree = "<group>"; };
+		B868826628AB2C6E00F4F10F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B868826828AB2C7E00F4F10F /* dongnaebookowner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = dongnaebookowner.entitlements; path = dongnaebookowner/dongnaebookowner.entitlements; sourceTree = "<group>"; };
 		CFEF0DACBB6A774CA464A946 /* libPods-dongnaebookowner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-dongnaebookowner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		9422037DBCF8443AAB0E56BE /* RNPlaceholder.swift */ = {isa = PBXFileReference; name = "RNPlaceholder.swift"; path = "RNPlaceholder.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +92,8 @@
 		13B07FAE1A68108700A75B9A /* dongnaebookowner */ = {
 			isa = PBXGroup;
 			children = (
+				B868826828AB2C7E00F4F10F /* dongnaebookowner.entitlements */,
+				B868826628AB2C6E00F4F10F /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -123,6 +130,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				F8D12DD643F083DB3976F4F4 /* Pods */,
+				B868826428AB2A0900F4F10F /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -136,6 +144,14 @@
 				00E356EE1AD99517003FC87E /* dongnaebookownerTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B868826428AB2A0900F4F10F /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				9422037DBCF8443AAB0E56BE /* RNPlaceholder.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		F8D12DD643F083DB3976F4F4 /* Pods */ = {
@@ -245,6 +261,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				B868826728AB2C6E00F4F10F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,7 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* dongnaebookownerTests.m in Sources */,
-				D05E1A2668674804B417DA8D /* RNPlaceholder.swift in Sources */,
+				B868826328AB2A0900F4F10F /* RNPlaceholder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,8 +469,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dongnaebookowner.app/dongnaebookowner";
 				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dongnaebookowner.app/dongnaebookowner";
 			};
 			name = Debug;
 		};
@@ -477,8 +494,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dongnaebookowner.app/dongnaebookowner";
 				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dongnaebookowner.app/dongnaebookowner";
 			};
 			name = Release;
 		};
@@ -488,7 +505,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = dongnaebookowner/dongnaebookowner.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = dongnaebookowner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -514,7 +533,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = dongnaebookowner/dongnaebookowner.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = dongnaebookowner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -652,8 +673,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
 				SWIFT_VERSION = 4.0;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
