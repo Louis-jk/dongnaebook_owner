@@ -977,7 +977,7 @@ const StoreInfo = props => {
                         width: '100%',
                         ...BaseStyle.inputH,
                         ...BaseStyle.ko14,
-                        marginTop: 10
+                        // marginTop: 10 iOS에서 마진 먹음
                       }}
                       onChangeText={text => setInfo({ ...info, do_major_menu: text })}
                       autoCapitalize='none'
