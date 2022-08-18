@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>dongnaebookowner</string>
+	<string>동네북 점주용</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -37,6 +37,18 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fonts/NotoSansCJKkr-Black.otf</string>
+		<string>Fonts/NotoSansCJKkr-Bold.otf</string>
+		<string>Fonts/NotoSansCJKkr-DemiLight.otf</string>
+		<string>Fonts/NotoSansCJKkr-Light.otf</string>
+		<string>Fonts/NotoSansCJKkr-Medium.otf</string>
+		<string>Fonts/NotoSansCJKkr-Regular.otf</string>
+		<string>Fonts/NotoSansCJKkr-Thin.otf</string>
+		<string>Fonts/NotoSansMonoCJKkr-Bold.otf</string>
+		<string>Fonts/NotoSansMonoCJKkr-Regular.otf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
