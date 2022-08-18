@@ -38,7 +38,7 @@ import NoticeScreen from './src/screens/Notice' // 공지사항
 import NoticeDetailScreen from './src/screens/NoticeDetail' // 공지사항 상세 - 웹뷰
 import CouponScreen from './src/screens/Coupon' // 쿠폰관리
 import CouponAddOrEditScreen from './src/screens/CouponAddOrEdit' // 쿠폰 추가 또느 수정
-import setCategoryScreen from './src/screens/setCategory' // 메뉴 카테고리 설정(리스트)
+import setCategoryScreen from './src/screens/SetCategory' // 메뉴 카테고리 설정(리스트)
 import SetMenuScreen from './src/screens/SetMenu' // 메뉴설정(리스트)
 import SetMenuAddOrEditScreen from './src/screens/SetMenuAddOrEdit' // 메뉴등록 또는 수정
 import StoreInfoScreen from './src/screens/StoreInfo' // 매장소개
@@ -256,7 +256,7 @@ const App = () => {
     <>
       <StatusBar
         translucent
-        barStyle='light-content'
+        barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
         backgroundColor='#1543F5'
         hidden={Platform.OS !== 'ios'}
       />
