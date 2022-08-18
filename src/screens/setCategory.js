@@ -11,7 +11,8 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Alert,
-  BackHandler
+  BackHandler,
+  Platform
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
@@ -22,7 +23,7 @@ import cusToast from '../components/CusToast'
 import Api from '../Api'
 import AnimateLoading from '../components/AnimateLoading'
 
-const setCategory = props => {
+const SetCategory = props => {
   const { navigation } = props
 
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
@@ -193,7 +194,7 @@ const setCategory = props => {
                 ? require('../images/on_btn.png')
                 : require('../images/off_btn.png')
             }
-            style={{ width: 50, height: 25, borderRadius: 20 }}
+            style={{ width: 50, height: Platform.OS === 'ios' ? 20 : 25, borderRadius: 20 }}
             resizeMode='cover'
             fadeDuration={0}
           />
@@ -206,12 +207,13 @@ const setCategory = props => {
           <View
             style={{
               ...BaseStyle.border,
-              ...BaseStyle.pv13,
               ...BaseStyle.ph20,
               ...BaseStyle.inputH,
               backgroundColor: Primary.PointColor01,
-              borderColor: Primary.PointColor01
-            }}
+              borderColor: Primary.PointColor01,
+              paddingVertical: Platform.OS === 'ios' ? 7 : 13
+            }
+          }
           >
             <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_white }}>수정</Text>
           </View>
@@ -412,4 +414,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default setCategory
+export default SetCategory
