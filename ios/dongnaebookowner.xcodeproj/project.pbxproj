@@ -13,8 +13,9 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		60B5CB11208765BA604F2C93 /* libPods-dongnaebookowner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEF0DACBB6A774CA464A946 /* libPods-dongnaebookowner.a */; };
 		647634EDD4C9D759F9385D22 /* libPods-dongnaebookowner-dongnaebookownerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 928772108D962092CB3CF4B9 /* libPods-dongnaebookowner-dongnaebookownerTests.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B8372DA128AF5732006BC36B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8372DA028AF5732006BC36B /* GoogleService-Info.plist */; };
+		B8372DA428AF74F4006BC36B /* splash_w1242h2688.png in Resources */ = {isa = PBXBuildFile; fileRef = B8372DA328AF74F4006BC36B /* splash_w1242h2688.png */; };
+		B8372DA628AF75DE006BC36B /* SplashImage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8372DA528AF75DE006BC36B /* SplashImage.storyboard */; };
 		B868826328AB2A0900F4F10F /* RNPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9422037DBCF8443AAB0E56BE /* RNPlaceholder.swift */; };
 		B8C2E24E28ADE61200D19AD3 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = B8C2E24D28ADE61200D19AD3 /* Fonts */; };
 		D05E1A2668674804B417DA8D /* RNPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9422037DBCF8443AAB0E56BE /* RNPlaceholder.swift */; };
@@ -42,12 +43,13 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = dongnaebookowner/main.m; sourceTree = "<group>"; };
 		25F921C688AAC3507E7A710F /* Pods-dongnaebookowner-dongnaebookownerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dongnaebookowner-dongnaebookownerTests.debug.xcconfig"; path = "Target Support Files/Pods-dongnaebookowner-dongnaebookownerTests/Pods-dongnaebookowner-dongnaebookownerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		672A1834AC70AA7E3C03FFB3 /* Pods-dongnaebookowner-dongnaebookownerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dongnaebookowner-dongnaebookownerTests.release.xcconfig"; path = "Target Support Files/Pods-dongnaebookowner-dongnaebookownerTests/Pods-dongnaebookowner-dongnaebookownerTests.release.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = dongnaebookowner/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		928772108D962092CB3CF4B9 /* libPods-dongnaebookowner-dongnaebookownerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-dongnaebookowner-dongnaebookownerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9422037DBCF8443AAB0E56BE /* RNPlaceholder.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; path = RNPlaceholder.swift; sourceTree = "<group>"; };
 		A867FD5AC6C168CFE1625904 /* Pods-dongnaebookowner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dongnaebookowner.debug.xcconfig"; path = "Target Support Files/Pods-dongnaebookowner/Pods-dongnaebookowner.debug.xcconfig"; sourceTree = "<group>"; };
 		ACC3F0B06E704C4563DBC24A /* Pods-dongnaebookowner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dongnaebookowner.release.xcconfig"; path = "Target Support Files/Pods-dongnaebookowner/Pods-dongnaebookowner.release.xcconfig"; sourceTree = "<group>"; };
 		B8372DA028AF5732006BC36B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B8372DA328AF74F4006BC36B /* splash_w1242h2688.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_w1242h2688.png; sourceTree = "<group>"; };
+		B8372DA528AF75DE006BC36B /* SplashImage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashImage.storyboard; sourceTree = "<group>"; };
 		B868826828AB2C7E00F4F10F /* dongnaebookowner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = dongnaebookowner.entitlements; path = dongnaebookowner/dongnaebookowner.entitlements; sourceTree = "<group>"; };
 		B8C2E24D28ADE61200D19AD3 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		CFEF0DACBB6A774CA464A946 /* libPods-dongnaebookowner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-dongnaebookowner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,14 +96,15 @@
 		13B07FAE1A68108700A75B9A /* dongnaebookowner */ = {
 			isa = PBXGroup;
 			children = (
+				B8372DA328AF74F4006BC36B /* splash_w1242h2688.png */,
 				B8372DA028AF5732006BC36B /* GoogleService-Info.plist */,
 				B868826828AB2C7E00F4F10F /* dongnaebookowner.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				B8372DA528AF75DE006BC36B /* SplashImage.storyboard */,
 			);
 			name = dongnaebookowner;
 			sourceTree = "<group>";
@@ -264,9 +267,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				B8372DA128AF5732006BC36B /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				B8372DA628AF75DE006BC36B /* SplashImage.storyboard in Resources */,
+				B8372DA428AF74F4006BC36B /* splash_w1242h2688.png in Resources */,
 				B8C2E24E28ADE61200D19AD3 /* Fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

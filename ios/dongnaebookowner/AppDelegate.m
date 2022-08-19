@@ -34,7 +34,11 @@ static void InitializeFlipper(UIApplication *application) {
 // Required for the register event.
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
- [RNCPushNotificationIOS didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  [RNCPushNotificationIOS didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  [FIRMessaging messaging].APNSToken = deviceToken;
+  NSString *fcmToken = [FIRMessaging messaging].FCMToken;
+  NSLog(@"++APNST deviceToken : %@", deviceToken);
+  NSLog(@"++FCM device token : %@", fcmToken);
 }
 
 // Required for the notification event. You must call the completion handler after handling the remote notification.
@@ -66,15 +70,15 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   
   
   // FCM ->
+  // Register for remote notifications.
+  [[UIApplication sharedApplication] registerForRemoteNotifications];
+  
   [FIRApp configure];
   [FIRMessaging messaging].autoInitEnabled = YES;
   
   // Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
-  
-  // Register for remote notifications.
-  [[UIApplication sharedApplication] registerForRemoteNotifications];
   // <- FCM
   
 
