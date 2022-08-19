@@ -1522,26 +1522,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@tanstack/match-sorter-utils@^8.0.0-alpha.82":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/match-sorter-utils/-/match-sorter-utils-8.1.1.tgz#895f407813254a46082a6bbafad9b39b943dc834"
-  integrity sha512-IdmEekEYxQsoLOR0XQyw3jD1GujBpRRYaGJYQUw1eOT1eUugWxdc7jomh1VQ1EKHcdwDLpLaCz/8y4KraU4T9A==
-  dependencies:
-    remove-accents "0.4.2"
-
 "@tanstack/query-core@^4.0.0-beta.1":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.2.1.tgz#21ff3a33f27bf038c990ea53af89cf7c7e8078fc"
   integrity sha512-UOyOhHKLS/5i9qG2iUnZNVV3R9riJJmG9eG+hnMFIPT/oRh5UzAfjxCtBneNgPQZLDuP8y6YtRYs/n4qVAD5Ng==
-
-"@tanstack/react-query-devtools@^4.0.10":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-4.2.1.tgz#decee3d1d174b253fa303d5baaa478fb0e2c0e63"
-  integrity sha512-k7Ch3qvs8U74aRMMRvNisxcxZFTzk8FDdvpQKXxSZ8fsD4ZwpM0MoUSqKsCXbfTvUI7MJiGxavy1YlvImPNO+Q==
-  dependencies:
-    "@tanstack/match-sorter-utils" "^8.0.0-alpha.82"
-    "@types/use-sync-external-store" "^0.0.3"
-    use-sync-external-store "^1.2.0"
 
 "@tanstack/react-query@^4.1.3":
   version "4.2.1"
@@ -3248,9 +3232,9 @@ ee-first@1.1.1:
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
 electron-to-chromium@^1.4.202:
-  version "1.4.224"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.224.tgz#ecf2eed395cfedcbbe634658ccc4b457f7b254c3"
-  integrity sha512-dOujC5Yzj0nOVE23iD5HKqrRSDj2SD7RazpZS/b/WX85MtO6/LzKDF4TlYZTBteB+7fvSg5JpWh0sN7fImNF8w==
+  version "1.4.225"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.225.tgz#3e27bdd157cbaf19768141f2e0f0f45071e52338"
+  integrity sha512-ICHvGaCIQR3P88uK8aRtx8gmejbVJyC6bB4LEC3anzBrIzdzC7aiZHY4iFfXhN4st6I7lMO0x4sgBHf/7kBvRw==
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -7122,9 +7106,9 @@ react-native-button@^2.3.0:
     prop-types "^15.5.10"
 
 react-native-calendars@^1.1263.0:
-  version "1.1287.0"
-  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.1287.0.tgz#0abfbe55269f98d2186357f5dc6eb1edbeca80e7"
-  integrity sha512-8B6Oad+4we8WCHl6Y42ZUq0Uj9UM+Z+qotoNIJPEXpTqGKIVnRawSAF4B7gFw76ctsa1pUdJT2CZcajmVKLxKA==
+  version "1.1288.0"
+  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.1288.0.tgz#1ff3ecd9a5f9a8b6ccf2e7c8b38e967413ea08ae"
+  integrity sha512-ZyTghahqUhz0SqF7XOhXiCzUU635ZBIej3N2bg7yAfHfFWu0fAgZZV4elm9Q+eE7v8qrXGo4f+H1w5GtPGl5UQ==
   dependencies:
     hoist-non-react-statics "^3.3.1"
     immutable "^4.0.0-rc.12"
@@ -7603,11 +7587,6 @@ regjsparser@^0.8.2:
   integrity sha512-J3LABycON/VNEu3abOviqGHuB/LOtOQj8SKmfP9anY5GfAVw/SPjwzSjxGjbZXIxbGfqTHtJw58C2Li/WkStmA==
   dependencies:
     jsesc "~0.5.0"
-
-remove-accents@0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/remove-accents/-/remove-accents-0.4.2.tgz#0a43d3aaae1e80db919e07ae254b285d9e1c7bb5"
-  integrity sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
