@@ -1,5 +1,5 @@
 import React from "react"
-import { View, Text, Image, SafeAreaView, TouchableOpacity } from "react-native"
+import { View, Text, Image, SafeAreaView, TouchableOpacity, Platform } from "react-native"
 import { DrawerActions } from "@react-navigation/native"
 import DropDownPicker from "react-native-dropdown-picker"
 import BaseStyle, { Primary } from "../styles/Base"
@@ -9,7 +9,7 @@ const SetHeader = props => {
 
   return (
     <SafeAreaView>
-      <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
+      <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, paddingVertical: Platform.OS === 'ios' ? 10 : 20 }}>
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => navigation.goBack()}

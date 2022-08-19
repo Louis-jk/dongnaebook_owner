@@ -6,7 +6,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
-  Keyboard
+  Keyboard,
+  Platform
 } from 'react-native'
 import { DrawerActions } from '@react-navigation/native'
 import BaseStyle from '../styles/Base'
@@ -18,7 +19,7 @@ const DefaultHeader = props => {
 
   return (
     <SafeAreaView>
-      <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.pv15 }}>
+      <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, paddingVertical: Platform.OS === 'ios' ? 10 : 15 }}>
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => navigation.goBack()}

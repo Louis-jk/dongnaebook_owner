@@ -11,7 +11,7 @@ const DefaultHeader = props => {
 
   return (
     <SafeAreaView>
-      <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.pv15 }}>
+      <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, paddingVertical: Platform.OS === 'ios' ? 10 : 15 }}>
         <View style={{ ...BaseStyle.container }}>
           <TouchableOpacity
             activeOpacity={1}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
+import { View, Text, Image, SafeAreaView, TouchableOpacity, Dimensions, Platform } from 'react-native'
 import { DrawerActions } from '@react-navigation/native'
 import BaseStyle from '../styles/Base'
 import { useSelector } from 'react-redux'
@@ -17,7 +17,7 @@ const DefaultHeader = props => {
         style={{
           ...BaseStyle.container5,
           ...BaseStyle.ph20,
-          ...BaseStyle.pv15
+          paddingVertical: Platform.OS === 'ios' ? 10 : 15
         }}
       >
         <View style={{ ...BaseStyle.container }}>
