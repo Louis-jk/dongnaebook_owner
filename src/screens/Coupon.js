@@ -7,7 +7,8 @@ import {
   Dimensions,
   FlatList,
   Alert,
-  BackHandler
+  BackHandler,
+  Platform
 } from 'react-native'
 import Header from '../components/SubHeader'
 import { useSelector, useDispatch } from 'react-redux'
@@ -287,7 +288,7 @@ const Coupon = props => {
             >
               <Image
                 source={require('../images/c_logo.png')}
-                style={{ width: 45, height: 45 }}
+                style={{ width: 45, height: Platform.OS === 'ios' ? 55 : 45 }}
                 resizeMode='center'
               />
             </View>
@@ -392,10 +393,8 @@ const Coupon = props => {
               data={coupons}
               renderItem={renderRow}
               keyExtractor={(list, index) => index.toString()}
-          // pagingEnabled={true}
               persistentScrollbar
               showsVerticalScrollIndicator={false}
-          // progressViewOffset={true}
               refreshing={refleshing}
               onRefresh={() => onHandleRefresh()}
               onEndReached={handleLoadMore}

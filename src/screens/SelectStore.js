@@ -7,7 +7,8 @@ import {
   Image,
   FlatList,
   Dimensions,
-  BackHandler
+  BackHandler,
+  Platform
 } from 'react-native'
 import BaseStyle from '../styles/Base'
 import { useDispatch, useSelector } from 'react-redux'
@@ -103,7 +104,7 @@ const SelectStore = props => {
         style={{
           ...BaseStyle.container5,
           ...BaseStyle.ph20,
-          ...BaseStyle.pv20,
+          paddingVertical: Platform.OS === 'ios' ? 10 : 20,
           backgroundColor: '#fff'
         }}
       >
