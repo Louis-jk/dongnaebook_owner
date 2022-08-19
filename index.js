@@ -1,7 +1,3 @@
-/**
- * @format
- */
-
 import React from 'react'
 import { AppRegistry, Text, TextInput, Platform, LogBox } from 'react-native'
 import App from './App'
@@ -11,7 +7,6 @@ import messaging from '@react-native-firebase/messaging'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import { Provider } from 'react-redux'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools, ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools'
 import initStore from './src/redux/store'
 
 LogBox.ignoreLogs(['Remote debugger'])
@@ -36,11 +31,17 @@ async function registerAppWithFCM () {
     await messaging().registerDeviceForRemoteMessages()
   }
 }
-async function requestUserPermission () {
-  const settings = await messaging().requestPermission()
 
-  if (settings) {
+// FCM 퍼미션 체크
+async function requestUserPermission () {
+  const authStatus = await messaging().requestPermission()
+
+  if (authStatus) {
     console.log('Permission settings:', settings)
+    let fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      console.log('Firebase push Token is:', fcmToken)
+    }
   }
 }
 registerAppWithFCM()

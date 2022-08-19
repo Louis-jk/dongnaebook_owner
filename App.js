@@ -4,7 +4,7 @@ import { View, Text, StatusBar, Dimensions, Platform, LogBox } from 'react-nativ
 import SplashScreen from 'react-native-splash-screen'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer'
 import messaging from '@react-native-firebase/messaging'
 import Toast from 'react-native-toast-message'
 import DrawerMenu from './src/screens/DrawerMenu'
@@ -56,30 +56,30 @@ const App = () => {
   PushNotification.configure({
     // (optional) Called when Token is generated (iOS and Android)
     onRegister: function (token) {
-      console.log('TOKEN:', token)
+      console.log('PushNotification onRegister TOKEN:', token)
     },
 
     // (required) Called when a remote is received or opened, or local notification is opened
     onNotification: function (notification) {
-      console.log('NOTIFICATION 작동여부:', notification)
+      console.log('PushNotification onNotification notification:', notification)
 
       // process the notification
 
       // (required) Called when a remote is received or opened, or local notification is opened
-      // notification.finish(PushNotificationIOS.FetchResult.NoData);
+      notification.finish(PushNotificationIOS.FetchResult.NoData);
     },
 
     // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
     onAction: function (notification) {
-      console.log('ACTION:', notification.action)
-      console.log('NOTIFICATION:', notification)
+      console.log('PushNotification onAction ACTION:', notification.action)
+      console.log('PushNotification onAction notification:', notification)
 
       // process the action
     },
 
     // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
     onRegistrationError: function (err) {
-      console.error(err.message, err)
+      console.error('PushNotification onRegistrationError', err.message, err)
     },
 
     // IOS ONLY (optional): default: all - Permissions to register.
@@ -103,60 +103,88 @@ const App = () => {
     requestPermissions: true
   })
 
-  const localNoti = () => {
-    PushNotification.localNotification({
-      /* Android Only Properties */
-      channelId: 'dongnaebookowner01', // (required) channelId, if the channel doesn't exist, notification will not trigger.
-      ticker: 'My Notification Ticker', // (optional)
-      showWhen: true, // (optional) default: true
-      autoCancel: true, // (optional) default: true
-      largeIcon: 'ic_launcher', // (optional) default: "ic_launcher". Use "" for no large icon.
-      largeIconUrl: 'https://www.example.tld/picture.jpg', // (optional) default: undefined
-      smallIcon: 'ic_notification', // (optional) default: "ic_notification" with fallback for "ic_launcher". Use "" for default small icon.
-      bigText: 'My big text that will be shown when notification is expanded', // (optional) default: "message" prop
-      subText: 'default', // (optional) default: none
-      bigPictureUrl: 'https://www.example.tld/picture.jpg', // (optional) default: undefined
-      bigLargeIcon: 'ic_launcher', // (optional) default: undefined
-      bigLargeIconUrl: 'https://www.example.tld/bigicon.jpg', // (optional) default: undefined
-      color: 'main', // (optional) default: system default
-      vibrate: true, // (optional) default: true
-      vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
-      tag: 'some_tag', // (optional) add tag to message
-      group: 'group', // (optional) add group to message
-      groupSummary: false, // (optional) set this notification to be the group summary for a group of notifications, default: false
-      ongoing: false, // (optional) set whether this is an "ongoing" notification
-      priority: 'high', // (optional) set notification priority, default: high
-      visibility: 'public', // (optional) set notification visibility, default: private
-      ignoreInForeground: false, // (optional) if true, the notification will not be visible when the app is in the foreground (useful for parity with how iOS notifications appear). should be used in combine with `com.dieam.reactnativepushnotification.notification_foreground` setting
-      shortcutId: 'shortcut-id', // (optional) If this notification is duplicative of a Launcher shortcut, sets the id of the shortcut, in case the Launcher wants to hide the shortcut, default undefined
-      onlyAlertOnce: true, // (optional) alert will open only once with sound and notify, default: false
+  // const localNoti = () => {
+  //   PushNotification.localNotification({
+  //     /* Android Only Properties */
+  //     channelId: 'dongnaebookowner01', // (required) channelId, if the channel doesn't exist, notification will not trigger.
+  //     ticker: 'My Notification Ticker', // (optional)
+  //     showWhen: true, // (optional) default: true
+  //     autoCancel: true, // (optional) default: true
+  //     largeIcon: 'ic_launcher', // (optional) default: "ic_launcher". Use "" for no large icon.
+  //     largeIconUrl: 'https://www.example.tld/picture.jpg', // (optional) default: undefined
+  //     smallIcon: 'ic_notification', // (optional) default: "ic_notification" with fallback for "ic_launcher". Use "" for default small icon.
+  //     bigText: 'My big text that will be shown when notification is expanded', // (optional) default: "message" prop
+  //     subText: 'default', // (optional) default: none
+  //     bigPictureUrl: 'https://www.example.tld/picture.jpg', // (optional) default: undefined
+  //     bigLargeIcon: 'ic_launcher', // (optional) default: undefined
+  //     bigLargeIconUrl: 'https://www.example.tld/bigicon.jpg', // (optional) default: undefined
+  //     color: 'main', // (optional) default: system default
+  //     vibrate: true, // (optional) default: true
+  //     vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
+  //     tag: 'some_tag', // (optional) add tag to message
+  //     group: 'group', // (optional) add group to message
+  //     groupSummary: false, // (optional) set this notification to be the group summary for a group of notifications, default: false
+  //     ongoing: false, // (optional) set whether this is an "ongoing" notification
+  //     priority: 'high', // (optional) set notification priority, default: high
+  //     visibility: 'public', // (optional) set notification visibility, default: private
+  //     ignoreInForeground: false, // (optional) if true, the notification will not be visible when the app is in the foreground (useful for parity with how iOS notifications appear). should be used in combine with `com.dieam.reactnativepushnotification.notification_foreground` setting
+  //     shortcutId: 'shortcut-id', // (optional) If this notification is duplicative of a Launcher shortcut, sets the id of the shortcut, in case the Launcher wants to hide the shortcut, default undefined
+  //     onlyAlertOnce: true, // (optional) alert will open only once with sound and notify, default: false
 
-      when: null, // (optional) Add a timestamp (Unix timestamp value in milliseconds) pertaining to the notification (usually the time the event occurred). For apps targeting Build.VERSION_CODES.N and above, this time is not shown anymore by default and must be opted into by using `showWhen`, default: null.
-      usesChronometer: false, // (optional) Show the `when` field as a stopwatch. Instead of presenting `when` as a timestamp, the notification will show an automatically updating display of the minutes and seconds since when. Useful when showing an elapsed time (like an ongoing phone call), default: false.
-      timeoutAfter: null, // (optional) Specifies a duration in milliseconds after which this notification should be canceled, if it is not already canceled, default: null
+  //     when: null, // (optional) Add a timestamp (Unix timestamp value in milliseconds) pertaining to the notification (usually the time the event occurred). For apps targeting Build.VERSION_CODES.N and above, this time is not shown anymore by default and must be opted into by using `showWhen`, default: null.
+  //     usesChronometer: false, // (optional) Show the `when` field as a stopwatch. Instead of presenting `when` as a timestamp, the notification will show an automatically updating display of the minutes and seconds since when. Useful when showing an elapsed time (like an ongoing phone call), default: false.
+  //     timeoutAfter: null, // (optional) Specifies a duration in milliseconds after which this notification should be canceled, if it is not already canceled, default: null
 
-      messageId: 'google:message_id', // (optional) added as `message_id` to intent extras so opening push notification can find data stored by @react-native-firebase/messaging module.
+  //     messageId: 'google:message_id', // (optional) added as `message_id` to intent extras so opening push notification can find data stored by @react-native-firebase/messaging module.
 
-      actions: ['Yes', 'No'], // (Android only) See the doc for notification actions to know more
-      invokeApp: true, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
+  //     actions: ['Yes', 'No'], // (Android only) See the doc for notification actions to know more
+  //     invokeApp: true, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
 
-      /* iOS only properties */
-      category: '', // (optional) default: empty string
-      subtitle: 'My Notification Subtitle', // (optional) smaller title below notification title
+  //     /* iOS only properties */
+  //     category: '', // (optional) default: empty string
+  //     subtitle: 'My Notification Subtitle', // (optional) smaller title below notification title
 
-      /* iOS and Android properties */
-      id: 0, // (optional) Valid unique 32 bit integer specified as string. default: Autogenerated Unique ID
-      title: 'hey', // (optional)
-      message: 'body', // (required)
-      userInfo: {}, // (optional) default: {} (using null throws a JSON value '<null>' error)
-      playSound: true, // (optional) default: true
-      soundName: 'c_sound', // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
-      number: 10, // (optional) Valid 32 bit integer specified as string. default: none (Cannot be zero)
-      repeatType: 'day' // (optional) Repeating interval. Check 'Repeating Notifications' section for more info.
-    })
+  //     /* iOS and Android properties */
+  //     id: 0, // (optional) Valid unique 32 bit integer specified as string. default: Autogenerated Unique ID
+  //     title: 'hey', // (optional)
+  //     message: 'body', // (required)
+  //     userInfo: {}, // (optional) default: {} (using null throws a JSON value '<null>' error)
+  //     playSound: true, // (optional) default: true
+  //     soundName: 'c_sound', // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
+  //     number: 10, // (optional) Valid 32 bit integer specified as string. default: none (Cannot be zero)
+  //     repeatType: 'day' // (optional) Repeating interval. Check 'Repeating Notifications' section for more info.
+  //   })
+  // }
+
+  // FCM 토큰 가져오기
+  const getToken = async () => {
+    messaging()
+      .getToken()
+      .then(token => {
+        console.log('FCM token::', token)
+      })
+      .catch(err => {
+        console.error('FCM token Error::', err)
+      }) 
   }
 
-  // const testCan
+    // 기기토큰 가져오기
+    const requestUserPermission = async () => {
+      const authStatus = await messaging().requestPermission({
+        alert: true,
+        sound: true,
+        announcement: false,
+        badge: true
+      })
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL
+  
+      if (enabled) {
+        console.log('Authorization status:', authStatus);
+        getToken()
+      }
+    }
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -168,11 +196,34 @@ const App = () => {
     } else {
       PushNotification.setApplicationIconBadgeNumber(0)
     }
+
+    requestUserPermission()
   }, [])
+
+  React.useEffect(() => {
+    const type = 'notification';
+    PushNotificationIOS.addEventListener(type, onRemoteNotification);
+    return () => {
+      PushNotificationIOS.removeEventListener(type);
+    };
+  })
+
+  const onRemoteNotification = (notification) => {
+    console.log('ios notification ??', notification)
+    const isClicked = notification.getData().userInteraction === 1;
+
+    console.log('isClicked ??', isClicked)
+    if (isClicked) {
+      // Navigate user to another screen
+    } else {
+      // Do something else with push notification
+    }
+  };
 
   // 신규 주문 들어올 때 redux-saga 호출
   React.useEffect(() => {
     const getMessage = messaging().onMessage(remoteMessage => {
+      console.log('remoteMessage?', remoteMessage)
       dispatch(orderAction.getNewOrder())
     })
 
