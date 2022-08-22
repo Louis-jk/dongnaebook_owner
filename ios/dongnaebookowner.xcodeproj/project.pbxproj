@@ -16,7 +16,13 @@
 		B8372DA128AF5732006BC36B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8372DA028AF5732006BC36B /* GoogleService-Info.plist */; };
 		B8372DA428AF74F4006BC36B /* splash_w1242h2688.png in Resources */ = {isa = PBXBuildFile; fileRef = B8372DA328AF74F4006BC36B /* splash_w1242h2688.png */; };
 		B8372DA628AF75DE006BC36B /* SplashImage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8372DA528AF75DE006BC36B /* SplashImage.storyboard */; };
+		B8372DAB28AF7932006BC36B /* dongnaebook_sound_3.wav in Resources */ = {isa = PBXBuildFile; fileRef = B8372DA728AF7932006BC36B /* dongnaebook_sound_3.wav */; };
+		B8372DB228AF7A9E006BC36B /* dongnaebook_sound_7.wav in Resources */ = {isa = PBXBuildFile; fileRef = B8372DAF28AF7A9E006BC36B /* dongnaebook_sound_7.wav */; };
+		B8372DB328AF7A9E006BC36B /* dongnaebook_sound_10.wav in Resources */ = {isa = PBXBuildFile; fileRef = B8372DB028AF7A9E006BC36B /* dongnaebook_sound_10.wav */; };
+		B8372DB428AF7A9E006BC36B /* dongnaebook_sound_5.wav in Resources */ = {isa = PBXBuildFile; fileRef = B8372DB128AF7A9E006BC36B /* dongnaebook_sound_5.wav */; };
 		B868826328AB2A0900F4F10F /* RNPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9422037DBCF8443AAB0E56BE /* RNPlaceholder.swift */; };
+		B891532828B3123700C8E725 /* sound02.wav in Resources */ = {isa = PBXBuildFile; fileRef = B891532628B3123600C8E725 /* sound02.wav */; };
+		B891532928B3123700C8E725 /* sound01.wav in Resources */ = {isa = PBXBuildFile; fileRef = B891532728B3123600C8E725 /* sound01.wav */; };
 		B8C2E24E28ADE61200D19AD3 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = B8C2E24D28ADE61200D19AD3 /* Fonts */; };
 		D05E1A2668674804B417DA8D /* RNPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9422037DBCF8443AAB0E56BE /* RNPlaceholder.swift */; };
 /* End PBXBuildFile section */
@@ -50,7 +56,13 @@
 		B8372DA028AF5732006BC36B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B8372DA328AF74F4006BC36B /* splash_w1242h2688.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_w1242h2688.png; sourceTree = "<group>"; };
 		B8372DA528AF75DE006BC36B /* SplashImage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashImage.storyboard; sourceTree = "<group>"; };
+		B8372DA728AF7932006BC36B /* dongnaebook_sound_3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dongnaebook_sound_3.wav; sourceTree = "<group>"; };
+		B8372DAF28AF7A9E006BC36B /* dongnaebook_sound_7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dongnaebook_sound_7.wav; sourceTree = "<group>"; };
+		B8372DB028AF7A9E006BC36B /* dongnaebook_sound_10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dongnaebook_sound_10.wav; sourceTree = "<group>"; };
+		B8372DB128AF7A9E006BC36B /* dongnaebook_sound_5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dongnaebook_sound_5.wav; sourceTree = "<group>"; };
 		B868826828AB2C7E00F4F10F /* dongnaebookowner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = dongnaebookowner.entitlements; path = dongnaebookowner/dongnaebookowner.entitlements; sourceTree = "<group>"; };
+		B891532628B3123600C8E725 /* sound02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sound02.wav; sourceTree = "<group>"; };
+		B891532728B3123600C8E725 /* sound01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sound01.wav; sourceTree = "<group>"; };
 		B8C2E24D28ADE61200D19AD3 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		CFEF0DACBB6A774CA464A946 /* libPods-dongnaebookowner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-dongnaebookowner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -96,6 +108,12 @@
 		13B07FAE1A68108700A75B9A /* dongnaebookowner */ = {
 			isa = PBXGroup;
 			children = (
+				B891532728B3123600C8E725 /* sound01.wav */,
+				B891532628B3123600C8E725 /* sound02.wav */,
+				B8372DB128AF7A9E006BC36B /* dongnaebook_sound_5.wav */,
+				B8372DAF28AF7A9E006BC36B /* dongnaebook_sound_7.wav */,
+				B8372DB028AF7A9E006BC36B /* dongnaebook_sound_10.wav */,
+				B8372DA728AF7932006BC36B /* dongnaebook_sound_3.wav */,
 				B8372DA328AF74F4006BC36B /* splash_w1242h2688.png */,
 				B8372DA028AF5732006BC36B /* GoogleService-Info.plist */,
 				B868826828AB2C7E00F4F10F /* dongnaebookowner.entitlements */,
@@ -268,9 +286,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8372DA128AF5732006BC36B /* GoogleService-Info.plist in Resources */,
+				B891532928B3123700C8E725 /* sound01.wav in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				B891532828B3123700C8E725 /* sound02.wav in Resources */,
 				B8372DA628AF75DE006BC36B /* SplashImage.storyboard in Resources */,
+				B8372DB328AF7A9E006BC36B /* dongnaebook_sound_10.wav in Resources */,
 				B8372DA428AF74F4006BC36B /* splash_w1242h2688.png in Resources */,
+				B8372DB228AF7A9E006BC36B /* dongnaebook_sound_7.wav in Resources */,
+				B8372DAB28AF7932006BC36B /* dongnaebook_sound_3.wav in Resources */,
+				B8372DB428AF7A9E006BC36B /* dongnaebook_sound_5.wav in Resources */,
 				B8C2E24E28ADE61200D19AD3 /* Fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
