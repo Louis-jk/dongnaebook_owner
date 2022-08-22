@@ -55,18 +55,18 @@ const App = () => {
 
   PushNotification.configure({
     // (optional) Called when Token is generated (iOS and Android)
-    onRegister: function (token) {
+    onRegister: (token) => {
       console.log('PushNotification onRegister TOKEN:', token)
     },
 
     // (required) Called when a remote is received or opened, or local notification is opened
-    onNotification: function (notification) {
+    onNotification: (notification) => {
       console.log('PushNotification onNotification notification:', notification)
 
       // process the notification
 
       // (required) Called when a remote is received or opened, or local notification is opened
-      notification.finish(PushNotificationIOS.FetchResult.NoData);
+      notification.finish(PushNotificationIOS.FetchResult.NoData)
     },
 
     // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
@@ -103,25 +103,23 @@ const App = () => {
     requestPermissions: true
   })
 
-
-
-    // 기기토큰 가져오기
-    const requestUserPermission = async () => {
-      const authStatus = await messaging().requestPermission({
-        alert: true,
-        sound: true,
-        announcement: false,
-        badge: true
-      })
-      const enabled =
+  // 기기토큰 가져오기
+  const requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission({
+      alert: true,
+      sound: true,
+      announcement: false,
+      badge: true
+    })
+    const enabled =
         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
         authStatus === messaging.AuthorizationStatus.PROVISIONAL
-  
-      if (enabled) {
-        console.log('Authorization status:', authStatus);
-        getToken()
-      }
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus)
+      getToken()
     }
+  }
 
   const localNoti = () => {
     PushNotification.localNotification({
@@ -179,12 +177,11 @@ const App = () => {
   // FCM 토큰 가져오기
   const getToken = async () => {
     const fcmToken = await messaging().getToken().then(token => token)
-    if(fcmToken) {
+    if (fcmToken) {
       console.log('FCM 토큰 가오나', fcmToken)
     } else {
       console.log('토큰 없다')
     }
-      
   }
 
   React.useEffect(() => {
@@ -202,16 +199,18 @@ const App = () => {
   }, [])
 
   React.useEffect(() => {
-    const type = 'notification';
-    PushNotificationIOS.addEventListener(type, onRemoteNotification);
-    return () => {
-      PushNotificationIOS.removeEventListener(type);
-    };
+    if (Platform.OS === 'ios') {
+      const type = 'notification'
+      PushNotificationIOS.addEventListener(type, onRemoteNotification)
+      return () => {
+        PushNotificationIOS.removeEventListener(type)
+      }
+    }
   })
 
   const onRemoteNotification = (notification) => {
     console.log('ios notification ??', notification)
-    const isClicked = notification.getData().userInteraction === 1;
+    const isClicked = notification.getData().userInteraction === 1
 
     console.log('isClicked ??', isClicked)
     if (isClicked) {
@@ -219,12 +218,50 @@ const App = () => {
     } else {
       // Do something else with push notification
     }
-  };
+  }
+
+  // 아이폰은 포그라운드 일때 화면에 푸시를 직접 띄움
+  const sendLocalNotificationWithSound = remoteMessage => {
+    console.log('remoteMessage ?', remoteMessage)
+
+    if (Platform.OS === 'ios') {
+      PushNotificationIOS.addNotificationRequest({
+        id: remoteMessage.notification.notificationId
+          ? remoteMessage.notification.notificationId
+          : new Date().toString(),
+        title: remoteMessage.notification.title,
+        subtitle: remoteMessage.notification.message
+          ? remoteMessage.notification.message
+          : '',
+        body: remoteMessage.notification.body,
+        sound: remoteMessage.notification.sound
+      })
+    } else {
+      PushNotification.localNotification({
+        channelId: remoteMessage.notification.android.channelId,
+        id: remoteMessage.notification.notificationId
+          ? remoteMessage.notification.notificationId
+          : new Date().toString(),
+        title: remoteMessage.notification.title,
+        message: remoteMessage.notification.body,
+        soundName: remoteMessage.notification.android.sound,
+        playSound: true,
+        smallIcon: 'ic_stat_ic_notification',
+        color: '#FFFFFF',
+        largeIcon: '',
+        largeIconUrl: '',
+        vibrate: true,
+        groupSummary: true
+      })
+    }
+  }
 
   // 신규 주문 들어올 때 redux-saga 호출
   React.useEffect(() => {
     const getMessage = messaging().onMessage(remoteMessage => {
-      console.log('remoteMessage?', remoteMessage)
+      if (Platform.OS === 'ios') {
+        sendLocalNotificationWithSound(remoteMessage)
+      }
       dispatch(orderAction.getNewOrder())
     })
 
