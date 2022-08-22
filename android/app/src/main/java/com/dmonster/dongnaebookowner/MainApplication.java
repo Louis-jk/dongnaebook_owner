@@ -2,21 +2,21 @@ package com.dmonster.dongnaebookowner;
 
 import android.app.Application;
 import android.content.Context;
+
+import androidx.appcompat.app.AppCompatDelegate;
+
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.rnfs.RNFSPackage; // react-native-fs
-import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.guichaguri.trackplayer.TrackPlayer;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import com.reactnativepagerview.PagerViewPackage; // 탭뷰 설치시 필요 패키지
-import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage; // 데이트픽커
-import com.guichaguri.trackplayer.TrackPlayer; // track player
-import androidx.appcompat.app.AppCompatDelegate;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -35,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
           // packages.add(new RNDateTimePickerPackage()); // 데이트픽커
             new ReactNativePushNotificationPackage();
+            new SplashScreenReactPackage();
             new TrackPlayer();
           return packages;
         }
