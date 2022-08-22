@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, Image, Alert, Dimensions } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, Image, Alert, Platform } from 'react-native'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
@@ -18,8 +18,8 @@ const Tab02 = props => {
   const [jumjuId, setJumjuId] = React.useState('') // 해당 점주 아이디
   const [jumjuCode, setJumjuCode] = React.useState('') // 해당 점주 코드
   const [isLoading, setLoading] = React.useState(false)
-  const [firstInifinite, setFirstInfinite] = React.useState(false);
-  const [orderCnt, setOrderCnt] = React.useState(0);
+  const [firstInifinite, setFirstInfinite] = React.useState(false)
+  const [orderCnt, setOrderCnt] = React.useState(0)
 
   const dispatch = useDispatch()
 
@@ -32,11 +32,10 @@ const Tab02 = props => {
     setReflashing(reflesh)
   }, [reflesh])
 
-  React.useEffect(() => {    
+  React.useEffect(() => {
     setOrderCnt(orders.length)
     return () => setOrderCnt(orders.length)
   }, [])
-
 
   // 주문 배달처리
   const sendDeliverHandler = (type, odId, jumjuId, jumjuCode) => {
@@ -56,13 +55,12 @@ const Tab02 = props => {
         cusToast(`주문을 ${type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`)
       } else {
         getOrderListHandler(1)
-        cusToast(`주문 ${type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)        
+        cusToast(`주문 ${type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
       }
 
       setTimeout(() => {
         navigation.navigate('Home', { screen: 'Main' })
-      }, 1500)        
-
+      }, 1500)
     })
   }
 
@@ -100,14 +98,11 @@ const Tab02 = props => {
   }
 
   function handleLoadMore () {
-
-    if(Array.isArray(orders)) {
+    if (Array.isArray(orders)) {
       if (isLoading) {
         setOrderCnt(orders.length)
-        return
       } else if (orders && orders.length === orderCnt && firstInifinite) {
         setOrderCnt(orders.length)
-        return
       } else {
         setFirstInfinite(true)
         setOrderCnt(orders.length)
@@ -134,11 +129,13 @@ const Tab02 = props => {
             ...BaseStyle.mb10
           }}
         >
-          <Text style={{ ...BaseStyle.ko12 }}>
+          <Text style={{ ...BaseStyle.ko14 }}>
             {moment(item.od_time).format('YYYY년 M월 D일 HH:mm')}
           </Text>
         </View>
         <View style={{ ...BaseStyle.container6, ...BaseStyle.mb20, ...BaseStyle.ph20 }}>
+
+          {/* 주문 정보 */}
           <TouchableOpacity
             activeOpacity={1}
             style={{ flex: 3, paddingRight: 20 }}
@@ -151,11 +148,11 @@ const Tab02 = props => {
                 jumjuCode: item.jumju_code
               })}
           >
+            {/* 회사명 */}
             <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
-              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>{item.mb_company}</Text>
+              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>{item.mb_company}</Text>
               <View
                 style={{
-                  ...BaseStyle.pv2,
                   ...BaseStyle.ph5,
                   ...BaseStyle.ml10,
                   borderRadius: 5,
@@ -163,60 +160,74 @@ const Tab02 = props => {
                     item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02
                 }}
               >
-                <Text style={{ ...BaseStyle.ko10, ...BaseStyle.font_white }}>{item.od_type}</Text>
+                <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>{item.od_type}</Text>
               </View>
             </View>
-            <Text style={{ ...BaseStyle.ko12, ...BaseStyle.mb3 }}>{item.od_good_name}</Text>
+            {/* // 회사명 */}
+
+            {/* 주문 메뉴명 */}
+            <Text style={{ ...BaseStyle.ko14, ...BaseStyle.mb3 }}>{item.od_good_name}</Text>
+            {/* // 주문 메뉴명 */}
+
+            {/* 결제방법 */}
             <View style={{ ...BaseStyle.container }}>
               <Text
                 style={[
-                  { ...BaseStyle.ko12 },
+                  { ...BaseStyle.ko14 },
                   item.od_settle_case === '선결제' ? BaseStyle.font_blue : BaseStyle.font_pink
                 ]}
               >
                 {item.od_settle_case}
               </Text>
-              <Text style={{ ...BaseStyle.ko12 }}> / </Text>
-              <Text style={{ ...BaseStyle.ko12 }}>{Api.comma(item.od_receipt_price)}원</Text>
+              <Text style={{ ...BaseStyle.ko14 }}> / </Text>
+              <Text style={{ ...BaseStyle.ko14 }}>{Api.comma(item.od_receipt_price)}원</Text>
             </View>
-            <View style={{ ...BaseStyle.container, ...BaseStyle.mt10 }}>
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: '#999',
-                  borderRadius: 25,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: 25,
-                  height: 25,
-                  ...BaseStyle.mr5
-                }}
-              >
-                <Image
-                  source={require('../../images/ic_map.png')}
-                  style={{ width: '100%', height: '100%' }}
-                  resizeMode='center'
-                />
-              </View>
-              <View>
-                <Text
+            {/* // 결제방법 */}
+
+            {/* 배달 주소 */}
+            {item.od_type === '배달' &&
+              <View style={{ ...BaseStyle.container, ...BaseStyle.mt10, ...BaseStyle.mr20 }}>
+                <View
                   style={{
-                    ...BaseStyle.ko12,
-                    ...BaseStyle.lh17
+                    borderWidth: 1,
+                    borderColor: '#999',
+                    borderRadius: 25,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 25,
+                    height: 25,
+                    ...BaseStyle.mr5
                   }}
                 >
-                  {`${item.od_addr1} ${item.od_addr2}`}
-                </Text>
-                {item.od_addr3 !== '' && (
-                  <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>{item.od_addr3}</Text>
-                )}
-                {item.od_addr_jibeon !== '' &&
-                  <Text style={{ ...BaseStyle.ko12, ...BaseStyle.lh17 }}>
-                    {item.od_addr_jibeon}
-                  </Text>}
-              </View>
-            </View>
+                  <Image
+                    source={require('../../images/ic_map.png')}
+                    style={{ width: '100%', height: '100%' }}
+                    resizeMode='center'
+                  />
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      ...BaseStyle.ko14,
+                      ...BaseStyle.lh20
+                    }}
+                  >
+                    {`${item.od_addr1} ${item.od_addr2}`}
+                  </Text>
+                  {item.od_addr3 !== '' && (
+                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh20 }}>{item.od_addr3}</Text>
+                  )}
+                  {item.od_addr_jibeon !== '' &&
+                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh20 }}>
+                      {item.od_addr_jibeon}
+                    </Text>}
+                </View>
+              </View>}
+            {/* // 배달 주소 */}
           </TouchableOpacity>
+          {/* // 주문 정보 */}
+
+          {/* 접수, 주문거부 버튼 영역 */}
           <View style={{ flex: 1 }}>
             <TouchableOpacity
               activeOpacity={1}
@@ -240,7 +251,8 @@ const Tab02 = props => {
                   ...BaseStyle.ko13,
                   ...BaseStyle.font_bold,
                   // color: item.od_type === "배달" ? "#fff" : "#fff",
-                  color: '#fff'
+                  color: '#fff',
+                  marginBottom: Platform.OS === 'ios' ? 4 : 0
                 }}
               >
                 {item.od_type === '배달' ? '배달처리' : '포장완료'}
@@ -266,11 +278,12 @@ const Tab02 = props => {
                 ...BaseStyle.round05
               }}
             >
-              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_bold, ...BaseStyle.font_666 }}>
+              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_bold, ...BaseStyle.font_666, marginBottom: Platform.OS === 'ios' ? 4 : 0 }}>
                 주문취소
               </Text>
             </TouchableOpacity>
           </View>
+          {/* // 접수, 주문거부 버튼 영역 */}
         </View>
       </View>
     )

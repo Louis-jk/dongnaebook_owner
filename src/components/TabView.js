@@ -17,7 +17,7 @@ const getOrder = OrderCategoryRequest // 주문 내역 불러오기
 
 const TabView = props => {
   const { navigation } = props
-  const dispatch = useDispatch()  
+  const dispatch = useDispatch()
 
   const layout = useWindowDimensions()
 
@@ -31,27 +31,25 @@ const TabView = props => {
 
   // 주문 내역 호출
   const getOrderListHandler = React.useCallback((index) => {
-
-    if(index === 0) {
+    if (index === 0) {
       dispatch(orderAction.initNewOrderLimit(5))
       dispatch(orderAction.getNewOrder())
     }
 
-    if(index === 1) {
+    if (index === 1) {
       dispatch(orderAction.initCheckOrderLimit(5))
       dispatch(orderAction.getCheckOrder())
     }
 
-    if(index === 2) {
+    if (index === 2) {
       dispatch(orderAction.initDeliveryOrderLimit(5))
       dispatch(orderAction.getDeliveryOrder())
     }
 
-    if(index === 3) {
+    if (index === 3) {
       dispatch(orderAction.initDoneOrderLimit(5))
       dispatch(orderAction.getDoneOrder())
     }
-
   }, [index])
 
   React.useEffect(() => {
@@ -81,13 +79,13 @@ const TabView = props => {
   )
 
   return (
-        <LibTabView
-          navigationState={{ index, routes }}
-          renderTabBar={renderTabBar}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          initialLayout={{ width: layout.width }}
-        />
+    <LibTabView
+      navigationState={{ index, routes }}
+      renderTabBar={renderTabBar}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{ width: layout.width }}
+    />
   )
 }
 

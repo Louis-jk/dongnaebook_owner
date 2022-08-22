@@ -7,7 +7,8 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Platform
 } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select' // 셀렉트박스 패키지
 import { useSelector } from 'react-redux'
@@ -209,6 +210,8 @@ const SetMenuAddOrEdit = props => {
   // options
   const [options, setOptions] = React.useState([])
   const handleOption = () => {
+    console.log('options ?', options)
+
     if (options.length < 10) {
       setOptions(options => {
         const result = [...options]
@@ -546,7 +549,7 @@ const SetMenuAddOrEdit = props => {
                         width: '100%',
                         ...BaseStyle.inputH,
                         ...BaseStyle.ko14,
-                        marginTop: 10
+                        marginTop: Platform.OS === 'android' ? 10 : 0
                       }}
                       onChangeText={text => setName(text)}
                       autoCapitalize='none'
@@ -636,7 +639,7 @@ const SetMenuAddOrEdit = props => {
                         width: '100%',
                         ...BaseStyle.inputH,
                         ...BaseStyle.ko14,
-                        marginTop: 10
+                        marginTop: Platform.OS === 'android' ? 10 : 0
                       }}
                       onChangeText={text => setMenuShortDesc(text)}
                       autoCapitalize='none'
@@ -694,7 +697,7 @@ const SetMenuAddOrEdit = props => {
                         ...BaseStyle.inputH,
                         textAlign: 'right',
                         ...BaseStyle.ko15,
-                        marginTop: 10
+                        marginTop: Platform.OS === 'android' ? 10 : 0
                       }}
                       onChangeText={text => {
                         const re = /^[0-9\b]+$/

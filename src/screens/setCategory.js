@@ -185,7 +185,7 @@ const SetCategory = props => {
           activeOpacity={1}
           style={{ ...BaseStyle.mr20 }}
         >
-          <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb5, textAlign: 'center' }}>
+          <Text style={{ ...BaseStyle.ko15, textAlign: 'center', marginBottom: Platform.OS === 'ios' ? 2 : 5 }}>
             {item.ca_use === '1' ? '사용' : '미사용'}
           </Text>
           <Image
@@ -194,7 +194,7 @@ const SetCategory = props => {
                 ? require('../images/on_btn.png')
                 : require('../images/off_btn.png')
             }
-            style={{ width: 50, height: Platform.OS === 'ios' ? 20 : 25, borderRadius: 20 }}
+            style={{ width: Platform.OS === 'ios' ? 40 : 25, height: Platform.OS === 'ios' ? 20 : 25, borderRadius: 20 }}
             resizeMode='cover'
             fadeDuration={0}
           />
@@ -212,8 +212,7 @@ const SetCategory = props => {
               backgroundColor: Primary.PointColor01,
               borderColor: Primary.PointColor01,
               paddingVertical: Platform.OS === 'ios' ? 7 : 13
-            }
-          }
+            }}
           >
             <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_white }}>수정</Text>
           </View>
@@ -229,6 +228,7 @@ const SetCategory = props => {
 
       {!isLoading && <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <Header navigation={navigation} title='카테고리 관리' />
+
         <Modal
           isVisible={isModalVisible}
         // onBackdropPress={toggleModal}
@@ -340,18 +340,15 @@ const SetCategory = props => {
             </View>
           </KeyboardAvoidingView>
         </Modal>
+
         <View style={{ flex: 1, ...BaseStyle.ph20, ...BaseStyle.mt20 }}>
           <FlatList
             data={menuCategory}
             showVerticalScrollIndicator={false}
             renderItem={renderRow}
             keyExtractor={(list, index) => index.toString()}
-          // pagingEnabled={true}
             persistentScrollbar
             showsVerticalScrollIndicator={false}
-          // progressViewOffset={true}
-          // refreshing={refleshing}
-          // onRefresh={() => onHandleRefresh()}
             style={{ width: '100%' }}
             ListEmptyComponent={
               <View
@@ -378,7 +375,7 @@ const SetCategory = props => {
             추가하기
           </Text>
         </TouchableOpacity>
-                     </View>}
+      </View>}
     </>
 
   )

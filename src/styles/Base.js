@@ -182,6 +182,7 @@ export default StyleSheet.create({
   font_666: { color: '#666' },
   font_under: { textDecorationLine: 'underline' },
 
+  lh15: { lineHeight: 15 },
   lh17: { lineHeight: 17 },
   lh20: { lineHeight: 20 },
   lh21: { lineHeight: 21 },
