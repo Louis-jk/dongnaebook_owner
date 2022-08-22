@@ -235,7 +235,7 @@ const Coupon = props => {
               <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
                 <Text
                   style={{
-                    ...BaseStyle.ko15,
+                    ...BaseStyle.ko18,
                     ...BaseStyle.font_bold,
                     ...BaseStyle.font_222
                   }}
@@ -251,24 +251,24 @@ const Coupon = props => {
                           ? Primary.PointColor01
                           : Primary.PointColor03,
                     borderRadius: 30,
-                    paddingVertical: 4,
+                    // paddingVertical: 1,
                     paddingHorizontal: 8,
                     ...BaseStyle.ml10
                   }}
                 >
                   <Text
-                    style={{ ...BaseStyle.ko10, color: item.cz_type === '0' ? '#222' : '#fff' }}
+                    style={{ ...BaseStyle.ko12, color: item.cz_type === '0' ? '#222' : '#fff', marginBottom: Platform.OS === 'ios' ? 2 : 0 }}
                   >
                     {item.cz_type === '1' ? '포장용' : item.cz_type === '2' ? '배달용' : '전체'}
                   </Text>
                 </View>
               </View>
-              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.mb5, ...BaseStyle.font_gray_a1 }}>
+              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.mb5, ...BaseStyle.font_gray_a1 }}>
                 {moment(item.cz_start).format('YYYY.MM.DD') +
                   '~' +
                   moment(item.cz_end).format('YYYY.MM.DD')}
               </Text>
-              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.mb5, ...BaseStyle.font_gray_a1 }}>
+              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>
                 최소주문금액 {Api.comma(item.cz_minimum)}원
               </Text>
             </View>

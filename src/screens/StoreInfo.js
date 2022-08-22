@@ -7,7 +7,8 @@ import {
   TextInput,
   Dimensions,
   ScrollView,
-  BackHandler
+  BackHandler,
+  Platform
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import ImagePicker from 'react-native-image-crop-picker'
@@ -976,7 +977,7 @@ const StoreInfo = props => {
                       style={{
                         width: '100%',
                         ...BaseStyle.inputH,
-                        ...BaseStyle.ko14,
+                        ...BaseStyle.ko14
                         // marginTop: 10 iOS에서 마진 먹음
                       }}
                       onChangeText={text => setInfo({ ...info, do_major_menu: text })}
@@ -1196,7 +1197,7 @@ const StoreInfo = props => {
                         width: '100%',
                         ...BaseStyle.inputH,
                         ...BaseStyle.ko14,
-                        marginTop: 10
+                        marginTop: Platform.OS === 'android' ? 10 : 0
                       }}
                       onChangeText={text => setInfo({ ...info, do_delivery_time: text })}
                       autoCapitalize='none'

@@ -247,7 +247,8 @@ const CouponAdd = props => {
                     width: '90%',
                     ...BaseStyle.inputH,
                     textAlign: 'right',
-                    ...BaseStyle.pl10
+                    ...BaseStyle.pl10,
+                    ...BaseStyle.pr10
                   }}
                   onChangeText={text => {
                     const re = /^[0-9\b]+$/
@@ -344,7 +345,8 @@ const CouponAdd = props => {
                 style={{
                   width: '95%',
                   ...BaseStyle.inputH,
-                  textAlign: 'right'
+                  textAlign: 'right',
+                  ...BaseStyle.pr10
                 }}
                 onChangeText={text => {
                   const re = /^[0-9\b]+$/
@@ -358,7 +360,7 @@ const CouponAdd = props => {
                 keyboardType='number-pad'
                 autoCapitalize='none'
               />
-              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
+              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>원</Text>
             </View>
           </View>
           {/* // 최소 주문 금액 */}
@@ -441,7 +443,7 @@ const CouponAdd = props => {
                       ...BaseStyle.ml10
                     }}
                   >
-                    <Text style={{ ...BaseStyle.ko15, marginTop: 3 }}>
+                    <Text style={{ ...BaseStyle.ko15, marginTop: Platform.OS === 'android' ? 3 : -2 }}>
                       {moment(startDate).format('YYYY-MM-DD')}
                     </Text>
                   </View>
@@ -480,7 +482,7 @@ const CouponAdd = props => {
                       ...BaseStyle.ml10
                     }}
                   >
-                    <Text style={{ ...BaseStyle.ko15, marginTop: 3 }}>
+                    <Text style={{ ...BaseStyle.ko15, marginTop: Platform.OS === 'android' ? 3 : -2 }}>
                       {moment(endDate).format('YYYY-MM-DD')}
                     </Text>
                   </View>
@@ -524,7 +526,8 @@ const CouponAdd = props => {
                 style={{
                   width: '95%',
                   ...BaseStyle.inputH,
-                  textAlign: 'right'
+                  textAlign: 'right',
+                  ...BaseStyle.pr10
                 }}
                 onChangeText={text => {
                   const re = /^[0-9\b]+$/
@@ -538,7 +541,7 @@ const CouponAdd = props => {
                 keyboardType='number-pad'
                 autoCapitalize='none'
               />
-              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>일</Text>
+              <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>일</Text>
             </View>
           </View>
           {/* // 쿠폰 사용 기한 */}
