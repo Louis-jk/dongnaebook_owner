@@ -55,14 +55,13 @@ const CouponAdd = props => {
 
   const onChange = (event, selectedValue) => {
     const currentValue = selectedValue || date
-    // setShow(Platform.OS === 'ios')
 
     if (dateType === 'start') {
       if (currentValue < date) {
         cusToast('오늘 이전 날짜는 지정하실 수 없습니다.')
         return
       }
-      const isHigher = isHigherException(currentValue, endDate)
+      const isHigher = isHigherException(currentValue, new Date(endDate))
       isHigher(setStartDate)
     } else {
       const isLower = isLowerException(currentValue, startDate)
@@ -506,30 +505,19 @@ const CouponAdd = props => {
             {/* //종료 날짜 */}
           </View>
 
-          {Platform.OS === 'ios' &&
-            <DateTimePickerModal
-              isVisible={show}
-              mode='date'
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-              cancelTextIOS='취소'
-              confirmTextIOS='적용'
-              pickerStyleIOS={{ backgroundColor: 'white' }}
-              customHeaderIOS={() => <View style={{ ...BaseStyle.pv15, backgroundColor: Primary.PointColor01, ...BaseStyle.container0 }}><Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>{dateType === 'start' ? '시작날짜' : '종료날짜'}</Text></View>}
-              buttonTextColorIOS={Primary.PointColor01}
-              locale='ko_KR'
-            />}
+          <DateTimePickerModal
+            isVisible={show}
+            mode='date'
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+            cancelTextIOS='취소'
+            confirmTextIOS='적용'
+            pickerStyleIOS={{ backgroundColor: 'white' }}
+            customHeaderIOS={() => <View style={{ ...BaseStyle.pv15, backgroundColor: Primary.PointColor01, ...BaseStyle.container0 }}><Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>{dateType === 'start' ? '시작날짜' : '종료날짜'}</Text></View>}
+            buttonTextColorIOS={Primary.PointColor01}
+            locale='ko_KR'
+          />
 
-          {Platform.OS === 'android' && show && (
-            <DateTimePicker
-              testID='dateTimePicker'
-              value={date}
-              mode={mode}
-              is24Hour
-              display={Platform.OS === 'android' ? 'default' : 'inline'}
-              onChange={onChange}
-            />
-          )}
           {/* // 다운로드 유효 기간  */}
 
           {/* 쿠폰 사용 기한 */}
