@@ -26,9 +26,7 @@ function * fetchOrders () {
   let newOrderArr = []
 
   yield Api.send('store_order_list', param, args => {
-    // const resultItem = args.resultItem
     const arrItems = args.arrItems
-
     newOrderArr = arrItems
   }
   )
