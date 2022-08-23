@@ -19,13 +19,6 @@ const { width, height } = Dimensions.get('window')
 const Calculate = props => {
   const { navigation } = props
 
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState(null)
-  const [items, setItems] = React.useState([
-    { label: 'Apple', value: 'apple' },
-    { label: 'Banana', value: 'banana' }
-  ])
-
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
     navigation.goBack()
