@@ -478,7 +478,7 @@ const TipsModal = props => {
                     : '#ececec',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: 200,
+                width: '87%',
                 alignSelf: 'center',
                 ...BaseStyle.pv13,
                 ...BaseStyle.mb30
