@@ -62,11 +62,6 @@ const OrderDetail = props => {
         setDetailProduct(arrItems.orderDetail)
       } else {
         cusToast('데이터를 받아오는데 오류가 발생하였습니다.\n관리자에게 문의해주세요')
-        // Alert.alert('데이터를 받아오는데 오류가 발생하였습니다.', '관리자에게 문의해주세요.', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ])
       }
 
       setLoading(false)
@@ -90,17 +85,6 @@ const OrderDetail = props => {
   // console.log('detailOrder', detailOrder)
   // console.log('detailProduct', detailProduct)
   // console.log('====================================')
-
-  // 예상시간 입력
-  const [deliveryTime, setDeliveryTime] = React.useState('')
-
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState(null)
-  const [items, setItems] = React.useState([
-    { label: '주문이 많아 시간이 소요됩니다.', value: 'v01' },
-    { label: '준비중입니다. 잠시만 기다려주세요.', value: 'v02' },
-    { label: '빨리 보내드리겠습니다.', value: 'v03' }
-  ])
 
   // 주문 거부
   const [isModalVisible, setModalVisible] = React.useState(false)
@@ -174,42 +158,17 @@ const OrderDetail = props => {
 
     Api.send('store_order_status_update', param, args => {
       const resultItem = args.resultItem
-      const arrItems = args.arrItems
 
       if (resultItem.result === 'Y') {
         getOrderListHandlerCheck()
         cusToast(`주문을 ${detailOrder.od_type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`)
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'Main' })
-        }, 1500)
-        // Alert.alert(
-        //   `주문을 ${detailOrder.od_type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`,
-        //   '',
-        //   [
-        //     {
-        //       text: '확인',
-        //       onPress: () => navigation.navigate('Home', { screen: 'Main' })
-        //     }
-        //   ]
-        // )
       } else {
         cusToast(`주문을 ${detailOrder.od_type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'Main' })
-        }, 1500)
-        // Alert.alert(
-        //   `주문을 ${
-        //     detailOrder.od_type === '배달' ? '배달' : '포장완료'
-        //   } 처리중 오류가 발생하였습니다.`,
-        //   '다시 한번 시도해주세요.',
-        //   [
-        //     {
-        //       text: '확인',
-        //       onPress: () => navigation.navigate('Home', { screen: 'Main' })
-        //     }
-        //   ]
-        // )
       }
+
+      setTimeout(() => {
+        navigation.navigate('Home', { screen: 'Main' })
+      }, 1500)
     })
   }
 
@@ -275,11 +234,11 @@ const OrderDetail = props => {
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ ...BaseStyle.ph20 }}>
 
-                {/* 주문 방식 */}
-                <View style={{...BaseStyle.ph15, ...BaseStyle.pv15, backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02}}>
-                  <Text style={{ ...BaseStyle.font_bold, color: '#fff'}}>{detailOrder.od_type} 주문</Text>
-                </View>
-                {/* //주문 방식 */}
+                  {/* 주문 방식 */}
+                  <View style={{ ...BaseStyle.ph15, ...BaseStyle.pv15, backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02 }}>
+                    <Text style={{ ...BaseStyle.font_bold, color: '#fff' }}>{detailOrder.od_type} 주문</Text>
+                  </View>
+                  {/* //주문 방식 */}
 
                   {/* 주문 번호 */}
                   <View
@@ -325,24 +284,6 @@ const OrderDetail = props => {
                             {detailOrder.od_cancle_memo}
                           </Text>
                         </View>
-                        {/* <View style={{...BaseStyle.container5, ...BaseStyle.mb10}}>
-                    <View style={{width: "30%"}}>
-                      <Text style={{...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17}}>
-                        상호명
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          ...BaseStyle.ko14,
-                          ...BaseStyle.font_333,
-                          ...BaseStyle.lh17,
-                          textAlign: "right",
-                        }}>
-                        {detailStore.mb_company}
-                      </Text>
-                    </View>
-                  </View> */}
                       </View>
                       <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
                     </>
@@ -405,54 +346,53 @@ const OrderDetail = props => {
                       {detailOrder.od_type} 정보
                     </Text>
                     {detailOrder.od_type === '배달' &&
-                    <View
-                      style={{
-                        ...BaseStyle.container3,
-                        justifyContent: 'space-between',
-                        ...BaseStyle.mb10
-                      }}
-                    >
-                      <View style={{ width: '30%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>배달주소</Text>
-                      </View>
-                      <View style={{ marginTop: -2, width: '65%' }}>
-                        <View style={{ ...BaseStyle.mb10 }}>
-                          <Text
-                            style={{
-                              ...BaseStyle.ko14,
-                              ...BaseStyle.font_333,
-                              ...BaseStyle.lh24,
-                              textAlign: 'right'
-                            }}
-                          >
-                            {`${detailOrder.order_addr1}`}
-                          </Text>
-                          <Text
-                            style={{
-                              ...BaseStyle.ko14,
-                              ...BaseStyle.font_333,
-                              ...BaseStyle.lh17,
-                              textAlign: 'right'
-                            }}
-                          >
-                            {`${detailOrder.order_addr3}`}
-                          </Text>
+                      <View
+                        style={{
+                          ...BaseStyle.container3,
+                          justifyContent: 'space-between',
+                          ...BaseStyle.mb10
+                        }}
+                      >
+                        <View style={{ width: '30%' }}>
+                          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>배달주소</Text>
                         </View>
-                        <View style={{ ...BaseStyle.mb10 }}>
-                          <Text
-                            style={{
-                              ...BaseStyle.ko14,
-                              ...BaseStyle.font_333,
-                              ...BaseStyle.lh17,
-                              textAlign: 'right'
-                            }}
-                          >
-                            {`${detailOrder.od_addr_jibeon}`}
-                          </Text>
+                        <View style={{ marginTop: -2, width: '65%' }}>
+                          <View style={{ ...BaseStyle.mb10 }}>
+                            <Text
+                              style={{
+                                ...BaseStyle.ko14,
+                                ...BaseStyle.font_333,
+                                ...BaseStyle.lh24,
+                                textAlign: 'right'
+                              }}
+                            >
+                              {`${detailOrder.order_addr1}`}
+                            </Text>
+                            <Text
+                              style={{
+                                ...BaseStyle.ko14,
+                                ...BaseStyle.font_333,
+                                ...BaseStyle.lh17,
+                                textAlign: 'right'
+                              }}
+                            >
+                              {`${detailOrder.order_addr3}`}
+                            </Text>
+                          </View>
+                          <View style={{ ...BaseStyle.mb10 }}>
+                            <Text
+                              style={{
+                                ...BaseStyle.ko14,
+                                ...BaseStyle.font_333,
+                                ...BaseStyle.lh17,
+                                textAlign: 'right'
+                              }}
+                            >
+                              {`${detailOrder.od_addr_jibeon}`}
+                            </Text>
+                          </View>
                         </View>
-                      </View>
-                    </View>
-                  }
+                      </View>}
                     <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
                       <View style={{ width: '30%' }}>
                         <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>전화번호</Text>
@@ -869,7 +809,7 @@ const OrderDetail = props => {
                     activeOpacity={1}
                     onPress={() => deliveryOrderHandler()}
                     style={{
-                      backgroundColor: '#20ABC8',
+                      backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
                       width: '50%',
                       justifyContent: 'center',
                       alignItems: 'center',
