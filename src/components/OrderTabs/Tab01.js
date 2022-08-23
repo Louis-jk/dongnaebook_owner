@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, Image, Dimensions, Platform } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, Image, Platform } from 'react-native'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
