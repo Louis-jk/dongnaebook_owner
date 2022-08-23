@@ -1,15 +1,12 @@
-import { View, Text, FlatList, TouchableOpacity, Image, Alert, Platform } from 'react-native'
 import React from 'react'
+import { View, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import moment from 'moment'
-import 'moment/locale/ko'
-import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
 import OrderRejectCancelModal from '../OrderRejectCancelModal'
 import cusToast from '../CusToast'
-import OrderEmpty from './OrderEmpty'
 import * as orderAction from '../../redux/actions/orderAction'
 import OrdersAnimateLoading from '../OrdersAnimateLoading'
+import TabLayout from './TabLayout'
 
 const Tab02 = props => {
   const { navigation, getOrderListHandler } = props
@@ -48,7 +45,6 @@ const Tab02 = props => {
 
     Api.send('store_order_status_update', param, args => {
       const resultItem = args.resultItem
-      const arrItems = args.arrItems
 
       if (resultItem.result === 'Y') {
         getOrderListHandler(1)
@@ -117,178 +113,6 @@ const Tab02 = props => {
     getOrderListHandler()
   }
 
-  const renderRow = ({ item, index }) => {
-    return (
-      <View key={item.od_id + index}>
-        <View
-          style={{
-            backgroundColor: '#F8F8F8',
-            width: '100%',
-            ...BaseStyle.pv10,
-            ...BaseStyle.ph20,
-            ...BaseStyle.mb10
-          }}
-        >
-          <Text style={{ ...BaseStyle.ko14 }}>
-            {moment(item.od_time).format('YYYY년 M월 D일 HH:mm')}
-          </Text>
-        </View>
-        <View style={{ ...BaseStyle.container6, ...BaseStyle.mb20, ...BaseStyle.ph20 }}>
-
-          {/* 주문 정보 */}
-          <TouchableOpacity
-            activeOpacity={1}
-            style={{ flex: 3, paddingRight: 20 }}
-            onPress={() =>
-              navigation.navigate('OrderDetail', {
-                od_id: item.od_id,
-                od_time: item.od_time,
-                type: 'doing',
-                jumjuId: item.jumju_id,
-                jumjuCode: item.jumju_code
-              })}
-          >
-            {/* 회사명 */}
-            <View style={{ ...BaseStyle.container, ...BaseStyle.mb5 }}>
-              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>{item.mb_company}</Text>
-              <View
-                style={{
-                  ...BaseStyle.ph5,
-                  ...BaseStyle.ml10,
-                  borderRadius: 5,
-                  backgroundColor:
-                    item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02
-                }}
-              >
-                <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>{item.od_type}</Text>
-              </View>
-            </View>
-            {/* // 회사명 */}
-
-            {/* 주문 메뉴명 */}
-            <Text style={{ ...BaseStyle.ko14, ...BaseStyle.mb3 }}>{item.od_good_name}</Text>
-            {/* // 주문 메뉴명 */}
-
-            {/* 결제방법 */}
-            <View style={{ ...BaseStyle.container }}>
-              <Text
-                style={[
-                  { ...BaseStyle.ko14 },
-                  item.od_settle_case === '선결제' ? BaseStyle.font_blue : BaseStyle.font_pink
-                ]}
-              >
-                {item.od_settle_case}
-              </Text>
-              <Text style={{ ...BaseStyle.ko14 }}> / </Text>
-              <Text style={{ ...BaseStyle.ko14 }}>{Api.comma(item.od_receipt_price)}원</Text>
-            </View>
-            {/* // 결제방법 */}
-
-            {/* 배달 주소 */}
-            {item.od_type === '배달' &&
-              <View style={{ ...BaseStyle.container, ...BaseStyle.mt10, ...BaseStyle.mr20 }}>
-                <View
-                  style={{
-                    borderWidth: 1,
-                    borderColor: '#999',
-                    borderRadius: 25,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: 25,
-                    height: 25,
-                    ...BaseStyle.mr5
-                  }}
-                >
-                  <Image
-                    source={require('../../images/ic_map.png')}
-                    style={{ width: '100%', height: '100%' }}
-                    resizeMode='center'
-                  />
-                </View>
-                <View>
-                  <Text
-                    style={{
-                      ...BaseStyle.ko14,
-                      ...BaseStyle.lh20
-                    }}
-                  >
-                    {`${item.od_addr1} ${item.od_addr2}`}
-                  </Text>
-                  {item.od_addr3 !== '' && (
-                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh20 }}>{item.od_addr3}</Text>
-                  )}
-                  {item.od_addr_jibeon !== '' &&
-                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh20 }}>
-                      {item.od_addr_jibeon}
-                    </Text>}
-                </View>
-              </View>}
-            {/* // 배달 주소 */}
-          </TouchableOpacity>
-          {/* // 주문 정보 */}
-
-          {/* 접수, 주문거부 버튼 영역 */}
-          <View style={{ flex: 1 }}>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => {
-                setOrderId(item.od_id)
-                deliveryOrderHandler(item.od_type, item.od_id, item.jumju_id, item.jumju_code)
-              }}
-              style={{
-                backgroundColor:
-                  item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
-                width: 80,
-                justifyContent: 'center',
-                alignItems: 'center',
-                ...BaseStyle.round05,
-                ...BaseStyle.pv10,
-                ...BaseStyle.mb5
-              }}
-            >
-              <Text
-                style={{
-                  ...BaseStyle.ko13,
-                  ...BaseStyle.font_bold,
-                  // color: item.od_type === "배달" ? "#fff" : "#fff",
-                  color: '#fff',
-                  marginBottom: Platform.OS === 'ios' ? 4 : 0
-                }}
-              >
-                {item.od_type === '배달' ? '배달처리' : '포장완료'}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => {
-                setOrderId(item.od_id)
-                setJumjuId(item.jumju_id)
-                setJumjuCode(item.jumju_code)
-                toggleModal('cancel')
-              }}
-              style={{
-                backgroundColor: '#fff',
-                width: 80,
-                justifyContent: 'center',
-                alignItems: 'center',
-                ...BaseStyle.round05,
-                ...BaseStyle.pv10,
-                borderWidth: 1,
-                borderColor: '#E3E3E3',
-                ...BaseStyle.round05
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_bold, ...BaseStyle.font_666, marginBottom: Platform.OS === 'ios' ? 4 : 0 }}>
-                주문취소
-              </Text>
-            </TouchableOpacity>
-          </View>
-          {/* // 접수, 주문거부 버튼 영역 */}
-        </View>
-      </View>
-    )
-  }
-
   return (
     <>
       {isLoading && <OrdersAnimateLoading description='데이터를 불러오는 중입니다.' />}
@@ -304,22 +128,20 @@ const Tab02 = props => {
             jumjuId={jumjuId}
             jumjuCode={jumjuCode}
           />
-          <FlatList
-            data={orders}
-            renderItem={renderRow}
-            keyExtractor={(list, index) => index.toString()}
-        // pagingEnabled={true}
-            persistentScrollbar
-            showsVerticalScrollIndicator={false}
-        // progressViewOffset={true}
-            refreshing={refleshing}
-            onRefresh={() => onHandleRefresh()}
-            onEndReached={handleLoadMore}
-            onEndReachedThreshold={0.4}
-            style={{ backgroundColor: '#fff', width: '100%' }}
-            ListEmptyComponent={
-              <OrderEmpty text='접수된' />
-        }
+
+          <TabLayout
+            index={2}
+            orders={orders}
+            navigation={navigation}
+            deliveryOrderHandler={deliveryOrderHandler}
+            toggleModal={toggleModal}
+            isModalVisible={isModalVisible}
+            onHandleRefresh={onHandleRefresh}
+            handleLoadMore={handleLoadMore}
+            refleshing={refleshing}
+            setOrderId={setOrderId}
+            setJumjuId={setJumjuId}
+            setJumjuCode={setJumjuCode}
           />
         </View>}
     </>
