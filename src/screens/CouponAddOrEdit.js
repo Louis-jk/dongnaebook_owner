@@ -9,6 +9,7 @@ import {
   Platform
 } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { useSelector, useDispatch } from 'react-redux'
@@ -54,11 +55,12 @@ const CouponAdd = props => {
 
   const onChange = (event, selectedValue) => {
     const currentValue = selectedValue || date
-    setShow(Platform.OS === 'ios')
+    // setShow(Platform.OS === 'ios')
 
     if (dateType === 'start') {
       if (currentValue < date) {
         cusToast('오늘 이전 날짜는 지정하실 수 없습니다.')
+        return
       }
       const isHigher = isHigherException(currentValue, endDate)
       isHigher(setStartDate)
@@ -68,6 +70,7 @@ const CouponAdd = props => {
     }
   }
 
+  // Android 전용
   const showMode = (currentMode, payload) => {
     setDateType(payload)
     setShow(true)
@@ -76,6 +79,16 @@ const CouponAdd = props => {
 
   const showDatepicker = payload => {
     showMode('date', payload)
+  }
+
+  // iOS 전용
+  const hideDatePicker = () => {
+    setShow(false)
+  }
+
+  const handleConfirm = (selectedValue) => {
+    hideDatePicker()
+    onChange('', selectedValue)
   }
 
   const getCouponListHandler = () => {
@@ -492,13 +505,28 @@ const CouponAdd = props => {
             </View>
             {/* //종료 날짜 */}
           </View>
-          {show && (
+
+          {Platform.OS === 'ios' &&
+            <DateTimePickerModal
+              isVisible={show}
+              mode='date'
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+              cancelTextIOS='취소'
+              confirmTextIOS='적용'
+              pickerStyleIOS={{ backgroundColor: 'white' }}
+              customHeaderIOS={() => <View style={{ ...BaseStyle.pv15, backgroundColor: Primary.PointColor01, ...BaseStyle.container0 }}><Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>{dateType === 'start' ? '시작날짜' : '종료날짜'}</Text></View>}
+              buttonTextColorIOS={Primary.PointColor01}
+              locale='ko_KR'
+            />}
+
+          {Platform.OS === 'android' && show && (
             <DateTimePicker
               testID='dateTimePicker'
               value={date}
               mode={mode}
               is24Hour
-              display='default'
+              display={Platform.OS === 'android' ? 'default' : 'inline'}
               onChange={onChange}
             />
           )}
