@@ -6,7 +6,8 @@ import {
   Image,
   FlatList,
   Dimensions,
-  BackHandler
+  BackHandler,
+  Platform
 } from 'react-native'
 import Modal from 'react-native-modal'
 import { useSelector } from 'react-redux'
@@ -429,11 +430,12 @@ const SetTips = props => {
                   }}
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
                 >
-                  <Text style={{ ...BaseStyle.ko13, ...BaseStyle.textWhite }}>추가</Text>
+                  <Text style={{ ...BaseStyle.ko13, ...BaseStyle.textWhite, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>추가</Text>
                 </TouchableOpacity>
               </View>
             </View>
             {/* // 배달팁 */}
+
             {/* 배달팁 안내 */}
             {list && list.length > 0 && (
               <View
