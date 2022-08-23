@@ -11,7 +11,8 @@ import {
   Animated,
   StyleSheet,
   BackHandler,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
@@ -22,7 +23,6 @@ import AutoHeightImage from 'react-native-auto-height-image'
 import moment from 'moment'
 import 'moment/locale/ko'
 import Swiper from 'react-native-swiper'
-// import Swipeout from 'react-native-swipeout-mod' // 스와이프 기능(수정, 삭제)
 import Modal from 'react-native-modal'
 import Header from '../components/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
@@ -31,11 +31,9 @@ import ImageView from 'react-native-image-viewing'
 import cusToast from '../components/CusToast'
 import AnimateLoading from '../components/AnimateLoading'
 
-// const { width, height } = Dimensions.get('window')
-
 const Reviews = props => {
   const { navigation } = props
-  // const { allStore, selectedStore } = useSelector(state => state.store)
+
   const {
     mt_id: mtId,
     mt_jumju_code: mtJumjuCode,
@@ -117,27 +115,9 @@ const Reviews = props => {
 
   const translation = scrolling.interpolate({
     inputRange: [100, 700, 1000],
-    outputRange: [-5, -5, 60],
+    outputRange: Platform.OS === 'ios' ? [-5, -5, 98] : [-5, -5, 60],
     extrapolate: 'clamp'
   })
-
-  // const scale = scrolling.interpolate({
-  //   inputRange: [100, 500, 800, 1100, 1300],
-  //   outputRange: [1, 1, 1, 1.5, 1],
-  //   extrapolate: 'clamp'
-  // })
-
-  // const opacity = scrolling.interpolate({
-  //   inputRange: [100, 500, 600, 700],
-  //   outputRange: [1, 0, 1, 1],
-  //   extrapolate: 'clamp'
-  // })
-
-  // const zIndex = scrolling.interpolate({
-  //   inputRange: [100, 500],
-  //   outputRange: [-1, 10],
-  //   extrapolate: 'clamp'
-  // })
 
   // 답글 모달 제어
   const [isCommentModalVisible, setCommentModalVisible] = React.useState(false)
@@ -165,24 +145,12 @@ const Reviews = props => {
       toggleModal()
     } catch (err) {
       cusToast('선택된 이미지가 없습니다.\n다시 확인해주세요.', 2500)
-      // Alert.alert('선택된 이미지가 없습니다.', '다시 확인해주세요.', [
-      //   {
-      //     text: '확인'
-      //   }
-      // ])
     }
   }
-
-  // const onRefresh = () => getReviewListHandler()
 
   function setReply () {
     if (selectReply === null || selectReply === '') {
       cusToast('답변 내용을 입력해주세요.')
-      // Alert.alert('답변 내용을 입력해주세요.', '', [
-      //   {
-      //     text: '확인'
-      //   }
-      // ])
     } else {
       const param = {
         jumju_id: mtId,
@@ -197,18 +165,12 @@ const Reviews = props => {
 
       Api.send('store_review_comment', param, args => {
         const resultItem = args.resultItem
-        const arrItems = args.arrItems
 
         if (resultItem.result === 'Y') {
           toggleCommentModal()
           getReviewList02Handler()
           setSelectReply('')
           cusToast('답변을 등록하였습니다.')
-          // Alert.alert('답변을 등록하였습니다.', '', [
-          //   {
-          //     text: '확인'
-          //   }
-          // ])
         } else {
           getReviewList02Handler()
           setSelectReply('')
@@ -216,12 +178,6 @@ const Reviews = props => {
           setTimeout(() => {
             toggleCommentModal()
           }, 1000)
-          // Alert.alert('답변을 등록하지 못하였습니다.', '답변을 등록하는데 문제가 있습니다.', [
-          //   {
-          //     text: '확인',
-          //     onPress: () => toggleCommentModal()
-          //   }
-          // ])
         }
       })
     }
@@ -243,23 +199,12 @@ const Reviews = props => {
 
     Api.send('store_review_comment', param, args => {
       const resultItem = args.resultItem
-      const arrItems = args.arrItems
 
       getReviewList02Handler()
       if (resultItem.result === 'Y') {
         cusToast('답변을 삭제하였습니다.')
-        // Alert.alert('답변을 삭제하였습니다.', '', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ])
       } else {
         cusToast('답변을 삭제하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 2500)
-        // Alert.alert('답변을 삭제하지 못하였습니다.', '답변을 삭제하는데 문제가 있습니다.', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ])
       }
     })
   }
@@ -277,13 +222,11 @@ const Reviews = props => {
     ])
   }
 
-  // 오른쪽에서 왼쪽으로 스와이프(swipe)시 액션
+  // 스크롤 이벤트 평점 영역 오른쪽에서 왼쪽으로 스와이프(swipe)시 액션
   function renderRightActions (progress, dragX) {
     const trans = dragX.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 0]
-      // inputRange: [0, 50, 100, 101],
-      // outputRange: [-20, 0, 0, 0],
     })
     return (
       <RectButton style={styles.leftAction}>
@@ -353,9 +296,6 @@ const Reviews = props => {
           </View>
 
           <View>
-            {/* <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_gray_a1, ...BaseStyle.mb3 }}>
-              {item.menu}
-            </Text> */}
             <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb3 }}>{item.wr_mb_id}</Text>
             <View style={{ ...BaseStyle.container }}>
               <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1, ...BaseStyle.mr15 }}>
@@ -394,9 +334,6 @@ const Reviews = props => {
                 showsPagination
                 autoplay={false}
                 loop={false}
-                // loadMinimal
-                // loadMinimalLoader={<ActivityIndicator color='#000' size='small' />}
-                // automaticallyAdjustContentInsets
               >
                 {item.pic.map((image, index) => (
                   <TouchableOpacity
@@ -574,8 +511,6 @@ const Reviews = props => {
                     setItId(item.it_id)
                     setWrId(item.wr_id)
                     toggleSpamModal()
-
-                    // setReply(item.it_id, item.wr_id)
                   }
                 }}
                 style={{
@@ -621,40 +556,8 @@ const Reviews = props => {
     )
   }
 
-  const swipeBtns = [
-    {
-      text: '자세히',
-      component: (
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingVertical: 2,
-            paddingHorizontal: 5,
-            backgroundColor: '#ececec',
-            borderRadius: 5
-          }}
-        >
-          <Text style={{ ...BaseStyle.ko10 }}>자세히보기</Text>
-        </TouchableOpacity>
-      ),
-      color: '#222',
-      backgroundColor: 'transparent',
-      underlayColor: 'rgba(0, 0, 0, 1, 0.6)'
-    }
-  ]
-
   // 악성 리뷰 신고하기
   const sendSpamReviewHandler = () => {
-    //     secretKey:1111882EAD94E9C493CEF089E1B023A2122BA778
-    // encodeJson:true
-    // jumju_id:dnb_0001
-    // jumju_code:P20220600001
-    // bo_table:review
-    // wr_id:10
-    // wr_singo:Y
-
     const param = {
       encodeJson: true,
       jumju_id: mtId,
@@ -666,7 +569,6 @@ const Reviews = props => {
 
     Api.send('store_review_singo', param, args => {
       const resultItem = args.resultItem
-      const arrItems = args.arrItems
 
       if (resultItem.result === 'Y') {
         cusToast('악성 리뷰로 신고하였습니다.', 1500)
@@ -915,7 +817,6 @@ const Reviews = props => {
               zIndex: 10,
               ...BaseStyle.ph10,
               backgroundColor: '#fff',
-              // opacity: opacity,
               transform: [
                 {
                   translateY: translation
@@ -923,7 +824,6 @@ const Reviews = props => {
               ]
             }}
           >
-            {/* <Swipeout right={swipeBtns} autoClose="true" backgroundColor="transparent"> */}
             <Swipeable renderRightActions={renderRightActions}>
               <View
                 style={{
@@ -965,13 +865,6 @@ const Reviews = props => {
                     starSize={17}
                   />
                 </View>
-                {/* <View style={{...BaseStyle.container5, alignSelf: "flex-end"}}>
-                <Image
-                  source={require("../images/swipe_m.png")}
-                  style={{width: 50, height: 25, marginLeft: 10}}
-                  resizeMode="contain"
-                />
-              </View> */}
               </View>
             </Swipeable>
             {/* </Swipeout> */}
@@ -1279,7 +1172,7 @@ const Reviews = props => {
           />
         </View>
         {/* //리뷰 리스트 */}
-      </View>
+       </View>
       )}
     </>
   )
