@@ -6,13 +6,13 @@ export const getOrderObject = (state) => state.order
 
 // 주문 리스트 fetch
 function * fetchOrders () {
-  const loginInfo = yield select(getLoginObject)  
-  const {selectOrderTab, orderNew, orderCheck, orderDelivery, orderDone, orderCancel} = yield select(getOrderObject)
-  const {limit: newOrderLimit} = orderNew
-  const {limit: checkOrderLimit} = orderCheck
-  const {limit: deliveryOrderLimit} = orderDelivery
-  const {limit: doneOrderLimit} = orderDone
-  const {limit: cancelOrderLimit} = orderCancel
+  const loginInfo = yield select(getLoginObject)
+  const { selectOrderTab, orderNew, orderCheck, orderDelivery, orderDone, orderCancel } = yield select(getOrderObject)
+  const { limit: newOrderLimit } = orderNew
+  const { limit: checkOrderLimit } = orderCheck
+  const { limit: deliveryOrderLimit } = orderDelivery
+  const { limit: doneOrderLimit } = orderDone
+  const { limit: cancelOrderLimit } = orderCancel
 
   const param = {
     encodeJson: true,
@@ -28,29 +28,28 @@ function * fetchOrders () {
   yield Api.send('store_order_list', param, args => {
     // const resultItem = args.resultItem
     const arrItems = args.arrItems
-    
+
     newOrderArr = arrItems
   }
   )
 
-
-  if(selectOrderTab === 0) {
-      yield put({ type: 'UPDATE_NEW_ORDER_LIST', payload: newOrderArr })
+  if (selectOrderTab === 0) {
+    yield put({ type: 'UPDATE_NEW_ORDER_LIST', payload: newOrderArr })
   }
 
-  if(selectOrderTab === 1) {
+  if (selectOrderTab === 1) {
     yield put({ type: 'UPDATE_CHECK_ORDER_LIST', payload: newOrderArr })
   }
 
-  if(selectOrderTab === 2) {
+  if (selectOrderTab === 2) {
     yield put({ type: 'UPDATE_DELIVERY_ORDER_LIST', payload: newOrderArr })
   }
 
-  if(selectOrderTab === 3) {
+  if (selectOrderTab === 3) {
     yield put({ type: 'UPDATE_DONE_ORDER_LIST', payload: newOrderArr })
   }
 
-  if(selectOrderTab === 4) {
+  if (selectOrderTab === 4) {
     yield put({ type: 'UPDATE_CANCEL_ORDER_LIST', payload: newOrderArr })
   }
 }
@@ -59,7 +58,7 @@ function * actionWatcher () {
   yield takeLatest('GET_NEW_ORDER_LIST', fetchOrders)
   yield takeLatest('GET_CHECK_ORDER_LIST', fetchOrders)
   yield takeLatest('GET_DELIVERY_ORDER_LIST', fetchOrders)
-  yield takeLatest('GET_CANCEL_ORDER_LIST', fetchOrders)
+  yield takeLatest('GET_DONE_ORDER_LIST', fetchOrders)
   yield takeLatest('GET_CANCEL_ORDER_LIST', fetchOrders)
   yield takeLatest('SET_NEW_ORDER_LIMIT', fetchOrders)
   yield takeLatest('SET_CHECK_ORDER_LIMIT', fetchOrders)
