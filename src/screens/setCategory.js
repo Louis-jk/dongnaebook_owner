@@ -119,6 +119,11 @@ const SetCategory = props => {
 
   // 카테고리 수정
   function onEditCategoryHandler (cId, cName, cUse) {
+    if (!cName) {
+      cusToast('카테고리명을 입력해주세요.')
+      return
+    }
+
     const param = {
       jumju_id: mtId,
       jumju_code: mtJumjuCode,
