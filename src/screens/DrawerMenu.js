@@ -15,13 +15,7 @@ const DrawerMenu = props => {
       cusToast('로그아웃 하였습니다.')
       navigation.navigate('Home', { screen: 'Login' })
     } catch (err) {
-      // console.log('로그아웃 에러', err)
       cusToast(`로그아웃 중 에러가 발생하였습니다.\n오류:${err}`, 2500)
-      // Alert.alert('로그아웃 중 에러가 발생하였습니다.', '다시 시도해보세요', [
-      //   {
-      //     text: '확인'
-      //   }
-      // ])
     }
   }
 
@@ -29,9 +23,7 @@ const DrawerMenu = props => {
     <SafeAreaView>
       <View
         style={{
-        // position: 'relative', iOS
-        // flex: 1, iOS
-        // height: Dimensions.get('window').height,
+          height: Platform.OS === 'ios' ? Dimensions.get('window').height : '100%',
           backgroundColor: '#fff',
           borderTopLeftRadius: 50
         }}
