@@ -332,7 +332,7 @@ const Reviews = props => {
                 dotStyle={{ width: 7, height: 7, borderRadius: 7, bottom: -15 }}
                 activeDotStyle={{ width: 7, height: 7, backgroundColor: Primary.PointColor01, bottom: -15 }}
                 showsPagination
-                autoplay={false}
+                horizontal
                 loop={false}
               >
                 {item.pic.map((image, index) => (
@@ -345,6 +345,11 @@ const Reviews = props => {
                         return { uri: v }
                       })
                       setModalImages(formatImg)
+                    }}
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center'
                     }}
                   >
                     {imageLoad && (
@@ -1172,7 +1177,7 @@ const Reviews = props => {
           />
         </View>
         {/* //리뷰 리스트 */}
-       </View>
+      </View>
       )}
     </>
   )
