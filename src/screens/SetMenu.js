@@ -117,7 +117,7 @@ const SetMenu = props => {
         }}
       >
         {item.it_img1 && (
-          <View style={{ ...BaseStyle.ml20, width: 80, height: 80, borderRadius: 10, backgroundColor: Primary.PointColor01 }}>
+          <View style={{ ...BaseStyle.ml20, width: 80, height: 80, borderRadius: 10, backgroundColor: Primary.PointColor03 }}>
             <Image
               source={{ uri: `${item.it_img1}` }}
               style={{ width: '100%', height: '100%', borderRadius: 10 }}
