@@ -86,7 +86,7 @@ const TabLayout = props => {
               {/* // 회사명 */}
 
               {/* 주문 메뉴명 */}
-              <Text style={{ flex: 1, ...BaseStyle.ko14, ...BaseStyle.mb3 }}>{item.od_good_name}</Text>
+              <Text style={{ flex: 1, ...BaseStyle.ko14, ...BaseStyle.mb15 }}>{item.od_good_name}</Text>
               {/* // 주문 메뉴명 */}
 
               {/* 결제방법 */}
@@ -132,7 +132,7 @@ const TabLayout = props => {
                   <Text
                     style={{ ...BaseStyle.ko13, ...BaseStyle.font_bold, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 4 : 0 }}
                   >
-                    접수
+                    {item.od_type}접수
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -229,16 +229,16 @@ const TabLayout = props => {
                 style={{
                   borderWidth: 1,
                   borderColor: '#999',
-                  borderRadius: 25,
-                  width: 25,
-                  height: 25,
-                  marginRight: 7
+                  borderRadius: 18,
+                  width: 18,
+                  height: 18,
+                  marginRight: 5
                 }}
               >
                 <Image
                   source={require('../../images/ic_map.png')}
                   style={{ width: '100%', height: '100%' }}
-                  resizeMode='center'
+                  resizeMode='cover'
                 />
               </View>
               <View>
@@ -249,7 +249,7 @@ const TabLayout = props => {
                     ...BaseStyle.mb3
                   }}
                 >
-                  {`${item.od_addr1} ${item.od_addr2} ${item.od_addr3 !== '' && item.od_addr3}`}
+                  {`${item.od_addr1} ${item.od_addr2} ${item.od_addr3 !== '' ? item.od_addr3 : ''}`}
                 </Text>
                 {item.od_addr_jibeon !== '' &&
                   <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh17 }}>
