@@ -199,7 +199,7 @@ const SetCategory = props => {
                 ? require('../images/on_btn.png')
                 : require('../images/off_btn.png')
             }
-            style={{ width: Platform.OS === 'ios' ? 40 : 25, height: Platform.OS === 'ios' ? 20 : 25, borderRadius: 20 }}
+            style={{ width: Platform.OS === 'ios' ? 40 : 42, height: Platform.OS === 'ios' ? 20 : 21, borderRadius: 20 }}
             resizeMode='cover'
             fadeDuration={0}
           />
