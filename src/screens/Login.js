@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import messaging from '@react-native-firebase/messaging'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as loginAction from '../redux/actions/loginAction'
-import BaseStyle, { Primary } from '../styles/Base'
+import BaseStyle from '../styles/Base'
 import Api from '../Api'
 import AnimateLoading from '../components/AnimateLoading'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -128,11 +128,6 @@ const Login = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
-      console.log('====================================')
-      console.log('로그인 resultItem ::', resultItem)
-      console.log('로그인 arrItems ::', arrItems)
-      console.log('====================================')
-
       if (resultItem.result === 'Y') {
         if (autoLogin) {
           storeData()
@@ -168,7 +163,7 @@ const Login = props => {
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
             keyboardVerticalOffset={0}
-            style={{ backgroundColor: '#fff', borderRadius: 15 }}
+            style={{ backgroundColor: '#fff' }}
             enabled
           >
 
