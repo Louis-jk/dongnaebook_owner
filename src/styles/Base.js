@@ -231,6 +231,7 @@ export default StyleSheet.create({
   container5: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   container6: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' },
   container7: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
+  container8: { flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'space-between' },
 
   containerBottom: { flex: 1, alignItems: 'stretch', justifyContent: 'flex-end' },
   header: { shadowColor: '#000000', elevation: 3, borderBottomWidth: 0 },
