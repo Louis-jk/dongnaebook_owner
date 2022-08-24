@@ -9,7 +9,8 @@ import {
   BackHandler,
   ToastAndroid,
   Alert,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform
 } from 'react-native'
 import { CommonActions } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -151,7 +152,6 @@ const Login = props => {
             text: '확인'
           }
         ])
-        // setButtonDisabled(false);
       }
     })
   }
@@ -164,130 +164,141 @@ const Login = props => {
 
       {!isLoading && (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-          <View>
-            <KeyboardAvoidingView
-              behavior='position'
-              keyboardVerticalOffset={0}
-              style={{ backgroundColor: '#fff', borderRadius: 15 }}
-              enabled
-            >
-              <View style={{ backgroundColor: '#fff' }}>
-                <View
-                  style={{
-                    ...BaseStyle.container2,
-                    width,
-                    height: LOGIN_HEIGHT,
-                    position: 'relative'
-                  }}
-                >
-                  <Image
-                    source={require('../images/login_img.png')}
-                    style={{ width: '100%', height: '100%', zIndex: -1 }}
-                    resizeMode='cover'
-                  />
-                </View>
 
-                <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv30 }}>
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={toggleAutoLogin}
-                    style={{ ...BaseStyle.container, alignSelf: 'flex-end', ...BaseStyle.mb15 }}
-                    hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  >
-                    <Image
-                      source={
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+            keyboardVerticalOffset={0}
+            style={{ backgroundColor: '#fff', borderRadius: 15 }}
+            enabled
+          >
+
+            {/* 상단 이미지 영역 */}
+            <View
+              style={{
+                ...BaseStyle.container2,
+                width,
+                height: LOGIN_HEIGHT,
+                position: 'relative'
+              }}
+            >
+              <Image
+                source={require('../images/login_img.png')}
+                style={{ width: '100%', height: '100%', zIndex: -1 }}
+                resizeMode='cover'
+              />
+            </View>
+            {/* // 상단 이미지 영역 */}
+
+            <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv30 }}>
+              {/* 자동로그인 */}
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={toggleAutoLogin}
+                style={{ ...BaseStyle.container, alignSelf: 'flex-end', ...BaseStyle.mb15 }}
+                hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+              >
+                <Image
+                  source={
                         autoLogin
                           ? require('../images/ic_check_on.png')
                           : require('../images/ic_check_off.png')
                       }
-                      style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                      resizeMode='contain'
-                    />
-                    <Text
-                      style={{
-                        ...BaseStyle.ko14,
-                        ...BaseStyle.font_666,
-                        ...BaseStyle.font_bold
-                      }}
-                    >
-                      자동 로그인
-                    </Text>
-                  </TouchableOpacity>
+                  style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                  resizeMode='contain'
+                />
+                <Text
+                  style={{
+                    ...BaseStyle.ko14,
+                    ...BaseStyle.font_666,
+                    ...BaseStyle.font_bold
+                  }}
+                >
+                  자동 로그인
+                </Text>
+              </TouchableOpacity>
+              {/* // 자동로그인 */}
 
-                  <View
-                    style={{
-                      borderWidth: 1,
-                      borderColor: '#E3E3E3',
-                      borderRadius: 5,
-                      marginBottom: 3
-                    }}
-                  >
-                    <TextInput
-                      value={userEmail}
-                      placeholder='아이디를 입력하세요'
-                      style={{
-                        ...BaseStyle.inputH,
-                        ...BaseStyle.ph20
-                      }}
-                      onChangeText={text => setUEmail(text)}
-                      autoCapitalize='none'
-                      returnKeyLabel='다음'
-                      returnKeyType='next'
-                      onSubmitEditing={() => userPwdRef.current.focus()}
-                    />
-                  </View>
-                  {/* <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3' }} /> */}
-                  <View style={{ borderWidth: 1, borderColor: '#E3E3E3', borderRadius: 5 }}>
-                    <TextInput
-                      ref={userPwdRef}
-                      value={userPwd}
-                      placeholder='비밀번호를 입력하세요'
-                      style={{
-                        ...BaseStyle.inputH,
-                        ...BaseStyle.ph20
-                      }}
-                      onChangeText={text => setUPwd(text)}
-                      autoCapitalize='none'
-                      returnKeyLabel='완료'
-                      returnKeyType='done'
-                      secureTextEntry
-                      // onSubmitEditing={() => onLoginHandler()}
-                    />
-                  </View>
+              {/* 아이디 입력 */}
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor: '#E3E3E3',
+                  borderRadius: 5,
+                  marginBottom: 3
+                }}
+              >
+                <TextInput
+                  value={userEmail}
+                  placeholder='아이디를 입력하세요'
+                  style={{
+                    ...BaseStyle.inputH,
+                    ...BaseStyle.ph20
+                  }}
+                  onChangeText={text => setUEmail(text)}
+                  autoCapitalize='none'
+                  returnKeyLabel='다음'
+                  returnKeyType='next'
+                  onSubmitEditing={() => userPwdRef.current.focus()}
+                />
+              </View>
+              {/* // 아이디 입력 */}
 
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => onLoginHandler()}
-                    style={{ ...BaseStyle.mainBtn, ...BaseStyle.mv20 }}
-                  >
-                    <Text
-                      style={{
-                        ...BaseStyle.ko16,
-                        ...BaseStyle.font_bold,
-                        ...BaseStyle.font_white
-                      }}
-                    >
-                      로그인
-                    </Text>
-                  </TouchableOpacity>
+              {/* // 비밀번호 입력 */}
+              <View style={{ borderWidth: 1, borderColor: '#E3E3E3', borderRadius: 5 }}>
+                <TextInput
+                  ref={userPwdRef}
+                  value={userPwd}
+                  placeholder='비밀번호를 입력하세요'
+                  style={{
+                    ...BaseStyle.inputH,
+                    ...BaseStyle.ph20
+                  }}
+                  onChangeText={text => setUPwd(text)}
+                  autoCapitalize='none'
+                  returnKeyLabel='완료'
+                  returnKeyType='done'
+                  secureTextEntry
+                />
+              </View>
+              {/* // 비밀번호 입력 */}
 
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => navigation.navigate('FindPwd')}
-                    style={{ ...BaseStyle.container, alignSelf: 'flex-end' }}
-                    hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  >
-                    <Text
-                      style={{
-                        ...BaseStyle.ko14,
-                        ...BaseStyle.font_666
-                      }}
-                    >
-                      비밀번호찾기
-                    </Text>
-                  </TouchableOpacity>
+              {/* 로그인 버튼 */}
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => onLoginHandler()}
+                style={{ ...BaseStyle.mainBtn, ...BaseStyle.mv20 }}
+              >
+                <Text
+                  style={{
+                    ...BaseStyle.ko16,
+                    ...BaseStyle.font_bold,
+                    ...BaseStyle.font_white
+                  }}
+                >
+                  로그인
+                </Text>
+              </TouchableOpacity>
+              {/* // 로그인 버튼 */}
 
-                  {/* <View
+              {/* 비밀번호 찾기 */}
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => navigation.navigate('FindPwd')}
+                style={{ ...BaseStyle.container, alignSelf: 'flex-end' }}
+                hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+              >
+                <Text
+                  style={{
+                    ...BaseStyle.ko14,
+                    ...BaseStyle.font_666
+                  }}
+                >
+                  비밀번호찾기
+                </Text>
+              </TouchableOpacity>
+              {/* // 비밀번호 찾기 */}
+
+              {/* <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'center',
@@ -324,10 +335,10 @@ const Login = props => {
                     </Text>
                   </TouchableOpacity>
                 </View> */}
-                </View>
-              </View>
-            </KeyboardAvoidingView>
-          </View>
+            </View>
+
+          </KeyboardAvoidingView>
+
         </SafeAreaView>
       )}
     </>
