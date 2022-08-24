@@ -231,38 +231,39 @@ const OrderDetail = props => {
               />
               {/* // 주문 취소/거부 모달 */}
 
+              {/* 주문 방식 */}
+              <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.pv15, backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02 }}>
+                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, color: '#fff' }}>{detailOrder.od_type} 주문</Text>
+                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>{moment(orderTime).format('YYYY년 M월 D일, HH시 mm분')}</Text>
+              </View>
+              {/* //주문 방식 */}
+
+              {/* 주문 번호 */}
+              <View
+                style={{
+                  ...BaseStyle.container5,
+                  ...BaseStyle.pv15,
+                  ...BaseStyle.ph20,
+                  ...BaseStyle.mb20,
+                  borderRadius: 5,
+                  backgroundColor: '#F9F8FB'
+                }}
+              >
+                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>주문번호</Text>
+                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>
+                  {detailOrder.order_id}
+                </Text>
+              </View>
+              {/* // 주문 번호 */}
+
               <ScrollView showsVerticalScrollIndicator={false}>
+
                 <View style={{ ...BaseStyle.ph20 }}>
-
-                  {/* 주문 방식 */}
-                  <View style={{ ...BaseStyle.ph15, ...BaseStyle.pv15, backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02 }}>
-                    <Text style={{ ...BaseStyle.font_bold, color: '#fff' }}>{detailOrder.od_type} 주문</Text>
-                  </View>
-                  {/* //주문 방식 */}
-
-                  {/* 주문 번호 */}
-                  <View
-                    style={{
-                      ...BaseStyle.container5,
-                      ...BaseStyle.pv15,
-                      ...BaseStyle.ph10,
-                      ...BaseStyle.mb20,
-                      borderRadius: 5,
-                      backgroundColor: '#E8F7FA'
-                    }}
-                  >
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>주문번호</Text>
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>
-                      {detailOrder.order_id}
-                    </Text>
-                  </View>
-                  {/* // 주문 번호 */}
 
                   {/* 취소건 일 때 취소 사유 */}
                   {type === 'cancel' && (
                     <>
                       <View style={{ ...BaseStyle.mb15 }}>
-                        {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15}}>기본 정보</Text> */}
                         <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
                           취소 사유
                         </Text>
@@ -366,9 +367,9 @@ const OrderDetail = props => {
                                 textAlign: 'right'
                               }}
                             >
-                              {`${detailOrder.order_addr1}`}
+                              {`${detailOrder.order_addr1} ${detailOrder.order_addr3 !== '' ? detailOrder.order_addr3 : ''}`}
                             </Text>
-                            <Text
+                            {/* <Text
                               style={{
                                 ...BaseStyle.ko14,
                                 ...BaseStyle.font_333,
@@ -377,20 +378,21 @@ const OrderDetail = props => {
                               }}
                             >
                               {`${detailOrder.order_addr3}`}
-                            </Text>
+                            </Text> */}
                           </View>
-                          <View style={{ ...BaseStyle.mb10 }}>
-                            <Text
-                              style={{
-                                ...BaseStyle.ko14,
-                                ...BaseStyle.font_333,
-                                ...BaseStyle.lh17,
-                                textAlign: 'right'
-                              }}
-                            >
-                              {`${detailOrder.od_addr_jibeon}`}
-                            </Text>
-                          </View>
+                          {detailOrder.od_addr_jibeon !== '' &&
+                            <View style={{ ...BaseStyle.mb10 }}>
+                              <Text
+                                style={{
+                                  ...BaseStyle.ko14,
+                                  ...BaseStyle.font_333,
+                                  ...BaseStyle.lh17,
+                                  textAlign: 'right'
+                                }}
+                              >
+                                {`${detailOrder.od_addr_jibeon}`}
+                              </Text>
+                            </View>}
                         </View>
                       </View>}
                     <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
@@ -658,7 +660,7 @@ const OrderDetail = props => {
                       // borderWidth: 1,
                       // borderColor: '#E3E3E3',
                       borderRadius: 5,
-                      backgroundColor: '#E8F7FA',
+                      backgroundColor: '#F9F8FB',
                       ...BaseStyle.pv20,
                       ...BaseStyle.ph15,
                       ...BaseStyle.mt20,
