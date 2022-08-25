@@ -36,11 +36,11 @@ const TabLayout = props => {
           }}
         >
           <Text style={{ ...BaseStyle.ko14 }}>
-            {moment(item.od_time).format('YYYY년 M월 D일 HH:mm')}
+            {moment(item.od_time).format('YYYY년 M월 D일')}
           </Text>
         </View>
         <View style={{ ...BaseStyle.mb20, ...BaseStyle.ph20 }}>
-          <View style={{ ...BaseStyle.container5 }}>
+          <View style={{ ...BaseStyle.container7 }}>
 
             {/* 주문 정보 */}
             <TouchableOpacity
@@ -65,12 +65,32 @@ const TabLayout = props => {
                   jumjuCode: item.jumju_code
                 })}
             >
+              <View style={{ flex: 1, ...BaseStyle.container, marginBottom: 13 }}>
+                <Text style={{ fontSize: 26, ...BaseStyle.font_bold, marginBottom: -5 }}>
+                  {moment(item.od_time).format('HH:mm')}
+                </Text>
+                <View
+                  style={{
+                    paddingHorizontal: 7,
+                    ...BaseStyle.ml10,
+                    height: 25,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    backgroundColor:
+                      item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
+                    paddingVertical: Platform.OS === 'android' ? 2 : 0
+                  }}
+                >
+                  <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_bold, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>{item.od_type}</Text>
+                </View>
+              </View>
               {/* 회사명 */}
               <View style={{ flex: 1, ...BaseStyle.container, ...BaseStyle.mb5 }}>
                 <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }} numberOfLines={1}>
                   {item.mb_company}
                 </Text>
-                <View
+                {/* <View
                   style={{
                     ...BaseStyle.ph5,
                     ...BaseStyle.ml10,
@@ -81,7 +101,7 @@ const TabLayout = props => {
                   }}
                 >
                   <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>{item.od_type}</Text>
-                </View>
+                </View> */}
               </View>
               {/* // 회사명 */}
 
@@ -219,6 +239,41 @@ const TabLayout = props => {
                 </TouchableOpacity>
               </View>}
             {/* // 접수완료 */}
+
+            {/* 배달중 */}
+            {tabIndex === 3 &&
+              <View style={{ flex: 1, alignSelf: 'flex-start' }}>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  // onPress={() => {
+                  //   setOrderId(item.od_id)
+                  //   deliveryOrderHandler(item.od_type, item.od_id, item.jumju_id, item.jumju_code)
+                  // }}
+                  style={{
+                    backgroundColor:
+                  item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
+                    width: 80,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    ...BaseStyle.round05,
+                    ...BaseStyle.pv10,
+                    ...BaseStyle.mb5
+                  }}
+                >
+                  <Text
+                    style={{
+                      ...BaseStyle.ko13,
+                      ...BaseStyle.font_bold,
+                      // color: item.od_type === "배달" ? "#fff" : "#fff",
+                      color: '#fff',
+                      marginBottom: Platform.OS === 'ios' ? 4 : 0
+                    }}
+                  >
+                    배달완료
+                  </Text>
+                </TouchableOpacity>
+              </View>}
+            {/* // 배달중 */}
             {/* // 접수, 주문거부 버튼 영역 */}
 
           </View>
