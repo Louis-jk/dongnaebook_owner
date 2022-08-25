@@ -24,12 +24,12 @@ import moment from 'moment'
 import 'moment/locale/ko'
 import Swiper from 'react-native-swiper'
 import Modal from 'react-native-modal'
-import Header from '../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
 import ImageView from 'react-native-image-viewing'
-import cusToast from '../components/CusToast'
-import AnimateLoading from '../components/AnimateLoading'
+import cusToast from '../../components/CusToast'
+import AnimateLoading from '../../components/AnimateLoading'
 
 const Reviews = props => {
   const { navigation } = props
@@ -304,8 +304,8 @@ const Reviews = props => {
               <StarRating
                 activeOpacity={1}
                 disabled={false}
-                emptyStar={require('../images/ico_star_off.png')}
-                fullStar={require('../images/ico_star_on.png')}
+                emptyStar={require('../../images/ico_star_off.png')}
+                fullStar={require('../../images/ico_star_on.png')}
                 ratingColor='#3498db'
                 ratingBackgroundColor='#c8c7c8'
                 maxStars={5}
@@ -472,7 +472,7 @@ const Reviews = props => {
                 style={{ position: 'absolute', top: 10, right: 10 }}
               >
                 <Image
-                  source={require('../images/popup_close.png')}
+                  source={require('../../images/popup_close.png')}
                   style={{ width: 22, height: 22, opacity: 0.5 }}
                   resizeMode='contain'
                 />
@@ -503,7 +503,7 @@ const Reviews = props => {
                 }}
               >
                 <Image
-                  source={require('../images/reply_wh.png')}
+                  source={require('../../images/reply_wh.png')}
                   style={{ width: 18, height: 18, ...BaseStyle.mr10, marginTop: -2 }}
                   resizeMode='contain'
                 />
@@ -532,14 +532,14 @@ const Reviews = props => {
               >
                 {item.wr_singo === 'N' && (
                   <Image
-                    source={require('../images/bell.png')}
+                    source={require('../../images/bell.png')}
                     style={{ width: 20, height: 20, ...BaseStyle.mr10, opacity: 0.7 }}
                     resizeMode='contain'
                   />
                 )}
                 {item.wr_singo === 'Y' && (
                   <Image
-                    source={require('../images/bell_wh.png')}
+                    source={require('../../images/bell_wh.png')}
                     style={{ width: 20, height: 20, ...BaseStyle.mr10, opacity: 0.7 }}
                     resizeMode='contain'
                   />
@@ -615,7 +615,7 @@ const Reviews = props => {
             }}
           >
             <Image
-              source={require('../images/ic_del.png')}
+              source={require('../../images/ic_del.png')}
               style={{ width: 30, height: 30, resizeMode: 'contain' }}
             />
           </TouchableOpacity>
@@ -657,7 +657,7 @@ const Reviews = props => {
               }}
             >
               <Image
-                source={require('../images/close.png')}
+                source={require('../../images/close.png')}
                 style={{
                   width: 12,
                   height: 12,
@@ -861,8 +861,8 @@ const Reviews = props => {
                   <StarRating
                     activeOpacity={1}
                     disabled={false}
-                    emptyStar={require('../images/ico_star_off.png')}
-                    fullStar={require('../images/ico_star_on.png')}
+                    emptyStar={require('../../images/ico_star_off.png')}
+                    fullStar={require('../../images/ico_star_on.png')}
                     ratingColor='#3498db'
                     ratingBackgroundColor='#c8c7c8'
                     maxStars={5}
@@ -952,8 +952,8 @@ const Reviews = props => {
                       <StarRating
                         activeOpacity={1}
                         disabled={false}
-                        emptyStar={require('../images/ico_star_off.png')}
-                        fullStar={require('../images/ico_star_on.png')}
+                        emptyStar={require('../../images/ico_star_off.png')}
+                        fullStar={require('../../images/ico_star_on.png')}
                         ratingColor='#3498db'
                         ratingBackgroundColor='#c8c7c8'
                         maxStars={5}

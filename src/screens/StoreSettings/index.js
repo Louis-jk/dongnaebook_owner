@@ -9,11 +9,11 @@ import {
   BackHandler
 } from 'react-native'
 import { useSelector } from 'react-redux'
-import Header from '../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import AnimateLoading from '../components/AnimateLoading'
-import cusToast from '../components/CusToast'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
+import AnimateLoading from '../../components/AnimateLoading'
+import cusToast from '../../components/CusToast'
 
 const StoreSetting = props => {
   const { navigation } = props
@@ -204,8 +204,8 @@ const StoreSetting = props => {
                       <Image
                         source={
                       setting.mt_sound === '3'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
@@ -223,8 +223,8 @@ const StoreSetting = props => {
                       <Image
                         source={
                       setting.mt_sound === '5'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
@@ -242,8 +242,8 @@ const StoreSetting = props => {
                       <Image
                         source={
                       setting.mt_sound === '7'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
@@ -323,8 +323,8 @@ const StoreSetting = props => {
                       <Image
                         source={
                       setting.do_take_out === 'Y'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
@@ -341,8 +341,8 @@ const StoreSetting = props => {
                       <Image
                         source={
                       setting.do_take_out === 'N'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
@@ -381,8 +381,8 @@ const StoreSetting = props => {
                       <Image
                         source={
                       setting.do_coupon_use === 'Y'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
@@ -399,8 +399,8 @@ const StoreSetting = props => {
                       <Image
                         source={
                       setting.do_coupon_use === 'N'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
@@ -434,8 +434,8 @@ const StoreSetting = props => {
                   <Image
                     source={
                       info.do_end_state === 'Y'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                     style={{width: 20, height: 20, ...BaseStyle.mr5}}
                     resizeMode="contain"
@@ -451,8 +451,8 @@ const StoreSetting = props => {
                   <Image
                     source={
                       info.do_end_state === 'N'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                     style={{width: 20, height: 20, ...BaseStyle.mr5}}
                     resizeMode="contain"
@@ -478,7 +478,7 @@ const StoreSetting = props => {
                   style={{...BaseStyle.container, ...BaseStyle.mr20}}
                 >
                   <Image
-                    source={info.mb_one_saving === '1' ? require('../images/ic_check_on.png') : require('../images/ic_check_off.png')}
+                    source={info.mb_one_saving === '1' ? require('../../images/ic_check_on.png') : require('../../images/ic_check_off.png')}
                     style={{width:20, height:20, ...BaseStyle.mr5}}
                     resizeMode="contain"
                     fadeDuration={100}
@@ -492,7 +492,7 @@ const StoreSetting = props => {
                   style={{...BaseStyle.container, ...BaseStyle.mr10}}
                 >
                   <Image
-                    source={info.mb_one_saving === '0' ? require('../images/ic_check_on.png') : require('../images/ic_check_off.png')}
+                    source={info.mb_one_saving === '0' ? require('../../images/ic_check_on.png') : require('../../images/ic_check_off.png')}
                     style={{width:20, height:20, ...BaseStyle.mr5}}
                     resizeMode="contain"
                     fadeDuration={100}

@@ -12,13 +12,13 @@ import {
 import Modal from 'react-native-modal'
 import { useSelector } from 'react-redux'
 import Swipeout from 'react-native-swipeout-mod' // 스와이프 기능(수정, 삭제)
-import Header from '../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
-import TipsModal from '../components/Tips/TipsModal'
-import TipsEditModal from '../components/Tips/TipsEditModal'
-import Api from '../Api'
-import cusToast from '../components/CusToast'
-import AnimateLoading from '../components/AnimateLoading'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
+import TipsModal from '../../components/Tips/TipsModal'
+import TipsEditModal from '../../components/Tips/TipsEditModal'
+import Api from '../../Api'
+import cusToast from '../../components/CusToast'
+import AnimateLoading from '../../components/AnimateLoading'
 
 const SetTips = props => {
   const { navigation } = props
@@ -138,7 +138,7 @@ const SetTips = props => {
             }}
           >
             <Image
-              source={require('../images/edit.png')}
+              source={require('../../images/edit.png')}
               style={{ width: 20, height: 20, marginBottom: 10 }}
               resizeMode='center'
             />
@@ -170,7 +170,7 @@ const SetTips = props => {
             }}
           >
             <Image
-              source={require('../images/delete_wh.png')}
+              source={require('../../images/delete_wh.png')}
               style={{ width: 20, height: 20, marginBottom: 10 }}
               resizeMode='center'
             />
@@ -217,7 +217,7 @@ const SetTips = props => {
               <Text style={{ ...BaseStyle.font_white }}>배달팁{index + 1}</Text>
             </View>
             <Image
-              source={require('../images/logo.png')}
+              source={require('../../images/logo.png')}
               style={{ width: 80, height: 20 }}
               resizeMode='contain'
             />
@@ -369,7 +369,7 @@ const SetTips = props => {
                 }}
               >
                 <Image
-                  source={require('../images/close.png')}
+                  source={require('../../images/close.png')}
                   style={{
                     width: 12,
                     height: 12,
@@ -470,7 +470,7 @@ const SetTips = props => {
                 </View>
                 <View style={{ width: '20%', justifyContent: 'center', alignItems: 'center' }}>
                   <Image
-                    source={require('../images/swipe_m.png')}
+                    source={require('../../images/swipe_m.png')}
                     style={{ width: 100, height: 25 }}
                     resizeMode='contain'
                   />

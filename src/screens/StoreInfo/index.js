@@ -13,11 +13,11 @@ import {
 import { useSelector } from 'react-redux'
 import ImagePicker from 'react-native-image-crop-picker'
 import Modal from 'react-native-modal'
-import Header from '../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import cusToast from '../components/CusToast'
-import AnimateLoading from '../components/AnimateLoading'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
+import cusToast from '../../components/CusToast'
+import AnimateLoading from '../../components/AnimateLoading'
 
 const MAIN_IMAGE_THUMB_WIDTH = (Dimensions.get('window').width - 40) / 5 - 4
 
@@ -451,7 +451,7 @@ const StoreInfo = props => {
                 }}
               >
                 <Image
-                  source={require('../images/close.png')}
+                  source={require('../../images/close.png')}
                   style={{
                     width: 12,
                     height: 12,
@@ -541,9 +541,9 @@ const StoreInfo = props => {
                       <Image
                         source={
                       showDefault
-                        ? require('../images/loading_image.png')
+                        ? require('../../images/loading_image.png')
                         : imageError
-                          ? require('../images/error_image.png')
+                          ? require('../../images/error_image.png')
                           : { uri: `${detailImgs01}` }
                     }
                         style={{
@@ -571,7 +571,7 @@ const StoreInfo = props => {
                         }}
                       >
                         <Image
-                          source={require('../images/close_wh.png')}
+                          source={require('../../images/close_wh.png')}
                           style={{
                             width: 10,
                             height: 10
@@ -601,9 +601,9 @@ const StoreInfo = props => {
                       <Image
                         source={
                       showDefault
-                        ? require('../images/loading_image.png')
+                        ? require('../../images/loading_image.png')
                         : imageError
-                          ? require('../images/error_image.png')
+                          ? require('../../images/error_image.png')
                           : { uri: `${detailImgs02}` }
                     }
                         style={{
@@ -631,7 +631,7 @@ const StoreInfo = props => {
                         }}
                       >
                         <Image
-                          source={require('../images/close_wh.png')}
+                          source={require('../../images/close_wh.png')}
                           style={{
                             width: 10,
                             height: 10
@@ -661,9 +661,9 @@ const StoreInfo = props => {
                       <Image
                         source={
                       showDefault
-                        ? require('../images/loading_image.png')
+                        ? require('../../images/loading_image.png')
                         : imageError
-                          ? require('../images/error_image.png')
+                          ? require('../../images/error_image.png')
                           : { uri: `${detailImgs03}` }
                     }
                         style={{
@@ -691,7 +691,7 @@ const StoreInfo = props => {
                         }}
                       >
                         <Image
-                          source={require('../images/close_wh.png')}
+                          source={require('../../images/close_wh.png')}
                           style={{
                             width: 10,
                             height: 10
@@ -721,9 +721,9 @@ const StoreInfo = props => {
                       <Image
                         source={
                       showDefault
-                        ? require('../images/loading_image.png')
+                        ? require('../../images/loading_image.png')
                         : imageError
-                          ? require('../images/error_image.png')
+                          ? require('../../images/error_image.png')
                           : { uri: `${detailImgs04}` }
                     }
                         style={{
@@ -751,7 +751,7 @@ const StoreInfo = props => {
                         }}
                       >
                         <Image
-                          source={require('../images/close_wh.png')}
+                          source={require('../../images/close_wh.png')}
                           style={{
                             width: 10,
                             height: 10
@@ -781,9 +781,9 @@ const StoreInfo = props => {
                       <Image
                         source={
                       showDefault
-                        ? require('../images/loading_image.png')
+                        ? require('../../images/loading_image.png')
                         : imageError
-                          ? require('../images/error_image.png')
+                          ? require('../../images/error_image.png')
                           : { uri: `${detailImgs05}` }
                     }
                         style={{
@@ -811,7 +811,7 @@ const StoreInfo = props => {
                         }}
                       >
                         <Image
-                          source={require('../images/close_wh.png')}
+                          source={require('../../images/close_wh.png')}
                           style={{
                             width: 10,
                             height: 10
@@ -1078,8 +1078,8 @@ const StoreInfo = props => {
                       <Image
                         source={
                       info.do_jumju_origin_use === 'Y'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
@@ -1096,8 +1096,8 @@ const StoreInfo = props => {
                       <Image
                         source={
                       info.do_jumju_origin_use === 'N'
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'

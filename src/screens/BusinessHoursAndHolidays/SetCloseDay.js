@@ -11,8 +11,8 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker'
 import Modal from 'react-native-modal'
 
-import Header from '../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
 
 const { width, height } = Dimensions.get('window')
 
@@ -69,7 +69,6 @@ const SetCloseDay = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='휴무일 설정' type='add' toggleModal={toggleModal} />
-
 
       {/* 휴무일 삭제 모달 */}
       <Modal
@@ -156,7 +155,7 @@ const SetCloseDay = props => {
               hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             >
               <Image
-                source={require('../images/pop_close.png')}
+                source={require('../../images/pop_close.png')}
                 style={{ width: 22, height: 22 }}
                 resizeMode='contain'
               />
@@ -187,8 +186,8 @@ const SetCloseDay = props => {
               <Image
                 source={
                   noCloseYear
-                    ? require('../images/ic_check_on.png')
-                    : require('../images/ic_check_off.png')
+                    ? require('../../images/ic_check_on.png')
+                    : require('../../images/ic_check_off.png')
                 }
                 style={{ width: 20, height: 20, ...BaseStyle.mr10 }}
                 resizeMode='cover'
@@ -211,8 +210,8 @@ const SetCloseDay = props => {
               <Image
                 source={
                   closeWeekley
-                    ? require('../images/ic_check_on.png')
-                    : require('../images/ic_check_off.png')
+                    ? require('../../images/ic_check_on.png')
+                    : require('../../images/ic_check_off.png')
                 }
                 style={{ width: 20, height: 20, ...BaseStyle.mr10 }}
                 resizeMode='cover'
@@ -270,8 +269,8 @@ const SetCloseDay = props => {
               <Image
                 source={
                   specialClose
-                    ? require('../images/ic_check_on.png')
-                    : require('../images/ic_check_off.png')
+                    ? require('../../images/ic_check_on.png')
+                    : require('../../images/ic_check_off.png')
                 }
                 style={{ width: 20, height: 20, ...BaseStyle.mr10 }}
                 resizeMode='cover'
@@ -352,7 +351,7 @@ const SetCloseDay = props => {
           </View>
           <View>
             <Image
-              source={require('../images/ic_del.png')}
+              source={require('../../images/ic_del.png')}
               style={{ width: 20, height: 20 }}
               resizeMode='cover'
             />
@@ -379,7 +378,7 @@ const SetCloseDay = props => {
           </View>
           <View>
             <Image
-              source={require('../images/ic_del.png')}
+              source={require('../../images/ic_del.png')}
               style={{ width: 20, height: 20 }}
               resizeMode='cover'
             />

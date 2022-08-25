@@ -20,29 +20,29 @@ import CheckScreen from './src/screens/Auth/Check' // 체크
 import LoginScreen from './src/screens/Auth/Login' // 로그인
 import FindIdScreen from './src/screens/Auth/FindId' // 아이디 찾기
 import FindPwdScreen from './src/screens/Auth/FindPwd' // 비밀번호 찾기
-import SetNewPwdScreen from './src/screens/SetNewPwd' // 비밀번호 찾기
-import MainScreen from './src/screens/Main' // 메인
-import CancelOrdersScreen from './src/screens/CancelOrders' // 주문취소건
-import OrderDetailScreen from './src/screens/OrderDetail' // 주문내역 상세
-import SetDayTimeScreen from './src/screens/SetDayTime' // 영업 운영시간 설정
-import SetTimeScreen from './src/screens/SetTime' // 영업 시간 추가
-import SetClosedScreen from './src/screens/SetClosed' // 정기 휴일 추가
-import SetCloseDayScreen from './src/screens/SetCloseDay' // 휴무일 설정
-import SetRestTimeScreen from './src/screens/SetRestTime' // 휴게시간 설정
-import SetTipsScreen from './src/screens/SetTips' // 배달팁 설정
+import SetNewPwdScreen from './src/screens/Auth/SetNewPwd' // 비밀번호 찾기
+import OrderListScreen from './src/screens/Orders' // 메인
+import CancelOrdersScreen from './src/screens/Orders/CancelOrders' // 주문취소건
+import OrderDetailScreen from './src/screens/Orders/OrderDetail' // 주문내역 상세
+import SetDayTimeScreen from './src/screens/BusinessHoursAndHolidays/SetDayTime' // 영업 운영시간 설정
+import SetTimeScreen from './src/screens/BusinessHoursAndHolidays/SetTime' // 영업 시간 추가
+import SetClosedScreen from './src/screens/BusinessHoursAndHolidays/SetClosed' // 정기 휴일 추가
+import SetCloseDayScreen from './src/screens/BusinessHoursAndHolidays/SetCloseDay' // 휴무일 설정
+import SetRestTimeScreen from './src/screens/BusinessHoursAndHolidays/SetRestTime' // 휴게시간 설정
+import SetTipsScreen from './src/screens/Tips' // 배달팁 설정
 import SelectStoreScreen from './src/screens/SelectStore' // 매장선택 및 추가
 import CalculateScreen from './src/screens/Calculate' // 정산내역
 import ReviewsScreen from './src/screens/Reviews' // 리뷰
-import ReviewNoticeScreen from './src/screens/ReviewNotice' // 리뷰 공지사항
-import NoticeScreen from './src/screens/Notice/Notice' // 공지사항
+import ReviewNoticeScreen from './src/screens/Reviews/ReviewNotice' // 리뷰 공지사항
+import NoticeScreen from './src/screens/Notice' // 공지사항
 import NoticeDetailScreen from './src/screens/Notice/NoticeDetail' // 공지사항 상세 - 웹뷰
-import CouponScreen from './src/screens/Coupons/Coupon' // 쿠폰관리
+import CouponScreen from './src/screens/Coupons' // 쿠폰관리
 import CouponAddOrEditScreen from './src/screens/Coupons/CouponAddOrEdit' // 쿠폰 추가 또느 수정
-import setCategoryScreen from './src/screens/SetCategory' // 메뉴 카테고리 설정(리스트)
-import SetMenuScreen from './src/screens/Menus/SetMenu' // 메뉴설정(리스트)
+import SetCategoryScreen from './src/screens/Categories' // 메뉴 카테고리 설정(리스트)
+import SetMenuScreen from './src/screens/Menus' // 메뉴설정(리스트)
 import SetMenuAddOrEditScreen from './src/screens/Menus/SetMenuAddOrEdit' // 메뉴등록 또는 수정
 import StoreInfoScreen from './src/screens/StoreInfo' // 매장소개
-import StoreSettingScreen from './src/screens/StoreSetting' // 매장설정
+import StoreSettingScreen from './src/screens/StoreSettings' // 매장설정
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2'])
@@ -315,7 +315,7 @@ const App = () => {
         <Stack.Screen name='FindId' component={FindIdScreen} />
         <Stack.Screen name='FindPwd' component={FindPwdScreen} />
         <Stack.Screen name='SetNewPwd' component={SetNewPwdScreen} />
-        <Stack.Screen name='Main' component={MainScreen} />
+        <Stack.Screen name='Main' component={OrderListScreen} />
         <Stack.Screen name='CancelOrders' component={CancelOrdersScreen} />
         <Stack.Screen name='SelectStore' component={SelectStoreScreen} />
         <Stack.Screen name='OrderDetail' component={OrderDetailScreen} />
@@ -332,7 +332,7 @@ const App = () => {
         <Stack.Screen name='NoticeDetail' component={NoticeDetailScreen} />
         <Stack.Screen name='Coupon' component={CouponScreen} />
         <Stack.Screen name='CouponAddOrEdit' component={CouponAddOrEditScreen} />
-        <Stack.Screen name='setCategory' component={setCategoryScreen} />
+        <Stack.Screen name='setCategory' component={SetCategoryScreen} />
         <Stack.Screen name='SetMenu' component={SetMenuScreen} />
         <Stack.Screen name='SetMenuAddOrEdit' component={SetMenuAddOrEditScreen} />
         <Stack.Screen name='StoreInfo' component={StoreInfoScreen} />

@@ -8,12 +8,12 @@ import {
   Dimensions
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import Header from '../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import * as regHolidayAction from '../redux/actions/regularHolidayAction'
-import cusToast from '../components/CusToast'
-import { weekData, weekArr } from '../data/week'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
+import * as regHolidayAction from '../../redux/actions/regularHolidayAction'
+import cusToast from '../../components/CusToast'
+import { weekData, weekArr } from '../../data/week'
 
 const SetClosed = props => {
   const { navigation } = props
@@ -112,7 +112,6 @@ const SetClosed = props => {
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='정기휴일 설정' type='save' />
 
-
       <ScrollView>
         <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3', ...BaseStyle.mb20 }} />
 
@@ -171,8 +170,8 @@ const SetClosed = props => {
                 <Image
                   source={
                     selectWeek.includes(week.key)
-                      ? require('../images/ic_check_on.png')
-                      : require('../images/ic_check_off.png')
+                      ? require('../../images/ic_check_on.png')
+                      : require('../../images/ic_check_off.png')
                   }
                   style={{ width: 25, height: 25, ...BaseStyle.mr10 }}
                   resizeMode='contain'
@@ -198,7 +197,7 @@ const SetClosed = props => {
             hitSlop={{top: 20, right: 20, bottom: 20, left: 20}}>
             <Image
               source={
-                allTime ? require('../images/ic_check_on.png') : require('../images/ic_check_off.png')
+                allTime ? require('../../images/ic_check_on.png') : require('../../images/ic_check_off.png')
               }
               style={{width: 20, height: 20, ...BaseStyle.mr10}}
               resizeMode="cover"

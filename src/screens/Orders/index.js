@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { View, PermissionsAndroid, Platform, ToastAndroid, BackHandler } from 'react-native'
-import Header from '../components/Headers/DefaultHeader'
-import TabView from '../components/Orders/TabView'
+import Header from '../../components/Headers/DefaultHeader'
+import TabView from '../../components/Orders/TabView'
 import { useSelector, useDispatch } from 'react-redux'
-import * as storeAction from '../redux/actions/storeAction'
-import Api from '../Api'
+import * as storeAction from '../../redux/actions/storeAction'
+import Api from '../../Api'
 
 const Main = props => {
   const { navigation } = props

@@ -6,13 +6,13 @@ import {
   ScrollView,
   BackHandler
 } from 'react-native'
-import Header from '../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
 import { Calendar, LocaleConfig } from 'react-native-calendars'
 import { useSelector } from 'react-redux'
-import Api from '../Api'
-import StoreTime from '../components/StoreTime'
-import StoreRegularHoliday from '../components/StoreRegularHoliday'
+import Api from '../../Api'
+import StoreTime from '../../components/StoreTime'
+import StoreRegularHoliday from '../../components/StoreRegularHoliday'
 
 export function ListCheckbox (props) {
   return <View />
@@ -172,8 +172,8 @@ const SetDayTime = props => {
       <Image
         source={
           direction === 'left'
-            ? require('../images/pg_prev02.png')
-            : require('../images/pg_next02.png')
+            ? require('../../images/pg_prev02.png')
+            : require('../../images/pg_next02.png')
         }
         style={{ width: 20, height: 20 }}
         resizeMode='contain'
@@ -184,7 +184,6 @@ const SetDayTime = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='영업 운영 시간 설정' type='save' />
-
 
       <ScrollView>
         <StoreTime navigation={navigation} />

@@ -7,15 +7,15 @@ import {
   Dimensions,
   Keyboard
 } from 'react-native'
-import Header from '../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
 import { useSelector, useDispatch } from 'react-redux'
-import Api from '../Api'
-import * as storeTimeAction from '../redux/actions/storeTimeAction'
-import cusToast from '../components/CusToast'
+import Api from '../../Api'
+import * as storeTimeAction from '../../redux/actions/storeTimeAction'
+import cusToast from '../../components/CusToast'
 import { TextInput } from 'react-native-gesture-handler'
 import { useDrawerStatus } from '@react-navigation/drawer'
-import { weekData } from '../data/week'
+import { weekData } from '../../data/week'
 
 const SetTime = props => {
   const { navigation } = props

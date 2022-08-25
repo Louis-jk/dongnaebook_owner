@@ -16,14 +16,14 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
-import Header from '../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
 
-import cusToast from '../components/CusToast'
-import Api from '../Api'
-import AnimateLoading from '../components/AnimateLoading'
+import cusToast from '../../components/CusToast'
+import Api from '../../Api'
+import AnimateLoading from '../../components/AnimateLoading'
 
-const SetCategory = props => {
+const CategoriesSetting = props => {
   const { navigation } = props
 
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
@@ -196,8 +196,8 @@ const SetCategory = props => {
           <Image
             source={
               item.ca_use === '1'
-                ? require('../images/on_btn.png')
-                : require('../images/off_btn.png')
+                ? require('../../images/on_btn.png')
+                : require('../../images/off_btn.png')
             }
             style={{ width: Platform.OS === 'ios' ? 40 : 42, height: Platform.OS === 'ios' ? 20 : 21, borderRadius: 20 }}
             resizeMode='cover'
@@ -272,7 +272,7 @@ const SetCategory = props => {
                 }}
               >
                 <Image
-                  source={require('../images/close_wh.png')}
+                  source={require('../../images/close_wh.png')}
                   style={{ width: 10, height: 10 }}
                   resizeMode='center'
                 />
@@ -300,8 +300,8 @@ const SetCategory = props => {
                   <Image
                     source={
                     newCategoryVisible
-                      ? require('../images/on_btn.png')
-                      : require('../images/off_btn.png')
+                      ? require('../../images/on_btn.png')
+                      : require('../../images/off_btn.png')
                   }
                     style={{ width: 50, height: 25, borderRadius: 5 }}
                     resizeMode='cover'
@@ -380,7 +380,7 @@ const SetCategory = props => {
             추가하기
           </Text>
         </TouchableOpacity>
-      </View>}
+                     </View>}
     </>
 
   )
@@ -416,4 +416,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SetCategory
+export default CategoriesSetting

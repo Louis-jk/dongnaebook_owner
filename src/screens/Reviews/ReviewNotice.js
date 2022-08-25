@@ -4,10 +4,10 @@ import ImagePicker from 'react-native-image-crop-picker'
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
 import AutoHeightImage from 'react-native-auto-height-image'
-import Header from '../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
-import cusToast from '../components/CusToast'
-import Api from '../Api'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
+import cusToast from '../../components/CusToast'
+import Api from '../../Api'
 
 const MAIN_IMAGE_THUMB_WIDTH = (Dimensions.get('window').width - 40) / 5 - 4
 
@@ -227,7 +227,7 @@ const ReviewNotice = props => {
             }}
           >
             <Image
-              source={require('../images/close.png')}
+              source={require('../../images/close.png')}
               style={{
                 width: 12,
                 height: 12,
@@ -338,7 +338,7 @@ const ReviewNotice = props => {
                 }}
               >
                 <Image
-                  source={require('../images/close_wh.png')}
+                  source={require('../../images/close_wh.png')}
                   style={{
                     width: 10,
                     height: 10
