@@ -7,6 +7,9 @@ import Api from '../../../Api'
 import * as orderAction from '../../../redux/actions/orderAction'
 import cusToast from '../../CusToast'
 
+const deliveryTimes = ['20', '30', '40', '50', '60', '70']
+const takeoutTimes = ['5', '10', '15', '20', '25', '30']
+
 const OrderCheckModal = ({
   isModalVisible,
   toggleModal,
@@ -16,6 +19,9 @@ const OrderCheckModal = ({
   jumjuId,
   jumjuCode
 }) => {
+  const [isTimeSelected, setTimeSelected] = React.useState(false)
+  const [time01Selcet, setTime01Select] = React.useState('')
+  const [time02Selcet, setTime02Select] = React.useState('')
   const [time01, setTime01] = React.useState('')
   const [time02, setTime02] = React.useState('')
   const deliveryTimeRef = React.useRef(null)
@@ -50,10 +56,19 @@ const OrderCheckModal = ({
       od_id: oderId,
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
-      od_process_status: '접수완료',
-      delivery_time: time01,
-      visit_time: time02
+      od_process_status: '접수완료'
     }
+
+    if (orderType === '배달') {
+      param.delivery_time = isTimeSelected ? time01Selcet : time01
+    }
+
+    if (orderType === '포장') {
+      param.visit_time = isTimeSelected ? time02Selcet : time02
+    }
+
+    // console.log('param ??', param)
+
 
     // proc_store_order_status_update
     Api.send('store_order_status_update', param, args => {
@@ -75,6 +90,36 @@ const OrderCheckModal = ({
       }, 1500)
     })
   }
+
+  const checkingDeliveryTimeHandler = () => {
+    const checkTime = deliveryTimes.includes(time01)
+    if (checkTime) {
+      setTime01Select(time01)
+      setTime01('')
+    }
+    console.log('checkTime', checkTime)
+  }
+
+  const checkingTakeoutTimeHandler = () => {
+    const checkTime = takeoutTimes.includes(time02)
+    if (checkTime) {
+      setTime02Select(time02)
+      setTime02('')
+    }
+    console.log('checkTime', checkTime)
+  }
+
+  // React.useEffect(() => {
+  //   checkingDeliveryTimeHandler()
+
+  //   return () => checkingDeliveryTimeHandler()
+  // }, [time01])
+
+  // React.useEffect(() => {
+  //   checkingTakeoutTimeHandler()
+
+  //   return () => checkingTakeoutTimeHandler()
+  // }, [time02])
 
   return (
     <View>
@@ -122,28 +167,91 @@ const OrderCheckModal = ({
               ? '배달출발 예상시간을 입력해주세요.'
               : '포장완료 예상시간을 입력해주세요.'}
           </Text>
+
+          {/* 시간 선택 영역 */}
+          <View style={{ ...BaseStyle.container0, flexWrap: 'wrap', paddingHorizontal: 25 }}>
+            {orderType === '배달' && deliveryTimes.map((time, index) => (
+              <View
+                key={`deliveryTime-${time}-${index}`}
+                style={{ width: '50%', backgroundColor: '#fff' }}
+              >
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={() => {
+                    setTime01('')
+                    setTimeSelected(true)
+                    setTime01Select(time)
+                  }}
+                  style={{
+                    ...BaseStyle.container0,
+                    height: 40,
+                    ...BaseStyle.mh05,
+                    ...BaseStyle.mv5,
+                    backgroundColor: time01Selcet === time ? Primary.PointColor01 : Primary.PointColor03,
+                    borderRadius: 5
+                  }}
+                >
+                  <Text style={{ color: time01Selcet === time ? '#fff' : '#222' }}>{time}분</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+
+            {orderType === '포장' && takeoutTimes.map((time, index) => (
+              <View
+                key={`deliveryTime-${time}-${index}`}
+                style={{ width: '50%', backgroundColor: '#fff' }}
+              >
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={() => {
+                    setTime02('')
+                    setTimeSelected(true)
+                    setTime02Select(time)
+                  }}
+                  style={{
+                    ...BaseStyle.container0,
+                    height: 40,
+                    ...BaseStyle.mh05,
+                    ...BaseStyle.mv5,
+                    backgroundColor: time02Selcet === time ? Primary.PointColor02 : Primary.PointColor03,
+                    borderRadius: 5
+                  }}
+                >
+                  <Text style={{ color: time02Selcet === time ? '#fff' : '#222' }}>{time}분</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+
+          </View>
+          {/* // 시간 선택 영역 */}
+
           <View style={{ width: '100%', ...BaseStyle.ph30 }}>
+
             <View
               style={{
                 ...BaseStyle.container5,
                 ...BaseStyle.ph10,
                 ...BaseStyle.inputH,
-                ...BaseStyle.border
+                ...BaseStyle.border,
+                ...BaseStyle.mt10
               }}
             >
               <TextInput
                 ref={deliveryTimeRef}
                 value={orderType === '배달' ? time01 : time02}
                 style={{ width: '83%', textAlign: 'right' }}
-                placeholder='예: 30'
+                placeholder='직접입력 예: 30'
                 onChangeText={text => {
                   const filteredText = text.replace(/(-)|(\.)/gi, '')
                   if (filteredText !== null || filteredText !== '') {
                     if (orderType === '배달') {
+                      setTime01Select('')
                       setTime01(filteredText)
                     } else {
+                      setTime02Select('')
                       setTime02(filteredText)
                     }
+                    setTimeSelected(false)
                   } else {
                     if (orderType === '배달') {
                       setTime01('0')
@@ -152,10 +260,17 @@ const OrderCheckModal = ({
                     }
                   }
                 }}
+                // onBlur={() => {
+                //   if (orderType === '배달') {
+                //     checkingDeliveryTimeHandler()
+                //   } else {
+                //     checkingTakeoutTimeHandler()
+                //   }
+                // }}
                 autoCapitalize='none'
                 keyboardType='number-pad'
               />
-              <Text>분 {orderType === '배달' ? '예상' : '후'}</Text>
+              <Text>분 {orderType === '배달' ? '후' : '후'}</Text>
             </View>
           </View>
           <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph30 }}>
