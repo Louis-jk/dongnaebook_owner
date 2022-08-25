@@ -354,6 +354,104 @@ const StoreSetting = props => {
                 </View>
                 {/* // 포장 가능 여부 */}
 
+                {/* 배달 가능 여부 */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
+                      배달 가능 여부 - 예정
+                    </Text>
+                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                  </View>
+                  <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, do_take_out: 'Y' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                    >
+                      <Image
+                        source={
+                      setting.do_take_out === 'Y'
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
+                    }
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>배달 가능</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, do_take_out: 'N' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                    >
+                      <Image
+                        source={
+                      setting.do_take_out === 'N'
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
+                    }
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>배달 불가능</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                {/* // 배달 가능 여부 */}
+
+                {/* 먹고가기 가능 여부 */}
+                <View style={{ ...BaseStyle.mv10 }}>
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
+                      먹고가기 가능 여부 - 예정
+                    </Text>
+                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                  </View>
+                  <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, do_take_out: 'Y' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                    >
+                      <Image
+                        source={
+                      setting.do_take_out === 'Y'
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
+                    }
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>먹고가기 가능</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, do_take_out: 'N' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                    >
+                      <Image
+                        source={
+                      setting.do_take_out === 'N'
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
+                    }
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>먹고가기 불가능</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                {/* // 먹고가기 가능 여부 */}
+
                 {/* 쿠폰 사용 가능 여부 삭제요청(쿠폰등록 페이지로 이동 요청) */}
                 <View style={{ ...BaseStyle.mv10 }}>
                   {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
@@ -504,7 +602,7 @@ const StoreSetting = props => {
                 {/* // 1인분 가능 여부 */}
               </View>
             </View>
-            <View style={{ ...BaseStyle.container, ...BaseStyle.ph20 }}>
+            <View style={{ ...BaseStyle.container, ...BaseStyle.ph20, marginBottom: 40 }}>
               <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => setRange('all')}
@@ -541,7 +639,7 @@ const StoreSetting = props => {
               </TouchableOpacity>
             </View>
           </ScrollView>
-          {storeInit ? (
+          {storeInit && (
             <TouchableOpacity
               activeOpacity={1}
               onPress={onModifyStoreSetting}
@@ -551,7 +649,9 @@ const StoreSetting = props => {
                 수정하기
               </Text>
             </TouchableOpacity>
-          ) : (
+          )}
+
+          {!storeInit && (
             <TouchableOpacity
               activeOpacity={1}
               onPress={onSubmitStoreInfo}
