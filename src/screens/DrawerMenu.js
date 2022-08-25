@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, Dimensions, TouchableOpacity, Image, ScrollView, Alert, SafeAreaView, Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import BaseStyle from '../styles/Base'
+import BaseStyle, { Primary } from '../styles/Base'
 import { DrawerMenus } from '../data/drawerMenus'
 import cusToast from '../components/CusToast'
 
@@ -55,6 +55,7 @@ const DrawerMenu = props => {
         <ScrollView showsVerticalScrollIndicator={false} style={Platform.OS === 'ios' && { height: Dimensions.get('window').height - 103 }}>
           <View style={Platform.OS === 'ios' ? { ...BaseStyle.mv05 } : { ...BaseStyle.mv10 }}>
             {DrawerMenus.map((menu, index) => (
+
               <TouchableOpacity
                 key={`${menu.name}-${index}`}
                 activeOpacity={1}
@@ -65,7 +66,7 @@ const DrawerMenu = props => {
                     onLogoutHandler()
                   }
                 }}
-                style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.pv20 }}
+                style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.pv13, borderBottomColor: '#f1f1f1', borderBottomWidth: index !== DrawerMenus.length - 1 ? 1 : 0 }}
               >
                 <View style={{ ...BaseStyle.container }}>
                   <Image
@@ -81,6 +82,7 @@ const DrawerMenu = props => {
                   resizeMode='contain'
                 />
               </TouchableOpacity>
+
             ))}
           </View>
         </ScrollView>
