@@ -6,7 +6,7 @@ import {
   ScrollView,
   BackHandler
 } from 'react-native'
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import { Calendar, LocaleConfig } from 'react-native-calendars'
 import { useSelector } from 'react-redux'

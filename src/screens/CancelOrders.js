@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import * as orderAction from '../redux/actions/orderAction'
 import OrdersAnimateLoading from '../components/OrdersAnimateLoading'
 import TabLayout from '../components/OrderTabs/TabLayout'

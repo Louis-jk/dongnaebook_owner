@@ -2,10 +2,10 @@ import * as React from 'react'
 import { View, Text, TouchableOpacity, TextInput, Image } from 'react-native'
 import Modal from 'react-native-modal'
 import { useSelector, useDispatch } from 'react-redux'
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import * as orderAction from '../redux/actions/orderAction'
-import cusToast from './CusToast'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
+import * as orderAction from '../../redux/actions/orderAction'
+import cusToast from '../CusToast'
 
 const OrderCheckModal = ({
   isModalVisible,
@@ -112,7 +112,7 @@ const OrderCheckModal = ({
             }}
           >
             <Image
-              source={require('../images/close_wh.png')}
+              source={require('../../images/close_wh.png')}
               style={{ width: 10, height: 10 }}
               resizeMode='center'
             />

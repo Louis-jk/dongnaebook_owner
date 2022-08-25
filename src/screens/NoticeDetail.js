@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { View, Text, Image, useWindowDimensions, ScrollView } from 'react-native'
 import RenderHtml from 'react-native-render-html'
-import Header from '../components/Header'
+import Header from '../components/Headers/Header'
 import BaseStyle from '../styles/Base'
 import Api from '../Api'
 import AnimateLoading from '../components/AnimateLoading'

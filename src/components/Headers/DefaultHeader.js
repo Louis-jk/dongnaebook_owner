@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, Image, SafeAreaView, TouchableOpacity, Dimensions, Platform } from 'react-native'
 import { DrawerActions } from '@react-navigation/native'
-import BaseStyle from '../styles/Base'
+import BaseStyle from '../../styles/Base'
 import { useSelector } from 'react-redux'
 
 const { width: FWIDTH, height: FHEIGHT } = Dimensions.get('screen')
@@ -22,7 +22,7 @@ const DefaultHeader = props => {
       >
         <View style={{ ...BaseStyle.container }}>
           <Image
-            source={require('../images/logo.png')}
+            source={require('../../images/logo.png')}
             style={{ width: 100, height: 25 }}
             resizeMode='contain'
           />
@@ -54,7 +54,7 @@ const DefaultHeader = props => {
             hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
           >
             <Image
-              source={require('../images/ic_menu.png')}
+              source={require('../../images/ic_menu.png')}
               style={{ width: 30, height: 30 }}
               resizeMode='contain'
             />

@@ -10,7 +10,7 @@ import {
   Platform
 } from 'react-native'
 import { DrawerActions } from '@react-navigation/native'
-import BaseStyle from '../styles/Base'
+import BaseStyle from '../../styles/Base'
 import { useSelector } from 'react-redux'
 
 const DefaultHeader = props => {
@@ -27,7 +27,7 @@ const DefaultHeader = props => {
           style={{ ...BaseStyle.mr10 }}
         >
           <Image
-            source={require('../images/top_ic_history.png')}
+            source={require('../../images/top_ic_history.png')}
             style={{ width: 20, height: 20 }}
             resizeMode='contain'
           />
@@ -51,7 +51,7 @@ const DefaultHeader = props => {
             hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
           >
             <Image
-              source={require('../images/ic_menu.png')}
+              source={require('../../images/ic_menu.png')}
               style={{ width: 30, height: 30 }}
               resizeMode='contain'
             />

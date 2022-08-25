@@ -1,23 +1,15 @@
 import * as React from 'react'
 import { View, PermissionsAndroid, Platform, ToastAndroid, BackHandler } from 'react-native'
-import Header from '../components/DefaultHeader'
+import Header from '../components/Headers/DefaultHeader'
 import TabView from '../components/TabView'
 import { useSelector, useDispatch } from 'react-redux'
 import * as storeAction from '../redux/actions/storeAction'
-import * as loginAction from '../redux/actions/loginAction'
-
-// import StoreList from '../components/StoreList';
-// import StoreList from '../components/StoreList';
 import Api from '../Api'
-
-// import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import PushNotification, { Importance } from 'react-native-push-notification'
 
 const Main = props => {
   const { navigation } = props
   const dispatch = useDispatch()
-  const { allStore, selectedStore } = useSelector(state => state.store)
-  const [channerId, setChannelId] = React.useState('')
+
   const { mt_id: mtId } = useSelector(state => state.login)
 
   let currentCount = 0
@@ -103,20 +95,6 @@ const Main = props => {
 
     return () => getStoreHandler()
   }, [])
-
-  // React.useEffect(() => {
-  //   if(allStore.length < 1) {
-  //     Alert.alert('매장을 등록해주세요.');
-  //   }
-  //   if(selectedStore.id === null || selectedStore.name === null) {
-  //     Alert.alert('매장을 선택해주세요.', '매장 선택 페이지로 이동합니다.', [
-  //       {
-  //         text: '확인',
-  //         onPress: () => navigation.navigate('SelectStore')
-  //       }
-  //     ]);
-  //   }
-  // });
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>

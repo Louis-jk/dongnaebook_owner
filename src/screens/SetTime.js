@@ -3,12 +3,11 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Alert,
   ScrollView,
   Dimensions,
   Keyboard
 } from 'react-native'
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import { useSelector, useDispatch } from 'react-redux'
 import Api from '../Api'
@@ -73,10 +72,7 @@ const SetTime = props => {
 
         const flatArr = result.flat(Infinity)
         const flatArrSort = flatArr.sort()
-        // console.log('flatArrSort', flatArrSort);
         setExistWeek(flatArrSort)
-
-        // arrItems.filter(el => el.st_yo)
         dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)))
       } else {
         dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)))
@@ -86,18 +82,10 @@ const SetTime = props => {
 
   const setStoreTimeHandler = () => {
     const selectDayFormat = selectDay.join()
-    // let startTimeFormat = moment(startTime).format("h:mm");
-    // let endTimeFormat = moment(endTime).format("h:mm");
 
     if (selectDay === null || selectDay === '' || selectDay.length === 0) {
       cusToast('요일을 선택해주세요.')
-    }
-    //  else if (startTime >= endTime) {
-    //   cusToast("시작시간은 마감시간 이전 시간이어야합니다.");
-    // } else if (endTime <= startTime) {
-    //   cusToast("마감시간은 시작시간 이후 시간이어야합니다.");
-    // }
-    else {
+    } else {
       const start = `${startTimeHour}:${startTimeMinute}`
       const end = `${endTimeHour}:${endTimeMinute}`
 
@@ -116,7 +104,7 @@ const SetTime = props => {
       }
       Api.send('store_service_hour', param, args => {
         const resultItem = args.resultItem
-        const arrItems = args.arrItems
+        // const arrItems = args.arrItems
 
         if (resultItem.result === 'Y') {
           getStoreTimeHandler()
@@ -146,7 +134,6 @@ const SetTime = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='영업 시간 추가' type='save' />
-      {/* <StatusMenu navigation={navigation} /> */}
 
       <ScrollView>
         <View style={{ height: 1, width: '100%', ...BaseStyle.mb10 }} />
@@ -400,30 +387,6 @@ const SetTime = props => {
             </Text>
           </View>
         </View>
-
-        {/* 24시간 운영 */}
-        {/* <View style={{...BaseStyle.ph20, ...BaseStyle.mb20}}>
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => toggleCheckAllTimeHandler()}
-            style={{
-              ...BaseStyle.container,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              alignSelf: 'flex-start',
-            }}
-            hitSlop={{top: 20, right: 20, bottom: 20, left: 20}}>
-            <Image
-              source={
-                allTime ? require('../images/ic_check_on.png') : require('../images/ic_check_off.png')
-              }
-              style={{width: 20, height: 20, ...BaseStyle.mr10}}
-              resizeMode="cover"
-            />
-            <Text style={{...BaseStyle.ko14}}>24시간 운영</Text>
-          </TouchableOpacity>
-        </View> */}
-        {/* // 24시간 운영 */}
       </ScrollView>
       <TouchableOpacity
         activeOpacity={1}

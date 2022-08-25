@@ -1,13 +1,12 @@
 import React from 'react'
-import { View, Text, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
+import { View, Text, Image, SafeAreaView, TouchableOpacity, Dimensions, Platform } from 'react-native'
 import { DrawerActions } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
-import BaseStyle, { Primary } from '../styles/Base'
+import BaseStyle from '../../styles/Base'
 
 const DefaultHeader = props => {
   const { navigation, title } = props
   const { mt_store: mtStore } = useSelector(state => state.login)
-  const { allStore, selectedStore } = useSelector(state => state.store)
 
   return (
     <SafeAreaView>
@@ -20,7 +19,7 @@ const DefaultHeader = props => {
             style={{ ...BaseStyle.mr10 }}
           >
             <Image
-              source={require('../images/top_ic_history.png')}
+              source={require('../../images/top_ic_history.png')}
               style={{ width: 20, height: 20 }}
               resizeMode='contain'
             />
@@ -56,7 +55,7 @@ const DefaultHeader = props => {
             hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
           >
             <Image
-              source={require('../images/ic_menu.png')}
+              source={require('../../images/ic_menu.png')}
               style={{ width: 30, height: 30 }}
               resizeMode='contain'
             />
@@ -64,11 +63,6 @@ const DefaultHeader = props => {
         </View>
       </View>
       <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3' }} />
-      {/* 세부 페이지명 */}
-      {/* <View style={{...BaseStyle.container0, ...BaseStyle.ph20, ...BaseStyle.pv15, backgroundColor:Primary.PointColor01}}>
-        <Text style={{...BaseStyle.ko18, ...BaseStyle.font_bold}}>{title}</Text>
-      </View> */}
-      {/* // 세부 페이지명 */}
     </SafeAreaView>
   )
 }
