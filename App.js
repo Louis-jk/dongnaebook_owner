@@ -174,13 +174,13 @@ const App = () => {
   //   })
   // }
 
-  // FCM 토큰 가져오기
+  // Get a FCM Token
   const getToken = async () => {
     const fcmToken = await messaging().getToken().then(token => token)
     if (fcmToken) {
-      console.log('FCM 토큰 가오나', fcmToken)
+      console.log('FCM ::', fcmToken)
     } else {
-      console.log('토큰 없다')
+      console.log('FCM token is nothing')
     }
   }
 
