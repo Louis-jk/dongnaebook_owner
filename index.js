@@ -37,8 +37,8 @@ async function requestUserPermission () {
   const authStatus = await messaging().requestPermission()
 
   if (authStatus) {
-    console.log('Permission settings:', settings)
-    let fcmToken = await messaging().getToken();
+    console.log('Permission settings:', authStatus)
+    const fcmToken = await messaging().getToken()
     if (fcmToken) {
       console.log('Firebase push Token is:', fcmToken)
     }
@@ -46,15 +46,6 @@ async function requestUserPermission () {
 }
 registerAppWithFCM()
 requestUserPermission()
-
-// function HeadlessCheck({ isHeadless }) {
-//   if (isHeadless) {
-//     // App has been launched in the background by iOS, ignore
-//     return null;
-//   }
-
-//   return <App />;
-// }
 
 const store = initStore()
 const queryClient = new QueryClient()
