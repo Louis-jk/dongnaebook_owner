@@ -181,29 +181,6 @@ const OrderDetail = props => {
 
   function deliveryOrderHandler () {
     setDeliveryConfirmModalVisible(true)
-
-    return
-    if (detailOrder.od_type === '배달') {
-      Alert.alert('주문을 배달 처리하시겠습니까?', '', [
-        {
-          text: '네 배달처리',
-          onPress: () => sendDeliverHandler()
-        },
-        {
-          text: '아니요'
-        }
-      ])
-    } else {
-      Alert.alert('주문을 포장완료 처리하시겠습니까?', '', [
-        {
-          text: '네 포장완료',
-          onPress: () => sendDeliverHandler()
-        },
-        {
-          text: '아니요'
-        }
-      ])
-    }
   }
 
   return (
