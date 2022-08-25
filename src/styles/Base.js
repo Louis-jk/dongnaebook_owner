@@ -4,15 +4,17 @@ import { Fonts } from './Fonts'
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
-export const main = '#20ABC8'
+export const main = '#20ABC8' // #277BC0
 export const mint = '#5AC69F'
+export const orange = '#FFCB42'
 export const grey = '#ececec'
 export const green = '#58BC1F'
 
 export const Primary = {
   PointColor01: main,
   PointColor02: mint,
-  PointColor03: grey
+  PointColor03: grey,
+  PointColor04: orange
 }
 
 export const customPickerStyles = StyleSheet.create({
