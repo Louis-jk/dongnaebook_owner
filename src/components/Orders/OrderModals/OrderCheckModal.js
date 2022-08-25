@@ -67,9 +67,6 @@ const OrderCheckModal = ({
       param.visit_time = isTimeSelected ? time02Selcet : time02
     }
 
-    // console.log('param ??', param)
-
-
     // proc_store_order_status_update
     Api.send('store_order_status_update', param, args => {
       const resultItem = args.resultItem
