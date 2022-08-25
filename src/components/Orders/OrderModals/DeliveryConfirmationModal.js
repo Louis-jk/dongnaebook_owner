@@ -90,24 +90,24 @@ const DeliveryConfirmationModal = ({
             />
           </TouchableOpacity>
           <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>
-            주문을 {orderType} 처리하시겠습니까?
+            주문을 {orderType === '배달' ? orderType : '포장완료'} 처리하시겠습니까?
           </Text>
 
           {/* 배달처리 | 취소 버튼 영역 */}
           <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20 }}>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={sendDeliverHandler}
-              style={{ flex: 1, ...BaseStyle.pv15, backgroundColor: orderType === '배달' ? Primary.PointColor01 : Primary.PointColor02, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}
+              onPress={toggleModal}
+              style={{ flex: 1, ...BaseStyle.pv15, backgroundColor: Primary.PointColor03, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}
             >
-              <Text style={{ textAlign: 'center', ...BaseStyle.ko14, ...BaseStyle.font_white }}>{orderType}처리</Text>
+              <Text style={{ textAlign: 'center', ...BaseStyle.ko14 }}>취소</Text>
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={toggleModal}
-              style={{ flex: 1, ...BaseStyle.pv15, backgroundColor: Primary.PointColor03, borderTopRightRadius: 5, borderBottomRightRadius: 5 }}
+              onPress={sendDeliverHandler}
+              style={{ flex: 1, ...BaseStyle.pv15, backgroundColor: orderType === '배달' ? Primary.PointColor01 : Primary.PointColor02, borderTopRightRadius: 5, borderBottomRightRadius: 5 }}
             >
-              <Text style={{ textAlign: 'center', ...BaseStyle.ko14 }}>취소</Text>
+              <Text style={{ textAlign: 'center', ...BaseStyle.ko14, ...BaseStyle.font_white }}>{orderType === '배달' ? orderType : '포장완료'}처리</Text>
             </TouchableOpacity>
           </View>
           {/* // 배달처리 | 취소 버튼 영역 */}
