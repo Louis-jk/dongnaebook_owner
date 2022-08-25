@@ -11,7 +11,7 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker'
 import Modal from 'react-native-modal'
 
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 
 const { width, height } = Dimensions.get('window')
@@ -69,7 +69,7 @@ const SetCloseDay = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='휴무일 설정' type='add' toggleModal={toggleModal} />
-      {/* <StatusMenu navigation={navigation} /> */}
+
 
       {/* 휴무일 삭제 모달 */}
       <Modal

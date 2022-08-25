@@ -9,18 +9,18 @@ import {
   Alert,
   BackHandler
 } from 'react-native'
-import Header from '../components/SubHeader'
+import Header from '../../components/Headers/SubHeader'
 import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import Swipeout from 'react-native-swipeout-mod' // 스와이프 기능(수정, 삭제)
 
 // Local Modules
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import * as couponAction from '../redux/actions/couponAction'
-import cusToast from '../components/CusToast'
-import AnimateLoading from '../components/AnimateLoading'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
+import * as couponAction from '../../redux/actions/couponAction'
+import cusToast from '../../components/CusToast'
+import AnimateLoading from '../../components/AnimateLoading'
 
 const { width, height } = Dimensions.get('window')
 

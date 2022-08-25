@@ -52,17 +52,12 @@ const StoreTime = props => {
     }
     Api.send('store_service_hour', param, args => {
       const resultItem = args.resultItem
-      const arrItems = args.arrItems
+      // const arrItems = args.arrItems
 
       if (resultItem.result === 'Y') {
         getStoreTimeHandler()
       } else {
         cusToast('영업시간을 삭제할 수 없습니다.\n다시 한번 확인해주세요.', 2500)
-        // Alert.alert('영업시간을 삭제할 수 없습니다.', '다시 한번 확인해주세요.', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ])
       }
     })
   }

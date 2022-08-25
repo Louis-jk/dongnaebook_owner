@@ -16,7 +16,7 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 
 import cusToast from '../components/CusToast'

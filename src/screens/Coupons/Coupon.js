@@ -10,18 +10,18 @@ import {
   BackHandler,
   Platform
 } from 'react-native'
-import Header from '../components/SubHeader'
+import Header from '../../components/Headers/SubHeader'
 import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import Swipeout from 'react-native-swipeout-mod' // 스와이프 기능(수정, 삭제)
 
 // Local Modules
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import * as couponAction from '../redux/actions/couponAction'
-import cusToast from '../components/CusToast'
-import AnimateLoading from '../components/AnimateLoading'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
+import * as couponAction from '../../redux/actions/couponAction'
+import cusToast from '../../components/CusToast'
+import AnimateLoading from '../../components/AnimateLoading'
 
 const { width, height } = Dimensions.get('window')
 
@@ -151,7 +151,7 @@ const Coupon = props => {
             }}
           >
             <Image
-              source={require('../images/edit.png')}
+              source={require('../../images/edit.png')}
               style={{ width: 20, height: 20, marginBottom: 10 }}
               resizeMode='center'
             />
@@ -177,7 +177,7 @@ const Coupon = props => {
             }}
           >
             <Image
-              source={require('../images/delete_wh.png')}
+              source={require('../../images/delete_wh.png')}
               style={{ width: 20, height: 20, marginBottom: 10 }}
               resizeMode='center'
             />
@@ -251,9 +251,10 @@ const Coupon = props => {
                           ? Primary.PointColor01
                           : Primary.PointColor03,
                     borderRadius: 30,
-                    // paddingVertical: 1,
+                    paddingVertical: Platform.OS === 'android' ? 4 : 0,
                     paddingHorizontal: 8,
-                    ...BaseStyle.ml10
+                    ...BaseStyle.ml10,
+                    marginBottom: 1
                   }}
                 >
                   <Text
@@ -287,7 +288,7 @@ const Coupon = props => {
               }}
             >
               <Image
-                source={require('../images/c_logo.png')}
+                source={require('../../images/c_logo.png')}
                 style={{ width: 45, height: Platform.OS === 'ios' ? 55 : 45 }}
                 resizeMode='center'
               />
@@ -334,7 +335,7 @@ const Coupon = props => {
             style={{...BaseStyle.mr10, borderRadius: 20}}>
             <Image
               source={
-                useCoupon ? require('../images/on_btn.png') : require('../images/off_btn.png')
+                useCoupon ? require('../../images/on_btn.png') : require('../../images/off_btn.png')
               }
               style={{width: 50, height: 25, borderRadius: 20}}
               resizeMode="cover"
@@ -378,7 +379,7 @@ const Coupon = props => {
               </View>
               <View style={{ width: '20%', justifyContent: 'center', alignItems: 'center' }}>
                 <Image
-                  source={require('../images/swipe_m.png')}
+                  source={require('../../images/swipe_m.png')}
                   style={{ width: 100, height: 25 }}
                   resizeMode='contain'
                 />

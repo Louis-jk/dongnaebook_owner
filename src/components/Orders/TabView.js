@@ -1,19 +1,15 @@
 import * as React from 'react'
 import { useWindowDimensions } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { TabView as LibTabView, SceneMap, TabBar } from 'react-native-tab-view'
-import messaging from '@react-native-firebase/messaging'
-import { Primary } from '../styles/Base'
-import Api from '../Api'
-import * as orderAction from '../redux/actions/orderAction'
+
+import { Primary } from '../../styles/Base'
+import * as orderAction from '../../redux/actions/orderAction'
 
 import Tab01 from './OrderTabs/Tab01'
 import Tab02 from './OrderTabs/Tab02'
 import Tab03 from './OrderTabs/Tab03'
 import Tab04 from './OrderTabs/Tab04'
-import { OrderCategoryRequest } from '../data/modules/orderApi'
-
-const getOrder = OrderCategoryRequest // 주문 내역 불러오기
 
 const TabView = props => {
   const { navigation } = props

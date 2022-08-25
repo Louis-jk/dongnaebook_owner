@@ -12,10 +12,10 @@ import {
 import Modal from 'react-native-modal'
 import { useSelector } from 'react-redux'
 import Swipeout from 'react-native-swipeout-mod' // 스와이프 기능(수정, 삭제)
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
-import TipsModal from '../components/TipsModal'
-import TipsEditModal from '../components/TipsEditModal'
+import TipsModal from '../components/Tips/TipsModal'
+import TipsEditModal from '../components/Tips/TipsEditModal'
 import Api from '../Api'
 import cusToast from '../components/CusToast'
 import AnimateLoading from '../components/AnimateLoading'

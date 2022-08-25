@@ -8,20 +8,19 @@ import {
   Image,
   Platform
 } from 'react-native'
-import DateTimePicker from '@react-native-community/datetimepicker'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { useSelector, useDispatch } from 'react-redux'
-import Header from '../components/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import * as couponAction from '../redux/actions/couponAction'
-import cusToast from '../components/CusToast'
-import { isHigherException, isLowerException } from '../modules/dateCheck'
-import { checkCouponValidate } from '../modules/couponValidate'
-import CurrencyRateConversion from '../modules/currencyRateConversion'
-import Categories from '../components/Categories'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
+import * as couponAction from '../../redux/actions/couponAction'
+import cusToast from '../../components/CusToast'
+import { isHigherException, isLowerException } from '../../modules/dateCheck'
+import { checkCouponValidate } from '../../modules/couponValidate'
+import CurrencyRateConversion from '../../modules/currencyRateConversion'
+import Categories from '../../components/Categories'
 
 const CouponAdd = props => {
   const { navigation, route } = props
@@ -443,7 +442,7 @@ const CouponAdd = props => {
               >
                 <View style={{ ...BaseStyle.container }}>
                   <Image
-                    source={require('../images/ico_calendar.png')}
+                    source={require('../../images/ico_calendar.png')}
                     style={{ width: 25, height: 25 }}
                     resizeMode='contain'
                   />
@@ -482,7 +481,7 @@ const CouponAdd = props => {
               >
                 <View style={{ ...BaseStyle.container }}>
                   <Image
-                    source={require('../images/ico_calendar.png')}
+                    source={require('../../images/ico_calendar.png')}
                     style={{ width: 25, height: 25 }}
                     resizeMode='contain'
                   />

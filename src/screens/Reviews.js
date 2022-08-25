@@ -24,7 +24,7 @@ import moment from 'moment'
 import 'moment/locale/ko'
 import Swiper from 'react-native-swiper'
 import Modal from 'react-native-modal'
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import ImageView from 'react-native-image-viewing'
@@ -1177,7 +1177,7 @@ const Reviews = props => {
           />
         </View>
         {/* //리뷰 리스트 */}
-      </View>
+       </View>
       )}
     </>
   )

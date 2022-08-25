@@ -1,13 +1,13 @@
 import * as React from 'react'
-import { View, Text, ActivityIndicator, Image, Alert } from 'react-native'
+import { View, Text, ActivityIndicator, Image } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import messaging from '@react-native-firebase/messaging'
 import { CommonActions } from '@react-navigation/native'
-import { useDispatch, useSelector } from 'react-redux'
-import * as loginAction from '../redux/actions/loginAction'
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import cusToast from '../components/CusToast'
+import { useDispatch } from 'react-redux'
+import * as loginAction from '../../redux/actions/loginAction'
+import BaseStyle from '../../styles/Base'
+import Api from '../../Api'
+import cusToast from '../../components/CusToast'
 
 const Check = props => {
   const { navigation } = props
@@ -52,10 +52,10 @@ const Check = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
-      console.log('====================================')
-      console.log('로그인 resultItem ::', resultItem)
-      console.log('로그인 arrItems ::', arrItems)
-      console.log('====================================')
+      // console.log('====================================')
+      // console.log('로그인 resultItem ::', resultItem)
+      // console.log('로그인 arrItems ::', arrItems)
+      // console.log('====================================')
 
       if (resultItem.result === 'Y') {
         storeAddToken()
@@ -111,8 +111,7 @@ const Check = props => {
       }}
     >
       <Image
-        // source={require('../images/c_logo.png')}
-        source={require('../images/c_logo.png')}
+        source={require('../../images/c_logo.png')}
         style={{ width: 80, height: 80 }}
         resizeMode='contain'
       />

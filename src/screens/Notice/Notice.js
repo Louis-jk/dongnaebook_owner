@@ -8,10 +8,10 @@ import {
   FlatList,
   BackHandler
 } from 'react-native'
-import Header from '../components/SubHeader'
-import BaseStyle from '../styles/Base'
-import Api from '../Api'
-import AnimateLoading from '../components/AnimateLoading'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle from '../../styles/Base'
+import Api from '../../Api'
+import AnimateLoading from '../../components/AnimateLoading'
 
 const { width, height } = Dimensions.get('window')
 
@@ -86,7 +86,7 @@ const Notice = props => {
             <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>{item.datetime}</Text>
           </View>
           <Image
-            source={require('../images/set_arrow.png')}
+            source={require('../../images/set_arrow.png')}
             style={{ width: 10, height: 10 }}
             resizeMode='contain'
           />
@@ -129,7 +129,7 @@ const Notice = props => {
                 >
                   <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
                     등록된 공지사항이 없습니다.
-              </Text>
+                  </Text>
                 </View>
           }
             />

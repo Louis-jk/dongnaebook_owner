@@ -14,13 +14,13 @@ import moment from 'moment'
 import 'moment/locale/ko'
 import Header from '../components/Headers/SetHeader'
 import BaseStyle, { Primary } from '../styles/Base'
-import OrderRejectCancelModal from '../components/OrderModals/OrderRejectCancelModal'
+import OrderRejectCancelModal from '../components/Orders/OrderModals/OrderRejectCancelModal'
 import Api from '../Api'
-import OrderCheckModal from '../components/OrderModals/OrderCheckModal'
+import OrderCheckModal from '../components/Orders/OrderModals/OrderCheckModal'
 import * as orderAction from '../redux/actions/orderAction'
 import AnimateLoading from '../components/AnimateLoading'
 import cusToast from '../components/CusToast'
-import DeliveryConfirmationModal from '../components/OrderModals/DeliveryConfirmationModal'
+import DeliveryConfirmationModal from '../components/Orders/OrderModals/DeliveryConfirmationModal'
 
 const OrderDetail = props => {
   const { navigation } = props
@@ -190,7 +190,7 @@ const OrderDetail = props => {
       {!isLoading &&
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
           <Header navigation={navigation} title={title} type='default' />
-          {/* <StatusMenu navigation={navigation} /> */}
+
 
           {detailStore && detailOrder && detailProduct && (
             <>

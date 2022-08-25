@@ -1,8 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import * as orderAction from '../../redux/actions/orderAction'
-import OrdersAnimateLoading from '../OrdersAnimateLoading'
+import * as orderAction from '../../../redux/actions/orderAction'
+import OrdersAnimateLoading from '../../OrdersAnimateLoading'
 import TabLayout from './TabLayout'
 
 const Tab03 = props => {

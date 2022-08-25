@@ -1,6 +1,6 @@
 import { View, Text, Dimensions, Image } from 'react-native'
 import * as React from 'react'
-import BaseStyle, { Primary } from '../../styles/Base'
+import BaseStyle, { Primary } from '../../../styles/Base'
 
 export default function OrderEmpty ({ text }) {
   return (
@@ -12,7 +12,7 @@ export default function OrderEmpty ({ text }) {
         height: Dimensions.get('window').height - 150
       }}
     >
-      <Image source={require('../../images/logo_s.png')} style={{ width: 50, height: 50, opacity: 0.8, marginBottom: 10 }} resizeMode='cover' />
+      <Image source={require('../../../images/logo_s.png')} style={{ width: 50, height: 50, opacity: 0.8, marginBottom: 10 }} resizeMode='cover' />
       <Text style={{ ...BaseStyle.ko15, textAlign: 'center', color: Primary.PointColor01 }}>
         {`아직 ${text} 주문이 없습니다.`}
       </Text>

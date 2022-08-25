@@ -12,11 +12,11 @@ import { useSelector } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo'
 import { useQuery, onlineManager } from '@tanstack/react-query'
 
-import Header from '../components/SubHeader'
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import AnimateLoading from '../components/AnimateLoading'
-import Layout from '../layout'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
+import AnimateLoading from '../../components/AnimateLoading'
+import Layout from '../../layout'
 
 const { width, height } = Dimensions.get('window')
 
@@ -187,7 +187,7 @@ const SetMenu = props => {
           }}
         >
           <Image
-            source={require('../images/pg_next.png')}
+            source={require('../../images/pg_next.png')}
             style={{ width: 65, height: 65 }}
             resizeMode='center'
           />

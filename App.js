@@ -16,10 +16,10 @@ import * as orderAction from './src/redux/actions/orderAction'
 /*
  Screen 정의
 */
-import CheckScreen from './src/screens/Check' // 체크
-import LoginScreen from './src/screens/Login' // 로그인
-import FindIdScreen from './src/screens/FindId' // 아이디 찾기
-import FindPwdScreen from './src/screens/FindPwd' // 비밀번호 찾기
+import CheckScreen from './src/screens/Auth/Check' // 체크
+import LoginScreen from './src/screens/Auth/Login' // 로그인
+import FindIdScreen from './src/screens/Auth/FindId' // 아이디 찾기
+import FindPwdScreen from './src/screens/Auth/FindPwd' // 비밀번호 찾기
 import SetNewPwdScreen from './src/screens/SetNewPwd' // 비밀번호 찾기
 import MainScreen from './src/screens/Main' // 메인
 import CancelOrdersScreen from './src/screens/CancelOrders' // 주문취소건
@@ -34,13 +34,13 @@ import SelectStoreScreen from './src/screens/SelectStore' // 매장선택 및 �
 import CalculateScreen from './src/screens/Calculate' // 정산내역
 import ReviewsScreen from './src/screens/Reviews' // 리뷰
 import ReviewNoticeScreen from './src/screens/ReviewNotice' // 리뷰 공지사항
-import NoticeScreen from './src/screens/Notice' // 공지사항
-import NoticeDetailScreen from './src/screens/NoticeDetail' // 공지사항 상세 - 웹뷰
-import CouponScreen from './src/screens/Coupon' // 쿠폰관리
-import CouponAddOrEditScreen from './src/screens/CouponAddOrEdit' // 쿠폰 추가 또느 수정
+import NoticeScreen from './src/screens/Notice/Notice' // 공지사항
+import NoticeDetailScreen from './src/screens/Notice/NoticeDetail' // 공지사항 상세 - 웹뷰
+import CouponScreen from './src/screens/Coupons/Coupon' // 쿠폰관리
+import CouponAddOrEditScreen from './src/screens/Coupons/CouponAddOrEdit' // 쿠폰 추가 또느 수정
 import setCategoryScreen from './src/screens/SetCategory' // 메뉴 카테고리 설정(리스트)
-import SetMenuScreen from './src/screens/SetMenu' // 메뉴설정(리스트)
-import SetMenuAddOrEditScreen from './src/screens/SetMenuAddOrEdit' // 메뉴등록 또는 수정
+import SetMenuScreen from './src/screens/Menus/SetMenu' // 메뉴설정(리스트)
+import SetMenuAddOrEditScreen from './src/screens/Menus/SetMenuAddOrEdit' // 메뉴등록 또는 수정
 import StoreInfoScreen from './src/screens/StoreInfo' // 매장소개
 import StoreSettingScreen from './src/screens/StoreSetting' // 매장설정
 

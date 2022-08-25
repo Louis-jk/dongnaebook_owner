@@ -2,8 +2,8 @@ import React from 'react'
 import { View, Text, FlatList, TouchableOpacity, Image, Platform } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/ko'
-import BaseStyle, { Primary } from '../../styles/Base'
-import Api from '../../Api'
+import BaseStyle, { Primary } from '../../../styles/Base'
+import Api from '../../../Api'
 import OrderEmpty from './OrderEmpty'
 
 const TabLayout = props => {
@@ -236,7 +236,7 @@ const TabLayout = props => {
                 }}
               >
                 <Image
-                  source={require('../../images/ic_map.png')}
+                  source={require('../../../images/ic_map.png')}
                   style={{ width: '100%', height: '100%' }}
                   resizeMode='cover'
                 />

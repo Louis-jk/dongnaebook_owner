@@ -10,7 +10,7 @@ import {
   BackHandler
 } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker'
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import CalculateTabView from '../components/CalculateTabView'
 

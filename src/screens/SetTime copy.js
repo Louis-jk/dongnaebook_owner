@@ -9,7 +9,7 @@ import {
   ScrollView,
   Dimensions
 } from 'react-native'
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { useSelector, useDispatch } from 'react-redux'
@@ -170,7 +170,7 @@ const SetTime = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='영업 시간 추가' type='save' />
-      {/* <StatusMenu navigation={navigation} /> */}
+
 
       <ScrollView>
         <View style={{ height: 1, width: '100%', ...BaseStyle.mb10 }} />

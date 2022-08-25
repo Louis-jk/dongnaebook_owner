@@ -1,11 +1,11 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import Modal from 'react-native-modal'
-import Api from '../../Api'
-import BaseStyle, { Primary } from '../../styles/Base'
-import cusToast from '../CusToast'
+import Api from '../../../Api'
+import BaseStyle, { Primary } from '../../../styles/Base'
+import cusToast from '../../CusToast'
 import { useDispatch } from 'react-redux'
-import * as orderAction from '../../redux/actions/orderAction'
+import * as orderAction from '../../../redux/actions/orderAction'
 
 const DeliveryConfirmationModal = ({
   isModalVisible,
@@ -84,7 +84,7 @@ const DeliveryConfirmationModal = ({
             }}
           >
             <Image
-              source={require('../../images/close_wh.png')}
+              source={require('../../../images/close_wh.png')}
               style={{ width: 10, height: 10 }}
               resizeMode='center'
             />

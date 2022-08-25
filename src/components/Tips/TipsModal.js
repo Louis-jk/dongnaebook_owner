@@ -11,9 +11,9 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker'
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import cusToast from '../components/CusToast'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
+import cusToast from '../CusToast'
 
 const TipsModal = props => {
   const { navigation, isModalVisible, toggleModal, modalType, getTips } = props
@@ -174,7 +174,7 @@ const TipsModal = props => {
               hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             >
               <Image
-                source={require('../images/pop_close.png')}
+                source={require('../../images/pop_close.png')}
                 style={{ width: 22, height: 22 }}
                 resizeMode='contain'
               />

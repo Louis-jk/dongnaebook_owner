@@ -16,10 +16,10 @@ import { CommonActions } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import messaging from '@react-native-firebase/messaging'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import * as loginAction from '../redux/actions/loginAction'
-import BaseStyle from '../styles/Base'
-import Api from '../Api'
-import AnimateLoading from '../components/AnimateLoading'
+import * as loginAction from '../../redux/actions/loginAction'
+import BaseStyle from '../../styles/Base'
+import Api from '../../Api'
+import AnimateLoading from '../../components/AnimateLoading'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const { width, height } = Dimensions.get('window')
@@ -177,7 +177,7 @@ const Login = props => {
               }}
             >
               <Image
-                source={require('../images/login_img.png')}
+                source={require('../../images/login_img.png')}
                 style={{ width: '100%', height: '100%', zIndex: -1 }}
                 resizeMode='cover'
               />
@@ -195,8 +195,8 @@ const Login = props => {
                 <Image
                   source={
                         autoLogin
-                          ? require('../images/ic_check_on.png')
-                          : require('../images/ic_check_off.png')
+                          ? require('../../images/ic_check_on.png')
+                          : require('../../images/ic_check_off.png')
                       }
                   style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                   resizeMode='contain'

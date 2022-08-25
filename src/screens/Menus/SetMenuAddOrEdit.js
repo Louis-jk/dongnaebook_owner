@@ -13,14 +13,14 @@ import {
 import RNPickerSelect from 'react-native-picker-select' // 셀렉트박스 패키지
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
-import Header from '../components/SubHeader'
-import BaseStyle, { Primary, customPickerStyles } from '../styles/Base'
-import cusToast from '../components/CusToast'
-import checkMenuValidate from '../modules/menuValidate'
-import Api from '../Api'
-import AnimateLoading from '../components/AnimateLoading'
-import { pickGalleryImage, takeCamera } from '../modules/imagePickerOrCamera'
-import Categories from '../components/Categories'
+import Header from '../../components/Headers/SubHeader'
+import BaseStyle, { Primary, customPickerStyles } from '../../styles/Base'
+import cusToast from '../../components/CusToast'
+import checkMenuValidate from '../../modules/menuValidate'
+import Api from '../../Api'
+import AnimateLoading from '../../components/AnimateLoading'
+import { pickGalleryImage, takeCamera } from '../../modules/imagePickerOrCamera'
+import Categories from '../../components/Categories'
 
 const SetMenuAddOrEdit = props => {
   const { navigation, route } = props
@@ -382,7 +382,7 @@ const SetMenuAddOrEdit = props => {
                 }}
               >
                 <Image
-                  source={require('../images/close.png')}
+                  source={require('../../images/close.png')}
                   style={{
                     width: 12,
                     height: 12,
@@ -444,7 +444,7 @@ const SetMenuAddOrEdit = props => {
                     resizeMode='cover'
                   />
                   <Image
-                    source={require('../images/ico_photo_s.png')}
+                    source={require('../../images/ico_photo_s.png')}
                     style={{
                       position: 'absolute',
                       bottom: 10,
@@ -470,7 +470,7 @@ const SetMenuAddOrEdit = props => {
                   }}
                 >
                   <Image
-                    source={require('../images/ico_photo.png')}
+                    source={require('../../images/ico_photo.png')}
                     style={{ width: 50, height: 50, ...BaseStyle.mb10 }}
                     resizeMode='contain'
                   />
@@ -573,18 +573,19 @@ const SetMenuAddOrEdit = props => {
                       <Image
                         source={
                       checkMain
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
                         fadeDuration={100}
                       />
-                      {checkMain ? (
+                      {checkMain && (
                         <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh20, marginTop: 1 }}>
                           대표메뉴로 지정하셨습니다.
                         </Text>
-                      ) : (
+                      )}
+                      {!checkMain && (
                         <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh20, marginTop: 1 }}>
                           현재 상태는 일반 메뉴 상태입니다.
                         </Text>
@@ -768,8 +769,8 @@ const SetMenuAddOrEdit = props => {
                       <Image
                         source={
                       visible
-                        ? require('../images/ic_check_on.png')
-                        : require('../images/ic_check_off.png')
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
                     }
                         style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
                         resizeMode='contain'
@@ -976,7 +977,7 @@ const SetMenuAddOrEdit = props => {
                                   opacity: 0.2,
                                   resizeMode: 'cover'
                                 }}
-                                source={require('../images/popup_close.png')}
+                                source={require('../../images/popup_close.png')}
                               />
                             </TouchableWithoutFeedback>
                           </View>
@@ -1157,7 +1158,7 @@ const SetMenuAddOrEdit = props => {
                                   opacity: 0.2,
                                   resizeMode: 'cover'
                                 }}
-                                source={require('../images/popup_close.png')}
+                                source={require('../../images/popup_close.png')}
                               />
                             </TouchableWithoutFeedback>
                           </View>

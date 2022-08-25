@@ -4,12 +4,11 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Alert,
   ScrollView,
   Dimensions
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import * as regHolidayAction from '../redux/actions/regularHolidayAction'
@@ -112,7 +111,7 @@ const SetClosed = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='정기휴일 설정' type='save' />
-      {/* <StatusMenu navigation={navigation} /> */}
+
 
       <ScrollView>
         <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3', ...BaseStyle.mb20 }} />

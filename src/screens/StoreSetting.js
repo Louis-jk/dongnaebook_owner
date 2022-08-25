@@ -9,7 +9,7 @@ import {
   BackHandler
 } from 'react-native'
 import { useSelector } from 'react-redux'
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import AnimateLoading from '../components/AnimateLoading'

@@ -184,7 +184,7 @@ const SetDayTime = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='영업 운영 시간 설정' type='save' />
-      {/* <StatusMenu navigation={navigation} /> */}
+
 
       <ScrollView>
         <StoreTime navigation={navigation} />

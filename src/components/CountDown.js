@@ -1,4 +1,4 @@
-import { View, Text, Alert } from 'react-native'
+import { View, Text } from 'react-native'
 import React from 'react'
 import cusToast from './CusToast'
 

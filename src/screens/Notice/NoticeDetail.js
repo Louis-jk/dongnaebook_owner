@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { View, Text, Image, useWindowDimensions, ScrollView } from 'react-native'
 import RenderHtml from 'react-native-render-html'
-import Header from '../components/Headers/Header'
-import BaseStyle from '../styles/Base'
-import Api from '../Api'
-import AnimateLoading from '../components/AnimateLoading'
+import Header from '../../components/Headers/Header'
+import BaseStyle from '../../styles/Base'
+import Api from '../../Api'
+import AnimateLoading from '../../components/AnimateLoading'
 
 const NoticeDetail = props => {
   const { navigation } = props
@@ -85,7 +85,7 @@ const NoticeDetail = props => {
             </View>
             <View style={{ ...BaseStyle.container }}>
               <Image
-                source={require('../images/eye.png')}
+                source={require('../../images/eye.png')}
                 style={{ width: 20, height: 17, ...BaseStyle.mr5 }}
                 resizeMode='contain'
               />

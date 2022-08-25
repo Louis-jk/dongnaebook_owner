@@ -13,7 +13,7 @@ import {
 import { useSelector } from 'react-redux'
 import ImagePicker from 'react-native-image-crop-picker'
 import Modal from 'react-native-modal'
-import Header from '../components/SubHeader'
+import Header from '../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 import Api from '../Api'
 import cusToast from '../components/CusToast'

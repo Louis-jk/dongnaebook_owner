@@ -5,50 +5,26 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  KeyboardAvoidingView,
-  Alert,
-  Dimensions
+  KeyboardAvoidingView
 } from 'react-native'
-import DropDownPicker from 'react-native-dropdown-picker'
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
-import BaseStyle, { Primary } from '../styles/Base'
-import Api from '../Api'
-import cusToast from '../components/CusToast'
+import BaseStyle, { Primary } from '../../styles/Base'
+import Api from '../../Api'
+import cusToast from '../CusToast'
 
 const TipsEditModal = props => {
-  const { dd_id, min, max, delivery, index, getTips, isModalVisible, toggleModal } = props
+  const { getTips, isModalVisible, toggleModal } = props
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
 
   // 주문 금액 별 배달팁 설정
-  const priceRef = React.useRef(null) // 주문금액 Reference
-  const priceTipPriceRef = React.useRef(null) // 배달팁 Reference
   const [tipIndex, setTipIndex] = React.useState(0) // 배달팁 index
   const [tipId, setTipId] = React.useState('') // 배달팁 ID
   const [minPrice, setMinPrice] = React.useState('') // 최소주문금액
   const [maxPrice, setMaxPrice] = React.useState('') // 최대주문금액
   const [deliveryPrice, setDeliveryPrice] = React.useState('') // 배달팁 금액
 
-  // 주문 금액 별 배달팁 전송 API 붙이시면 됩니다.
-  const sendConfirmHandler01 = () => {
-    toggleModal()
-    cusToast('주문 금액별 배달팁을 추가하였습니다.')
-    // Alert.alert('주문 금액별 배달팁을 추가하였습니다.', '', [
-    //   {
-    //     text: '확인'
-    //   }
-    // ])
-  }
-
   // 할증 배달팁 설정
-  // 주문 금액
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState(null)
-  const [items, setItems] = React.useState([
-    { label: 'Apple', value: 'apple' },
-    { label: 'Banana', value: 'banana' }
-  ])
-
   const settingProps = () => {
     setTipId(props.dd_id)
     setTipIndex(props.index)
@@ -62,10 +38,6 @@ const TipsEditModal = props => {
     return () => settingProps()
   }, [props.dd_id, props.index, props.min, props.max, props.delivery])
 
-  console.log('====================================')
-  console.log('minPrice', minPrice)
-  console.log('====================================')
-
   // 팁 수정
   function tipEditHandler () {
     // let toIntId = parseInt(tipId);
@@ -75,32 +47,12 @@ const TipsEditModal = props => {
 
     if (maxPrice === null || maxPrice === '') {
       cusToast('구매 금액 범위 최대금액을 입력해주세요.')
-      // Alert.alert('구매 금액 범위 최대금액을 입력해주세요.', '', [
-      //   {
-      //     text: '확인'
-      //   }
-      // ])
     } else if (intMinPrice >= intMaxPrice) {
       cusToast('최소 금액은 최대 금액보다 낮게 입력해주세요.')
-      // Alert.alert('최소 금액은 최대 금액보다 낮게 입력해주세요.', '', [
-      //   {
-      //     text: '확인'
-      //   }
-      // ])
     } else if (intDeliveryPrice <= 0) {
       cusToast('배달비를 입력해주세요.')
-      // Alert.alert('배달비를 입력해주세요.', '', [
-      //   {
-      //     text: '확인'
-      //   }
-      // ])
     } else if (deliveryPrice === null || deliveryPrice === '') {
       cusToast('배달비를 입력해주세요.')
-      // Alert.alert('배달비를 입력해주세요.', '', [
-      //   {
-      //     text: '확인'
-      //   }
-      // ])
     } else {
       const param = {
         encodeJson: true,
@@ -115,7 +67,7 @@ const TipsEditModal = props => {
 
       Api.send('store_delivery_input', param, args => {
         const resultItem = args.resultItem
-        const arrItems = args.arrItems
+        // const arrItems = args.arrItems
         if (resultItem.result === 'Y') {
           toggleModal()
           getTips()
@@ -129,13 +81,6 @@ const TipsEditModal = props => {
       })
     }
   }
-
-  // console.log('====================================');
-  // console.log('minPrice', minPrice);
-  // console.log('minPrice', typeof minPrice);
-  // console.log('maxPrice', maxPrice);
-  // console.log('deliveryPrice', deliveryPrice);
-  // console.log('====================================');
 
   return (
     <View>
@@ -173,7 +118,7 @@ const TipsEditModal = props => {
               hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             >
               <Image
-                source={require('../images/pop_close.png')}
+                source={require('../../images/pop_close.png')}
                 style={{ width: 22, height: 22 }}
                 resizeMode='contain'
               />

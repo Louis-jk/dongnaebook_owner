@@ -10,10 +10,10 @@ import {
 } from 'react-native'
 import Modal from 'react-native-modal'
 import { useSelector, useDispatch } from 'react-redux'
-import BaseStyle, { Primary } from '../../styles/Base'
-import Api from '../../Api'
-import * as orderAction from '../../redux/actions/orderAction'
-import cusToast from '../CusToast'
+import BaseStyle, { Primary } from '../../../styles/Base'
+import Api from '../../../Api'
+import * as orderAction from '../../../redux/actions/orderAction'
+import cusToast from '../../CusToast'
 
 const OrderRejectCancelModal = props => {
   const {
@@ -300,7 +300,7 @@ const OrderRejectCancelModal = props => {
               hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             >
               <Image
-                source={require('../../images/pop_close.png')}
+                source={require('../../../images/pop_close.png')}
                 style={{ width: 22, height: 22 }}
                 resizeMode='contain'
               />

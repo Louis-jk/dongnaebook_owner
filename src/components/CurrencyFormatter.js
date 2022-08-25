@@ -1,8 +1,7 @@
-import NumberFormat from "react-number-format"
 
 // number type currency formatter
 export const currencyFormatter = payload => {
-  let result = new Intl.NumberFormat().format(payload)
+  const result = new Intl.NumberFormat().format(payload)
   return result
 }
 
@@ -12,7 +11,7 @@ export const stringCurrencyFormatter = payload => {
   // let toFormat = new Intl.NumberFormat().format(intFormat);
   // let result = toFormat.toString();
   // let result = payload.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
-  let result = payload.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  const result = payload.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   // let result = payload.replace('', ',');
   return result
 }

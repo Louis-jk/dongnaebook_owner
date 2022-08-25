@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import Api from '../Api'
 import cusToast from '../components/CusToast'
-import Header from '../components/NoDrawerHeader'
+import Header from '../components/Headers/NoDrawerHeader'
 import BaseStyle, { Primary } from '../styles/Base'
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('screen')
