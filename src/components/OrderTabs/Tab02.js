@@ -1,12 +1,11 @@
 import React from 'react'
-import { View, Alert } from 'react-native'
+import { View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import Api from '../../Api'
 import OrderRejectCancelModal from '../OrderRejectCancelModal'
-import cusToast from '../CusToast'
 import * as orderAction from '../../redux/actions/orderAction'
 import OrdersAnimateLoading from '../OrdersAnimateLoading'
 import TabLayout from './TabLayout'
+import DeliveryConfirmationModal from '../OrderModals/DeliveryConfirmationModal'
 
 const Tab02 = props => {
   const { navigation, getOrderListHandler } = props
@@ -34,54 +33,22 @@ const Tab02 = props => {
     return () => setOrderCnt(orders.length)
   }, [])
 
-  // 주문 배달처리
-  const sendDeliverHandler = (type, odId, jumjuId, jumjuCode) => {
-    const param = {
-      od_id: odId,
-      jumju_id: jumjuId,
-      jumju_code: jumjuCode,
-      od_process_status: type === '배달' ? '배달중' : '포장완료'
-    }
+  const [currentOrderType, setCurrentOrderType] = React.useState('')
+  const [currentOrderId, setCurrentOrderId] = React.useState('')
+  const [currentJumjuId, setCurrentJumjuId] = React.useState('')
+  const [currentJumjuCode, setCurrentJumjuCode] = React.useState('')
+  const [isDeliveryConfirmModalVisible, setDeliveryConfirmModalVisible] = React.useState(false)
 
-    Api.send('store_order_status_update', param, args => {
-      const resultItem = args.resultItem
-
-      if (resultItem.result === 'Y') {
-        getOrderListHandler(1)
-        cusToast(`주문을 ${type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`)
-      } else {
-        getOrderListHandler(1)
-        cusToast(`주문 ${type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
-      }
-
-      setTimeout(() => {
-        navigation.navigate('Home', { screen: 'Main' })
-      }, 1500)
-    })
+  const toggleDeliveryConfirmModal = () => {
+    setDeliveryConfirmModalVisible(!isDeliveryConfirmModalVisible)
   }
 
   const deliveryOrderHandler = (type, orderId, jumjuId, jumjuCode) => {
-    if (type === '배달') {
-      Alert.alert('주문을 배달 처리하시겠습니까?', '', [
-        {
-          text: '네 배달처리',
-          onPress: () => sendDeliverHandler(type, orderId, jumjuId, jumjuCode)
-        },
-        {
-          text: '아니요'
-        }
-      ])
-    } else {
-      Alert.alert('주문을 포장완료 처리하시겠습니까?', '', [
-        {
-          text: '네 포장완료',
-          onPress: () => sendDeliverHandler(type, orderId, jumjuId, jumjuCode)
-        },
-        {
-          text: '아니요'
-        }
-      ])
-    }
+    setCurrentOrderType(type)
+    setCurrentOrderId(orderId)
+    setCurrentJumjuId(jumjuId)
+    setCurrentJumjuCode(jumjuCode)
+    setDeliveryConfirmModalVisible(true)
   }
 
   // 주문 취소
@@ -127,6 +94,17 @@ const Tab02 = props => {
             od_id={orderId}
             jumjuId={jumjuId}
             jumjuCode={jumjuCode}
+          />
+
+          <DeliveryConfirmationModal
+            isModalVisible={isDeliveryConfirmModalVisible}
+            toggleModal={toggleDeliveryConfirmModal}
+            orderType={currentOrderType}
+            oderId={currentOrderId}
+            jumjuId={currentJumjuId}
+            jumjuCode={currentJumjuCode}
+            getOrderListHandler={getOrderListHandler}
+            navigation={navigation}
           />
 
           <TabLayout

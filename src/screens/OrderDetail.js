@@ -20,6 +20,7 @@ import OrderCheckModal from '../components/OrderCheckModal'
 import * as orderAction from '../redux/actions/orderAction'
 import AnimateLoading from '../components/AnimateLoading'
 import cusToast from '../components/CusToast'
+import DeliveryConfirmationModal from '../components/OrderModals/DeliveryConfirmationModal'
 
 const OrderDetail = props => {
   const { navigation } = props
@@ -172,7 +173,16 @@ const OrderDetail = props => {
     })
   }
 
+  const [isDeliveryConfirmModalVisible, setDeliveryConfirmModalVisible] = React.useState(false)
+
+  const toggleDeliveryConfirmModal = () => {
+    setDeliveryConfirmModalVisible(!isDeliveryConfirmModalVisible)
+  }
+
   function deliveryOrderHandler () {
+    setDeliveryConfirmModalVisible(true)
+
+    return
     if (detailOrder.od_type === '배달') {
       Alert.alert('주문을 배달 처리하시겠습니까?', '', [
         {
@@ -219,6 +229,18 @@ const OrderDetail = props => {
               />
               {/* // 접수 완료시 모달 */}
 
+              {/* 배달 | 포장 처리 모달 */}
+              <DeliveryConfirmationModal
+                isModalVisible={isDeliveryConfirmModalVisible}
+                toggleModal={toggleDeliveryConfirmModal}
+                orderType={detailOrder.od_type}
+                oderId={orderId}
+                jumjuId={jumjuId}
+                jumjuCode={jumjuCode}
+                navigation={navigation}
+              />
+              {/* // 배달 | 포장 처리 모달 */}
+
               {/* 주문 취소/거부 모달 */}
               <OrderRejectCancelModal
                 navigation={navigation}
@@ -244,7 +266,6 @@ const OrderDetail = props => {
                   ...BaseStyle.container5,
                   ...BaseStyle.pv15,
                   ...BaseStyle.ph20,
-                  ...BaseStyle.mb20,
                   borderRadius: 5,
                   backgroundColor: '#F9F8FB'
                 }}
@@ -258,7 +279,7 @@ const OrderDetail = props => {
 
               <ScrollView showsVerticalScrollIndicator={false}>
 
-                <View style={{ ...BaseStyle.ph20 }}>
+                <View style={{ ...BaseStyle.ph20, ...BaseStyle.mt20 }}>
 
                   {/* 취소건 일 때 취소 사유 */}
                   {type === 'cancel' && (
@@ -785,7 +806,7 @@ const OrderDetail = props => {
                     <Text
                       style={{ ...BaseStyle.ko14, ...BaseStyle.font_bold, ...BaseStyle.font_white }}
                     >
-                      접수 완료
+                      접수하기
                     </Text>
                   </TouchableOpacity>
                 </View>
