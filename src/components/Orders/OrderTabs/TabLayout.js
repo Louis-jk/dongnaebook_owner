@@ -152,7 +152,7 @@ const TabLayout = props => {
                   <Text
                     style={{ ...BaseStyle.ko13, ...BaseStyle.font_bold, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 4 : 0 }}
                   >
-                    {item.od_type}접수
+                    {/* {item.od_type} */}접수
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -306,10 +306,10 @@ const TabLayout = props => {
                 >
                   {`${item.od_addr1} ${item.od_addr2} ${item.od_addr3 !== '' ? item.od_addr3 : ''}`}
                 </Text>
-                {item.od_addr_jibeon !== '' &&
+                {/* {item.od_addr_jibeon !== '' &&
                   <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh17 }}>
                     {item.od_addr_jibeon}
-                  </Text>}
+                  </Text>} */}
               </View>
             </View>}
           {/* // 배달 주소 */}
