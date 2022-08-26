@@ -23,11 +23,13 @@ const TabLayout = props => {
     setJumjuCode
   } = props
 
+
   const renderRow = ({ item, index }) => {
     return (
       <View key={index}>
         <View
           style={{
+            ...BaseStyle.container5,
             backgroundColor: '#F8F8F8',
             width: '100%',
             ...BaseStyle.pv10,
@@ -37,6 +39,9 @@ const TabLayout = props => {
         >
           <Text style={{ ...BaseStyle.ko14 }}>
             {moment(item.od_time).format('YYYY년 M월 D일')}
+          </Text>
+          <Text style={{ ...BaseStyle.ko14 }} numberOfLines={1}>
+            {item.mb_company}
           </Text>
         </View>
         <View style={{ ...BaseStyle.mb20, ...BaseStyle.ph20 }}>
@@ -65,8 +70,8 @@ const TabLayout = props => {
                   jumjuCode: item.jumju_code
                 })}
             >
-              <View style={{ flex: 1, ...BaseStyle.container, marginBottom: 13 }}>
-                <Text style={{ fontSize: 26, ...BaseStyle.font_bold, marginBottom: -5 }}>
+              <View style={{ flex: 1, ...BaseStyle.container, marginBottom: 5 }}>
+                <Text style={{ fontSize: 33, ...BaseStyle.s_regular, color: '#353535' }}>
                   {moment(item.od_time).format('HH:mm')}
                 </Text>
                 <View
@@ -74,27 +79,38 @@ const TabLayout = props => {
                     paddingHorizontal: 7,
                     ...BaseStyle.ml10,
                     height: 25,
+                    width: 35,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 5,
+                    backgroundColor: '#f1f1f1',
                     backgroundColor:
-                      item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
+                      item.od_type === '배달' ? Primary.PointColor01 : item.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04,
                     paddingVertical: Platform.OS === 'android' ? 2 : 0
                   }}
                 >
-                  <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_bold, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>{item.od_type}</Text>
+                  {/* <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_bold, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>{item.od_type}</Text> */}
+                  {item.od_type === '배달' &&
+                    <Image source={require('../../../images/icon_delivery_wh.png')} style={{width: 23, height: 13}} resizeMode="center" />
+                  } 
+                  {item.od_type === '포장' &&
+                    <Image source={require('../../../images/icon_wrap_wh.png')} style={{width: 15, height: 17}} resizeMode="center" />
+                  }
+                  {item.od_type === '식사' &&
+                    <Image source={require('../../../images/icon_store_wh.png')} style={{width: 22, height: 17}} resizeMode="center" />
+                  }
                 </View>
               </View>
               {/* 회사명 */}
-              <View style={{ flex: 1, ...BaseStyle.container, ...BaseStyle.mb5 }}>
-                <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }} numberOfLines={1}>
+              {/* <View style={{ flex: 1, ...BaseStyle.container, ...BaseStyle.mb5 }}>
+                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }} numberOfLines={1}>
                   {item.mb_company}
                 </Text>
-              </View>
+              </View> */}
               {/* // 회사명 */}
 
               {/* 주문 메뉴명 */}
-              <Text style={{ flex: 1, ...BaseStyle.ko14, ...BaseStyle.mb15 }}>{item.od_good_name}</Text>
+              <Text style={{ flex: 1, ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb5 }}>{item.od_good_name}</Text>
               {/* // 주문 메뉴명 */}
 
               {/* 결제방법 */}
@@ -129,7 +145,7 @@ const TabLayout = props => {
                     toggleOrderCheckModal()
                   }}
                   style={{
-                    backgroundColor: item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
+                    backgroundColor: item.od_type === '배달' ? Primary.PointColor01 : item.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04,
                     width: 80,
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -141,7 +157,7 @@ const TabLayout = props => {
                   <Text
                     style={{ ...BaseStyle.ko13, ...BaseStyle.font_bold, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 4 : 0 }}
                   >
-                    {/* {item.od_type} */}접수
+                    {item.od_type}접수
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -183,7 +199,7 @@ const TabLayout = props => {
                   }}
                   style={{
                     backgroundColor:
-                  item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
+                  item.od_type === '배달' ? Primary.PointColor01 : item.od_type === '포장' ?  Primary.PointColor02 : Primary.PointColor04,
                     width: 80,
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -201,7 +217,7 @@ const TabLayout = props => {
                       marginBottom: Platform.OS === 'ios' ? 4 : 0
                     }}
                   >
-                    {item.od_type === '배달' ? '배달처리' : '포장완료'}
+                    {item.od_type === '배달' ? '배달처리' : item.od_type === '포장' ? '포장완료' : '식사완료'}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -304,6 +320,23 @@ const TabLayout = props => {
                   <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh17 }}>
                     {item.od_addr_jibeon}
                   </Text>} */}
+              </View>
+            </View>}
+          {/* // 배달 주소 */}
+
+          {/* 배달 주소 */}
+          {item.od_type === '식사' &&
+            <View style={{ ...BaseStyle.container, ...BaseStyle.mt10, ...BaseStyle.mr20 }}>
+              <View>
+                <Text
+                  style={{
+                    ...BaseStyle.ko14,
+                    ...BaseStyle.lh20,
+                    ...BaseStyle.mb3
+                  }}
+                >
+                  식사인원수 : {item.od_forhere_num}명
+                </Text>
               </View>
             </View>}
           {/* // 배달 주소 */}
