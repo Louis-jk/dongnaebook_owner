@@ -37,10 +37,10 @@ const TabLayout = props => {
             ...BaseStyle.mb10
           }}
         >
-          <Text style={{ ...BaseStyle.ko14 }}>
+          <Text style={{ ...BaseStyle.ko14, maxWidth: '50%' }}>
             {moment(item.od_time).format('YYYY년 M월 D일')}
           </Text>
-          <Text style={{ ...BaseStyle.ko14 }} numberOfLines={1}>
+          <Text style={{ ...BaseStyle.ko14, maxWidth: '50%' }} numberOfLines={1}>
             {item.mb_company}
           </Text>
         </View>
@@ -83,13 +83,11 @@ const TabLayout = props => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 5,
-                    backgroundColor: '#f1f1f1',
                     backgroundColor:
                       item.od_type === '배달' ? Primary.PointColor01 : item.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04,
                     paddingVertical: Platform.OS === 'android' ? 2 : 0
                   }}
                 >
-                  {/* <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_bold, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>{item.od_type}</Text> */}
                   {item.od_type === '배달' &&
                     <Image source={require('../../../images/icon_delivery_wh.png')} style={{width: 23, height: 13}} resizeMode="center" />
                   } 
@@ -101,30 +99,24 @@ const TabLayout = props => {
                   }
                 </View>
               </View>
-              {/* 회사명 */}
-              {/* <View style={{ flex: 1, ...BaseStyle.container, ...BaseStyle.mb5 }}>
-                <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }} numberOfLines={1}>
-                  {item.mb_company}
-                </Text>
-              </View> */}
-              {/* // 회사명 */}
 
               {/* 주문 메뉴명 */}
-              <Text style={{ flex: 1, ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb5 }}>{item.od_good_name}</Text>
+              <Text style={{ flex: 1, ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb5 }} numberOfLines={1}>{item.od_good_name}</Text>
               {/* // 주문 메뉴명 */}
 
               {/* 결제방법 */}
               <View style={{ flex: 1, ...BaseStyle.container, marginBottom: -3 }}>
                 <Text
                   style={[
-                    { ...BaseStyle.ko14 },
+                    { ...BaseStyle.ko14, maxWidth: '50%' },
                     item.od_settle_case === '선결제' ? BaseStyle.font_blue : BaseStyle.font_pink
                   ]}
+                  numberOfLines={1}
                 >
                   {item.od_settle_case}
                 </Text>
                 <Text style={{ ...BaseStyle.ko14 }}> / </Text>
-                <Text style={{ ...BaseStyle.ko14 }}>{Api.comma(item.od_receipt_price)}원</Text>
+                <Text style={{ ...BaseStyle.ko14, maxWidth: '50%' }} numberOfLines={1}>{Api.comma(item.od_receipt_price)}원</Text>
               </View>
               {/* // 결제방법 */}
             </TouchableOpacity>
@@ -313,6 +305,7 @@ const TabLayout = props => {
                     ...BaseStyle.lh20,
                     ...BaseStyle.mb3
                   }}
+                  numberOfLines={1}
                 >
                   {`${item.od_addr1} ${item.od_addr2} ${item.od_addr3 !== '' ? item.od_addr3 : ''}`}
                 </Text>
@@ -334,6 +327,7 @@ const TabLayout = props => {
                     ...BaseStyle.lh20,
                     ...BaseStyle.mb3
                   }}
+                  numberOfLines={1}
                 >
                   식사인원수 : {item.od_forhere_num}명
                 </Text>
