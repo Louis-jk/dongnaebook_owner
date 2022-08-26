@@ -63,6 +63,7 @@ const StoreInfo = props => {
     do_take_out: null, // 포장 가능 유무
     do_coupon_use: null, // 쿠폰 사용 유무
     do_delivery_time: null, // 평균 배달 시간
+    do_cooking_time: null, // 평균 조리 시간
     do_end_state: null, // 주문마감
     mt_sound: null, // 알림 설정(1회, 2회, 3회)
     mb_one_saving: null, // 1인분 가능
@@ -94,13 +95,14 @@ const StoreInfo = props => {
           do_coupon_use: arrItems.do_coupon_use,
           do_delivery_guide: arrItems.do_delivery_guide,
           do_delivery_time: arrItems.do_delivery_time,
+          do_cooking_time: arrItems.do_cooking_time,
           do_end_state: arrItems.do_end_state,
           mt_sound: arrItems.mt_sound,
           mb_one_saving: arrItems.mb_one_saving,
           pic: arrItems.pic
         })
 
-        console.log('arrItems.pic', arrItems.pic)
+        // console.log('arrItems.pic', arrItems.pic)
 
         setDetailImgs01(arrItems.pic[0].img)
         setDetailImgs02(arrItems.pic[1].img)
@@ -121,6 +123,7 @@ const StoreInfo = props => {
           do_coupon_use: null,
           do_delivery_guide: null,
           do_delivery_time: null,
+          do_cooking_time: null,
           do_end_state: null,
           mt_sound: null,
           mb_one_saving: null,
@@ -164,6 +167,7 @@ const StoreInfo = props => {
       do_take_out: info.do_take_out,
       do_coupon_use: info.do_coupon_use,
       do_delivery_time: info.do_delivery_time,
+      do_cooking_time: info.do_cooking_time,
       do_end_state: info.do_end_state,
       mt_sound: info.mt_sound,
       mb_one_saving: info.mb_one_saving
@@ -211,6 +215,7 @@ const StoreInfo = props => {
         do_coupon_use: info.do_coupon_use,
         do_delivery_guide: info.do_delivery_guide,
         do_delivery_time: info.do_delivery_time,
+        do_cooking_time: info.do_cooking_time,
         do_end_state: info.do_end_state,
         mt_sound: info.mt_sound,
         mb_one_saving: info.mb_one_saving,
@@ -977,8 +982,8 @@ const StoreInfo = props => {
                       style={{
                         width: '100%',
                         ...BaseStyle.inputH,
-                        ...BaseStyle.ko14
-                        // marginTop: 10 iOS에서 마진 먹음
+                        ...BaseStyle.ko14,
+                        marginTop: Platform.OS === 'android' ? 10 : 0
                       }}
                       onChangeText={text => setInfo({ ...info, do_major_menu: text })}
                       autoCapitalize='none'
@@ -1205,6 +1210,37 @@ const StoreInfo = props => {
                   </View>
                 </View>
                 {/* // 평균 배달 시간 */}
+
+                 {/* 평균 조리 시간 */}
+                 <View style={{ ...BaseStyle.mv10 }}>
+                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10 }}>
+                    평균 조리 시간
+                  </Text>
+                  <View
+                    style={{
+                      ...BaseStyle.container5,
+                      borderWidth: 1,
+                      borderColor: '#E3E3E3',
+                      ...BaseStyle.round05,
+                      ...BaseStyle.inputH,
+                      ...BaseStyle.ph10
+                    }}
+                  >
+                    <TextInput
+                      value={info.do_cooking_time}
+                      placeholder='평균 조리 시간을 입력해주세요.'
+                      style={{
+                        width: '100%',
+                        ...BaseStyle.inputH,
+                        ...BaseStyle.ko14,
+                        marginTop: Platform.OS === 'android' ? 10 : 0
+                      }}
+                      onChangeText={text => setInfo({ ...info, do_cooking_time: text })}
+                      autoCapitalize='none'
+                    />
+                  </View>
+                </View>
+                {/* // 평균 조리 시간 */}
               </View>
             </View>
           </ScrollView>
