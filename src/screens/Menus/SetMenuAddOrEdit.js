@@ -21,6 +21,7 @@ import Api from '../../Api'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
 import { pickGalleryImage, takeCamera } from '../../modules/imagePickerOrCamera'
 import Categories from '../../components/Categories'
+import DeleteMenuModal from '../../components/Menu/Modals/DeleteMenuModal'
 
 const SetMenuAddOrEdit = props => {
   const { navigation, route } = props
@@ -261,12 +262,26 @@ const SetMenuAddOrEdit = props => {
     return false
   }
 
-  // 메뉴 추가 핸들러
-  const sendMenuAddHandler = () => {
+  // 메뉴 유효성 검사 핸들러
+  const menuCheckHandler = (type) => {
     const isValidate = checkMenuValidate(selectCategory, name, salePrice)
 
     if (isValidate) {
       if (type === 'add') {
+        sendMenuAddHandler()
+      }
+      if(type === 'del') {
+        toggleDeleteMenuModal()
+      }
+      if (type === 'edit') {
+        sendMenuEditHandler()
+      }
+    }
+  }
+
+  // 메뉴 추가 핸들러
+  const sendMenuAddHandler = () => {
+      
         const isEmptyImage = isEmptyObject(source)
 
         const param = {
@@ -299,50 +314,85 @@ const SetMenuAddOrEdit = props => {
             navigation.navigate('Home', { screen: 'SetMenu' })
           }, 1000)
         })
+  }
+
+  // 메뉴 수정 핸들러
+  const sendMenuEditHandler = () => {
+  
+      const param = {
+        jumju_id: mtId,
+        jumju_code: mtJumjuCode,
+        it_id: menuId,
+        mode: 'update',
+        ca_id2: selectCategory,
+        menuName: name,
+        menuInfo: menuShortDesc,
+        menuPrice: salePrice,
+        menuDescription: description,
+        it_type1: checkMain ? '1' : '0',
+        it_use: visible ? '1' : '0',
+        menuOption: JSON.stringify(options),
+        menuAddOption: JSON.stringify(addOptions)
       }
 
-      if (type === 'edit') {
-        const param = {
-          jumju_id: mtId,
-          jumju_code: mtJumjuCode,
-          it_id: menuId,
-          mode: 'update',
-          ca_id2: selectCategory,
-          menuName: name,
-          menuInfo: menuShortDesc,
-          menuPrice: salePrice,
-          menuDescription: description,
-          it_type1: checkMain ? '1' : '0',
-          it_use: visible ? '1' : '0',
-          menuOption: JSON.stringify(options),
-          menuAddOption: JSON.stringify(addOptions)
-        }
-
-        if (!isEmptyObj(source)) {
-          param.it_img1 = source
-        }
-
-        Api.send2('store_item_update', param, args => {
-          const resultItem = args.resultItem
-          const arrItems = args.arrItems
-
-          if (resultItem.result === 'Y') {
-            cusToast('메뉴가 수정되었습니다.', 1000)
-          } else {
-            cusToast('메뉴를 수정 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
-          }
-
-          setTimeout(() => {
-            navigation.navigate('Home', { screen: 'SetMenu' })
-          }, 1000)
-        })
+      if (!isEmptyObj(source)) {
+        param.it_img1 = source
       }
-    }
+
+      Api.send2('store_item_update', param, args => {
+        const resultItem = args.resultItem
+        // const arrItems = args.arrItems
+
+        if (resultItem.result === 'Y') {
+          cusToast('메뉴가 수정되었습니다.', 1000)
+        } else {
+          cusToast('메뉴를 수정 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
+        }
+
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'SetMenu' })
+        }, 1000)
+      })
+
+  }
+
+  // 메뉴 삭제 핸들러
+  const sendMenuDeleteHandler = () => {
+  
+      const param = {
+        jumju_id: mtId,
+        jumju_code: mtJumjuCode,
+        it_id: menuId,
+        mode: 'delete'
+      }
+
+      Api.send2('store_item_delete', param, args => {
+        const resultItem = args.resultItem
+        // const arrItems = args.arrItems
+
+        if (resultItem.result === 'Y') {
+          cusToast('메뉴가 삭제되었습니다.', 1000)
+        } else {
+          cusToast('메뉴를 삭제 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
+        }
+
+        setTimeout(() => {
+          navigation.navigate('Home', { screen: 'SetMenu' })
+        }, 1000)
+      })
+
+  }
+
+  // 메뉴 삭제 컨펌 모달 핸들러
+  const [isDeleteMenuModalVisible, setDeleteMenuModalVisible] = React.useState(false)
+  const toggleDeleteMenuModal = () => {
+    setDeleteMenuModalVisible(!isDeleteMenuModalVisible)
   }
 
   return (
     <>
       {isLoading && <AnimateLoading description='잠시만 기다려주세요.' />}
+
       {!isLoading &&
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
           <Header navigation={navigation} title={type === 'add' ? '메뉴등록' : '메뉴수정'} />
@@ -421,8 +471,15 @@ const SetMenuAddOrEdit = props => {
               </View>
             </View>
           </Modal>
-
           {/* // 선택 모달 (카메라, 갤러리) */}
+
+          {/* 메뉴 삭제 컨펌 모달 */}
+          <DeleteMenuModal 
+            isModalVisible={isDeleteMenuModalVisible}
+            toggleModal={toggleDeleteMenuModal}
+            sendMenuDeleteHandler={sendMenuDeleteHandler}
+          />
+          {/* // 메뉴 삭제 컨펌 모달 */}
 
           <ScrollView>
             <View>
@@ -1179,15 +1236,42 @@ const SetMenuAddOrEdit = props => {
                 </View>
                 {/* // 옵션 */}
               </View>
-              <TouchableOpacity
-                activeOpacity={1}
-                onPress={sendMenuAddHandler}
-                style={{ ...BaseStyle.mainBtnBottom }}
-              >
-                <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
-                  {type === 'add' ? '등록하기' : '수정하기'}
-                </Text>
-              </TouchableOpacity>
+
+              {type === 'add' &&
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={() => menuCheckHandler('add')}
+                  style={{ ...BaseStyle.mainBtnBottom }}
+                >
+                  <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                    등록하기
+                  </Text>
+                </TouchableOpacity>
+              }
+
+              {type === 'edit' &&
+                <View style={{ ...BaseStyle.container5, backgroundColor: Primary.PointColor01 }}>
+                  <TouchableOpacity
+                    activeOpacity={1}
+                    onPress={() => menuCheckHandler('del')}
+                    style={{ ...BaseStyle.mainBtnBottom, flex: 1 }}
+                  >
+                    <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                      삭제하기
+                    </Text>
+                  </TouchableOpacity>
+                  <View style={{ height: '60%', width: 1, backgroundColor: '#e1e1e1' }} />
+                  <TouchableOpacity
+                    activeOpacity={1}
+                    onPress={() => menuCheckHandler('edit')}
+                    style={{ ...BaseStyle.mainBtnBottom, flex: 1 }}
+                  >
+                    <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+                      수정하기
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              }
             </View>
           </ScrollView>
         </View>}
