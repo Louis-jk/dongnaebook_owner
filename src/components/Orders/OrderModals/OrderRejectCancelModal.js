@@ -21,7 +21,7 @@ const OrderRejectCancelModal = props => {
     isModalVisible,
     toggleModal,
     modalType,
-    od_id: orderId,
+    orderId,
     jumjuId,
     jumjuCode
   } = props
@@ -137,29 +137,19 @@ const OrderRejectCancelModal = props => {
 
     Api.send('store_order_cancle', param, args => {
       const resultItem = args.resultItem
-      const arrItems = args.arrItems
+      // const arrItems = args.arrItems
+
+      getOrderListHandler()
 
       if (resultItem.result === 'Y') {
-        getOrderListHandler()
         cusToast('주문을 거부하였습니다.')
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'Main' })
-        }, 1500)
-        // Alert.alert('주문을 거부하였습니다.', '', [
-        //   {
-        //     text: '확인',
-        //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
-        //   }
-        // ])
       } else {
-        // setOrderList(null);
-        getOrderListHandler()
         cusToast('주문을 거부하는 중에 문제가 발생하였습니다.\n다시 시도해주세요.')
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'Main' })
-        }, 1500)
-        // navigation.navigate('Home', { screen: 'Main' })
       }
+
+      setTimeout(() => {
+        navigation.navigate('Home', { screen: 'Main' })
+      }, 1500)
     })
   }
 
@@ -223,28 +213,19 @@ const OrderRejectCancelModal = props => {
 
     Api.send('store_order_cancle', param, args => {
       const resultItem = args.resultItem
-      const arrItems = args.arrItems
+      // const arrItems = args.arrItems
+
+      getOrderListHandler02()
 
       if (resultItem.result === 'Y') {
-        getOrderListHandler02()
         cusToast('주문을 취소하였습니다.')
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'Main' })
-        }, 1500)
-        // Alert.alert('주문을 취소하였습니다.', '', [
-        //   {
-        //     text: '확인',
-        //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
-        //   }
-        // ])
       } else {
-        getOrderListHandler02()
         cusToast('주문을 취소하는 중에 문제가 생겼습니다.\n관리자에게 문의해주세요.')
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'Main' })
-        }, 1500)
-        // navigation.navigate('Home', { screen: 'Main' })
       }
+
+      setTimeout(() => {
+        navigation.navigate('Home', { screen: 'Main' })
+      }, 1500)
     })
   }
 
