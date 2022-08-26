@@ -6,4 +6,5 @@ export const Fonts = {
   QuanticoI: "Quantico-Italic",
   QuanticoB: "Quantico-Bold",
   QuanticoBI: "Quantico-BoldItalic",
+  SquadaOneR: "SquadaOne-Regular"
 }
