@@ -17,11 +17,6 @@ const DeliveryCompleteModal = ({
 }) => {
   const dispatch = useDispatch()
 
-  console.log('props oderId', orderId);
-  console.log('props jumjuId', jumjuId);
-  console.log('props jumjuCode', jumjuCode);
-  // console.log('props navigation', navigation);
-
   // 배달완료 처리
   const sendDeliverHandler = () => {
     const param = {
@@ -35,8 +30,6 @@ const DeliveryCompleteModal = ({
 
     Api.send('store_order_status_update', param, args => {
       const resultItem = args.resultItem
-
-      console.log('배달 완료 resultItem ?', resultItem)
 
       dispatch(orderAction.initDeliveryOrderLimit(5))
       dispatch(orderAction.getDeliveryOrder())
