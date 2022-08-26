@@ -20,11 +20,13 @@ const OrderCheckModal = ({
   jumjuCode
 }) => {
   const [isTimeSelected, setTimeSelected] = React.useState(false)
-  const [time01Selcet, setTime01Select] = React.useState('')
-  const [time02Selcet, setTime02Select] = React.useState('')
-  const [time01, setTime01] = React.useState('')
-  const [time02, setTime02] = React.useState('')
-  const deliveryTimeRef = React.useRef(null)
+  const [time01Selcet, setTime01Select] = React.useState('') // 배달 시간 선택
+  const [time02Selcet, setTime02Select] = React.useState('') // 포장 시간 선택
+  const [time03Selcet, setTime03Select] = React.useState('') // 식사 시간 선택
+  const [time01, setTime01] = React.useState('') // 배달 시간 직접 입력
+  const [time02, setTime02] = React.useState('') // 포장 시간 직접 입력
+  const [time03, setTime03] = React.useState('') // 식사 시간 직접 입력
+  const deliveryTimeRef = React.useRef(null) 
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
   const dispatch = useDispatch()
 
@@ -67,20 +69,23 @@ const OrderCheckModal = ({
       param.visit_time = isTimeSelected ? time02Selcet : time02
     }
 
+    if (orderType === '식사') {
+      param.visit_time = isTimeSelected ? time03Selcet : time03
+    }
+
     // proc_store_order_status_update
     Api.send('store_order_status_update', param, args => {
       const resultItem = args.resultItem
       // const arrItems = args.arrItems
 
-      if (resultItem.result === 'Y') {
-        getOrderListHandler()
-        toggleModal()
+      if (resultItem.result === 'Y') {        
         cusToast('주문을 접수하였습니다.')
       } else {
-        getOrderListHandler()
-        toggleModal()
         cusToast('주문 접수중 오류가 발생하였습니다.\n다시 한번 시도해주세요.')
       }
+
+      getOrderListHandler()
+      toggleModal()
 
       setTimeout(() => {
         navigation.navigate('Home', { screen: 'Main' })
@@ -148,7 +153,7 @@ const OrderCheckModal = ({
               position: 'absolute',
               top: -10,
               right: -10,
-              backgroundColor: Primary.PointColor02,
+              backgroundColor: orderType === '배달' ? Primary.PointColor01 : orderType === '포장' ? Primary.PointColor02 : Primary.PointColor04,
               borderRadius: 50,
               padding: 10
             }}
@@ -162,7 +167,9 @@ const OrderCheckModal = ({
           <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>
             {orderType === '배달'
               ? '배달출발 예상시간을 입력해주세요.'
-              : '포장완료 예상시간을 입력해주세요.'}
+              : orderType === '포장'
+              ? '포장완료 예상시간을 입력해주세요.'
+              : '식사가능 예상시간을 입력해주세요.'}
           </Text>
 
           {/* 시간 선택 영역 */}
@@ -219,6 +226,32 @@ const OrderCheckModal = ({
               </View>
             ))}
 
+            {orderType === '식사' && takeoutTimes.map((time, index) => (
+              <View
+                key={`deliveryTime-${time}-${index}`}
+                style={{ width: '50%', backgroundColor: '#fff' }}
+              >
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={() => {
+                    setTime03('')
+                    setTimeSelected(true)
+                    setTime03Select(time)
+                  }}
+                  style={{
+                    ...BaseStyle.container0,
+                    height: 40,
+                    ...BaseStyle.mh05,
+                    ...BaseStyle.mv5,
+                    backgroundColor: time03Selcet === time ? Primary.PointColor04 : Primary.PointColor03,
+                    borderRadius: 5
+                  }}
+                >
+                  <Text style={{ color: time03Selcet === time ? '#fff' : '#222' }}>{time}분</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+
           </View>
           {/* // 시간 선택 영역 */}
 
@@ -235,7 +268,7 @@ const OrderCheckModal = ({
             >
               <TextInput
                 ref={deliveryTimeRef}
-                value={orderType === '배달' ? time01 : time02}
+                value={orderType === '배달' ? time01 : orderType === '포장' ? time02 : time03}
                 style={{ width: '83%', textAlign: 'right' }}
                 placeholder='직접입력 예: 30'
                 onChangeText={text => {
@@ -244,16 +277,21 @@ const OrderCheckModal = ({
                     if (orderType === '배달') {
                       setTime01Select('')
                       setTime01(filteredText)
-                    } else {
+                    } else if (orderType === '포장') {
                       setTime02Select('')
                       setTime02(filteredText)
+                    } else {
+                      setTime03Select('')
+                      setTime03(filteredText)
                     }
                     setTimeSelected(false)
                   } else {
                     if (orderType === '배달') {
                       setTime01('0')
-                    } else {
+                    } else if (orderType === '포장') {
                       setTime02('0')
+                    }else {
+                      setTime03('0')
                     }
                   }
                 }}
@@ -279,7 +317,7 @@ const OrderCheckModal = ({
                 flex: 1,
                 ...BaseStyle.pv15,
                 borderRadius: 5,
-                backgroundColor: orderType === '배달' ? Primary.PointColor01 : Primary.PointColor02
+                backgroundColor: orderType === '배달' ? Primary.PointColor01 : orderType === '포장' ? Primary.PointColor02 : Primary.PointColor04
               }}
             >
               <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
