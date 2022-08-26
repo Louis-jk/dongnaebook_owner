@@ -58,8 +58,6 @@ const StoreSetting = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
-      console.log("getStoreInfo arrItems ??", arrItems)
-      
       if (resultItem.result === 'Y') {
         setStoreInit(true)
         setSetting({
@@ -125,9 +123,6 @@ const StoreSetting = props => {
       do_min_price_for_here: setting.do_min_price_for_here,
       mb_one_saving: setting.mb_one_saving
     }
-
-    console.log('data', data);
-    return ;
 
     Api.send('store_guide_update', data, args => {
       const resultItem = args.resultItem
