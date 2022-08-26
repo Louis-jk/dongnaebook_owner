@@ -62,6 +62,8 @@ const OrderDetail = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
+      // console.log('store_order_detail', arrItems)
+
       if (resultItem.result === 'Y') {
         setDetailStore(arrItems.store)
         setDetailOrder(arrItems.order)
@@ -88,7 +90,7 @@ const OrderDetail = props => {
 
   // console.log('====================================')
   // console.log('detailStore', detailStore)
-  // console.log('detailOrder', detailOrder)
+  console.log('detailOrder', detailOrder)
   // console.log('detailProduct', detailProduct)
   // console.log('====================================')
 
@@ -211,7 +213,7 @@ const OrderDetail = props => {
               {/* // 주문 취소/거부 모달 */}
 
               {/* 주문 방식 */}
-              <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.pv15, backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02 }}>
+              <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.pv15, backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : detailOrder.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04  }}>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, color: '#fff' }}>{detailOrder.od_type} 주문</Text>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>{moment(orderTime).format('YYYY년 M월 D일, HH시 mm분')}</Text>
               </View>
@@ -346,6 +348,54 @@ const OrderDetail = props => {
                               }}
                             >
                               {`${detailOrder.order_addr1} ${detailOrder.order_addr3 !== '' ? detailOrder.order_addr3 : ''}`}
+                            </Text>
+                            {/* <Text
+                              style={{
+                                ...BaseStyle.ko14,
+                                ...BaseStyle.font_333,
+                                ...BaseStyle.lh17,
+                                textAlign: 'right'
+                              }}
+                            >
+                              {`${detailOrder.order_addr3}`}
+                            </Text> */}
+                          </View>
+                          {detailOrder.od_addr_jibeon !== '' &&
+                            <View style={{ ...BaseStyle.mb10 }}>
+                              <Text
+                                style={{
+                                  ...BaseStyle.ko14,
+                                  ...BaseStyle.font_333,
+                                  ...BaseStyle.lh17,
+                                  textAlign: 'right'
+                                }}
+                              >
+                                {`${detailOrder.od_addr_jibeon}`}
+                              </Text>
+                            </View>}
+                        </View>
+                      </View>}
+                      {detailOrder.od_type === '식사' &&
+                      <View
+                        style={{
+                          ...BaseStyle.container3,
+                          justifyContent: 'space-between'
+                        }}
+                      >
+                        <View style={{ width: '30%' }}>
+                          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>식사인원수</Text>
+                        </View>
+                        <View style={{ marginTop: -2, width: '65%' }}>
+                          <View style={{ ...BaseStyle.mb10 }}>
+                            <Text
+                              style={{
+                                ...BaseStyle.ko14,
+                                ...BaseStyle.font_333,
+                                ...BaseStyle.lh24,
+                                textAlign: 'right'
+                              }}
+                            >
+                              {detailOrder.od_forhere_num}명
                             </Text>
                             {/* <Text
                               style={{
@@ -753,7 +803,7 @@ const OrderDetail = props => {
                     activeOpacity={1}
                     onPress={toggleOrderCheckModal}
                     style={{
-                      backgroundColor: detailOrder.od_type === '배달' ? '#20ABC8' : Primary.PointColor02,
+                      backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : detailOrder.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04,
                       width: '50%',
                       justifyContent: 'center',
                       alignItems: 'center',
@@ -789,7 +839,7 @@ const OrderDetail = props => {
                     activeOpacity={1}
                     onPress={() => deliveryOrderHandler()}
                     style={{
-                      backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
+                      backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : detailOrder.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04,
                       width: '50%',
                       justifyContent: 'center',
                       alignItems: 'center',
@@ -797,7 +847,7 @@ const OrderDetail = props => {
                     }}
                   >
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>
-                      {detailOrder.od_type === '배달' ? '배달처리' : '포장완료'}
+                      {detailOrder.od_type === '배달' ? '배달처리' : detailOrder.od_type === '포장' ? '포장완료' : '식사완료'}
                     </Text>
                   </TouchableOpacity>
                 </View>

@@ -76,7 +76,7 @@ const DeliveryCompleteModal = ({
               position: 'absolute',
               top: -10,
               right: -10,
-              backgroundColor: Primary.PointColor02,
+              backgroundColor: Primary.PointColor01,
               borderRadius: 50,
               padding: 10
             }}
