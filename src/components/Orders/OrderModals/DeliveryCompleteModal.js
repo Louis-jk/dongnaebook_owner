@@ -111,7 +111,6 @@ const DeliveryCompleteModal = ({
           {/* // 배달완료 처리 | 취소 버튼 영역 */}
         </View>
       </Modal>
-
     </View>
   )
 }
