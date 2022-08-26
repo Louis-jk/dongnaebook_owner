@@ -209,6 +209,11 @@ export default StyleSheet.create({
   ko_medium: { fontFamily: Fonts.NotoSansM },
   ko_bold: { fontFamily: Fonts.NotoSansB },
 
+  c_regular: { fontFamily: Fonts.QuanticoR },
+  c_italic: { fontFamily: Fonts.QuanticoI },
+  c_bold: { fontFamily: Fonts.QuanticoB },
+  c_bold_italic: { fontFamily: Fonts.QuanticoBI },
+
   // en13 : {fontSize: 13, fontFamily: Fonts.DomineR},
   // en15 : {fontSize: 15, fontFamily: Fonts.DomineR},
   // en16 : {fontSize: 16, fontFamily: Fonts.DomineR},
