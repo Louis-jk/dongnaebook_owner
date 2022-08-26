@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, FlatList } from 'react-native'
-import BaseStyle, { Primary } from '../styles/Base'
+import BaseStyle, { Primary } from '../../styles/Base'
 
 const CalculateList = props => {
   const { data } = props
@@ -27,10 +27,8 @@ const CalculateList = props => {
         data={data}
         renderItem={renderRow}
         keyExtractor={(list, index) => index.toString()}
-        // pagingEnabled={true}
         persistentScrollbar
         showsVerticalScrollIndicator={false}
-        // progressViewOffset={true}
         refreshing
         style={{ backgroundColor: '#fff', width: '100%' }}
         ListEmptyComponent={
@@ -39,7 +37,6 @@ const CalculateList = props => {
               justifyContent: 'center',
               alignItems: 'center',
               flex: 1
-              // height: Dimensions.get('window').height - 300,
             }}
           >
             <Text style={{ ...BaseStyle.ko14, textAlign: 'center' }}>

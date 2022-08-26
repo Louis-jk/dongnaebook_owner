@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { View, Text, TouchableOpacity, Image, Platform, Alert } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import BaseStyle, { Primary, customPickerStyles } from '../styles/Base'
+import BaseStyle, { Primary, customPickerStyles } from '../../styles/Base'
 import RNPickerSelect from 'react-native-picker-select' // 셀렉트박스 패키지
 import DateTimePicker from '@react-native-community/datetimepicker'
-import CalculateList from '../components/CalculateList'
+import CalculateList from './CalculateList'
 import moment from 'moment'
-import { monthArr } from '../data/month'
-import { data } from '../data/calcMockData'
+import { monthArr } from '../../data/month'
+import { data } from '../../data/calcMockData'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -85,7 +85,7 @@ const CalculateTabView = () => {
               Icon={() => {
                 return (
                   <Image
-                    source={require('../images/ic_select.png')}
+                    source={require('../../images/ic_select.png')}
                     style={{ width: 50, height: 50 }}
                     resizeMode='center'
                   />
@@ -116,7 +116,7 @@ const CalculateTabView = () => {
               Icon={() => {
                 return (
                   <Image
-                    source={require('../images/ic_select.png')}
+                    source={require('../../images/ic_select.png')}
                     style={{ width: 50, height: 50 }}
                     resizeMode='center'
                   />
@@ -229,7 +229,7 @@ const CalculateTabView = () => {
             }}
           >
             <Image
-              source={require('../images/ico_calendar.png')}
+              source={require('../../images/ico_calendar.png')}
               style={{ width: 18, height: 18, marginRight: 2 }}
               resizeMode='contain'
             />
@@ -252,7 +252,7 @@ const CalculateTabView = () => {
             }}
           >
             <Image
-              source={require('../images/ico_calendar.png')}
+              source={require('../../images/ico_calendar.png')}
               style={{ width: 18, height: 18, marginRight: 2 }}
               resizeMode='contain'
             />

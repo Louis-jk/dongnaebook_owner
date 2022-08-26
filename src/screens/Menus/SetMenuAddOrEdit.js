@@ -18,7 +18,7 @@ import BaseStyle, { Primary, customPickerStyles } from '../../styles/Base'
 import cusToast from '../../components/CusToast'
 import checkMenuValidate from '../../modules/menuValidate'
 import Api from '../../Api'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 import { pickGalleryImage, takeCamera } from '../../modules/imagePickerOrCamera'
 import Categories from '../../components/Categories'
 

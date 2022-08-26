@@ -8,9 +8,9 @@ import {
   Alert
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import Api from '../Api'
-import BaseStyle from '../styles/Base'
-import * as regHolidayAction from '../redux/actions/regularHolidayAction'
+import Api from '../../Api'
+import BaseStyle from '../../styles/Base'
+import * as regHolidayAction from '../../redux/actions/regularHolidayAction'
 
 const StoreRegularHoliday = props => {
   const navigation = props.navigation
@@ -120,7 +120,7 @@ const StoreRegularHoliday = props => {
               hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             >
               <Image
-                source={require('../images/popup_close.png')}
+                source={require('../../images/popup_close.png')}
                 style={{ width: 18, height: 18, borderRadius: 18, opacity: 0.5 }}
                 resizeMode='cover'
               />

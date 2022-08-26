@@ -4,7 +4,7 @@ import RenderHtml from 'react-native-render-html'
 import Header from '../../components/Headers/Header'
 import BaseStyle from '../../styles/Base'
 import Api from '../../Api'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 
 const NoticeDetail = props => {
   const { navigation } = props

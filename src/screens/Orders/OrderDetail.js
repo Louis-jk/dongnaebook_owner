@@ -18,7 +18,7 @@ import OrderRejectCancelModal from '../../components/Orders/OrderModals/OrderRej
 import Api from '../../Api'
 import OrderCheckModal from '../../components/Orders/OrderModals/OrderCheckModal'
 import * as orderAction from '../../redux/actions/orderAction'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 import cusToast from '../../components/CusToast'
 import DeliveryConfirmationModal from '../../components/Orders/OrderModals/DeliveryConfirmationModal'
 

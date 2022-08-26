@@ -19,7 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as loginAction from '../../redux/actions/loginAction'
 import BaseStyle from '../../styles/Base'
 import Api from '../../Api'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const { width, height } = Dimensions.get('window')

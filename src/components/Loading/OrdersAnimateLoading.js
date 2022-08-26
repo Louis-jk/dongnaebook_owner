@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, Animated, Easing, Dimensions } from 'react-native'
-import BaseStyle, {Primary} from '../styles/Base'
+import BaseStyle, {Primary} from '../../styles/Base'
 
 const OrdersAnimateLoading = ({ description }) => {
   const Animation = useState(new Animated.Value(0))[0]
@@ -59,7 +59,7 @@ const OrdersAnimateLoading = ({ description }) => {
       }}
     >
       <Animated.Image
-        source={require('../images/logo_s.png')}
+        source={require('../../images/logo_s.png')}
         style={{
           width: 50,
           height: 50,

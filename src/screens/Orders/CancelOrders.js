@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Header from '../../components/Headers/SubHeader'
 import * as orderAction from '../../redux/actions/orderAction'
-import OrdersAnimateLoading from '../../components/OrdersAnimateLoading'
+import OrdersAnimateLoading from '../../components/Loading/OrdersAnimateLoading'
 import TabLayout from '../../components/Orders/OrderTabs/TabLayout'
 
 const CancelOrders = props => {

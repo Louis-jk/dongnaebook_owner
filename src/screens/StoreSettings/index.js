@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux'
 import Header from '../../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 import cusToast from '../../components/CusToast'
 
 const StoreSetting = props => {

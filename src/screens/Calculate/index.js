@@ -12,7 +12,7 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker'
 import Header from '../../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../../styles/Base'
-import CalculateTabView from '../../components/CalculateTabView'
+import CalculateTabView from '../../components/Calculate/CalculateTabView'
 
 const { width, height } = Dimensions.get('window')
 

@@ -21,7 +21,7 @@ import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
 import * as couponAction from '../../redux/actions/couponAction'
 import cusToast from '../../components/CusToast'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 
 const { width, height } = Dimensions.get('window')
 

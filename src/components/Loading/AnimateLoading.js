@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, Animated, Easing } from 'react-native'
-import BaseStyle from '../styles/Base'
+import BaseStyle from '../../styles/Base'
 
 const AnimateLoading = ({ description }) => {
   const Animation = useState(new Animated.Value(0))[0]
@@ -54,7 +54,7 @@ const AnimateLoading = ({ description }) => {
       }}
     >
       <Animated.Image
-        source={require('../images/logo_mark.png')}
+        source={require('../../images/logo_mark.png')}
         style={{
           width: 80,
           height: 80,

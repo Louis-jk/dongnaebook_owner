@@ -15,7 +15,7 @@ import { useQuery, onlineManager } from '@tanstack/react-query'
 import Header from '../../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 import Layout from '../../layout'
 
 const { width, height } = Dimensions.get('window')

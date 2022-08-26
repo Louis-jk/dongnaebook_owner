@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import OrderCheckModal from '../OrderModals/OrderCheckModal'
 import OrderRejectCancelModal from '../OrderModals/OrderRejectCancelModal'
 import * as orderAction from '../../../redux/actions/orderAction'
-import OrdersAnimateLoading from '../../OrdersAnimateLoading'
+import OrdersAnimateLoading from '../../Loading/OrdersAnimateLoading'
 import TabLayout from './TabLayout'
 
 const Tab01 = props => {

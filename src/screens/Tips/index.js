@@ -18,7 +18,7 @@ import TipsModal from '../../components/Tips/TipsModal'
 import TipsEditModal from '../../components/Tips/TipsEditModal'
 import Api from '../../Api'
 import cusToast from '../../components/CusToast'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 
 const SetTips = props => {
   const { navigation } = props

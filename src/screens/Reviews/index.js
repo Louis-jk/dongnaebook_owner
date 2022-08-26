@@ -29,7 +29,7 @@ import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
 import ImageView from 'react-native-image-viewing'
 import cusToast from '../../components/CusToast'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 
 const Reviews = props => {
   const { navigation } = props

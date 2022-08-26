@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import OrderRejectCancelModal from '../OrderModals/OrderRejectCancelModal'
 import * as orderAction from '../../../redux/actions/orderAction'
-import OrdersAnimateLoading from '../../OrdersAnimateLoading'
+import OrdersAnimateLoading from '../../Loading/OrdersAnimateLoading'
 import TabLayout from './TabLayout'
 import DeliveryConfirmationModal from '../OrderModals/DeliveryConfirmationModal'
 

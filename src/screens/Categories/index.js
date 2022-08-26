@@ -21,7 +21,7 @@ import BaseStyle, { Primary } from '../../styles/Base'
 
 import cusToast from '../../components/CusToast'
 import Api from '../../Api'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 
 const CategoriesSetting = props => {
   const { navigation } = props

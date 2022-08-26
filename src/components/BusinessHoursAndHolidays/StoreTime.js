@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, SafeAreaView, Image, Alert } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import Api from '../Api'
-import BaseStyle from '../styles/Base'
-import * as storeTimeAction from '../redux/actions/storeTimeAction'
-import AnimateLoading from './AnimateLoading'
-import cusToast from './CusToast'
+import Api from '../../Api'
+import BaseStyle from '../../styles/Base'
+import * as storeTimeAction from '../../redux/actions/storeTimeAction'
+import AnimateLoading from '../Loading/AnimateLoading'
+import cusToast from '../CusToast'
 
 const StoreTime = props => {
   const navigation = props.navigation
@@ -108,7 +108,7 @@ const StoreTime = props => {
                   hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
                 >
                   <Image
-                    source={require('../images/popup_close.png')}
+                    source={require('../../images/popup_close.png')}
                     style={{ width: 18, height: 18, borderRadius: 18, opacity: 0.5 }}
                     resizeMode='cover'
                   />

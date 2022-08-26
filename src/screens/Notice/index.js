@@ -11,7 +11,7 @@ import {
 import Header from '../../components/Headers/SubHeader'
 import BaseStyle from '../../styles/Base'
 import Api from '../../Api'
-import AnimateLoading from '../../components/AnimateLoading'
+import AnimateLoading from '../../components/Loading/AnimateLoading'
 
 const { width, height } = Dimensions.get('window')
 

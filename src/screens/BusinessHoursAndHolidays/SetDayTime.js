@@ -11,8 +11,8 @@ import BaseStyle, { Primary } from '../../styles/Base'
 import { Calendar, LocaleConfig } from 'react-native-calendars'
 import { useSelector } from 'react-redux'
 import Api from '../../Api'
-import StoreTime from '../../components/StoreTime'
-import StoreRegularHoliday from '../../components/StoreRegularHoliday'
+import StoreTime from '../../components/BusinessHoursAndHolidays/StoreTime'
+import StoreRegularHoliday from '../../components/BusinessHoursAndHolidays/StoreRegularHoliday'
 
 export function ListCheckbox (props) {
   return <View />
