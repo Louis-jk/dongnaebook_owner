@@ -17,6 +17,7 @@ const DeliveryConfirmationModal = ({
   navigation
 }) => {
   const dispatch = useDispatch()
+  
   // 주문 배달처리
   const sendDeliverHandler = () => {
     const param = {
@@ -29,17 +30,13 @@ const DeliveryConfirmationModal = ({
     Api.send('store_order_status_update', param, args => {
       const resultItem = args.resultItem
 
-      console.log('배달 | 포장 처리 resultItem ?', resultItem)
+      dispatch(orderAction.initCheckOrderLimit(5))
+      dispatch(orderAction.getCheckOrder())
+      toggleModal()
 
       if (resultItem.result === 'Y') {
-        dispatch(orderAction.initCheckOrderLimit(5))
-        dispatch(orderAction.getCheckOrder())
-        toggleModal()
         cusToast(`주문을 ${orderType === '배달' ? '배달' : '포장완료'} 처리하였습니다.`)
       } else {
-        dispatch(orderAction.initCheckOrderLimit(5))
-        dispatch(orderAction.getCheckOrder())
-        toggleModal()
         cusToast(`주문 ${orderType === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
       }
 
