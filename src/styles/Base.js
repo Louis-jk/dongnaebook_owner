@@ -6,7 +6,7 @@ const SCREEN_WIDTH = Dimensions.get('window').width
 
 export const main = '#20ABC8' // #277BC0
 export const mint = '#5AC69F'
-export const orange = '#FFCB42'
+export const orange = '#FEB139' // #FFCB42
 export const grey = '#ececec'
 export const green = '#58BC1F'
 
@@ -209,6 +209,7 @@ export default StyleSheet.create({
   ko_medium: { fontFamily: Fonts.NotoSansM },
   ko_bold: { fontFamily: Fonts.NotoSansB },
 
+  s_regular: { fontFamily: Fonts.SquadaOneR },
   c_regular: { fontFamily: Fonts.QuanticoR },
   c_italic: { fontFamily: Fonts.QuanticoI },
   c_bold: { fontFamily: Fonts.QuanticoB },
