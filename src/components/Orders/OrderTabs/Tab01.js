@@ -87,7 +87,7 @@ const Tab01 = props => {
             isModalVisible={isModalVisible}
             toggleModal={toggleModal}
             modalType={modalType}
-            od_id={orderId}
+            orderId={orderId}
             jumjuId={jumjuId}
             jumjuCode={jumjuCode}
           />
