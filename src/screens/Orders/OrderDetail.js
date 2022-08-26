@@ -21,6 +21,7 @@ import * as orderAction from '../../redux/actions/orderAction'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
 import cusToast from '../../components/CusToast'
 import DeliveryConfirmationModal from '../../components/Orders/OrderModals/DeliveryConfirmationModal'
+import DeliveryCompleteModal from '../../components/Orders/OrderModals/DeliveryCompleteModal'
 
 const OrderDetail = props => {
   const { navigation } = props
@@ -30,6 +31,10 @@ const OrderDetail = props => {
   const [detailOrder, setDetailOrder] = React.useState(null)
   const [detailProduct, setDetailProduct] = React.useState([])
   const [isLoading, setLoading] = React.useState(true)
+
+  console.log('====================================');
+  console.log('orderId ?', orderId);
+  console.log('====================================');
 
   const dispatch = useDispatch()
 
@@ -125,54 +130,8 @@ const OrderDetail = props => {
     setOrderCheckModalVisible(!isOrderCheckModalVisible)
   }
 
-  // 주문 배달처리 후 리스트 갱신
-  function getOrderListHandlerCheck () {
-    const param = {
-      encodeJson: true,
-      item_count: 0,
-      limit_count: 10,
-      jumju_id: jumjuId,
-      jumju_code: jumjuCode,
-      od_process_status: '접수완료'
-    }
 
-    Api.send('store_order_list', param, args => {
-      const resultItem = args.resultItem
-      const arrItems = args.arrItems
-
-      if (resultItem.result === 'Y') {
-        dispatch(orderAction.updateCheckOrder(JSON.stringify(arrItems)))
-      } else {
-        dispatch(orderAction.updateCheckOrder(null))
-      }
-    })
-  }
-
-  // 주문 배달처리
-  function sendDeliverHandler () {
-    const param = {
-      od_id: orderId,
-      jumju_id: jumjuId,
-      jumju_code: jumjuCode,
-      od_process_status: detailOrder.od_type === '배달' ? '배달중' : '포장완료'
-    }
-
-    Api.send('store_order_status_update', param, args => {
-      const resultItem = args.resultItem
-
-      if (resultItem.result === 'Y') {
-        getOrderListHandlerCheck()
-        cusToast(`주문을 ${detailOrder.od_type === '배달' ? '배달' : '포장완료'} 처리하였습니다.`)
-      } else {
-        cusToast(`주문을 ${detailOrder.od_type === '배달' ? '배달' : '포장완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
-      }
-
-      setTimeout(() => {
-        navigation.navigate('Home', { screen: 'Main' })
-      }, 1500)
-    })
-  }
-
+  // 배달처리 모달 핸들러
   const [isDeliveryConfirmModalVisible, setDeliveryConfirmModalVisible] = React.useState(false)
 
   const toggleDeliveryConfirmModal = () => {
@@ -181,6 +140,17 @@ const OrderDetail = props => {
 
   function deliveryOrderHandler () {
     setDeliveryConfirmModalVisible(true)
+  }
+
+  // 배달완료 처리 모달 핸들러
+  const [isDeliveryCompleteModalVisible, setDeliveryCompleteModalVisible] = React.useState(false)
+
+  const toggleDeliveryCompleteModal = () => {
+    setDeliveryCompleteModalVisible(!isDeliveryCompleteModalVisible)
+  }
+
+  function deliveryCompleteHandler () {
+    setDeliveryCompleteModalVisible(true)
   }
 
   return (
@@ -217,13 +187,24 @@ const OrderDetail = props => {
               />
               {/* // 배달 | 포장 처리 모달 */}
 
+              {/* 배달 완료 처리 모달 */}
+              <DeliveryCompleteModal
+                isModalVisible={isDeliveryCompleteModalVisible}
+                toggleModal={toggleDeliveryCompleteModal}
+                orderId={orderId}
+                jumjuId={jumjuId}
+                jumjuCode={jumjuCode}
+                navigation={navigation}
+              />
+              {/* // 배달 완료 처리 모달 */}
+
               {/* 주문 취소/거부 모달 */}
               <OrderRejectCancelModal
                 navigation={navigation}
                 isModalVisible={isModalVisible}
                 toggleModal={toggleModal}
                 modalType={modalType}
-                od_id={orderId}
+                orderId={orderId}
                 jumjuId={jumjuId}
                 jumjuCode={jumjuCode}
               />
@@ -817,6 +798,27 @@ const OrderDetail = props => {
                   >
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>
                       {detailOrder.od_type === '배달' ? '배달처리' : '포장완료'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              {type === 'going' && (
+              // 처리중일 경우 출력
+                <View style={{ ...BaseStyle.container, width: Dimensions.get('window').width }}>
+                  <TouchableOpacity
+                    activeOpacity={1}
+                    onPress={() => deliveryCompleteHandler()}
+                    style={{
+                      backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
+                      width: '100%',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      ...BaseStyle.pv15
+                    }}
+                  >
+                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>
+                      배달완료
                     </Text>
                   </TouchableOpacity>
                 </View>

@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as orderAction from '../../../redux/actions/orderAction'
 import OrdersAnimateLoading from '../../Loading/OrdersAnimateLoading'
+import DeliveryCompleteModal from '../OrderModals/DeliveryCompleteModal'
 import TabLayout from './TabLayout'
 
 const Tab03 = props => {
@@ -13,6 +14,11 @@ const Tab03 = props => {
   const [isLoading, setLoading] = React.useState(false)
   const [firstInifinite, setFirstInfinite] = React.useState(false)
   const [orderCnt, setOrderCnt] = React.useState(0)
+
+  const [orderId, setOrderId] = React.useState('') // 주문 ID
+  const [jumjuId, setJumjuId] = React.useState('') // 해당 점주 아이디
+  const [jumjuCode, setJumjuCode] = React.useState('') // 해당 점주 코드
+  const [isDeliveryCompleteModalVisible, setDeliveryCompleteModalVisible] = React.useState(false)
 
   const dispatch = useDispatch()
 
@@ -45,12 +51,29 @@ const Tab03 = props => {
     dispatch(orderAction.getDeliveryOrder())
   }
 
+  function toggleDeliveryCompleteModal () {
+    setDeliveryCompleteModalVisible(!isDeliveryCompleteModalVisible)
+  }
+
+  const deliveryOrderHandler = () => {
+    setDeliveryCompleteModalVisible(true)
+  }
+
   return (
     <>
       {isLoading && <OrdersAnimateLoading description='데이터를 불러오는 중입니다.' />}
 
       {!isLoading &&
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
+          <DeliveryCompleteModal 
+            isModalVisible={isDeliveryCompleteModalVisible}
+            toggleModal={toggleDeliveryCompleteModal}
+            orderId={orderId}
+            jumjuId={jumjuId}
+            jumjuCode={jumjuCode}
+            navigation={navigation}
+          />
 
           <TabLayout
             index={3}
@@ -59,6 +82,10 @@ const Tab03 = props => {
             onHandleRefresh={onHandleRefresh}
             handleLoadMore={handleLoadMore}
             refleshing={refleshing}
+            setOrderId={setOrderId}
+            setJumjuId={setJumjuId}
+            setJumjuCode={setJumjuCode}
+            deliveryOrderHandler={deliveryOrderHandler}
           />
         </View>}
     </>
