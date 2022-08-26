@@ -90,18 +90,6 @@ const TabLayout = props => {
                 <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }} numberOfLines={1}>
                   {item.mb_company}
                 </Text>
-                {/* <View
-                  style={{
-                    ...BaseStyle.ph5,
-                    ...BaseStyle.ml10,
-                    borderRadius: 5,
-                    backgroundColor:
-                      item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
-                    paddingVertical: Platform.OS === 'android' ? 2 : 0
-                  }}
-                >
-                  <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_white, marginBottom: Platform.OS === 'ios' ? 2 : 0 }}>{item.od_type}</Text>
-                </View> */}
               </View>
               {/* // 회사명 */}
 
@@ -126,8 +114,9 @@ const TabLayout = props => {
             </TouchableOpacity>
             {/* // 주문 정보 */}
 
-            {/* 접수, 주문거부 버튼 영역 */}
+            
             {/* 신규주문 */}
+            {/* 접수, 주문거부 버튼 영역 */}
             {tabIndex === 1 &&
               <View style={{ flex: 1 }}>
                 <TouchableOpacity
@@ -179,9 +168,11 @@ const TabLayout = props => {
                   </Text>
                 </TouchableOpacity>
               </View>}
+              {/* // 접수, 주문거부 버튼 영역 */}
             {/* // 신규주문 */}
 
             {/* 접수완료 */}
+            {/* 배달처리 | 포장완료 처리, 주문거부 버튼 영역 */}
             {tabIndex === 2 &&
               <View style={{ flex: 1 }}>
                 <TouchableOpacity
@@ -238,17 +229,20 @@ const TabLayout = props => {
                   </Text>
                 </TouchableOpacity>
               </View>}
+            {/* // 배달처리 | 포장완료 처리, 주문거부 버튼 영역 */}
             {/* // 접수완료 */}
-
+            {console.log('item ?', item)}
             {/* 배달중 */}
             {tabIndex === 3 &&
               <View style={{ flex: 1, alignSelf: 'flex-start' }}>
                 <TouchableOpacity
                   activeOpacity={1}
-                  // onPress={() => {
-                  //   setOrderId(item.od_id)
-                  //   deliveryOrderHandler(item.od_type, item.od_id, item.jumju_id, item.jumju_code)
-                  // }}
+                  onPress={async () => {
+                    await setOrderId(item.od_id)
+                    await setJumjuId(item.jumju_id)
+                    await setJumjuCode(item.jumju_code)
+                    await deliveryOrderHandler()
+                  }}
                   style={{
                     backgroundColor:
                   item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
@@ -274,7 +268,7 @@ const TabLayout = props => {
                 </TouchableOpacity>
               </View>}
             {/* // 배달중 */}
-            {/* // 접수, 주문거부 버튼 영역 */}
+            
 
           </View>
           {/* 배달 주소 */}
