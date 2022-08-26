@@ -49,6 +49,8 @@ const StoreSetting = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
+      console.log("getStoreInfo arrItems ??", arrItems)
+      
       if (resultItem.result === 'Y') {
         setStoreInit(true)
         setSetting({
@@ -133,30 +135,13 @@ const StoreSetting = props => {
         mt_print: setting.mt_print,
         RangeType: range
       }
-
-      // else if (setting.mt_print === null || setting.mt_print === "") {
-      //   Alert.alert("주문 접수시 자동 프린트 여부를 지정해주세요.", "", [
-      //     {
-      //       text: "확인",
-      //     },
-      //   ]);
-      // }
+  
 
       Api.send('store_setting_update', param, args => {
         const resultItem = args.resultItem
         const arrItems = args.arrItems
         if (resultItem.result === 'Y') {
           cusToast('매장설정을 수정하였습니다.')
-
-          // Alert.alert('매장설정을 수정하였습니다.', '메인화면으로 이동하시겠습니까?', [
-          //   {
-          //     text: '예',
-          //     onPress: () => navigation.navigate('Home', { screen: 'Main' })
-          //   },
-          //   {
-          //     text: '아니요'
-          //   }
-          // ])
         } else {
           cusToast('매장설정을 수정하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.')
         }
