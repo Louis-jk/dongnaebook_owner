@@ -5,23 +5,27 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
-  Linking,
-  Alert,
   BackHandler
 } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/ko'
 import Header from '../../components/Headers/SetHeader'
 import BaseStyle, { Primary } from '../../styles/Base'
-import OrderRejectCancelModal from '../../components/Orders/OrderModals/OrderRejectCancelModal'
+import OrderRejectCancelModal from '../../components/Orders/Modals/OrderRejectCancelModal'
 import Api from '../../Api'
-import OrderCheckModal from '../../components/Orders/OrderModals/OrderCheckModal'
+import OrderCheckModal from '../../components/Orders/Modals/OrderCheckModal'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
 import cusToast from '../../components/CusToast'
-import DeliveryConfirmationModal from '../../components/Orders/OrderModals/DeliveryConfirmationModal'
-import DeliveryCompleteModal from '../../components/Orders/OrderModals/DeliveryCompleteModal'
+import DeliveryConfirmationModal from '../../components/Orders/Modals/DeliveryConfirmationModal'
+import DeliveryCompleteModal from '../../components/Orders/Modals/DeliveryCompleteModal'
 import Steps from '../../data/order/steps'
 import Types from '../../data/order/types'
+import OrderedStore from '../../components/Orders/Details/OrderedStore'
+import OrderedInfo from '../../components/Orders/Details/OrderedInfo'
+import OrderedMenus from '../../components/Orders/Details/OrderedMenus'
+import OrderRequest from '../../components/Orders/Details/OrderRequest'
+import OrderPaymentInfo from '../../components/Orders/Details/OrderPaymentInfo'
+import Divider from '../../components/Divider'
 
 const OrderDetail = props => {
   const { navigation } = props
@@ -97,13 +101,21 @@ const OrderDetail = props => {
   function setHeaderTitleHandler () {
     if (type === 'ready') {
       setTitle(Steps[0])
-    } else if (type === 'doing') {
+    }
+
+    if (type === 'doing') {
       setTitle(Steps[1])
-    } else if (type === 'going') {
+    }
+
+    if (type === 'going') {
       setTitle(Steps[2])
-    } else if (type === 'cancel') {
+    }
+
+    if (type === 'cancel') {
       setTitle(Steps[4])
-    } else {
+    }
+
+    if (type === 'done') {
       setTitle(Steps[3])
     }
   }
@@ -254,509 +266,42 @@ const OrderDetail = props => {
                           </Text>
                         </View>
                       </View>
-                      <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+                      <Divider />
                     </>
                   )}
                   {/* // 취소건 일 때 취소 사유 */}
 
                   {/* 기본 정보 리스트 */}
-                  <View style={{ ...BaseStyle.mv15, marginTop: type === 'cancel' ? 15 : 0 }}>
-                    {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15}}>기본 정보</Text> */}
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
-                      주문 매장
-                    </Text>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '30%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-                          상호명
-                        </Text>
-                      </View>
-                      <View style={{ width: '65%' }}>
-                        <Text
-                          style={{
-                            ...BaseStyle.ko14,
-                            ...BaseStyle.font_333,
-                            ...BaseStyle.lh24,
-                            textAlign: 'right'
-                          }}
-                        >
-                          {detailStore.mb_company}
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '30%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>주문시간</Text>
-                      </View>
-                      <View style={{ width: '65%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, textAlign: 'right' }}>
-                          {moment(orderTime).format('YYYY년 M월 D일, HH시 mm분')}
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '30%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>주문방법</Text>
-                      </View>
-                      <View style={{ width: '65%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, textAlign: 'right' }}>
-                          {detailOrder.od_type} 주문
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
+                  <OrderedStore
+                    type={type}
+                    detailStore={detailStore}
+                    orderTime={orderTime}
+                    detailOrder={detailOrder}
+                  />
                   {/* // 기본 정보 리스트 */}
 
-                  <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+                  <Divider />
 
                   {/* 배달 정보 리스트 */}
-                  <View style={{ ...BaseStyle.mv15 }}>
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
-                      {detailOrder.od_type} 정보
-                    </Text>
-                    {detailOrder.od_type === Types[0].text &&
-                      <View
-                        style={{
-                          ...BaseStyle.container3,
-                          justifyContent: 'space-between',
-                          ...BaseStyle.mb10
-                        }}
-                      >
-                        <View style={{ width: '30%' }}>
-                          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>배달주소</Text>
-                        </View>
-                        <View style={{ marginTop: -2, width: '65%' }}>
-                          <View style={{ ...BaseStyle.mb10 }}>
-                            <Text
-                              style={{
-                                ...BaseStyle.ko14,
-                                ...BaseStyle.font_333,
-                                ...BaseStyle.lh24,
-                                textAlign: 'right'
-                              }}
-                            >
-                              {`${detailOrder.order_addr1} ${detailOrder.order_addr3 !== '' ? detailOrder.order_addr3 : ''}`}
-                            </Text>
-                            {/* <Text
-                              style={{
-                                ...BaseStyle.ko14,
-                                ...BaseStyle.font_333,
-                                ...BaseStyle.lh17,
-                                textAlign: 'right'
-                              }}
-                            >
-                              {`${detailOrder.order_addr3}`}
-                            </Text> */}
-                          </View>
-                          {detailOrder.od_addr_jibeon !== '' &&
-                            <View style={{ ...BaseStyle.mb10 }}>
-                              <Text
-                                style={{
-                                  ...BaseStyle.ko14,
-                                  ...BaseStyle.font_333,
-                                  ...BaseStyle.lh17,
-                                  textAlign: 'right'
-                                }}
-                              >
-                                {`${detailOrder.od_addr_jibeon}`}
-                              </Text>
-                            </View>}
-                        </View>
-                      </View>}
-                    {detailOrder.od_type === Types[2].text &&
-                      <View
-                        style={{
-                          ...BaseStyle.container3,
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        <View style={{ width: '30%' }}>
-                          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>식사인원수</Text>
-                        </View>
-                        <View style={{ marginTop: -2, width: '65%' }}>
-                          <View style={{ ...BaseStyle.mb10 }}>
-                            <Text
-                              style={{
-                                ...BaseStyle.ko14,
-                                ...BaseStyle.font_333,
-                                ...BaseStyle.lh24,
-                                textAlign: 'right'
-                              }}
-                            >
-                              {detailOrder.od_forhere_num}명
-                            </Text>
-                          </View>
-                          {detailOrder.od_addr_jibeon !== '' &&
-                            <View style={{ ...BaseStyle.mb10 }}>
-                              <Text
-                                style={{
-                                  ...BaseStyle.ko14,
-                                  ...BaseStyle.font_333,
-                                  ...BaseStyle.lh17,
-                                  textAlign: 'right'
-                                }}
-                              >
-                                {`${detailOrder.od_addr_jibeon}`}
-                              </Text>
-                            </View>}
-                        </View>
-                      </View>}
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '30%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>전화번호</Text>
-                      </View>
-                      <TouchableOpacity
-                        activeOpacity={1}
-                        style={{ width: '65%' }}
-                        onPress={() => {
-                          Alert.alert('주문자에게 전화를 거시겠습니까?', '', [
-                            {
-                              text: '전화걸기',
-                              onPress: () => Linking.openURL(`tel: ${detailOrder.order_hp}`)
-                            },
-                            {
-                              text: '취소'
-                            }
-                          ])
-                        }}
-                      >
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, textAlign: 'right' }}>
-                          {Api.phoneFomatter(detailOrder.order_hp)}
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
+                  <OrderedInfo detailOrder={detailOrder} />
                   {/* // 배달 정보 리스트 */}
 
-                  <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+                  <Divider />
 
                   {/* 메뉴 정보 리스트 */}
-                  <View style={{ ...BaseStyle.mv15 }}>
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
-                      메뉴 정보
-                    </Text>
-
-                    {detailProduct.length > 0 &&
-                  detailProduct.map((menu, index) => (
-                    <View
-                      key={index}
-                      activeOpacity={1}
-                      style={{
-                        borderWidth: 1,
-                        borderColor: '#E3E3E3',
-                        borderRadius: 5,
-                        ...BaseStyle.ph15,
-                        ...BaseStyle.pv15,
-                        ...BaseStyle.mb10
-                      }}
-                    >
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          alignItems: 'flex-start',
-                          ...BaseStyle.mb7
-                        }}
-                      >
-                        <Text
-                          style={{
-                            flex: 1,
-                            ...BaseStyle.ko16,
-                            ...BaseStyle.font_bold,
-                            ...BaseStyle.mr10,
-                            ...BaseStyle.mb7
-                          }}
-                        >
-                          {menu.it_name}
-                        </Text>
-                        <Text
-                          style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.mb7 }}
-                        >
-                          {Api.comma(menu.sum_price)}원
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          marginBottom:
-                            menu.cart_add_option && menu.cart_add_option.length > 0 ? 10 : 0
-                        }}
-                      >
-                        {menu.cart_option &&
-                          menu.cart_option.length > 0 &&
-                          menu.cart_option.map((defaultOption, key) => (
-                            <View
-                              key={`defaultOption-${key}`}
-                              style={{
-                                marginBottom:
-                                  key === menu.cart_option.length - 1 &&
-                                  menu.cart_add_option &&
-                                  menu.cart_add_option.length === 0
-                                    ? 0
-                                    : 10
-                              }}
-                            >
-                              <View
-                                style={{
-                                  flexDirection: 'row',
-                                  justifyContent: 'flex-start',
-                                  alignItems: 'flex-start',
-                                  ...BaseStyle.mb7,
-                                  flexWrap: 'wrap'
-                                }}
-                              >
-                                <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_222 }}>└ </Text>
-                                <Text
-                                  style={{
-                                    ...BaseStyle.ko14,
-                                    ...BaseStyle.font_222
-                                    // backgroundColor: Primary.PointColor01,
-                                    // color: '#222',
-                                  }}
-                                >
-                                  기본옵션 : {defaultOption.ct_option}
-                                </Text>
-                              </View>
-                              <View
-                                style={{
-                                  flexDirection: 'row',
-                                  justifyContent: 'flex-start',
-                                  alignItems: 'flex-start',
-                                  ...BaseStyle.mb3,
-                                  flexWrap: 'wrap'
-                                }}
-                              >
-                                <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_222 }}>└ </Text>
-                                <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>
-                                  옵션금액 : {Api.comma(defaultOption.io_price)}원
-                                </Text>
-                              </View>
-                            </View>
-                          ))}
-                      </View>
-                      {menu.cart_add_option &&
-                        menu.cart_add_option.length > 0 &&
-                        menu.cart_add_option.map((addOption, key) => (
-                          <View
-                            key={`addOption-${key}`}
-                            style={{
-                              marginBottom: key === menu.cart_add_option.length - 1 ? 0 : 10
-                            }}
-                          >
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                justifyContent: 'flex-start',
-                                alignItems: 'flex-start',
-                                ...BaseStyle.mb3,
-                                flexWrap: 'wrap'
-                              }}
-                            >
-                              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_222 }}>└ </Text>
-                              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_222 }}>
-                                추가옵션 : {addOption.ct_option}
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                justifyContent: 'flex-start',
-                                alignItems: 'flex-start',
-                                ...BaseStyle.mb3,
-                                flexWrap: 'wrap'
-                              }}
-                            >
-                              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_222 }}>└ </Text>
-                              <Text style={{ ...BaseStyle.ko13, ...BaseStyle.font_222 }}>
-                                옵션금액 : {Api.comma(addOption.io_price)}원
-                              </Text>
-                            </View>
-                          </View>
-                        ))}
-                    </View>
-                  ))}
-                  </View>
+                  <OrderedMenus detailProduct={detailProduct} />
                   {/* // 메뉴 정보 리스트 */}
 
-                  <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+                  <Divider />
 
                   {/* 요청사항 리스트 */}
-                  <View style={{ ...BaseStyle.mv15 }}>
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
-                      요청사항
-                    </Text>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '30%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-                          사장님께
-                        </Text>
-                      </View>
-                      <View style={{ width: '65%' }}>
-                        <Text
-                          style={{
-                            ...BaseStyle.ko14,
-                            ...BaseStyle.font_333,
-                            ...BaseStyle.lh24,
-                            textAlign: 'right'
-                          }}
-                        >
-                          {detailOrder.order_seller ? detailOrder.order_seller : '요청사항이 없습니다.'}
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '30%' }}>
-                        <Text
-                          style={{
-                            ...BaseStyle.ko14,
-                            ...BaseStyle.font_222,
-                            ...BaseStyle.lh17
-                          }}
-                        >
-                          배달기사님께
-                        </Text>
-                      </View>
-                      <View style={{ width: '65%' }}>
-                        <Text
-                          style={{
-                            ...BaseStyle.ko14,
-                            ...BaseStyle.font_333,
-                            ...BaseStyle.lh24,
-                            textAlign: 'right'
-                          }}
-                        >
-                          {detailOrder.order_officer
-                            ? detailOrder.order_officer
-                            : '요청사항이 없습니다.'}
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '50%' }}>
-                        <Text
-                          style={{
-                            ...BaseStyle.ko14,
-                            ...BaseStyle.font_222,
-                            ...BaseStyle.lh24
-                          }}
-                        >
-                          일회용 수저, 포크 유무
-                        </Text>
-                      </View>
-                      <View style={{ width: '45%' }}>
-                        <Text
-                          style={{
-                            ...BaseStyle.ko14,
-                            ...BaseStyle.font_333,
-                            ...BaseStyle.lh24,
-                            textAlign: 'right'
-                          }}
-                        >
-                          {detailOrder.od_no_spoon == '1' ? '필요없음' : '필요함'}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
+                  <OrderRequest detailOrder={detailOrder} />
                   {/* // 요청사항 리스트 */}
 
-                  <View style={{ height: 1, width: '100%', backgroundColor: '#ececec' }} />
+                  <Divider />
 
                   {/* 결제정보 리스트 */}
-                  <View
-                    style={{
-                      // borderWidth: 1,
-                      // borderColor: '#E3E3E3',
-                      borderRadius: 5,
-                      backgroundColor: '#F9F8FB',
-                      ...BaseStyle.pv20,
-                      ...BaseStyle.ph15,
-                      ...BaseStyle.mt20,
-                      ...BaseStyle.mb15
-                    }}
-                  >
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
-                      결제정보
-                    </Text>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '50%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-                          총 주문금액
-                        </Text>
-                      </View>
-                      <View>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, ...BaseStyle.lh17 }}>
-                          {Api.comma(detailOrder.odder_cart_price)} 원
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '50%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-                          배달팁
-                        </Text>
-                      </View>
-                      <View>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, ...BaseStyle.lh17 }}>
-                          {Api.comma(detailOrder.order_cost)} 원
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '50%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-                          동네북 포인트
-                        </Text>
-                      </View>
-                      <View>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, ...BaseStyle.lh17 }}>
-                          {Api.comma(detailOrder.order_point)} p
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '50%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-                          동네북 쿠폰 할인
-                        </Text>
-                      </View>
-                      <View>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, ...BaseStyle.lh17 }}>
-                          {Api.comma(detailOrder.order_coupon_ohjoo)} 원
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <View style={{ width: '50%' }}>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-                          상점 쿠폰 할인
-                        </Text>
-                      </View>
-                      <View>
-                        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, ...BaseStyle.lh17 }}>
-                          {Api.comma(detailOrder.order_coupon_store)} 원
-                        </Text>
-                      </View>
-                    </View>
-                    <View
-                      style={{
-                        height: 1,
-                        width: '100%',
-                        backgroundColor: '#E3E3E3',
-                        ...BaseStyle.mb20
-                      }}
-                    />
-                    <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-                      <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>총 결제금액</Text>
-                      <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>
-                        {Api.comma(detailOrder.order_sumprice)} 원
-                      </Text>
-                    </View>
-                    <View style={{ ...BaseStyle.container5 }}>
-                      <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>결제방법</Text>
-                      <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>
-                        {detailOrder.od_settle_case}
-                      </Text>
-                    </View>
-                  </View>
+                  <OrderPaymentInfo detailOrder={detailOrder} />
                   {/* // 결제정보 리스트 */}
                 </View>
               </ScrollView>
