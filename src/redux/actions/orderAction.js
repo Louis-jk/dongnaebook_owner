@@ -23,7 +23,6 @@ export function updateNewOrder (data) {
 }
 
 export function updateNewOrderLimit (data) {
-
   return {
     type: types.SET_NEW_ORDER_LIMIT,
     payload: data
@@ -31,7 +30,6 @@ export function updateNewOrderLimit (data) {
 }
 
 export function initNewOrderLimit (data) {
-
   return {
     type: types.INIT_NEW_ORDER_LIMIT,
     payload: data
@@ -55,7 +53,6 @@ export function updateCheckOrder (data) {
 }
 
 export function updateCheckOrderLimit (data) {
-
   return {
     type: types.SET_CHECK_ORDER_LIMIT,
     payload: data
@@ -63,7 +60,6 @@ export function updateCheckOrderLimit (data) {
 }
 
 export function initCheckOrderLimit (data) {
-
   return {
     type: types.INIT_CHECK_ORDER_LIMIT,
     payload: data
@@ -87,7 +83,6 @@ export function updateDeliveryOrder (data) {
 }
 
 export function updateDeliveryOrderLimit (data) {
-
   return {
     type: types.SET_DELIVERY_ORDER_LIMIT,
     payload: data
@@ -95,7 +90,6 @@ export function updateDeliveryOrderLimit (data) {
 }
 
 export function initDeliveryOrderLimit (data) {
-
   return {
     type: types.INIT_DELIVERY_ORDER_LIMIT,
     payload: data
@@ -119,7 +113,6 @@ export function updateDoneOrder (data) {
 }
 
 export function updateDoneOrderLimit (data) {
-
   return {
     type: types.SET_DONE_ORDER_LIMIT,
     payload: data
@@ -127,7 +120,6 @@ export function updateDoneOrderLimit (data) {
 }
 
 export function initDoneOrderLimit (data) {
-
   return {
     type: types.INIT_DONE_ORDER_LIMIT,
     payload: data
@@ -151,7 +143,6 @@ export function updateCancelOrder (data) {
 }
 
 export function updateCancelOrderLimit (data) {
-
   return {
     type: types.SET_CANCEL_ORDER_LIMIT,
     payload: data
@@ -159,7 +150,6 @@ export function updateCancelOrderLimit (data) {
 }
 
 export function initCancelOrderLimit (data) {
-
   return {
     type: types.INIT_CANCEL_ORDER_LIMIT,
     payload: data

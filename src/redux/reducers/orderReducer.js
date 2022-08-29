@@ -3,29 +3,29 @@ import types from '../actions/types'
 const defaultState = {
   selectOrderTab: 0,
   orderNew: {
-    reflesh: false, 
+    reflesh: false,
     orders: [],
-    limit: 5 
+    limit: 5
   },
   orderCheck: {
-    reflesh: false, 
+    reflesh: false,
     orders: [],
-    limit: 5 
+    limit: 5
   },
   orderDelivery: {
-    reflesh: false, 
+    reflesh: false,
     orders: [],
-    limit: 5 
+    limit: 5
   },
   orderDone: {
-    reflesh: false, 
+    reflesh: false,
     orders: [],
-    limit: 5 
+    limit: 5
   },
   orderCancel: {
-    reflesh: false, 
+    reflesh: false,
     orders: [],
-    limit: 5 
+    limit: 5
   }
 }
 
@@ -38,7 +38,7 @@ export default order = (state = defaultState, action) => {
         ...state,
         selectOrderTab: action.payload
       }
-  
+
     // 신규 주문
     case types.GET_NEW_ORDER_LIST:
       return {
@@ -96,20 +96,20 @@ export default order = (state = defaultState, action) => {
         }
       }
     case types.SET_CHECK_ORDER_LIMIT:
-        return {
-          ...state,
-          orderCheck: {
-            ...state.orderCheck,
-            limit: state.orderCheck.limit + action.payload
-          }
+      return {
+        ...state,
+        orderCheck: {
+          ...state.orderCheck,
+          limit: state.orderCheck.limit + action.payload
+        }
       }
     case types.INIT_CHECK_ORDER_LIMIT:
-        return {
-          ...state,
-          orderCheck: {
-            ...state.orderCheck,
-            limit: action.payload
-          }
+      return {
+        ...state,
+        orderCheck: {
+          ...state.orderCheck,
+          limit: action.payload
+        }
       }
 
     // 배달중
@@ -132,20 +132,20 @@ export default order = (state = defaultState, action) => {
         }
       }
     case types.SET_DELIVERY_ORDER_LIMIT:
-        return {
-          ...state,
-          orderDelivery: {
-            ...state.orderDelivery,
-            limit: state.orderDelivery.limit + action.payload
-          }
+      return {
+        ...state,
+        orderDelivery: {
+          ...state.orderDelivery,
+          limit: state.orderDelivery.limit + action.payload
+        }
       }
     case types.INIT_DELIVERY_ORDER_LIMIT:
-        return {
-          ...state,
-          orderDelivery: {
-            ...state.orderDelivery,
-            limit: action.payload
-          }
+      return {
+        ...state,
+        orderDelivery: {
+          ...state.orderDelivery,
+          limit: action.payload
+        }
       }
 
     // 처리완료
@@ -168,20 +168,20 @@ export default order = (state = defaultState, action) => {
         }
       }
     case types.SET_DONE_ORDER_LIMIT:
-        return {
-          ...state,
-          orderDone: {
-            ...state.orderDone,
-            limit: state.orderDone.limit + action.payload
-          }
+      return {
+        ...state,
+        orderDone: {
+          ...state.orderDone,
+          limit: state.orderDone.limit + action.payload
+        }
       }
     case types.INIT_DONE_ORDER_LIMIT:
-        return {
-          ...state,
-          orderDone: {
-            ...state.orderDone,
-            limit: action.payload
-          }
+      return {
+        ...state,
+        orderDone: {
+          ...state.orderDone,
+          limit: action.payload
+        }
       }
 
     // 주문 쉬소
