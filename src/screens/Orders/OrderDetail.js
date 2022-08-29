@@ -9,7 +9,6 @@ import {
   Alert,
   BackHandler
 } from 'react-native'
-import { useDispatch } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import Header from '../../components/Headers/SetHeader'
@@ -17,11 +16,12 @@ import BaseStyle, { Primary } from '../../styles/Base'
 import OrderRejectCancelModal from '../../components/Orders/OrderModals/OrderRejectCancelModal'
 import Api from '../../Api'
 import OrderCheckModal from '../../components/Orders/OrderModals/OrderCheckModal'
-import * as orderAction from '../../redux/actions/orderAction'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
 import cusToast from '../../components/CusToast'
 import DeliveryConfirmationModal from '../../components/Orders/OrderModals/DeliveryConfirmationModal'
 import DeliveryCompleteModal from '../../components/Orders/OrderModals/DeliveryCompleteModal'
+import Steps from '../../data/order/steps'
+import Types from '../../data/order/types'
 
 const OrderDetail = props => {
   const { navigation } = props
@@ -31,12 +31,6 @@ const OrderDetail = props => {
   const [detailOrder, setDetailOrder] = React.useState(null)
   const [detailProduct, setDetailProduct] = React.useState([])
   const [isLoading, setLoading] = React.useState(true)
-
-  console.log('====================================');
-  console.log('orderId ?', orderId);
-  console.log('====================================');
-
-  const dispatch = useDispatch()
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
@@ -88,12 +82,6 @@ const OrderDetail = props => {
     }
   }, [])
 
-  // console.log('====================================')
-  // console.log('detailStore', detailStore)
-  console.log('detailOrder', detailOrder)
-  // console.log('detailProduct', detailProduct)
-  // console.log('====================================')
-
   // 주문 거부
   const [isModalVisible, setModalVisible] = React.useState(false)
   const [modalType, setModalType] = React.useState('')
@@ -108,15 +96,15 @@ const OrderDetail = props => {
 
   function setHeaderTitleHandler () {
     if (type === 'ready') {
-      setTitle('신규주문')
+      setTitle(Steps[0])
     } else if (type === 'doing') {
-      setTitle('접수완료')
+      setTitle(Steps[1])
     } else if (type === 'going') {
-      setTitle('배달중')
+      setTitle(Steps[2])
     } else if (type === 'cancel') {
-      setTitle('주문취소')
+      setTitle(Steps[4])
     } else {
-      setTitle('처리완료')
+      setTitle(Steps[3])
     }
   }
 
@@ -131,7 +119,6 @@ const OrderDetail = props => {
   const toggleOrderCheckModal = () => {
     setOrderCheckModalVisible(!isOrderCheckModalVisible)
   }
-
 
   // 배달처리 모달 핸들러
   const [isDeliveryConfirmModalVisible, setDeliveryConfirmModalVisible] = React.useState(false)
@@ -209,11 +196,12 @@ const OrderDetail = props => {
                 orderId={orderId}
                 jumjuId={jumjuId}
                 jumjuCode={jumjuCode}
+                orderType={detailOrder.od_type}
               />
               {/* // 주문 취소/거부 모달 */}
 
               {/* 주문 방식 */}
-              <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.pv15, backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : detailOrder.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04  }}>
+              <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, ...BaseStyle.pv15, backgroundColor: detailOrder.od_type === Types[0].text ? Types[0].color : detailOrder.od_type === Types[1].text ? Types[1].color : Types[2].color }}>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, color: '#fff' }}>{detailOrder.od_type} 주문</Text>
                 <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>{moment(orderTime).format('YYYY년 M월 D일, HH시 mm분')}</Text>
               </View>
@@ -326,7 +314,7 @@ const OrderDetail = props => {
                     <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
                       {detailOrder.od_type} 정보
                     </Text>
-                    {detailOrder.od_type === '배달' &&
+                    {detailOrder.od_type === Types[0].text &&
                       <View
                         style={{
                           ...BaseStyle.container3,
@@ -375,7 +363,7 @@ const OrderDetail = props => {
                             </View>}
                         </View>
                       </View>}
-                      {detailOrder.od_type === '식사' &&
+                    {detailOrder.od_type === Types[2].text &&
                       <View
                         style={{
                           ...BaseStyle.container3,
@@ -397,16 +385,6 @@ const OrderDetail = props => {
                             >
                               {detailOrder.od_forhere_num}명
                             </Text>
-                            {/* <Text
-                              style={{
-                                ...BaseStyle.ko14,
-                                ...BaseStyle.font_333,
-                                ...BaseStyle.lh17,
-                                textAlign: 'right'
-                              }}
-                            >
-                              {`${detailOrder.order_addr3}`}
-                            </Text> */}
                           </View>
                           {detailOrder.od_addr_jibeon !== '' &&
                             <View style={{ ...BaseStyle.mb10 }}>
@@ -803,7 +781,7 @@ const OrderDetail = props => {
                     activeOpacity={1}
                     onPress={toggleOrderCheckModal}
                     style={{
-                      backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : detailOrder.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04,
+                      backgroundColor: detailOrder.od_type === Types[0].text ? Types[0].color : detailOrder.od_type === Types[1].text ? Types[1].color : Types[2].color,
                       width: '50%',
                       justifyContent: 'center',
                       alignItems: 'center',
@@ -839,7 +817,7 @@ const OrderDetail = props => {
                     activeOpacity={1}
                     onPress={() => deliveryOrderHandler()}
                     style={{
-                      backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : detailOrder.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04,
+                      backgroundColor: detailOrder.od_type === Types[0].text ? Types[0].color : detailOrder.od_type === Types[1].text ? Types[1].color : Types[2].color,
                       width: '50%',
                       justifyContent: 'center',
                       alignItems: 'center',
@@ -847,7 +825,7 @@ const OrderDetail = props => {
                     }}
                   >
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>
-                      {detailOrder.od_type === '배달' ? '배달처리' : detailOrder.od_type === '포장' ? '포장완료' : '식사완료'}
+                      {detailOrder.od_type === Types[0].text ? '배달처리' : detailOrder.od_type === Types[1].text ? '포장완료' : '식사완료'}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -860,7 +838,7 @@ const OrderDetail = props => {
                     activeOpacity={1}
                     onPress={() => deliveryCompleteHandler()}
                     style={{
-                      backgroundColor: detailOrder.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
+                      backgroundColor: detailOrder.od_type === Types[0].text ? Types[0].color : detailOrder.od_type === Types[1].text ? Types[1].color : Types[2].color,
                       width: '100%',
                       justifyContent: 'center',
                       alignItems: 'center',
@@ -868,7 +846,7 @@ const OrderDetail = props => {
                     }}
                   >
                     <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>
-                      배달완료
+                      배달완료처리
                     </Text>
                   </TouchableOpacity>
                 </View>
