@@ -12,6 +12,7 @@ import Header from '../../components/Headers/SubHeader'
 import BaseStyle from '../../styles/Base'
 import Api from '../../Api'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
+import Divider from '../../components/Divider'
 
 const { width, height } = Dimensions.get('window')
 
@@ -91,7 +92,7 @@ const Notice = props => {
             resizeMode='contain'
           />
         </View>
-        <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3' }} />
+        <Divider backgroundColor='#E3E3E3' />
       </TouchableOpacity>
     )
   }

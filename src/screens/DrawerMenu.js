@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import BaseStyle, { Primary } from '../styles/Base'
 import { DrawerMenus } from '../data/drawerMenus'
 import cusToast from '../components/CusToast'
+import Divider from '../components/Divider'
 
 const DrawerMenu = props => {
   const { navigation } = props
@@ -50,7 +51,8 @@ const DrawerMenu = props => {
             />
           </TouchableOpacity>
         </View>
-        <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3' }} />
+
+        <Divider backgroundColor='#E3E3E3' />
 
         <ScrollView showsVerticalScrollIndicator={false} style={Platform.OS === 'ios' && { height: Dimensions.get('window').height - 103 }}>
           <View style={Platform.OS === 'ios' ? { ...BaseStyle.mv05 } : { ...BaseStyle.mv10 }}>

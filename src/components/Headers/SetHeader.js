@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, Image, SafeAreaView, TouchableOpacity, Platform, Alert } from 'react-native'
 import { DrawerActions } from '@react-navigation/native'
 import BaseStyle from '../../styles/Base'
+import Divider from '../Divider'
 
 const SetHeader = props => {
   const { navigation, title, type, toggleModal } = props
@@ -50,7 +51,9 @@ const SetHeader = props => {
             />
           </TouchableOpacity>}
       </View>
-      <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3', marginBottom: type === 'add' || type === 'save' ? 20 : 0 }} />
+      <Divider backgroundColor='#E3E3E3' />
+      <View style={{ marginBottom: type === 'add' || type === 'save' ? 20 : 0 }} />
+
     </SafeAreaView>
   )
 }

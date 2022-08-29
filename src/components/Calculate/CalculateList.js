@@ -1,13 +1,14 @@
 import React from 'react'
 import { View, Text, FlatList } from 'react-native'
-import BaseStyle, { Primary } from '../../styles/Base'
+import BaseStyle from '../../styles/Base'
+import Divider from '../Divider'
 
 const CalculateList = props => {
   const { data } = props
 
   const renderRow = ({ item, index }) => {
     return (
-      <View key={item.month} style={{ ...BaseStyle.mv10 }}>
+      <View key={`${item.month}-${index}`} style={{ ...BaseStyle.mv10 }}>
         <View style={{ ...BaseStyle.mb20, ...BaseStyle.container5 }}>
           <View style={{ ...BaseStyle.container }}>
             <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mr30 }}>{item.month}월</Text>
@@ -15,14 +16,16 @@ const CalculateList = props => {
           </View>
           <Text style={{ ...BaseStyle.ko15 }}>{item.calPrice}원</Text>
         </View>
-        <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3' }} />
+        <Divider />
       </View>
     )
   }
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3', ...BaseStyle.mb10 }} />
+
+      <Divider style={{ ...BaseStyle.mb10 }} />
+
       <FlatList
         data={data}
         renderItem={renderRow}
@@ -30,7 +33,7 @@ const CalculateList = props => {
         persistentScrollbar
         showsVerticalScrollIndicator={false}
         refreshing
-        style={{ backgroundColor: '#fff', width: '100%' }}
+        style={{ backgroundColor: '#fff', width: '100%', ...BaseStyle.mt10 }}
         ListEmptyComponent={
           <View
             style={{

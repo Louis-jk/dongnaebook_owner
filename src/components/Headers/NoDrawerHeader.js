@@ -1,12 +1,10 @@
 import React from 'react'
 import { View, Text, Image, SafeAreaView, TouchableOpacity } from 'react-native'
-import { DrawerActions } from '@react-navigation/native'
-import BaseStyle, { Primary } from '../../styles/Base'
-import { useSelector } from 'react-redux'
+import BaseStyle from '../../styles/Base'
+import Divider from '../Divider'
 
 const DefaultHeader = props => {
   const { navigation, title } = props
-  const { store_name } = useSelector(state => state.store)
 
   return (
     <SafeAreaView>
@@ -24,7 +22,7 @@ const DefaultHeader = props => {
         </TouchableOpacity>
         <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.ml5 }}>{title}</Text>
       </View>
-      <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3' }} />
+      <Divider backgroundColor='#E3E3E3' />
     </SafeAreaView>
   )
 }

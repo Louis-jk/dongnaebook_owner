@@ -14,6 +14,7 @@ import Api from '../../Api'
 import * as regHolidayAction from '../../redux/actions/regularHolidayAction'
 import cusToast from '../../components/CusToast'
 import { weekData, weekArr } from '../../data/week'
+import Divider from '../../components/Divider'
 
 const SetClosed = props => {
   const { navigation } = props
@@ -113,7 +114,8 @@ const SetClosed = props => {
       <Header navigation={navigation} title='정기휴일 설정' type='save' />
 
       <ScrollView>
-        <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3', ...BaseStyle.mb20 }} />
+        <Divider backgroundColor='#E3E3E3' />
+        <View style={{ ...BaseStyle.mb20 }} />
 
         {/* 요일 선택 */}
         <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv10, ...BaseStyle.container5 }}>

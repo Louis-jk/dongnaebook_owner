@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker'
 import Modal from 'react-native-modal'
+import Divider from '../../components/Divider'
 
 import Header from '../../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../../styles/Base'
@@ -327,7 +328,8 @@ const SetCloseDay = props => {
       {/* // 휴무일 지정 모달 */}
 
       <View style={{ ...BaseStyle.ph20 }}>
-        <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3', ...BaseStyle.mb15 }} />
+        <Divider backgroundColor='#E3E3E3' />
+        <View style={{ ...BaseStyle.mb15 }} />
 
         {/* 정기 휴무 */}
         <TouchableOpacity

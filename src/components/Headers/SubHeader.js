@@ -3,6 +3,7 @@ import { View, Text, Image, SafeAreaView, TouchableOpacity, Dimensions, Platform
 import { DrawerActions } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import BaseStyle from '../../styles/Base'
+import Divider from '../Divider'
 
 const DefaultHeader = props => {
   const { navigation, title } = props
@@ -62,7 +63,7 @@ const DefaultHeader = props => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ height: 1, width: '100%', backgroundColor: '#E3E3E3' }} />
+      <Divider backgroundColor='#E3E3E3' />
     </SafeAreaView>
   )
 }

@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as storeAction from '../redux/actions/storeAction'
 import * as loginAction from '../redux/actions/loginAction'
 import Api from '../Api'
+import Divider from '../components/Divider'
 
 const SelectStore = props => {
   const { navigation } = props
@@ -93,7 +94,7 @@ const SelectStore = props => {
           />
         </TouchableOpacity>
 
-        <View style={{ height: 1, backgroundColor: '#E3E3E3' }} />
+        <Divider />
       </View>
     )
   }
@@ -124,7 +125,8 @@ const SelectStore = props => {
           />
         </TouchableOpacity>
       </View>
-      <View style={{ height: 1, backgroundColor: '#E3E3E3' }} />
+
+      <Divider />
 
       <View style={{ flex: 1, ...BaseStyle.ph20 }}>
         <FlatList

@@ -5,6 +5,7 @@ import Header from '../../components/Headers/Header'
 import BaseStyle from '../../styles/Base'
 import Api from '../../Api'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
+import Divider from '../../components/Divider'
 
 const NoticeDetail = props => {
   const { navigation } = props
@@ -92,7 +93,9 @@ const NoticeDetail = props => {
               <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>{detail.wr_hit}</Text>
             </View>
           </View>
-          <View style={{ height: 1, backgroundColor: '#e5e5e5' }} />
+
+          <Divider />
+
           {detail.content && (
             <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv10, flex: 1 }}>
               <ScrollView showsVerticalScrollIndicator={false}>

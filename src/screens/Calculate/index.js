@@ -3,18 +3,15 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
-  TextInput,
   Dimensions,
-  ScrollView,
   BackHandler
 } from 'react-native'
-import DropDownPicker from 'react-native-dropdown-picker'
 import Header from '../../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../../styles/Base'
 import CalculateTabView from '../../components/Calculate/CalculateTabView'
+import Divider from '../../components/Divider'
 
-const { width, height } = Dimensions.get('window')
+const { height } = Dimensions.get('window')
 
 const Calculate = props => {
   const { navigation } = props
@@ -58,12 +55,15 @@ const Calculate = props => {
         </View>
       </View>
       {/* //정산 금액 메인 */}
-      <View style={{ height: 10, backgroundColor: '#F5F5F5' }} />
+
+      <Divider height={10} backgroundColor='#F5F5F5' />
+
       {/* 월별조회/기간조회 탭 */}
       <View style={{ flex: 1, height }}>
         <CalculateTabView />
       </View>
       {/* //월별조회/기간조회 탭 */}
+
     </View>
   )
 }

@@ -16,6 +16,7 @@ import cusToast from '../../components/CusToast'
 import { TextInput } from 'react-native-gesture-handler'
 import { useDrawerStatus } from '@react-navigation/drawer'
 import { weekData } from '../../data/week'
+import Divider from '../../components/Divider'
 
 const SetTime = props => {
   const { navigation } = props
@@ -136,7 +137,9 @@ const SetTime = props => {
       <Header navigation={navigation} title='영업 시간 추가' type='save' />
 
       <ScrollView>
-        <View style={{ height: 1, width: '100%', ...BaseStyle.mb10 }} />
+
+        <Divider />
+        <View style={{ ...BaseStyle.mb10 }} />
 
         {/* 영업시간 */}
         <View
