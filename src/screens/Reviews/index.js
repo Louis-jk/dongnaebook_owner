@@ -30,6 +30,7 @@ import Api from '../../Api'
 import ImageView from 'react-native-image-viewing'
 import cusToast from '../../components/CusToast'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
+import Divider from '../../components/Divider'
 
 const Reviews = props => {
   const { navigation } = props
@@ -285,7 +286,9 @@ const Reviews = props => {
   const renderRow = ({ item, index }) => {
     return (
       <View key={index + item.wr_id}>
-        <View style={{ height: 10, width: '100%', backgroundColor: '#F2F2F2' }} />
+
+        <Divider height={10} backgroundColor='#F2F2F2' />
+
         <View style={{ ...BaseStyle.mv20, ...BaseStyle.container, ...BaseStyle.ph20 }}>
           <View style={{ ...BaseStyle.mr10 }}>
             <Image
@@ -873,7 +876,9 @@ const Reviews = props => {
               </View>
             </Swipeable>
             {/* </Swipeout> */}
-            <View style={{ height: 1, backgroundColor: '#e5e5e5' }} />
+
+            <Divider />
+
           </Animated.View>
         )}
         {/* //커스텀 총 평점 */}
@@ -1177,7 +1182,7 @@ const Reviews = props => {
           />
         </View>
         {/* //리뷰 리스트 */}
-       </View>
+      </View>
       )}
     </>
   )
@@ -1201,7 +1206,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    marginTop: 100
+    marginVertical: 100
   }
 })
 
