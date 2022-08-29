@@ -6,6 +6,7 @@ import BaseStyle, { Primary } from '../../../styles/Base'
 import cusToast from '../../CusToast'
 import { useDispatch } from 'react-redux'
 import * as orderAction from '../../../redux/actions/orderAction'
+import Steps from '../../../data/order/steps'
 
 const DeliveryCompleteModal = ({
   isModalVisible,
@@ -23,10 +24,10 @@ const DeliveryCompleteModal = ({
       od_id: orderId,
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
-      od_process_status: '배달완료'
+      od_process_status: Steps[3]
     }
 
-    console.log('배달완료 param', param);
+    // console.log('배달완료 param', param)
 
     Api.send('store_order_status_update', param, args => {
       const resultItem = args.resultItem
@@ -36,9 +37,9 @@ const DeliveryCompleteModal = ({
       toggleModal()
 
       if (resultItem.result === 'Y') {
-        cusToast(`주문을 배달완료 처리하였습니다.`)
+        cusToast('주문을 배달완료 처리하였습니다.')
       } else {
-        cusToast(`주문 배달완료 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
+        cusToast('주문 배달완료 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.')
       }
 
       setTimeout(() => {

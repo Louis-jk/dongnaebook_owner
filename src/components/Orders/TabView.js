@@ -10,6 +10,7 @@ import Tab01 from './OrderTabs/Tab01'
 import Tab02 from './OrderTabs/Tab02'
 import Tab03 from './OrderTabs/Tab03'
 import Tab04 from './OrderTabs/Tab04'
+import Steps from '../../data/order/steps'
 
 const TabView = props => {
   const { navigation } = props
@@ -19,10 +20,10 @@ const TabView = props => {
 
   const [index, setIndex] = React.useState(0)
   const [routes] = React.useState([
-    { key: 'menu01', title: '신규주문' },
-    { key: 'menu02', title: '접수완료' },
-    { key: 'menu03', title: '배달중' },
-    { key: 'menu04', title: '처리완료' }
+    { key: 'order01', title: Steps[0] },
+    { key: 'order02', title: Steps[1] },
+    { key: 'order03', title: Steps[2] },
+    { key: 'order04', title: Steps[3] }
   ])
 
   // 주문 내역 호출
@@ -57,10 +58,10 @@ const TabView = props => {
   }, [index])
 
   const renderScene = SceneMap({
-    menu01: () => (<Tab01 navigation={navigation} />),
-    menu02: () => (<Tab02 navigation={navigation} getOrderListHandler={getOrderListHandler} />),
-    menu03: () => (<Tab03 navigation={navigation} />),
-    menu04: () => (<Tab04 navigation={navigation} />)
+    order01: () => (<Tab01 navigation={navigation} />),
+    order02: () => (<Tab02 navigation={navigation} getOrderListHandler={getOrderListHandler} />),
+    order03: () => (<Tab03 navigation={navigation} />),
+    order04: () => (<Tab04 navigation={navigation} />)
   })
 
   const renderTabBar = props => (

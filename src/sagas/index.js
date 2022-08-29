@@ -1,5 +1,6 @@
-import { put, takeLatest, all, select, call, takeEvery } from 'redux-saga/effects'
+import { put, takeLatest, all, select } from 'redux-saga/effects'
 import Api from '../Api'
+import Steps from '../data/order/steps'
 
 export const getLoginObject = (state) => state.login
 export const getOrderObject = (state) => state.order
@@ -20,7 +21,7 @@ function * fetchOrders () {
     limit_count: selectOrderTab === 0 ? newOrderLimit : selectOrderTab === 1 ? checkOrderLimit : selectOrderTab === 2 ? deliveryOrderLimit : selectOrderTab === 3 ? doneOrderLimit : selectOrderTab === 4 ? cancelOrderLimit : 5,
     jumju_id: loginInfo.mt_id,
     jumju_code: loginInfo.mt_jumju_code,
-    od_process_status: selectOrderTab === 0 ? '신규주문' : selectOrderTab === 1 ? '접수완료' : selectOrderTab === 2 ? '배달중' : selectOrderTab === 3 ? '배달완료' : selectOrderTab === 4 ? '주문취소' : '신규주문'
+    od_process_status: Steps[selectOrderTab]
   }
 
   let newOrderArr = []

@@ -1,5 +1,6 @@
 // Module Pattern
 import Api from '../../Api'
+import Steps from '../order/steps'
 
 export const OrderCategoryRequest = {
 
@@ -8,7 +9,7 @@ export const OrderCategoryRequest = {
 
   selectType: function (memberId, memberCode, index) {
     this.index = index
-    const type = index === 0 ? '신규주문' : index === 1 ? '접수완료' : index === 2 ? '배달중' : index === 3 ? '배달완료' : ''
+    const type = Steps[index]
     this.getOrderHandler(memberId, memberCode, type)
   },
 
@@ -19,7 +20,7 @@ export const OrderCategoryRequest = {
       limit_count: 10,
       jumju_id: memberId,
       jumju_code: memberCode,
-      od_process_status: index === 0 ? '신규주문' : index === 1 ? '접수완료' : index === 2 ? '배달중' : index === 3 ? '배달완료' : ''
+      od_process_status: Steps[index]
     }
 
     console.log('param?', param)
