@@ -5,6 +5,7 @@ import 'moment/locale/ko'
 import BaseStyle, { Primary } from '../../../styles/Base'
 import Api from '../../../Api'
 import OrderEmpty from './OrderEmpty'
+import Types from '../../../data/order/types'
 
 const TabLayout = props => {
   const {
@@ -22,7 +23,6 @@ const TabLayout = props => {
     setJumjuId,
     setJumjuCode
   } = props
-
 
   const renderRow = ({ item, index }) => {
     return (
@@ -84,19 +84,16 @@ const TabLayout = props => {
                     alignItems: 'center',
                     borderRadius: 5,
                     backgroundColor:
-                      item.od_type === '배달' ? Primary.PointColor01 : item.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04,
+                      item.od_type === Types[0].text ? Types[0].color : item.od_type === Types[1].text ? Types[1].color : Types[2].color,
                     paddingVertical: Platform.OS === 'android' ? 2 : 0
                   }}
                 >
-                  {item.od_type === '배달' &&
-                    <Image source={require('../../../images/icon_delivery_wh.png')} style={{width: 23, height: 13}} resizeMode="center" />
-                  } 
-                  {item.od_type === '포장' &&
-                    <Image source={require('../../../images/icon_wrap_wh.png')} style={{width: 15, height: 17}} resizeMode="center" />
-                  }
-                  {item.od_type === '식사' &&
-                    <Image source={require('../../../images/icon_store_wh.png')} style={{width: 22, height: 17}} resizeMode="center" />
-                  }
+                  {item.od_type === Types[0].text &&
+                    <Image source={require('../../../images/icon_delivery_wh.png')} style={{ width: 23, height: 13 }} resizeMode='center' />}
+                  {item.od_type === Types[1].text &&
+                    <Image source={require('../../../images/icon_wrap_wh.png')} style={{ width: 15, height: 17 }} resizeMode='center' />}
+                  {item.od_type === Types[2].text &&
+                    <Image source={require('../../../images/icon_store_wh.png')} style={{ width: 22, height: 17 }} resizeMode='center' />}
                 </View>
               </View>
 
@@ -122,7 +119,6 @@ const TabLayout = props => {
             </TouchableOpacity>
             {/* // 주문 정보 */}
 
-            
             {/* 신규주문 */}
             {/* 접수, 주문거부 버튼 영역 */}
             {tabIndex === 1 &&
@@ -137,7 +133,7 @@ const TabLayout = props => {
                     toggleOrderCheckModal()
                   }}
                   style={{
-                    backgroundColor: item.od_type === '배달' ? Primary.PointColor01 : item.od_type === '포장' ? Primary.PointColor02 : Primary.PointColor04,
+                    backgroundColor: item.od_type === Types[0].text ? Types[0].color : item.od_type === Types[1].text ? Types[1].color : Types[2].color,
                     width: 80,
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -156,6 +152,7 @@ const TabLayout = props => {
                   activeOpacity={1}
                   onPress={() => {
                     setOrderId(item.od_id)
+                    setOrderType(item.od_type)
                     setJumjuId(item.jumju_id)
                     setJumjuCode(item.jumju_code)
                     toggleModal('reject')
@@ -176,7 +173,7 @@ const TabLayout = props => {
                   </Text>
                 </TouchableOpacity>
               </View>}
-              {/* // 접수, 주문거부 버튼 영역 */}
+            {/* // 접수, 주문거부 버튼 영역 */}
             {/* // 신규주문 */}
 
             {/* 접수완료 */}
@@ -191,7 +188,7 @@ const TabLayout = props => {
                   }}
                   style={{
                     backgroundColor:
-                  item.od_type === '배달' ? Primary.PointColor01 : item.od_type === '포장' ?  Primary.PointColor02 : Primary.PointColor04,
+                  item.od_type === Types[0].text ? Types[0].color : item.od_type === Types[1].text ? Types[1].color : Types[2].color,
                     width: 80,
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -209,12 +206,13 @@ const TabLayout = props => {
                       marginBottom: Platform.OS === 'ios' ? 4 : 0
                     }}
                   >
-                    {item.od_type === '배달' ? '배달처리' : item.od_type === '포장' ? '포장완료' : '식사완료'}
+                    {item.od_type === Types[0].text ? '배달처리' : item.od_type === Types[1].text ? '포장완료' : '식사완료'}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => {
+                    setOrderType(item.od_type)
                     setOrderId(item.od_id)
                     setJumjuId(item.jumju_id)
                     setJumjuCode(item.jumju_code)
@@ -253,8 +251,44 @@ const TabLayout = props => {
                   }}
                   style={{
                     backgroundColor:
-                  item.od_type === '배달' ? Primary.PointColor01 : Primary.PointColor02,
+                  item.od_type === Types[0].text ? Types[0].color : item.od_type === Types[1].text ? Types[1].color : Types[2].color,
                     width: 80,
+                    height: 70,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    ...BaseStyle.round05,
+                    ...BaseStyle.pv10,
+                    ...BaseStyle.mb5
+                  }}
+                >
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      ...BaseStyle.ko13,
+                      ...BaseStyle.lh20,
+                      ...BaseStyle.font_bold,
+                      color: '#fff',
+                      marginBottom: Platform.OS === 'ios' ? 4 : 0
+                    }}
+                  >
+                    완료처리
+                  </Text>
+                </TouchableOpacity>
+              </View>}
+            {/* // 배달중 */}
+
+            {console.log('tabIndex ??', tabIndex)}
+            {console.log('item ??', item)}
+
+            {/* 처리완료 */}
+            {tabIndex === 4 &&
+              <View style={{ flex: 1, alignSelf: 'flex-start' }}>
+                <View
+                  style={{
+                    backgroundColor:
+                  item.od_type === Types[0].text ? Types[0].color : item.od_type === Types[1].text ? Types[1].color : Types[2].color,
+                    width: 80,
+                    height: 70,
                     justifyContent: 'center',
                     alignItems: 'center',
                     ...BaseStyle.round05,
@@ -266,21 +300,19 @@ const TabLayout = props => {
                     style={{
                       ...BaseStyle.ko13,
                       ...BaseStyle.font_bold,
-                      // color: item.od_type === "배달" ? "#fff" : "#fff",
                       color: '#fff',
                       marginBottom: Platform.OS === 'ios' ? 4 : 0
                     }}
                   >
-                    배달완료
+                    {item.od_type}완료
                   </Text>
-                </TouchableOpacity>
+                </View>
               </View>}
-            {/* // 배달중 */}
-            
+            {/* // 처리완료 */}
 
           </View>
           {/* 배달 주소 */}
-          {item.od_type === '배달' &&
+          {item.od_type === Types[0].text &&
             <View style={{ ...BaseStyle.container, ...BaseStyle.mt10, ...BaseStyle.mr20 }}>
               <View
                 style={{
@@ -309,16 +341,12 @@ const TabLayout = props => {
                 >
                   {`${item.od_addr1} ${item.od_addr2} ${item.od_addr3 !== '' ? item.od_addr3 : ''}`}
                 </Text>
-                {/* {item.od_addr_jibeon !== '' &&
-                  <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh17 }}>
-                    {item.od_addr_jibeon}
-                  </Text>} */}
               </View>
             </View>}
           {/* // 배달 주소 */}
 
-          {/* 배달 주소 */}
-          {item.od_type === '식사' &&
+          {/* 식사 인원수 */}
+          {item.od_type === Types[2].text &&
             <View style={{ ...BaseStyle.container, ...BaseStyle.mt10, ...BaseStyle.mr20 }}>
               <View>
                 <Text
@@ -333,7 +361,7 @@ const TabLayout = props => {
                 </Text>
               </View>
             </View>}
-          {/* // 배달 주소 */}
+          {/* // 식사 인원수 */}
         </View>
       </View>
     )

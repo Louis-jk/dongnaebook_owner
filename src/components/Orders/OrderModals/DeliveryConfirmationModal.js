@@ -6,6 +6,7 @@ import BaseStyle, { Primary } from '../../../styles/Base'
 import cusToast from '../../CusToast'
 import { useDispatch } from 'react-redux'
 import * as orderAction from '../../../redux/actions/orderAction'
+import Types from '../../../data/order/types'
 
 const DeliveryConfirmationModal = ({
   isModalVisible,
@@ -17,14 +18,14 @@ const DeliveryConfirmationModal = ({
   navigation
 }) => {
   const dispatch = useDispatch()
-  
+
   // 주문 배달처리
   const sendDeliverHandler = () => {
     const param = {
       od_id: oderId,
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
-      od_process_status: orderType === '배달' ? '배달중' : orderType === '포장' ? '포장완료' : '식사완료'
+      od_process_status: orderType === Types[0].text ? '배달중' : orderType === Types[1].text ? '포장완료' : '식사완료'
     }
 
     Api.send('store_order_status_update', param, args => {
@@ -35,9 +36,9 @@ const DeliveryConfirmationModal = ({
       toggleModal()
 
       if (resultItem.result === 'Y') {
-        cusToast(`주문을 ${orderType === '배달' ? '배달' : orderType === '포장' ? '포장완료' : '식사완료'} 처리하였습니다.`)
+        cusToast(`주문을 ${orderType === Types[0].text ? '배달' : orderType === Types[1].text ? '포장완료' : '식사완료'} 처리하였습니다.`)
       } else {
-        cusToast(`주문 ${orderType === '배달' ? '배달' : orderType === '포장' ? '포장완료' : '식사완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
+        cusToast(`주문 ${orderType === Types[0].text ? '배달' : orderType === Types[1].text ? '포장완료' : '식사완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
       }
 
       setTimeout(() => {
@@ -75,7 +76,7 @@ const DeliveryConfirmationModal = ({
               position: 'absolute',
               top: -10,
               right: -10,
-              backgroundColor: orderType === '배달' ? Primary.PointColor01 : orderType === '포장' ? Primary.PointColor02 : Primary.PointColor04,
+              backgroundColor: orderType === Types[0].text ? Primary.PointColor01 : orderType === Types[1].text ? Primary.PointColor02 : Primary.PointColor04,
               borderRadius: 50,
               padding: 10
             }}
@@ -87,7 +88,7 @@ const DeliveryConfirmationModal = ({
             />
           </TouchableOpacity>
           <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>
-            주문을 {orderType === '배달' ? orderType : orderType === '포장' ? '포장완료' : '식사완료'} 처리하시겠습니까?
+            주문을 {orderType === Types[0].text ? orderType : orderType === Types[1].text ? '포장완료' : '식사완료'} 처리하시겠습니까?
           </Text>
 
           {/* 배달처리 | 취소 버튼 영역 */}
@@ -102,19 +103,19 @@ const DeliveryConfirmationModal = ({
             <TouchableOpacity
               activeOpacity={1}
               onPress={sendDeliverHandler}
-              style={{ 
-                flex: 1, 
-                ...BaseStyle.pv15, 
-                backgroundColor: orderType === '배달'
-                  ? Primary.PointColor01 
-                  : orderType === '포장' 
-                  ? Primary.PointColor02 
-                  : Primary.PointColor04,
-                  borderTopRightRadius: 5, 
-                  borderBottomRightRadius: 5 
-                }}
+              style={{
+                flex: 1,
+                ...BaseStyle.pv15,
+                backgroundColor: orderType === Types[0].text
+                  ? Types[0].color
+                  : orderType === Types[1].text
+                    ? Types[1].color
+                    : Types[2].color,
+                borderTopRightRadius: 5,
+                borderBottomRightRadius: 5
+              }}
             >
-              <Text style={{ textAlign: 'center', ...BaseStyle.ko14, ...BaseStyle.font_white }}>{orderType === '배달' ? orderType : orderType === '포장' ? '포장완료' : '식사완료'}처리</Text>
+              <Text style={{ textAlign: 'center', ...BaseStyle.ko14, ...BaseStyle.font_white }}>{orderType === Types[0].text ? orderType : orderType === Types[1].text ? '포장완료' : '식사완료'}처리</Text>
             </TouchableOpacity>
           </View>
           {/* // 배달처리 | 취소 버튼 영역 */}
