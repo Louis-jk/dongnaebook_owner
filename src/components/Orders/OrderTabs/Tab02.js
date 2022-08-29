@@ -1,11 +1,11 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import OrderRejectCancelModal from '../OrderModals/OrderRejectCancelModal'
+import OrderRejectCancelModal from '../Modals/OrderRejectCancelModal'
 import * as orderAction from '../../../redux/actions/orderAction'
 import OrdersAnimateLoading from '../../Loading/OrdersAnimateLoading'
 import TabLayout from './TabLayout'
-import DeliveryConfirmationModal from '../OrderModals/DeliveryConfirmationModal'
+import DeliveryConfirmationModal from '../Modals/DeliveryConfirmationModal'
 
 const Tab02 = props => {
   const { navigation, getOrderListHandler } = props

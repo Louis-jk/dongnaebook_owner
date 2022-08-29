@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as orderAction from '../../../redux/actions/orderAction'
 import OrdersAnimateLoading from '../../Loading/OrdersAnimateLoading'
-import DeliveryCompleteModal from '../OrderModals/DeliveryCompleteModal'
+import DeliveryCompleteModal from '../Modals/DeliveryCompleteModal'
 import TabLayout from './TabLayout'
 
 const Tab03 = props => {
@@ -66,7 +66,7 @@ const Tab03 = props => {
       {!isLoading &&
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-          <DeliveryCompleteModal 
+          <DeliveryCompleteModal
             isModalVisible={isDeliveryCompleteModalVisible}
             toggleModal={toggleDeliveryCompleteModal}
             orderId={orderId}
