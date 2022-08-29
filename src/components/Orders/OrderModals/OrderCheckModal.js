@@ -6,9 +6,9 @@ import BaseStyle, { Primary } from '../../../styles/Base'
 import Api from '../../../Api'
 import * as orderAction from '../../../redux/actions/orderAction'
 import cusToast from '../../CusToast'
-
-const deliveryTimes = ['20', '30', '40', '50', '60', '70']
-const takeoutTimes = ['5', '10', '15', '20', '25', '30']
+import { deliveryTimes, takeoutTimes } from '../../../data/order/selectTime'
+import Types from '../../../data/order/types'
+import Steps from '../../../data/order/steps'
 
 const OrderCheckModal = ({
   isModalVisible,
@@ -26,7 +26,7 @@ const OrderCheckModal = ({
   const [time01, setTime01] = React.useState('') // 배달 시간 직접 입력
   const [time02, setTime02] = React.useState('') // 포장 시간 직접 입력
   const [time03, setTime03] = React.useState('') // 식사 시간 직접 입력
-  const deliveryTimeRef = React.useRef(null) 
+  const deliveryTimeRef = React.useRef(null)
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
   const dispatch = useDispatch()
 
@@ -37,7 +37,7 @@ const OrderCheckModal = ({
       limit_count: 10,
       jumju_id: mtId,
       jumju_code: mtJumjuCode,
-      od_process_status: '신규주문'
+      od_process_status: Steps[0]
     }
 
     Api.send('store_order_list', param, args => {
@@ -58,18 +58,18 @@ const OrderCheckModal = ({
       od_id: oderId,
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
-      od_process_status: '접수완료'
+      od_process_status: Steps[1]
     }
 
-    if (orderType === '배달') {
+    if (orderType === Types[0].text) {
       param.delivery_time = isTimeSelected ? time01Selcet : time01
     }
 
-    if (orderType === '포장') {
+    if (orderType === Types[1].text) {
       param.visit_time = isTimeSelected ? time02Selcet : time02
     }
 
-    if (orderType === '식사') {
+    if (orderType === Types[2].text) {
       param.visit_time = isTimeSelected ? time03Selcet : time03
     }
 
@@ -78,7 +78,7 @@ const OrderCheckModal = ({
       const resultItem = args.resultItem
       // const arrItems = args.arrItems
 
-      if (resultItem.result === 'Y') {        
+      if (resultItem.result === 'Y') {
         cusToast('주문을 접수하였습니다.')
       } else {
         cusToast('주문 접수중 오류가 발생하였습니다.\n다시 한번 시도해주세요.')
@@ -92,36 +92,6 @@ const OrderCheckModal = ({
       }, 1500)
     })
   }
-
-  const checkingDeliveryTimeHandler = () => {
-    const checkTime = deliveryTimes.includes(time01)
-    if (checkTime) {
-      setTime01Select(time01)
-      setTime01('')
-    }
-    console.log('checkTime', checkTime)
-  }
-
-  const checkingTakeoutTimeHandler = () => {
-    const checkTime = takeoutTimes.includes(time02)
-    if (checkTime) {
-      setTime02Select(time02)
-      setTime02('')
-    }
-    console.log('checkTime', checkTime)
-  }
-
-  // React.useEffect(() => {
-  //   checkingDeliveryTimeHandler()
-
-  //   return () => checkingDeliveryTimeHandler()
-  // }, [time01])
-
-  // React.useEffect(() => {
-  //   checkingTakeoutTimeHandler()
-
-  //   return () => checkingTakeoutTimeHandler()
-  // }, [time02])
 
   return (
     <View>
@@ -153,7 +123,7 @@ const OrderCheckModal = ({
               position: 'absolute',
               top: -10,
               right: -10,
-              backgroundColor: orderType === '배달' ? Primary.PointColor01 : orderType === '포장' ? Primary.PointColor02 : Primary.PointColor04,
+              backgroundColor: orderType === Types[0].text ? Types[0].color : orderType === Types[1].text ? Types[1].color : Types[2].color,
               borderRadius: 50,
               padding: 10
             }}
@@ -165,16 +135,16 @@ const OrderCheckModal = ({
             />
           </TouchableOpacity>
           <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>
-            {orderType === '배달'
+            {orderType === Types[0].text
               ? '배달출발 예상시간을 입력해주세요.'
               : orderType === '포장'
-              ? '포장완료 예상시간을 입력해주세요.'
-              : '식사가능 예상시간을 입력해주세요.'}
+                ? '포장완료 예상시간을 입력해주세요.'
+                : '식사가능 예상시간을 입력해주세요.'}
           </Text>
 
           {/* 시간 선택 영역 */}
           <View style={{ ...BaseStyle.container0, flexWrap: 'wrap', paddingHorizontal: 25 }}>
-            {orderType === '배달' && deliveryTimes.map((time, index) => (
+            {orderType === Types[0].text && deliveryTimes.map((time, index) => (
               <View
                 key={`deliveryTime-${time}-${index}`}
                 style={{ width: '50%', backgroundColor: '#fff' }}
@@ -191,7 +161,7 @@ const OrderCheckModal = ({
                     height: 40,
                     ...BaseStyle.mh05,
                     ...BaseStyle.mv5,
-                    backgroundColor: time01Selcet === time ? Primary.PointColor01 : Primary.PointColor03,
+                    backgroundColor: time01Selcet === time ? Types[0].color : Primary.PointColor03,
                     borderRadius: 5
                   }}
                 >
@@ -200,7 +170,7 @@ const OrderCheckModal = ({
               </View>
             ))}
 
-            {orderType === '포장' && takeoutTimes.map((time, index) => (
+            {orderType === Types[1].text && takeoutTimes.map((time, index) => (
               <View
                 key={`deliveryTime-${time}-${index}`}
                 style={{ width: '50%', backgroundColor: '#fff' }}
@@ -217,7 +187,7 @@ const OrderCheckModal = ({
                     height: 40,
                     ...BaseStyle.mh05,
                     ...BaseStyle.mv5,
-                    backgroundColor: time02Selcet === time ? Primary.PointColor02 : Primary.PointColor03,
+                    backgroundColor: time02Selcet === time ? Types[1].color : Primary.PointColor03,
                     borderRadius: 5
                   }}
                 >
@@ -226,7 +196,7 @@ const OrderCheckModal = ({
               </View>
             ))}
 
-            {orderType === '식사' && takeoutTimes.map((time, index) => (
+            {orderType === Types[2].text && takeoutTimes.map((time, index) => (
               <View
                 key={`deliveryTime-${time}-${index}`}
                 style={{ width: '50%', backgroundColor: '#fff' }}
@@ -243,7 +213,7 @@ const OrderCheckModal = ({
                     height: 40,
                     ...BaseStyle.mh05,
                     ...BaseStyle.mv5,
-                    backgroundColor: time03Selcet === time ? Primary.PointColor04 : Primary.PointColor03,
+                    backgroundColor: time03Selcet === time ? Types[2].color : Primary.PointColor03,
                     borderRadius: 5
                   }}
                 >
@@ -268,16 +238,16 @@ const OrderCheckModal = ({
             >
               <TextInput
                 ref={deliveryTimeRef}
-                value={orderType === '배달' ? time01 : orderType === '포장' ? time02 : time03}
+                value={orderType === Types[0].text ? time01 : orderType === Types[1].text ? time02 : time03}
                 style={{ width: '83%', textAlign: 'right' }}
                 placeholder='직접입력 예: 30'
                 onChangeText={text => {
                   const filteredText = text.replace(/(-)|(\.)/gi, '')
                   if (filteredText !== null || filteredText !== '') {
-                    if (orderType === '배달') {
+                    if (orderType === Types[0].text) {
                       setTime01Select('')
                       setTime01(filteredText)
-                    } else if (orderType === '포장') {
+                    } else if (orderType === Types[1].text) {
                       setTime02Select('')
                       setTime02(filteredText)
                     } else {
@@ -286,26 +256,19 @@ const OrderCheckModal = ({
                     }
                     setTimeSelected(false)
                   } else {
-                    if (orderType === '배달') {
+                    if (orderType === Types[0].text) {
                       setTime01('0')
-                    } else if (orderType === '포장') {
+                    } else if (orderType === Types[1].text) {
                       setTime02('0')
-                    }else {
+                    } else {
                       setTime03('0')
                     }
                   }
                 }}
-                // onBlur={() => {
-                //   if (orderType === '배달') {
-                //     checkingDeliveryTimeHandler()
-                //   } else {
-                //     checkingTakeoutTimeHandler()
-                //   }
-                // }}
                 autoCapitalize='none'
                 keyboardType='number-pad'
               />
-              <Text>분 {orderType === '배달' ? '후' : '후'}</Text>
+              <Text>분 후</Text>
             </View>
           </View>
           <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph30 }}>
@@ -317,7 +280,7 @@ const OrderCheckModal = ({
                 flex: 1,
                 ...BaseStyle.pv15,
                 borderRadius: 5,
-                backgroundColor: orderType === '배달' ? Primary.PointColor01 : orderType === '포장' ? Primary.PointColor02 : Primary.PointColor04
+                backgroundColor: orderType === Types[0].text ? Types[0].color : orderType === Types[1].text ? Types[1].color : Types[2].color
               }}
             >
               <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
