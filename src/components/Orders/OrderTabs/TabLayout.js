@@ -25,7 +25,6 @@ const TabLayout = props => {
 
   const renderRow = ({ item, index }) => {
     return (
-
       <OrderRender key={index} item={item}>
 
         <OrderInfo
