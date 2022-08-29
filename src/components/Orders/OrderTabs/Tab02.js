@@ -16,6 +16,7 @@ const Tab02 = props => {
   const [isLoading, setLoading] = React.useState(false)
   const [firstInifinite, setFirstInfinite] = React.useState(false)
   const [orderCnt, setOrderCnt] = React.useState(0)
+  const [orderType, setOrderType] = React.useState('') // 주문 Type
 
   const dispatch = useDispatch()
 
@@ -94,6 +95,7 @@ const Tab02 = props => {
             orderId={orderId}
             jumjuId={jumjuId}
             jumjuCode={jumjuCode}
+            orderType={orderType}
           />
 
           <DeliveryConfirmationModal
@@ -120,6 +122,7 @@ const Tab02 = props => {
             setOrderId={setOrderId}
             setJumjuId={setJumjuId}
             setJumjuCode={setJumjuCode}
+            setOrderType={setOrderType}
           />
         </View>}
     </>

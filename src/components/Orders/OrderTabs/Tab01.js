@@ -90,6 +90,7 @@ const Tab01 = props => {
             orderId={orderId}
             jumjuId={jumjuId}
             jumjuCode={jumjuCode}
+            orderType={orderType}
           />
 
           <TabLayout

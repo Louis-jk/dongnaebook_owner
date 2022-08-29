@@ -14,6 +14,9 @@ import BaseStyle, { Primary } from '../../../styles/Base'
 import Api from '../../../Api'
 import * as orderAction from '../../../redux/actions/orderAction'
 import cusToast from '../../CusToast'
+import { rejectTypes, cancelTypes } from '../../../data/order/rejectAndCancelType'
+import Steps from '../../../data/order/steps'
+import Types from '../../../data/order/types'
 
 const OrderRejectCancelModal = props => {
   const {
@@ -23,7 +26,8 @@ const OrderRejectCancelModal = props => {
     modalType,
     orderId,
     jumjuId,
-    jumjuCode
+    jumjuCode,
+    orderType
   } = props
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
   const dispatch = useDispatch()
@@ -47,53 +51,10 @@ const OrderRejectCancelModal = props => {
     }
   }
 
-  // 주문 거부 버튼(내용)
-  const rejectTypes = [
-    {
-      type_id: 1,
-      type_description: '배달 불가 지역'
-    },
-    {
-      type_id: 2,
-      type_description: '메뉴 및 업소\n정보 다름'
-    },
-    {
-      type_id: 3,
-      type_description: '재료 소진'
-    },
-    {
-      type_id: 4,
-      type_description: '배달 지연'
-    },
-    {
-      type_id: 5,
-      type_description: '고객 정보 부정확'
-    },
-    {
-      type_id: 6,
-      type_description: '기타'
-    }
-  ]
-
-  // 주문 취소 버튼(내용)
-  const cancelTypes = [
-    {
-      type_id: 1,
-      type_description: '고객 요청'
-    },
-    {
-      type_id: 2,
-      type_description: '업소 사정'
-    },
-    {
-      type_id: 3,
-      type_description: '배달 불가'
-    },
-    {
-      type_id: 4,
-      type_description: '재료 소진'
-    }
-  ]
+  React.useEffect(() => {
+    setSelectType('')
+    setTypeEtc('')
+  }, [isModalVisible])
 
   const getOrderListHandler = () => {
     const param = {
@@ -102,7 +63,7 @@ const OrderRejectCancelModal = props => {
       limit_count: 10,
       jumju_id: mtId,
       jumju_code: mtJumjuCode,
-      od_process_status: '신규주문'
+      od_process_status: Steps[0]
     }
 
     Api.send('store_order_list', param, args => {
@@ -158,11 +119,11 @@ const OrderRejectCancelModal = props => {
     toggleModal()
     Alert.alert('주문을 정말 거부하시겠습니까?', '거부하신 주문은 복구하실 수 없습니다.', [
       {
-        text: '네 거부할게요',
-        onPress: () => rejectSendHandler()
+        text: '아니요'
       },
       {
-        text: '아니요'
+        text: '네 거부할게요',
+        onPress: () => rejectSendHandler()
       }
     ])
   }
@@ -174,15 +135,15 @@ const OrderRejectCancelModal = props => {
       limit_count: 10,
       jumju_id: mtId,
       jumju_code: mtJumjuCode,
-      od_process_status: '접수완료'
+      od_process_status: Steps[1]
     }
 
     Api.send('store_order_list', param, args => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
-      console.log('리스트 가져와지나?', resultItem)
-      console.log('리스트 가져와지나?', arrItems)
+      // console.log('리스트 가져와지나?', resultItem)
+      // console.log('리스트 가져와지나?', arrItems)
 
       if (resultItem.result === 'Y') {
         dispatch(orderAction.updateCheckOrder(JSON.stringify(arrItems)))
@@ -209,7 +170,7 @@ const OrderRejectCancelModal = props => {
       od_id: orderId,
       od_cancle_memo: filteredText
     }
-    console.log('주문 취소 param', param)
+    // console.log('주문 취소 param', param)
 
     Api.send('store_order_cancle', param, args => {
       const resultItem = args.resultItem
@@ -261,7 +222,7 @@ const OrderRejectCancelModal = props => {
         >
           <View
             style={{
-              backgroundColor: '#20ABC8',
+              backgroundColor: orderType === Types[0].text ? Types[0].color : orderType === Types[1].text ? Types[1].color : Types[2].color,
               borderTopRightRadius: 5,
               borderTopLeftRadius: 5,
               ...BaseStyle.pv30,
@@ -391,21 +352,12 @@ const OrderRejectCancelModal = props => {
           )}
 
           <View style={{ zIndex: -1, ...BaseStyle.ph20 }}>
-            {modalType === 'reject' ? (
+            {modalType === 'reject' && selectedType !== 6 && (
               <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => {
-                  if (
-                    (selectedType !== null && selectedType !== '' && selectedType !== 6) ||
-                    (selectedType === 6 && typeEtc !== null && typeEtc !== '')
-                  ) {
+                  if (selectedType !== null && selectedType !== '') {
                     rejectConfirmHandler()
-                  } else if (selectedType == 6 && (typeEtc === null || typeEtc === '')) {
-                    Alert.alert('주문 거부 사유를 반드시 지정 또는 입력해주세요.', '', [
-                      {
-                        text: '확인'
-                      }
-                    ])
                   } else {
                     return false
                   }
@@ -417,12 +369,16 @@ const OrderRejectCancelModal = props => {
                   alignItems: 'center',
                   width: '100%',
                   alignSelf: 'center',
-                  backgroundColor:
-                    selectedType !== null && selectedType !== '' ? Primary.PointColor01 : '#fff',
+                  borderColor: selectedType !== null && selectedType !== '' && orderType === Types[0].text ? Types[0].color
+                    : selectedType !== null && selectedType !== '' && orderType === Types[1].text ? Types[1].color
+                      : selectedType !== null && selectedType !== '' && orderType === Types[2].text ? Types[2].color
+                        : '#E3E3E3',
                   borderRadius: 5,
                   borderWidth: 1,
-                  borderColor:
-                    selectedType !== null && selectedType !== '' ? Primary.PointColor01 : '#E3E3E3'
+                  backgroundColor: selectedType !== null && selectedType !== '' && orderType === Types[0].text ? Types[0].color
+                    : selectedType !== null && selectedType !== '' && orderType === Types[1].text ? Types[1].color
+                      : selectedType !== null && selectedType !== '' && orderType === Types[2].text ? Types[2].color
+                        : '#fff'
                 }}
               >
                 <Text
@@ -435,7 +391,50 @@ const OrderRejectCancelModal = props => {
                   거부하기
                 </Text>
               </TouchableOpacity>
-            ) : (
+            )}
+
+            {modalType === 'reject' && selectedType === 6 && (
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => {
+                  if (typeEtc !== null && typeEtc !== '') {
+                    rejectConfirmHandler()
+                  } else {
+                    return false
+                  }
+                }}
+                style={{
+                  ...BaseStyle.pv15,
+                  ...BaseStyle.mb30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                  alignSelf: 'center',
+                  borderColor: typeEtc !== null && typeEtc !== '' && orderType === Types[0].text ? Types[0].color
+                    : typeEtc !== null && typeEtc !== '' && orderType === Types[1].text ? Types[1].color
+                      : typeEtc !== null && typeEtc !== '' && orderType === Types[2].text ? Types[2].color
+                        : '#E3E3E3',
+                  borderRadius: 5,
+                  borderWidth: 1,
+                  backgroundColor: typeEtc !== null && typeEtc !== '' && orderType === Types[0].text ? Types[0].color
+                    : typeEtc !== null && typeEtc !== '' && orderType === Types[1].text ? Types[1].color
+                      : typeEtc !== null && typeEtc !== '' && orderType === Types[2].text ? Types[2].color
+                        : '#fff'
+                }}
+              >
+                <Text
+                  style={{
+                    ...BaseStyle.ko15,
+                    ...BaseStyle.font_666,
+                    color: typeEtc !== null && typeEtc !== '' ? '#fff' : '#ccc'
+                  }}
+                >
+                  거부하기
+                </Text>
+              </TouchableOpacity>
+            )}
+
+            {modalType === 'cancel' && (
               <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => {
@@ -448,16 +447,20 @@ const OrderRejectCancelModal = props => {
                 style={{
                   borderRadius: 5,
                   borderWidth: 1,
-                  borderColor:
-                    selectedType !== null && selectedType !== '' ? Primary.PointColor01 : '#E3E3E3',
+                  borderColor: selectedType !== null && selectedType !== '' && orderType === Types[0].text ? Types[0].color
+                    : selectedType !== null && selectedType !== '' && orderType === Types[1].text ? Types[1].color
+                      : selectedType !== null && selectedType !== '' && orderType === Types[2].text ? Types[2].color
+                        : '#E3E3E3',
                   justifyContent: 'center',
                   alignItems: 'center',
                   width: '100%',
                   alignSelf: 'center',
                   ...BaseStyle.pv15,
                   ...BaseStyle.mb30,
-                  backgroundColor:
-                    selectedType !== null && selectedType !== '' ? Primary.PointColor01 : '#fff'
+                  backgroundColor: selectedType !== null && selectedType !== '' && orderType === Types[0].text ? Types[0].color
+                    : selectedType !== null && selectedType !== '' && orderType === Types[1].text ? Types[1].color
+                      : selectedType !== null && selectedType !== '' && orderType === Types[2].text ? Types[2].color
+                        : '#fff'
                 }}
               >
                 <Text
