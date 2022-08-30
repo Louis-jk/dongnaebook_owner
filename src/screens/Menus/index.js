@@ -13,7 +13,7 @@ import NetInfo from '@react-native-community/netinfo'
 import { useQuery, onlineManager } from '@tanstack/react-query'
 
 import Header from '../../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../../styles/Base'
+import BaseStyle, { Primary, Warning } from '../../styles/Base'
 import Api from '../../Api'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
 import Layout from '../../layout'
@@ -147,7 +147,7 @@ const SetMenu = props => {
             )}
             <View
               style={{
-                backgroundColor: item.it_use === '1' ? Primary.PointColor02 : '#E5E5E5',
+                backgroundColor: item.it_use === '1' ? Warning.yellowColor : '#E5E5E5',
                 justifyContent: 'center',
                 alignItems: 'center',
                 paddingVertical: 2,
@@ -155,7 +155,7 @@ const SetMenu = props => {
                 borderRadius: 2
               }}
             >
-              <Text style={{ ...BaseStyle.ko12, color: item.it_use === '1' ? '#fff' : '#222' }}>
+              <Text style={{ ...BaseStyle.ko12, color: item.it_use === '1' ? '#555' : '#222' }}>
                 {item.it_use === '1' ? '판매중' : '판매중지'}
               </Text>
             </View>
