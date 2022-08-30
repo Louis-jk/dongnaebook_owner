@@ -50,7 +50,6 @@ export default order = (state = defaultState, action) => {
         }
       }
     case types.UPDATE_NEW_ORDER_LIST:
-      console.log('action.payload ??', action.payload)
       return {
         ...state,
         orderNew: {
