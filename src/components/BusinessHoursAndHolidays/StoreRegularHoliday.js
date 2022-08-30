@@ -143,7 +143,7 @@ const StoreRegularHoliday = props => {
         )}
         {/* // 정기휴일 리스트 */}
         {stWeek && stYoilTxt && (
-          <View style={{ ...BaseStyle.mainBtn, ...BaseStyle.mv10, backgroundColor: '#f5f5f5' }}>
+          <View style={{ ...BaseStyle.disableBtn, ...BaseStyle.mv10 }}>
             <Text
               style={{
                 ...BaseStyle.ko15,
