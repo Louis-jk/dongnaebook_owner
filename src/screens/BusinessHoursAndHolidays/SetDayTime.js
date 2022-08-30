@@ -186,8 +186,14 @@ const SetDayTime = props => {
       <Header navigation={navigation} title='영업 운영 시간 설정' type='save' />
 
       <ScrollView>
+        {/* 영업시간 */}
         <StoreTime navigation={navigation} />
+        {/* // 영업시간 */}
+
+        {/* 정기휴일 */}
         <StoreRegularHoliday navigation={navigation} />
+        {/* // 정기휴일 */}
+
         {/* 휴무일 */}
         <View style={{ ...BaseStyle.pv15, backgroundColor: '#F8F8F8', ...BaseStyle.ph20 }}>
           <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>휴무일</Text>
@@ -261,10 +267,6 @@ const SetDayTime = props => {
             />
           </View>
           {/* //캘린더 */}
-
-          {/* <TouchableOpacity style={{...BaseStyle.mainBtn, ...BaseStyle.mv10}}>
-            <Text>휴무일 설정</Text>
-          </TouchableOpacity> */}
         </View>
         {/* //휴무일 */}
       </ScrollView>
