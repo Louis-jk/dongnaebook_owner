@@ -1,4 +1,4 @@
-import types from "../actions/types"
+import types from '../actions/types'
 
 const defaultState = {
   allStore: [],
@@ -7,8 +7,8 @@ const defaultState = {
     mt_jumju_id: null,
     mt_jumju_code: null,
     mt_store: null,
-    mt_addr: null,
-  },
+    mt_addr: null
+  }
 }
 
 export default store = (state = defaultState, action) => {
@@ -18,7 +18,7 @@ export default store = (state = defaultState, action) => {
     case types.UPDATE_STORE:
       return {
         ...state,
-        allStore: action.storeUpdate,
+        allStore: action.storeUpdate
         // allStore: [...new Set([...state.allStore, ...action.storeUpdate])],
       }
     case types.SELECT_STORE:
@@ -29,8 +29,8 @@ export default store = (state = defaultState, action) => {
           mt_jumju_id: action.mt_jumju_id,
           mt_jumju_code: action.mt_jumju_code,
           mt_store: action.mt_store,
-          mt_addr: action.mt_addr,
-        },
+          mt_addr: action.mt_addr
+        }
       }
     default:
       return state
