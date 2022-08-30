@@ -25,7 +25,7 @@ const Tab02 = props => {
   const [refleshing, setReflashing] = React.useState(false)
 
   React.useEffect(() => {
-    setLoading(reflesh)
+    // setLoading(reflesh)
     setReflashing(reflesh)
   }, [reflesh])
 

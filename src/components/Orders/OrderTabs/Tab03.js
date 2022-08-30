@@ -23,7 +23,7 @@ const Tab03 = props => {
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    setLoading(reflesh)
+    // setLoading(reflesh)
     setReflashing(reflesh)
   }, [reflesh])
 
