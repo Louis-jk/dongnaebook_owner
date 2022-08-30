@@ -81,7 +81,7 @@ const OrderedInfo = props => {
                   textAlign: 'right'
                 }}
               >
-                {detailOrder.od_forhere_num}명
+                {detailOrder.od_forhere_num !== '' ? detailOrder.od_forhere_num : '0'} 명
               </Text>
             </View>
             {detailOrder.od_addr_jibeon !== '' &&
