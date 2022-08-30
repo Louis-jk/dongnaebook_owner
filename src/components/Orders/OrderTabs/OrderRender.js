@@ -23,7 +23,7 @@ const OrderRender = (props) => {
         <Text style={{ ...BaseStyle.ko14, maxWidth: '50%' }}>
           {moment(item.od_time).format('YYYY년 M월 D일')}
         </Text>
-        <Text style={{ ...BaseStyle.ko14, maxWidth: '50%' }} numberOfLines={1}>
+        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_bold, maxWidth: '50%' }} numberOfLines={1}>
           {item.mb_company}
         </Text>
       </View>
