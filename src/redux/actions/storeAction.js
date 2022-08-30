@@ -1,27 +1,19 @@
-import types from "./types"
+import types from './types'
 
-export function updateStore(store) {
+export function updateStore (store) {
   return {
     type: types.UPDATE_STORE,
-    storeUpdate: store,
+    storeUpdate: store
   }
 }
 
-// export function selectStore(storeId, storeName) {
-//   return {
-//     type: types.SELECT_STORE,
-//     selectStoreId: storeId,
-//     selectStoreName: storeName,
-//   };
-// }
-
-export function selectStore(id, mt_jumju_id, mt_jumju_code, mt_store, mt_addr) {
+export function selectStore (id, jumjuId, jumjuCode, mtStore, mtAddr) {
   return {
     type: types.SELECT_STORE,
     id: id,
-    mt_jumju_id: mt_jumju_id,
-    mt_jumju_code: mt_jumju_code,
-    mt_store: mt_store,
-    mt_addr: mt_addr,
+    mt_jumju_id: jumjuId,
+    mt_jumju_code: jumjuCode,
+    mt_store: mtStore,
+    mt_addr: mtAddr
   }
 }
