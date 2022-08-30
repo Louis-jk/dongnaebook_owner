@@ -14,6 +14,7 @@ const StoreTime = props => {
 
   const [isLoading, setLoading] = React.useState(false)
   const [storeTimeList, setStoreTimeList] = React.useState(null) // 영업시간
+  const [isAllSelected, setAllSelected] = React.useState(true)
 
   const dispatch = useDispatch()
 
@@ -28,11 +29,30 @@ const StoreTime = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
-      console.log('resultItem', resultItem)
-
       if (resultItem.result === 'Y') {
-        setStoreTimeList(arrItems)
-        dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)))
+        // st_yoil(요일 숫자(str)만 배열로 추출)
+        const result = arrItems.reduce((acc, curr, i) => {
+          const toArr = curr.st_yoil.split(',')
+          acc.push(toArr)
+          return acc
+        }, [])
+
+        // 요일 배열 합치기 -> 배열 정렬
+        const flatArr = result.flat(Infinity)
+        const flatArrSort = flatArr.sort()
+        const flatArrSortToStr = JSON.stringify(flatArrSort)
+
+        // 전체 요일 데이터
+        const checkArr = JSON.stringify(['0', '1', '2', '3', '4', '5', '6'])
+
+        // 서버에서 가져온 데이터가 전체 요일이 선택되어 있는지 확인
+        if (flatArrSortToStr !== checkArr) {
+          setStoreTimeList(arrItems)
+          dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)))
+          setAllSelected(false)
+        } else {
+          setAllSelected(true)
+        }
       } else {
         setStoreTimeList(null)
         dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)))
@@ -119,18 +139,16 @@ const StoreTime = props => {
 
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => navigation.navigate('Home', { screen: 'SetTime' })}
-            style={{ ...BaseStyle.mainBtn, ...BaseStyle.mv10 }}
+            onPress={() => !isAllSelected ? navigation.navigate('Home', { screen: 'SetTime' }) : null}
+            style={[isAllSelected ? { ...BaseStyle.disableBtn } : { ...BaseStyle.mainBtn }, { ...BaseStyle.mv10 }]}
           >
             <Text
-              style={{
+              style={[{
                 ...BaseStyle.ko15,
-                ...BaseStyle.font_bold,
-                ...BaseStyle.font_222,
-                ...BaseStyle.textWhite
-              }}
+                ...BaseStyle.font_bold
+              }, isAllSelected ? { ...BaseStyle.font_222 } : { ...BaseStyle.textWhite }]}
             >
-              영업시간 추가
+              영업시간 추가{isAllSelected ? '완료' : null}
             </Text>
           </TouchableOpacity>
         </View>
