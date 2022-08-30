@@ -10,11 +10,11 @@ import {
 } from 'react-native'
 import Modal from 'react-native-modal'
 import { useSelector, useDispatch } from 'react-redux'
-import BaseStyle, { Primary } from '../../../styles/Base'
+import BaseStyle from '../../../styles/Base'
 import Api from '../../../Api'
 import * as orderAction from '../../../redux/actions/orderAction'
 import cusToast from '../../CusToast'
-import { rejectTypes, cancelTypes } from '../../../data/order/rejectAndCancelType'
+import { rejectTypes, rejectTypes02, cancelTypes, cancelTypes02, cancelTypes03 } from '../../../data/order/rejectAndCancelType'
 import Steps from '../../../data/order/steps'
 import Types from '../../../data/order/types'
 
@@ -80,7 +80,15 @@ const OrderRejectCancelModal = props => {
 
   // 주문 거부 재확인 확인 후 실행 핸들러
   const rejectSendHandler = () => {
-    const rejectTxt = rejectTypes.filter(reject => reject.type_id === selectedType)
+    let rejectTxt = ''
+    if (orderType === Types[0].text) {
+      rejectTxt = rejectTypes.filter(reject => reject.type_id === selectedType)
+    }
+
+    if (orderType !== Types[0].text) {
+      rejectTxt = rejectTypes02.filter(reject => reject.type_id === selectedType)
+    }
+
     let filteredText = ''
     if (rejectTxt[0].type_id !== 6) {
       filteredText = rejectTxt[0].type_description
@@ -155,7 +163,19 @@ const OrderRejectCancelModal = props => {
 
   // 주문 취소 재확인 확인 후 실행 핸들러
   const cancelSendHandler = () => {
-    const rejectTxt = cancelTypes.filter(reject => reject.type_id === selectedType)
+    let rejectTxt = ''
+    if (orderType === Types[0].text) {
+      rejectTxt = cancelTypes.filter(reject => reject.type_id === selectedType)
+    }
+
+    if (orderType === Types[1].text) {
+      rejectTxt = cancelTypes02.filter(reject => reject.type_id === selectedType)
+    }
+
+    if (orderType === Types[2].text) {
+      rejectTxt = cancelTypes03.filter(reject => reject.type_id === selectedType)
+    }
+
     let filteredText = ''
     if (rejectTxt[0].type_id !== 6) {
       filteredText = rejectTxt[0].type_description
@@ -259,7 +279,7 @@ const OrderRejectCancelModal = props => {
               borderBottomRightRadius: modalType === 'reject' ? 0 : 5
             }}
           >
-            {modalType === 'reject' &&
+            {modalType === 'reject' && orderType === Types[0].text &&
               rejectTypes &&
               rejectTypes.length > 0 &&
               rejectTypes.map((type, index) => (
@@ -295,10 +315,116 @@ const OrderRejectCancelModal = props => {
                 </TouchableOpacity>
               ))}
 
-            {modalType === 'cancel' &&
+            {modalType === 'reject' && orderType !== Types[0].text &&
+              rejectTypes02 &&
+              rejectTypes02.length > 0 &&
+              rejectTypes02.map((type, index) => (
+                <TouchableOpacity
+                  key={type.type_id}
+                  activeOpacity={0.8}
+                  onPress={() => setSelectTypeHandler(type.type_id)}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: selectedType === type.type_id ? '#707070' : '#F3F3F3',
+                    backgroundColor: selectedType === type.type_id ? '#fff' : '#F3F3F3',
+                    width: '48%',
+                    height: 55,
+                    ...BaseStyle.mb10,
+                    marginRight: index % 2 === 0 ? '2%' : 0,
+                    marginLeft: index % 2 === 1 ? '2%' : 0
+                  }}
+                >
+                  <Text
+                    style={{
+                      ...BaseStyle.ko12,
+                      ...BaseStyle.font_222,
+                      ...BaseStyle.lh17,
+                      textAlign: 'center',
+                      color: selectedType === type.type_id ? '#000' : '#333'
+                    }}
+                  >
+                    {type.type_description}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+
+            {modalType === 'cancel' && orderType === Types[0].text &&
               cancelTypes &&
               cancelTypes.length > 0 &&
               cancelTypes.map((type, index) => (
+                <TouchableOpacity
+                  key={type.type_id}
+                  activeOpacity={0.8}
+                  onPress={() => setSelectTypeHandler(type.type_id)}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: selectedType === type.type_id ? '#707070' : '#F3F3F3',
+                    backgroundColor: selectedType === type.type_id ? '#fff' : '#F3F3F3',
+                    width: '48%',
+                    height: 55,
+                    ...BaseStyle.mb10,
+                    marginRight: index % 2 === 0 ? '2%' : 0,
+                    marginLeft: index % 2 === 1 ? '2%' : 0
+                  }}
+                >
+                  <Text
+                    style={{
+                      ...BaseStyle.ko12,
+                      ...BaseStyle.font_222,
+                      ...BaseStyle.lh17,
+                      textAlign: 'center'
+                    }}
+                  >
+                    {type.type_description}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+
+            {modalType === 'cancel' && orderType === Types[1].text &&
+              cancelTypes02 &&
+              cancelTypes02.length > 0 &&
+              cancelTypes02.map((type, index) => (
+                <TouchableOpacity
+                  key={type.type_id}
+                  activeOpacity={0.8}
+                  onPress={() => setSelectTypeHandler(type.type_id)}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: selectedType === type.type_id ? '#707070' : '#F3F3F3',
+                    backgroundColor: selectedType === type.type_id ? '#fff' : '#F3F3F3',
+                    width: '48%',
+                    height: 55,
+                    ...BaseStyle.mb10,
+                    marginRight: index % 2 === 0 ? '2%' : 0,
+                    marginLeft: index % 2 === 1 ? '2%' : 0
+                  }}
+                >
+                  <Text
+                    style={{
+                      ...BaseStyle.ko12,
+                      ...BaseStyle.font_222,
+                      ...BaseStyle.lh17,
+                      textAlign: 'center'
+                    }}
+                  >
+                    {type.type_description}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+
+            {modalType === 'cancel' && orderType === Types[2].text &&
+              cancelTypes03 &&
+              cancelTypes03.length > 0 &&
+              cancelTypes03.map((type, index) => (
                 <TouchableOpacity
                   key={type.type_id}
                   activeOpacity={0.8}
