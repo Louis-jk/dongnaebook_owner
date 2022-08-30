@@ -159,12 +159,7 @@ const ReviewNotice = props => {
       params2,
       args => {
         const resultItem = args.resultItem
-        const arrItems = args.arrItems
-
-        console.log('====================================')
-        console.log('리뷰 공지사항 resultItem', resultItem)
-        console.log('리뷰 공지사항 arrItems', arrItems)
-        console.log('====================================')
+        // const arrItems = args.arrItems
 
         if (resultItem.result === 'Y') {
           if (type === 'edit') {
