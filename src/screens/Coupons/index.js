@@ -17,7 +17,7 @@ import 'moment/locale/ko'
 import Swipeout from 'react-native-swipeout-mod' // 스와이프 기능(수정, 삭제)
 
 // Local Modules
-import BaseStyle, { Primary } from '../../styles/Base'
+import BaseStyle, { Primary, Warning } from '../../styles/Base'
 import Api from '../../Api'
 import * as couponAction from '../../redux/actions/couponAction'
 import cusToast from '../../components/CusToast'
@@ -185,7 +185,7 @@ const Coupon = props => {
           </View>
         ),
         color: '#fff',
-        backgroundColor: Primary.PointColor02,
+        backgroundColor: Warning.redColor,
         underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
         onPress: () => delCouponHandler(item.cz_no)
       }

@@ -13,7 +13,7 @@ import Modal from 'react-native-modal'
 import { useSelector } from 'react-redux'
 import Swipeout from 'react-native-swipeout-mod' // 스와이프 기능(수정, 삭제)
 import Header from '../../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../../styles/Base'
+import BaseStyle, { Primary, Warning } from '../../styles/Base'
 import TipsModal from '../../components/Tips/TipsModal'
 import TipsEditModal from '../../components/Tips/TipsEditModal'
 import Api from '../../Api'
@@ -178,7 +178,7 @@ const SetTips = props => {
           </View>
         ),
         color: '#fff',
-        backgroundColor: Primary.PointColor02,
+        backgroundColor: Warning.redColor,
         underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
         onPress: () => {
           setTipId(item.dd_id)
