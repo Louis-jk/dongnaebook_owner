@@ -251,7 +251,7 @@ const OrderDetail = props => {
                           style={{
                             ...BaseStyle.pv15,
                             ...BaseStyle.ph15,
-                            backgroundColor: Primary.PointColor03,
+                            backgroundColor: '#F9F8FB',
                             borderRadius: 5
                           }}
                         >
