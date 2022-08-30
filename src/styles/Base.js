@@ -5,11 +5,13 @@ const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
 export const main = '#20ABC8' // #277BC0
-export const mint = '#5AC69F'
-export const orange = '#FEB139' // #FFCB42
+export const mint = '#57CC99'
+export const orange = '#FFB72B' // #FFCB42
 export const grey = '#ececec'
+export const disableGray = '#f5f5f5'
 export const green = '#58BC1F'
 export const red = '#E94560'
+export const yellow = '#FFD24C'
 
 export const Primary = {
   PointColor01: main,
@@ -19,7 +21,8 @@ export const Primary = {
 }
 
 export const Warning = {
-  redColor: red
+  redColor: red,
+  yellowColor: yellow
 }
 
 export const customPickerStyles = StyleSheet.create({
@@ -311,6 +314,14 @@ export default StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 5
   },
+  disableBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    backgroundColor: disableGray,
+    paddingVertical: 14,
+    borderRadius: 5
+  },
   mainBtnBottom: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -330,6 +341,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     backgroundColor: red,
+    paddingVertical: 18
+  },
+  disableBtnBottom: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    backgroundColor: disableGray,
     paddingVertical: 18
   },
   mainBorderBtn: {
