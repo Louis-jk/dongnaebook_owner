@@ -958,11 +958,9 @@ const SetMenuAddOrEdit = props => {
                                   fontSize: 13,
                                   textAlign: 'center',
                                   textAlignVertical: 'center',
-                                  color: '#fff',
-                                  borderColor: Primary.PointColor01,
+                                  borderColor: Primary.PointColor03,
                                   borderWidth: 1.5,
-                                  borderRadius: 4,
-                                  backgroundColor: Primary.PointColor01
+                                  borderRadius: 4
                                 }}
                                 onPress={() => {
                                   setOptions(options => {
@@ -1142,12 +1140,9 @@ const SetMenuAddOrEdit = props => {
                                   fontSize: 13,
                                   textAlign: 'center',
                                   textAlignVertical: 'center',
-                                  color: '#fff',
-                                  borderColor: Primary.PointColor02,
-                                  // borderColor: '#ececec',
+                                  borderColor: Primary.PointColor03,
                                   borderWidth: 1.5,
-                                  borderRadius: 4,
-                                  backgroundColor: Primary.PointColor02
+                                  borderRadius: 4
                                 }}
                                 onPress={() => {
                                   setAddOptions(addOptions => {
@@ -1263,13 +1258,13 @@ const SetMenuAddOrEdit = props => {
                   <TouchableOpacity
                     activeOpacity={1}
                     onPress={() => menuCheckHandler('del')}
-                    style={{ ...BaseStyle.deleteBtnBottom, flex: 1 }}
+                    style={{ ...BaseStyle.mainBtnBottom, flex: 1 }}
                   >
                     <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
                       삭제하기
                     </Text>
                   </TouchableOpacity>
-                  {/* <View style={{ height: '60%', width: 1, backgroundColor: '#e1e1e1' }} /> */}
+                  <View style={{ height: '60%', width: 1, backgroundColor: '#e1e1e1' }} />
                   <TouchableOpacity
                     activeOpacity={1}
                     onPress={() => menuCheckHandler('edit')}
