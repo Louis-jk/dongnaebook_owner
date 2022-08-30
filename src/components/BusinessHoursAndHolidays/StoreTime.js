@@ -31,35 +31,41 @@ const StoreTime = props => {
 
       if (resultItem.result === 'Y') {
         // st_yoil(요일 숫자(str)만 배열로 추출)
-        const result = arrItems.reduce((acc, curr, i) => {
-          const toArr = curr.st_yoil.split(',')
-          acc.push(toArr)
-          return acc
-        }, [])
+        daysToArrayHandler(arrItems)
 
-        // 요일 배열 합치기 -> 배열 정렬
-        const flatArr = result.flat(Infinity)
-        const flatArrSort = flatArr.sort()
-        const flatArrSortToStr = JSON.stringify(flatArrSort)
-
-        // 전체 요일 데이터
-        const checkArr = JSON.stringify(['0', '1', '2', '3', '4', '5', '6'])
-
-        // 서버에서 가져온 데이터가 전체 요일이 선택되어 있는지 확인
-        if (flatArrSortToStr !== checkArr) {
-          setStoreTimeList(arrItems)
-          dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)))
-          setAllSelected(false)
-        } else {
-          setAllSelected(true)
-        }
+        setStoreTimeList(arrItems)
+        dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)))
       } else {
         setStoreTimeList(null)
-        dispatch(storeTimeAction.updateStoreTime(JSON.stringify(arrItems)))
+        dispatch(storeTimeAction.updateStoreTime(JSON.stringify(null)))
       }
 
       setLoading(false)
     })
+  }
+
+  // st_yoil(요일 숫자(str)만 배열로 추출) 핸들러
+  const daysToArrayHandler = (arr) => {
+    const result = arr.reduce((acc, curr, i) => {
+      const toArr = curr.st_yoil.split(',')
+      acc.push(toArr)
+      return acc
+    }, [])
+
+    // 요일 배열 합치기 -> 배열 정렬
+    const flatArr = result.flat(Infinity)
+    const flatArrSort = flatArr.sort()
+    const flatArrSortToStr = JSON.stringify(flatArrSort)
+
+    // 전체 요일 데이터
+    const checkArr = JSON.stringify(['0', '1', '2', '3', '4', '5', '6'])
+
+    // 서버에서 가져온 데이터가 전체 요일이 선택되어 있는지 확인
+    if (flatArrSortToStr !== checkArr) {
+      setAllSelected(false)
+    } else {
+      setAllSelected(true)
+    }
   }
 
   function delStoreTimeHandler (payload) {
