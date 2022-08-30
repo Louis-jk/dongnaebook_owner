@@ -3,6 +3,7 @@ import { View, Text } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/ko'
 import BaseStyle from '../../../styles/Base'
+import OrderMoreInfo from './OrderMoreInfo'
 
 const OrderRender = (props) => {
   const { item, children } = props
@@ -44,7 +45,7 @@ const OrderRender = (props) => {
         </View>
 
         {/* 배달 주소 | 식사 인원수 : OrderMoreInfo */}
-        {children[3]}
+        <OrderMoreInfo item={item} orderType={item.od_type} />
         {/* // 배달 주소 | 식사 인원수 : OrderMoreInfo */}
 
       </View>
