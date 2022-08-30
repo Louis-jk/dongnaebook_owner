@@ -49,7 +49,7 @@ const OrderMoreInfo = ({ item, orderType }) => {
             }}
             numberOfLines={1}
           >
-            식사인원수 : {item.od_forhere_num}명
+            식사인원수 : {item.od_forhere_num !== '' ? item.od_forhere_num : '0'}명
           </Text>
         </View>}
 
