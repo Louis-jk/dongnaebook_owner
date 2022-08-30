@@ -14,7 +14,7 @@ import RNPickerSelect from 'react-native-picker-select' // 셀렉트박스 패�
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
 import Header from '../../components/Headers/SubHeader'
-import BaseStyle, { Primary, customPickerStyles } from '../../styles/Base'
+import BaseStyle, { Primary, customPickerStyles, Warning } from '../../styles/Base'
 import cusToast from '../../components/CusToast'
 import checkMenuValidate from '../../modules/menuValidate'
 import Api from '../../Api'
@@ -121,9 +121,17 @@ const SetMenuAddOrEdit = props => {
 
         // console.log('isEmptyOption', isEmptyOption)
         // console.log('isEmptyAddOption', isEmptyAddOption)
+        if (arrItems.menuOption && arrItems.menuOption.length > 0) {
+          setOptions(arrItems.menuOption)
+        } else {
+          setOptions([])
+        }
 
-        setOptions(arrItems.menuOption)
-        setAddOptions(arrItems.menuAddOption)
+        if (arrItems.menuAddOption && arrItems.menuAddOption.length > 0) {
+          setAddOptions(arrItems.menuAddOption)
+        } else {
+          setAddOptions([])
+        }
       } else {
         cusToast('메뉴 상세내용을 가져오는 중 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
 
@@ -270,7 +278,7 @@ const SetMenuAddOrEdit = props => {
       if (type === 'add') {
         sendMenuAddHandler()
       }
-      if(type === 'del') {
+      if (type === 'del') {
         toggleDeleteMenuModal()
       }
       if (type === 'edit') {
@@ -281,106 +289,101 @@ const SetMenuAddOrEdit = props => {
 
   // 메뉴 추가 핸들러
   const sendMenuAddHandler = () => {
-      
-        const isEmptyImage = isEmptyObject(source)
+    const isEmptyImage = isEmptyObject(source)
 
-        const param = {
-          jumju_id: mtId,
-          jumju_code: mtJumjuCode,
-          mode: 'insert',
-          ca_id2: selectCategory,
-          menuName: name,
-          menuInfo: menuShortDesc,
-          menuPrice: salePrice,
-          menuDescription: description,
-          it_type1: checkMain ? '1' : '0',
-          it_use: visible,
-          menuOption: JSON.stringify(options),
-          menuAddOption: JSON.stringify(addOptions),
-          it_img1: isEmptyImage ? '' : source
-        }
+    const param = {
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
+      mode: 'insert',
+      ca_id2: selectCategory,
+      menuName: name,
+      menuInfo: menuShortDesc,
+      menuPrice: salePrice,
+      menuDescription: description,
+      it_type1: checkMain ? '1' : '0',
+      it_use: visible,
+      menuOption: JSON.stringify(options),
+      menuAddOption: JSON.stringify(addOptions),
+      it_img1: isEmptyImage ? '' : source
+    }
 
-        Api.send2('store_item_input', param, args => {
-          const resultItem = args.resultItem
-          const arrItems = args.arrItems
+    Api.send2('store_item_input', param, args => {
+      const resultItem = args.resultItem
+      const arrItems = args.arrItems
 
-          if (resultItem.result === 'Y') {
-            cusToast('메뉴가 등록되었습니다.\n관리자 승인 후 리스트에 노출됩니다.', 1000)
-          } else {
-            cusToast('메뉴를 등록 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
-          }
+      if (resultItem.result === 'Y') {
+        cusToast('메뉴가 등록되었습니다.\n관리자 승인 후 리스트에 노출됩니다.', 1000)
+      } else {
+        cusToast('메뉴를 등록 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
+      }
 
-          setTimeout(() => {
-            navigation.navigate('Home', { screen: 'SetMenu' })
-          }, 1000)
-        })
+      setTimeout(() => {
+        navigation.navigate('Home', { screen: 'SetMenu' })
+      }, 1000)
+    })
   }
 
   // 메뉴 수정 핸들러
   const sendMenuEditHandler = () => {
-  
-      const param = {
-        jumju_id: mtId,
-        jumju_code: mtJumjuCode,
-        it_id: menuId,
-        mode: 'update',
-        ca_id2: selectCategory,
-        menuName: name,
-        menuInfo: menuShortDesc,
-        menuPrice: salePrice,
-        menuDescription: description,
-        it_type1: checkMain ? '1' : '0',
-        it_use: visible ? '1' : '0',
-        menuOption: JSON.stringify(options),
-        menuAddOption: JSON.stringify(addOptions)
+    const param = {
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
+      it_id: menuId,
+      mode: 'update',
+      ca_id2: selectCategory,
+      menuName: name,
+      menuInfo: menuShortDesc,
+      menuPrice: salePrice,
+      menuDescription: description,
+      it_type1: checkMain ? '1' : '0',
+      it_use: visible ? '1' : '0',
+      menuOption: JSON.stringify(options),
+      menuAddOption: JSON.stringify(addOptions)
+    }
+
+    if (!isEmptyObj(source)) {
+      param.it_img1 = source
+    }
+
+    Api.send2('store_item_update', param, args => {
+      const resultItem = args.resultItem
+      // const arrItems = args.arrItems
+
+      if (resultItem.result === 'Y') {
+        cusToast('메뉴가 수정되었습니다.', 1000)
+      } else {
+        cusToast('메뉴를 수정 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
       }
 
-      if (!isEmptyObj(source)) {
-        param.it_img1 = source
-      }
-
-      Api.send2('store_item_update', param, args => {
-        const resultItem = args.resultItem
-        // const arrItems = args.arrItems
-
-        if (resultItem.result === 'Y') {
-          cusToast('메뉴가 수정되었습니다.', 1000)
-        } else {
-          cusToast('메뉴를 수정 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
-        }
-
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'SetMenu' })
-        }, 1000)
-      })
-
+      setTimeout(() => {
+        navigation.navigate('Home', { screen: 'SetMenu' })
+      }, 1000)
+    })
   }
 
   // 메뉴 삭제 핸들러
   const sendMenuDeleteHandler = () => {
-  
-      const param = {
-        jumju_id: mtId,
-        jumju_code: mtJumjuCode,
-        it_id: menuId,
-        mode: 'delete'
+    const param = {
+      jumju_id: mtId,
+      jumju_code: mtJumjuCode,
+      it_id: menuId,
+      mode: 'delete'
+    }
+
+    Api.send2('store_item_delete', param, args => {
+      const resultItem = args.resultItem
+      // const arrItems = args.arrItems
+
+      if (resultItem.result === 'Y') {
+        cusToast('메뉴가 삭제되었습니다.', 1000)
+      } else {
+        cusToast('메뉴를 삭제 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
       }
 
-      Api.send2('store_item_delete', param, args => {
-        const resultItem = args.resultItem
-        // const arrItems = args.arrItems
-
-        if (resultItem.result === 'Y') {
-          cusToast('메뉴가 삭제되었습니다.', 1000)
-        } else {
-          cusToast('메뉴를 삭제 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
-        }
-
-        setTimeout(() => {
-          navigation.navigate('Home', { screen: 'SetMenu' })
-        }, 1000)
-      })
-
+      setTimeout(() => {
+        navigation.navigate('Home', { screen: 'SetMenu' })
+      }, 1000)
+    })
   }
 
   // 메뉴 삭제 컨펌 모달 핸들러
@@ -474,7 +477,7 @@ const SetMenuAddOrEdit = props => {
           {/* // 선택 모달 (카메라, 갤러리) */}
 
           {/* 메뉴 삭제 컨펌 모달 */}
-          <DeleteMenuModal 
+          <DeleteMenuModal
             isModalVisible={isDeleteMenuModalVisible}
             toggleModal={toggleDeleteMenuModal}
             sendMenuDeleteHandler={sendMenuDeleteHandler}
@@ -893,6 +896,7 @@ const SetMenuAddOrEdit = props => {
                             ...BaseStyle.font_777,
                             height: 30,
                             fontSize: 14,
+                            color: Warning.redColor,
                             paddingHorizontal: 10,
                             textAlign: 'center',
                             textAlignVertical: 'center',
@@ -916,7 +920,7 @@ const SetMenuAddOrEdit = props => {
                           key={String(selectIndex)}
                           style={{ marginTop: selectIndex === 0 ? 10 : 0 }}
                         >
-                          {selectIndex === 0 ? (
+                          {selectIndex === 0 && (
                             <View
                               style={{
                                 flexDirection: 'row',
@@ -950,13 +954,15 @@ const SetMenuAddOrEdit = props => {
                                   ...BaseStyle.ko15,
                                   ...BaseStyle.font_666,
                                   width: 30,
-                                  height: 50,
+                                  height: 45,
                                   fontSize: 13,
                                   textAlign: 'center',
                                   textAlignVertical: 'center',
-                                  borderColor: '#ececec',
+                                  color: '#fff',
+                                  borderColor: Primary.PointColor01,
                                   borderWidth: 1.5,
-                                  borderRadius: 4
+                                  borderRadius: 4,
+                                  backgroundColor: Primary.PointColor01
                                 }}
                                 onPress={() => {
                                   setOptions(options => {
@@ -972,7 +978,7 @@ const SetMenuAddOrEdit = props => {
                                 세부추가
                               </Text>
                             </View>
-                          ) : null}
+                          )}
                           <View style={{ marginTop: 6, flexDirection: 'row', alignItems: 'center' }}>
                             <TextInput
                               style={{
@@ -1077,6 +1083,7 @@ const SetMenuAddOrEdit = props => {
                             paddingHorizontal: 10,
                             textAlign: 'center',
                             textAlignVertical: 'center',
+                            color: Warning.redColor,
                             borderColor: Primary.PointColor02,
                             borderWidth: 1.5,
                             borderRadius: 4
@@ -1097,7 +1104,7 @@ const SetMenuAddOrEdit = props => {
                           key={String(selectIndex)}
                           style={{ marginTop: selectIndex === 0 ? 10 : 0 }}
                         >
-                          {selectIndex === 0 ? (
+                          {selectIndex === 0 && (
                             <View
                               style={{
                                 flexDirection: 'row',
@@ -1131,13 +1138,16 @@ const SetMenuAddOrEdit = props => {
                                   ...BaseStyle.ko15,
                                   ...BaseStyle.font_666,
                                   width: 30,
-                                  height: 50,
+                                  height: 45,
                                   fontSize: 13,
                                   textAlign: 'center',
                                   textAlignVertical: 'center',
-                                  borderColor: '#ececec',
+                                  color: '#fff',
+                                  borderColor: Primary.PointColor02,
+                                  // borderColor: '#ececec',
                                   borderWidth: 1.5,
-                                  borderRadius: 4
+                                  borderRadius: 4,
+                                  backgroundColor: Primary.PointColor02
                                 }}
                                 onPress={() => {
                                   setAddOptions(addOptions => {
@@ -1153,7 +1163,7 @@ const SetMenuAddOrEdit = props => {
                                 세부추가
                               </Text>
                             </View>
-                          ) : null}
+                          )}
                           <View style={{ marginTop: 6, flexDirection: 'row', alignItems: 'center' }}>
                             <TextInput
                               style={{
@@ -1246,21 +1256,20 @@ const SetMenuAddOrEdit = props => {
                   <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
                     등록하기
                   </Text>
-                </TouchableOpacity>
-              }
+                </TouchableOpacity>}
 
               {type === 'edit' &&
                 <View style={{ ...BaseStyle.container5, backgroundColor: Primary.PointColor01 }}>
                   <TouchableOpacity
                     activeOpacity={1}
                     onPress={() => menuCheckHandler('del')}
-                    style={{ ...BaseStyle.mainBtnBottom, flex: 1 }}
+                    style={{ ...BaseStyle.deleteBtnBottom, flex: 1 }}
                   >
                     <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
                       삭제하기
                     </Text>
                   </TouchableOpacity>
-                  <View style={{ height: '60%', width: 1, backgroundColor: '#e1e1e1' }} />
+                  {/* <View style={{ height: '60%', width: 1, backgroundColor: '#e1e1e1' }} /> */}
                   <TouchableOpacity
                     activeOpacity={1}
                     onPress={() => menuCheckHandler('edit')}
@@ -1270,8 +1279,7 @@ const SetMenuAddOrEdit = props => {
                       수정하기
                     </Text>
                   </TouchableOpacity>
-                </View>
-              }
+                </View>}
             </View>
           </ScrollView>
         </View>}
