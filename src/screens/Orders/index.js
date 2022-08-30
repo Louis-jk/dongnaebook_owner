@@ -86,14 +86,17 @@ const Main = props => {
   }
 
   React.useEffect(() => {
+    getStoreHandler()
+
+    return () => getStoreHandler()
+  }, [])
+
+  React.useEffect(() => {
     if (Platform.OS === 'android') {
       requestAndroidPermission()
 
       return () => requestAndroidPermission()
     }
-    getStoreHandler()
-
-    return () => getStoreHandler()
   }, [])
 
   return (
