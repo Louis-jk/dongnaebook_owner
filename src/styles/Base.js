@@ -9,12 +9,17 @@ export const mint = '#5AC69F'
 export const orange = '#FEB139' // #FFCB42
 export const grey = '#ececec'
 export const green = '#58BC1F'
+export const red = '#E94560'
 
 export const Primary = {
   PointColor01: main,
   PointColor02: mint,
   PointColor03: grey,
   PointColor04: orange
+}
+
+export const Warning = {
+  redColor: red
 }
 
 export const customPickerStyles = StyleSheet.create({
@@ -311,6 +316,20 @@ export default StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     backgroundColor: main,
+    paddingVertical: 18
+  },
+  secondBtnBottom: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    backgroundColor: mint,
+    paddingVertical: 18
+  },
+  deleteBtnBottom: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    backgroundColor: red,
     paddingVertical: 18
   },
   mainBorderBtn: {
