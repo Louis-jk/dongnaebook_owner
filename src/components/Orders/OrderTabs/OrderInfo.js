@@ -49,11 +49,11 @@ const OrderInfo = ({ navigation, item, tabIndex }) => {
           }}
         >
           {item.od_type === Types[0].text &&
-            <Image source={require('../../../images/icon_delivery_wh.png')} style={{ width: 23, height: 13 }} resizeMode='center' />}
+            <Image source={require('../../../images/icon_delivery_wh.png')} style={{ width: 23, height: 13 }} resizeMode='center' fadeDuration={500} />}
           {item.od_type === Types[1].text &&
-            <Image source={require('../../../images/icon_wrap_wh.png')} style={{ width: 15, height: 17 }} resizeMode='center' />}
+            <Image source={require('../../../images/icon_wrap_wh.png')} style={{ width: 15, height: 17 }} resizeMode='center' fadeDuration={500} />}
           {item.od_type === Types[2].text &&
-            <Image source={require('../../../images/icon_store_wh.png')} style={{ width: 22, height: 17 }} resizeMode='center' />}
+            <Image source={require('../../../images/icon_store_wh.png')} style={{ width: 22, height: 17 }} resizeMode='center' fadeDuration={500} />}
         </View>
       </View>
 
