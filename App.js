@@ -46,6 +46,7 @@ import StoreSettingScreen from './src/screens/StoreSettings' // 매장설정
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2'])
+  LogBox.ignoreAllLogs()
 
   const Drawer = createDrawerNavigator()
   const Stack = createStackNavigator()
