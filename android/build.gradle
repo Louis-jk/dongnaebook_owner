@@ -40,5 +40,10 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://www.jitpack.io' }
+
+         maven {
+            // detox (e2e test)
+            url("$rootDir/../node_modules/detox/Detox-android")
+        }
     }
 }

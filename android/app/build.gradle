@@ -80,6 +80,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
+    bundleInDebug: true
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -137,6 +138,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        testBuildType System.getProperty('testBuildType', 'debug') // detox (e2e test)
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner' // detox (e2e test)
     }
     splits {
         abi {
@@ -222,6 +225,9 @@ dependencies {
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.flipper'
     }
+
+    // detox (e2e test)
+    androidTestImplementation('com.wix:detox:+')
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
