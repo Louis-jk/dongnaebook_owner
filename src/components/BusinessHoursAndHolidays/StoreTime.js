@@ -45,8 +45,8 @@ const StoreTime = props => {
   }
 
   // st_yoil(요일 숫자(str)만 배열로 추출) 핸들러
-  const daysToArrayHandler = (arr) => {
-    const result = arr.reduce((acc, curr, _) => {
+  const daysToArrayHandler = (arrItems) => {
+    const result = arrItems.reduce((acc, curr, _) => {
       const toArr = curr.st_yoil.split(',')
       acc.push(toArr)
       return acc
