@@ -1,23 +1,25 @@
 module.exports = {
   env: {
     node: true,
-    es2020: true,
+    es2020: true
   },
-  extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier'],
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 12,
-    sourceType: "module",
+    sourceType: 'module'
   },
-  plugins: ["react", "react-hooks"],
+  plugins: ['react', 'react-hooks'],
   rules: {
-    indent: ["error", 2],
-    "linebreak-style": ["error", "unix"],
+    'import/prefer-default-export': 'off',
+    'import/extensions': ['off'],
+    indent: ['error', 2],
+    'linebreak-style': ['error', 'unix'],
     // quotes: ['error', 'single'],
-    quotes: ["off", "single"],
-    semi: ["error", "always"],
-    "prettier/prettier": "error",
-  },
+    quotes: ['off', 'single'],
+    semi: ['error', 'always'],
+    'prettier/prettier': 'error'
+  }
 }
