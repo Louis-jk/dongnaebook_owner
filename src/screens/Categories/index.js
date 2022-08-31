@@ -347,6 +347,12 @@ const CategoriesSetting = props => {
         </Modal>
 
         <View style={{ flex: 1, ...BaseStyle.ph20, ...BaseStyle.mt20 }}>
+
+          <View style={{ ...BaseStyle.container3, ...BaseStyle.mb20 }}>
+            <Text style={{ color: Primary.PointColor02, ...BaseStyle.ko13 }}>※ </Text>
+            <Text style={{ color: Primary.PointColor02, ...BaseStyle.ko13 }} textBreakStrategy='balanced'>수정하실 때는 카테고리명 변경 또는 사용 여부를 선택하신 후, 우측 수정 버튼을 눌러주세요.</Text>
+          </View>
+
           <FlatList
             data={menuCategory}
             showVerticalScrollIndicator={false}
