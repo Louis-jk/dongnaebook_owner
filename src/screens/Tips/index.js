@@ -463,9 +463,7 @@ const SetTips = props => {
                       color: Primary.PointColor02
                     }}
                   >
-                    {
-                  '배달팁을 수정 또는 삭제하시려면\n해당 배달팁을 오른쪽에서 왼쪽으로 스와이프해주세요.'
-                }
+                    {'배달팁을 수정 또는 삭제하시려면\n해당 배달팁을 오른쪽에서 왼쪽으로 스와이프해주세요.'}
                   </Text>
                 </View>
                 <View style={{ width: '20%', justifyContent: 'center', alignItems: 'center' }}>
