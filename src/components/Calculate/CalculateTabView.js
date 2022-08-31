@@ -332,4 +332,4 @@ const CalculateTabView = () => {
   )
 }
 
-export default CalculateTabView
+export default React.memo(CalculateTabView)
