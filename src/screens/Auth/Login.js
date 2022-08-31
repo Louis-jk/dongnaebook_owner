@@ -223,6 +223,7 @@ const Login = props => {
                 }}
               >
                 <TextInput
+                  testID='loginId'
                   value={userEmail}
                   placeholder='아이디를 입력하세요'
                   style={{
@@ -241,6 +242,7 @@ const Login = props => {
               {/* // 비밀번호 입력 */}
               <View style={{ borderWidth: 1, borderColor: '#E3E3E3', borderRadius: 5 }}>
                 <TextInput
+                  testID='loginPwd'
                   ref={userPwdRef}
                   value={userPwd}
                   placeholder='비밀번호를 입력하세요'

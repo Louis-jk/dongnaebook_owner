@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text, Dimensions, TouchableOpacity, Image, ScrollView, Alert, SafeAreaView, Platform } from 'react-native'
+import { View, Text, Dimensions, TouchableOpacity, Image, ScrollView, SafeAreaView, Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import BaseStyle, { Primary } from '../styles/Base'
+import BaseStyle from '../styles/Base'
 import { DrawerMenus } from '../data/drawerMenus'
 import cusToast from '../components/CusToast'
 import Divider from '../components/Divider'
@@ -54,11 +54,12 @@ const DrawerMenu = props => {
 
         <Divider backgroundColor='#E3E3E3' />
 
-        <ScrollView showsVerticalScrollIndicator={false} style={Platform.OS === 'ios' && { height: Dimensions.get('window').height - 103 }}>
+        <ScrollView testID='drawerMenuScrollView' showsVerticalScrollIndicator={false} style={Platform.OS === 'ios' && { height: Dimensions.get('window').height - 103 }}>
           <View style={Platform.OS === 'ios' ? { ...BaseStyle.mv05 } : { ...BaseStyle.mv10 }}>
             {DrawerMenus.map((menu, index) => (
 
               <TouchableOpacity
+                testID={menu.route ? menu.route : 'logout'}
                 key={`${menu.name}-${index}`}
                 activeOpacity={1}
                 onPress={() => {

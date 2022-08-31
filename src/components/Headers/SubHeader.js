@@ -14,6 +14,7 @@ const DefaultHeader = props => {
       <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20, paddingVertical: Platform.OS === 'ios' ? 10 : 15 }}>
         <View style={{ ...BaseStyle.container }}>
           <TouchableOpacity
+            testID='goBackBtn'
             activeOpacity={1}
             onPress={() => navigation.goBack()}
             hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
@@ -51,6 +52,7 @@ const DefaultHeader = props => {
         </View>
         <View style={{ ...BaseStyle.container }}>
           <TouchableOpacity
+            testID='openDrawer'
             activeOpacity={1}
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
             hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}

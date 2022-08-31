@@ -102,7 +102,7 @@ const Notice = props => {
       {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
       {!isLoading &&
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <View testID='noticeScreen' style={{ flex: 1, backgroundColor: '#fff' }}>
           <Header navigation={navigation} title='공지사항' />
 
           {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}

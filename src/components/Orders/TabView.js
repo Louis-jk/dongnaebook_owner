@@ -20,10 +20,10 @@ const TabView = props => {
 
   const [index, setIndex] = React.useState(0)
   const [routes] = React.useState([
-    { key: 'order01', title: Steps[0] },
-    { key: 'order02', title: Steps[1] },
-    { key: 'order03', title: Steps[2] },
-    { key: 'order04', title: Steps[3] }
+    { key: 'order01', testID: 'tab01', title: Steps[0] },
+    { key: 'order02', testID: 'tab02', title: Steps[1] },
+    { key: 'order03', testID: 'tab03', title: Steps[2] },
+    { key: 'order04', testID: 'tab04', title: Steps[3] }
   ])
 
   // 주문 내역 호출
@@ -66,6 +66,7 @@ const TabView = props => {
 
   const renderTabBar = props => (
     <TabBar
+      getTestID={({ route }) => route.testID}
       {...props}
       getAccessibilityLabel={({ route }) => route.accessibilityLabel}
       activeColor={Primary.PointColor01}

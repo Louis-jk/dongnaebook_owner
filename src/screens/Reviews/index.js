@@ -594,7 +594,7 @@ const Reviews = props => {
       {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
       {!isLoading &&
-      (<View style={{ flex: 1, backgroundColor: '#fff' }}>
+      (<View style={{ flex: 1, backgroundColor: '#fff' }} testID='reviewScreen'>
         <View style={{ zIndex: 99999, backgroundColor: '#fff' }}>
           <Header navigation={navigation} title='리뷰관리' />
         </View>
@@ -886,6 +886,7 @@ const Reviews = props => {
         {/* 리뷰 리스트 */}
         <View style={{ flex: 1 }}>
           <Animated.FlatList
+            testID='reviewFlatList'
             data={list}
             renderItem={renderRow}
             keyExtractor={(list, index) => index.toString()}

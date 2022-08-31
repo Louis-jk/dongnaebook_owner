@@ -60,9 +60,6 @@ const SelectStore = props => {
   }, [])
 
   const renderRow = ({ item, index }) => {
-    console.log('====================================')
-    console.log('item ??', item)
-    console.log('====================================')
     return (
       <View key={index}>
         <TouchableOpacity
@@ -100,7 +97,7 @@ const SelectStore = props => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }} testID='selectStoreScreen'>
       <View
         style={{
           ...BaseStyle.container5,
@@ -114,6 +111,7 @@ const SelectStore = props => {
         </View>
 
         <TouchableOpacity
+          testID='clsBtn'
           activeOpacity={1}
           onPress={() => navigation.navigate('Home', { screen: 'Main' })}
           hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}

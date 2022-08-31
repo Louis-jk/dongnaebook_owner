@@ -236,7 +236,6 @@ const CategoriesSetting = props => {
 
         <Modal
           isVisible={isModalVisible}
-        // onBackdropPress={toggleModal}
           transparent
           statusBarTranslucent
           style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
