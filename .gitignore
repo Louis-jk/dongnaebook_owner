@@ -60,3 +60,6 @@ buck-out/
 
 #iOS Firebase 
 GoogleService-Info.plist
+
+# e2e (detox)
+/artifacts
