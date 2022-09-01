@@ -8,13 +8,16 @@ import CalculateList from './CalculateList'
 import moment from 'moment'
 import { monthArr } from '../../data/month'
 import { data } from '../../data/calcMockData'
+import cusToast from '../CusToast'
 
 const Tab = createMaterialTopTabNavigator()
 
 const CalculateTabView = () => {
   const Month = () => {
     const [selectedYear, setSelectedYear] = React.useState('') // 년 선택
+    const [currentYear, setCurrentYear] = React.useState('') // 현재 년
     const [selectedMonth, setSelectedMonth] = React.useState('') // 월 선택
+    const [currentMonth, setCurrentMonth] = React.useState('') // 현재 월
 
     // 년도 배열 만들기
     const [yearArr, setYearArr] = React.useState([])
@@ -36,8 +39,34 @@ const CalculateTabView = () => {
       setYearArr(arr)
     }
 
-    const initialSelectedYear = payload => setSelectedYear(payload)
-    const initialSelectedMonth = payload => setSelectedMonth(payload)
+    const initialSelectedYear = payload => {
+      setCurrentYear(payload)
+      setSelectedYear(payload)
+    }
+
+    const initialSelectedMonth = payload => {
+      setCurrentMonth(payload)
+      setSelectedMonth(payload)
+    }
+
+    const checkMonthSelector = (selectMonth) => {
+
+      if(selectedYear === currentYear && selectMonth > currentMonth) {        
+        cusToast('아직 데이터가 없습니다.')
+        let prev = selectedMonth
+        setSelectedMonth(prev)
+      } else {
+        setSelectedMonth(selectMonth)
+      }
+
+      // console.log('=======')
+      // console.log("currentMonth ?", currentMonth);
+      // console.log("selected month ?", selectMonth);
+      // console.log('---------')
+      // console.log("currentYear ?", currentYear);
+      // console.log("selectedYear ?", selectedYear);
+      // console.log('=======')
+    }
 
     function initCurrentDate () {
       const getNow = new Date()
@@ -55,6 +84,8 @@ const CalculateTabView = () => {
 
       return () => initCurrentDate()
     }, [])
+
+    
 
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', ...BaseStyle.ph20 }}>
@@ -99,7 +130,21 @@ const CalculateTabView = () => {
               value={selectedMonth}
               useNativeAndroidPickerStyle={false}
               placeholder={{ label: '선택해주세요.', value: null }}
-              onValueChange={value => setSelectedMonth(value)}
+              onValueChange={value => {
+                console.log('바꾼 월 ::', value)
+                console.log('선택 월 ::', selectedMonth)
+                console.log('현재 월 ::', currentMonth)
+                console.log('선택 년 ::', selectedYear)
+                console.log('현재 년 ::', currentYear)
+                console.log('------------------------')
+
+                if(selectedYear === currentYear && value > currentMonth) {                  
+                  cusToast('아직 데이터가 없습니다.')
+                  setSelectedMonth(selectedMonth)
+                } else {                  
+                  setSelectedMonth(value)
+                }
+              }}
               items={monthArr}
               style={{
                 ...customPickerStyles,
