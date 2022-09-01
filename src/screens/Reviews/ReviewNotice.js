@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
 import AutoHeightImage from 'react-native-auto-height-image'
 import Header from '../../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../../styles/Base'
+import BaseStyle, { Disable, Primary } from '../../styles/Base'
 import cusToast from '../../components/CusToast'
 import Api from '../../Api'
 
@@ -359,7 +359,7 @@ const ReviewNotice = props => {
                   width: MAIN_IMAGE_THUMB_WIDTH,
                   height: MAIN_IMAGE_THUMB_WIDTH,
                   borderRadius: 5,
-                  backgroundColor: '#ececec',
+                  backgroundColor: Disable.lightGray,
                   justifyContent: 'center',
                   alignItems: 'center'
                 }}
