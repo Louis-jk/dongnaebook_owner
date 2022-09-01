@@ -7,7 +7,7 @@ const SCREEN_WIDTH = Dimensions.get('window').width
 export const main = '#20ABC8' // #277BC0
 export const mint = '#57CC99'
 export const orange = '#FFB72B' // #FFCB42
-export const grey = '#ececec'
+export const gray = '#ececec'
 export const disableGray = '#f5f5f5'
 export const green = '#58BC1F'
 export const red = '#E94560'
@@ -16,13 +16,18 @@ export const yellow = '#FFD24C'
 export const Primary = {
   PointColor01: main,
   PointColor02: mint,
-  PointColor03: grey,
+  PointColor03: gray,
   PointColor04: orange
 }
 
 export const Warning = {
   redColor: red,
   yellowColor: yellow
+}
+
+export const Disable = {
+  lightGray: disableGray,
+  darkGray: gray
 }
 
 export const customPickerStyles = StyleSheet.create({
