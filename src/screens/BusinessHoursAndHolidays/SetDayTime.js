@@ -10,6 +10,8 @@ import Header from '../../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../../styles/Base'
 import { Calendar, LocaleConfig } from 'react-native-calendars'
 import { useSelector } from 'react-redux'
+import moment from 'moment'
+import 'moment/locale/ko'
 import Api from '../../Api'
 import StoreTime from '../../components/BusinessHoursAndHolidays/StoreTime'
 import StoreRegularHoliday from '../../components/BusinessHoursAndHolidays/StoreRegularHoliday'
@@ -24,6 +26,14 @@ const SetDayTime = props => {
   const { navigation } = props
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
   const { markedDay } = useSelector(state => state.closedDay)
+  const [newDate, setNewDate] = React.useState('');
+
+  React.useEffect(() => {
+    let currDate = moment(new Date()).format('YYYY-MM-DD') 
+    setNewDate(currDate)
+  }, [])
+
+  console.log('newDate?', newDate);
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
@@ -206,7 +216,7 @@ const SetDayTime = props => {
               markedDates={marking}
               horizontal
               pagingEnabled
-              current={new Date()}
+              current={newDate}
               onDayPress={day => setMarkedDays(day.dateString)}
               onDayLongPress={day => setMarkedDays(day.dateString)}
               monthFormat='yyyy년 M월'
