@@ -214,8 +214,8 @@ const CategoriesSetting = props => {
               ...BaseStyle.border,
               ...BaseStyle.ph20,
               ...BaseStyle.inputH,
-              backgroundColor: Primary.PointColor01,
-              borderColor: Primary.PointColor01,
+              backgroundColor: Primary.PointColor02,
+              borderColor: Primary.PointColor02,
               paddingVertical: Platform.OS === 'ios' ? 7 : 13
             }}
           >
