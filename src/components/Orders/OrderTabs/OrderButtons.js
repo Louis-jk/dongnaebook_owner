@@ -12,7 +12,8 @@ const OrderButtons = ({
   setJumjuCode,
   toggleOrderCheckModal,
   toggleModal,
-  deliveryOrderHandler
+  deliveryOrderHandler,
+  navigation
 }) => {
   return (
     <>
@@ -97,7 +98,8 @@ const OrderButtons = ({
                 marginBottom: Platform.OS === 'ios' ? 4 : 0
               }}
             >
-              {item.od_type === Types[0].text ? '배달처리' : item.od_type === Types[1].text ? '포장완료' : '식사완료'}
+              {/* {item.od_type === Types[0].text ? '배달처리' : item.od_type === Types[1].text ? '포장완료' : '식사완료'} */}
+              {item.od_type}처리
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -167,7 +169,16 @@ const OrderButtons = ({
       )}
 
       {tabIndex === 4 && (
-        <View style={{ flex: 1, alignSelf: 'flex-start' }}>
+        <TouchableOpacity 
+          activeOpacity={1}
+          onPress={() => navigation.navigate('OrderDetail', {
+            od_id: item.od_id,
+            od_time: item.od_time,
+            type: 'done',
+            jumjuId: item.jumju_id,
+            jumjuCode: item.jumju_code
+          })}
+          style={{ flex: 1, alignSelf: 'flex-start' }}>
           <View
             style={{
               backgroundColor:
@@ -192,7 +203,45 @@ const OrderButtons = ({
               {item.od_type}완료
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
+      )}
+
+      {tabIndex === 5 && (
+        <TouchableOpacity 
+          activeOpacity={1}
+          onPress={() => navigation.navigate('OrderDetail', {
+            od_id: item.od_id,
+            od_time: item.od_time,
+            type: 'cancel',
+            jumjuId: item.jumju_id,
+            jumjuCode: item.jumju_code
+          })}
+          style={{ flex: 1, alignSelf: 'flex-start' }}>
+          <View
+            style={{
+              backgroundColor:
+          item.od_type === Types[0].text ? Types[0].color : item.od_type === Types[1].text ? Types[1].color : Types[2].color,
+              width: 80,
+              height: 70,
+              justifyContent: 'center',
+              alignItems: 'center',
+              ...BaseStyle.round05,
+              ...BaseStyle.pv10,
+              ...BaseStyle.mb5
+            }}
+          >
+            <Text
+              style={{
+                ...BaseStyle.ko13,
+                ...BaseStyle.font_bold,
+                color: '#fff',
+                marginBottom: Platform.OS === 'ios' ? 4 : 0
+              }}
+            >
+              {item.od_type}취소
+            </Text>
+          </View>
+        </TouchableOpacity>
       )}
     </>
   )

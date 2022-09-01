@@ -42,6 +42,7 @@ const TabLayout = props => {
           toggleOrderCheckModal={toggleOrderCheckModal}
           toggleModal={toggleModal}
           deliveryOrderHandler={deliveryOrderHandler}
+          navigation={navigation}
         />
 
       </OrderRender>
