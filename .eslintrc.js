@@ -13,8 +13,8 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks'],
   rules: {
-    'import/prefer-default-export': 'off',
-    'import/extensions': ['off'],
+    // 'import/prefer-default-export': 'off',
+    // 'import/extensions': ['off'],
     indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],
     // quotes: ['error', 'single'],
