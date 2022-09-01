@@ -31,6 +31,10 @@ import ImageView from 'react-native-image-viewing'
 import cusToast from '../../components/CusToast'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
 import Divider from '../../components/Divider'
+import ReviewRender from '../../components/Review/ReviewRender'
+import SendSpamModal from '../../components/Review/SendSpamModal'
+import ImageModal from '../../components/Review/ImageModal'
+import ReplyModal from '../../components/Review/ImageModal'
 
 const Reviews = props => {
   const { navigation } = props
@@ -75,31 +79,15 @@ const Reviews = props => {
 
   const getReviewList02Handler = () => {
     Api.send('store_review_list', param, args => {
+      
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
-      if (resultItem.result === 'Y') {
-        if (arrItems.rate) {
-          setRate(arrItems.rate)
-        }
-        if (arrItems.review) {
-          setList(arrItems.review)
-        }
-        if (arrItems.notice !== null && arrItems.notice !== '') {
-          setNotice(arrItems.notice)
-        } else {
-          setNotice(null)
-        }
-        if (arrItems === null) {
-          setRate(null)
-          setList(null)
-          setNotice(null)
-        }
-      } else {
-        setRate(null)
-        setList(null)
-        setNotice(null)
-      }
+      if (resultItem.result === 'Y') {        
+        setRate(arrItems.rate ? arrItems.rate : null)
+        setList(arrItems.review ? arrItems.review : null)        
+        setNotice(arrItems.notice ? arrItems.notice : null)
+      } 
 
       setLoading(false)
     })
@@ -140,7 +128,7 @@ const Reviews = props => {
 
   // 모달 insert 이미지
   const [selectImg, setSelectImg] = React.useState('')
-  async function selectModalImageHandler (path) {
+  const selectModalImageHandler =  async (path) => {
     try {
       setSelectImg(path)
       toggleModal()
@@ -149,7 +137,7 @@ const Reviews = props => {
     }
   }
 
-  function setReply () {
+  const setReply = () => {
     if (selectReply === null || selectReply === '') {
       cusToast('답변 내용을 입력해주세요.')
     } else {
@@ -168,18 +156,16 @@ const Reviews = props => {
         const resultItem = args.resultItem
 
         if (resultItem.result === 'Y') {
-          toggleCommentModal()
-          getReviewList02Handler()
-          setSelectReply('')
+          toggleCommentModal()          
           cusToast('답변을 등록하였습니다.')
         } else {
-          getReviewList02Handler()
-          setSelectReply('')
           cusToast('답변을 등록하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 2500)
           setTimeout(() => {
             toggleCommentModal()
           }, 1000)
         }
+        getReviewList02Handler()
+        setSelectReply('')
       })
     }
   }
@@ -188,7 +174,7 @@ const Reviews = props => {
   const [modalImages, setModalImages] = React.useState([])
 
   // 답변 삭제 api 호출
-  function replyDelete (itId, wrId) {
+  const replyDelete = (itId, wrId) => {
     const param = {
       jumju_id: mtId,
       jumju_code: mtJumjuCode,
@@ -211,7 +197,7 @@ const Reviews = props => {
   }
 
   // 답변 삭제
-  function replayDelteHandler (payload01, payload02) {
+  const replyDeleteHandler = (payload01, payload02) => {
     Alert.alert('해당 답변을 정말 삭제하시겠습니까?', '', [
       {
         text: '삭제하기',
@@ -224,7 +210,7 @@ const Reviews = props => {
   }
 
   // 스크롤 이벤트 평점 영역 오른쪽에서 왼쪽으로 스와이프(swipe)시 액션
-  function renderRightActions (progress, dragX) {
+  const renderRightActions = (progress, dragX) => {
     const trans = dragX.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 0]
@@ -285,282 +271,22 @@ const Reviews = props => {
   // 리뷰 렌더러(내용물)
   const renderRow = ({ item, index }) => {
     return (
-      <View key={index + item.wr_id}>
-
-        <Divider height={10} backgroundColor='#F2F2F2' />
-
-        <View style={{ ...BaseStyle.mv20, ...BaseStyle.container, ...BaseStyle.ph20 }}>
-          <View style={{ ...BaseStyle.mr10 }}>
-            <Image
-              source={{ uri: `${item.profile}` }}
-              style={{ width: 55, height: 55, borderRadius: 55 }}
-              resizeMode='cover'
-            />
-          </View>
-
-          <View>
-            <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb3 }}>{item.wr_mb_id}</Text>
-            <View style={{ ...BaseStyle.container }}>
-              <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1, ...BaseStyle.mr15 }}>
-                {moment(item.datetime, 'YYYYMMDD').fromNow()}
-              </Text>
-              <StarRating
-                activeOpacity={1}
-                disabled={false}
-                emptyStar={require('../../images/ico_star_off.png')}
-                fullStar={require('../../images/ico_star_on.png')}
-                ratingColor='#3498db'
-                ratingBackgroundColor='#c8c7c8'
-                maxStars={5}
-                // rating={Math.round(rate.avg)}
-                rating={item.rating}
-                starSize={15}
-              />
-            </View>
-          </View>
-        </View>
-        <View style={{ ...BaseStyle.ph20, ...BaseStyle.mb10 }}>
-          <Text>{item.content}</Text>
-        </View>
-        <View style={{ justifyContent: 'center', alignItems: 'center', ...BaseStyle.mb10 }}>
-          {item.pic.length > 1 && (
-            <View style={{ width: Dimensions.get('window').width, ...BaseStyle.ph20 }}>
-              <Swiper
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 250
-                }}
-                dotColor='#fff'
-                dotStyle={{ width: 7, height: 7, borderRadius: 7, bottom: -15 }}
-                activeDotStyle={{ width: 7, height: 7, backgroundColor: Primary.PointColor01, bottom: -15 }}
-                showsPagination
-                horizontal
-                loop={false}
-              >
-                {item.pic.map((image, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    activeOpacity={1}
-                    onPress={() => {
-                      setIsVisible(true)
-                      const formatImg = item.pic.map(v => {
-                        return { uri: v }
-                      })
-                      setModalImages(formatImg)
-                    }}
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                  >
-                    {imageLoad && (
-                      <View style={{ position: 'absolute', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', zIndex: 0 }}>
-                        <ActivityIndicator color={Primary.PointColor01} />
-                      </View>
-                    )}
-
-                    <Image
-                      source={{ uri: `${image}` }}
-                      style={{
-                        width: '100%',
-                        height: '100%'
-                      }}
-                      resizeMode='cover'
-                      onLoadStart={() => setImageLoad(true)}
-                      onLoadEnd={() => setImageLoad(false)}
-                    />
-
-                  </TouchableOpacity>
-                ))}
-              </Swiper>
-              <ImageView
-                images={modalImages}
-                imageIndex={0}
-                visible={visible}
-                // presentationStyle="overFullScreen"
-                // animationType="fade"
-                onRequestClose={() => setIsVisible(false)}
-              />
-            </View>
-          )}
-          {item.pic.length === 1 && (
-            <>
-              <TouchableOpacity
-                activeOpacity={1}
-                // onPress={() => selectModalImageHandler(item.pic[0])}
-                onPress={() => {
-                  setIsVisible(true)
-                  const formatImg = item.pic.map(v => {
-                    return { uri: v }
-                  })
-                  setModalImages(formatImg)
-                }}
-              >
-                {imageLoad && (
-                  <View style={{ position: 'absolute', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', zIndex: 0 }}>
-                    <ActivityIndicator color={Primary.PointColor01} />
-                  </View>
-                )}
-                <Image
-                  source={{ uri: `${item.pic[0]}` }}
-                  style={{
-                    width: Dimensions.get('window').width - 40,
-                    height: 250,
-                    resizeMode: 'cover',
-                    marginBottom: 5
-                  }}
-                  onLoadStart={() => setImageLoad(true)}
-                  onLoadEnd={() => setImageLoad(false)}
-                />
-              </TouchableOpacity>
-              <ImageView
-                images={modalImages}
-                imageIndex={0}
-                visible={visible}
-                // presentationStyle="overFullScreen"
-                onRequestClose={() => setIsVisible(false)}
-              />
-            </>
-          )}
-        </View>
-
-        <View style={{ ...BaseStyle.mb30, ...BaseStyle.ph20 }}>
-          {item.reply && (
-            <View
-              style={{
-                ...BaseStyle.ph20,
-                ...BaseStyle.pv20,
-                backgroundColor: Primary.PointColor03,
-                borderRadius: 5,
-                position: 'relative'
-              }}
-            >
-              <View style={{ ...BaseStyle.container3 }}>
-                <View>
-                  <View
-                    style={{ ...BaseStyle.container, ...BaseStyle.mb10, alignItems: 'baseline' }}
-                  >
-                    <Text
-                      style={{
-                        ...BaseStyle.ko15,
-                        ...BaseStyle.font_bold,
-                        ...BaseStyle.font_222,
-                        ...BaseStyle.mr10
-                      }}
-                    >
-                      {mtStore}
-                    </Text>
-                    <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_666 }}>
-                      {moment(item.replayDate).format('YYYY.MM.DD  a h:mm ')}
-                    </Text>
-                  </View>
-                  <Text
-                    style={{
-                      ...BaseStyle.ko15,
-                      ...BaseStyle.lh22,
-                      width: '100%',
-                      flexWrap: 'wrap'
-                    }}
-                  >
-                    {item.replyComment}
-                  </Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                activeOpacity={1}
-                onPress={() => replayDelteHandler(item.it_id, item.wr_id)}
-                hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
-                style={{ position: 'absolute', top: 10, right: 10 }}
-              >
-                <Image
-                  source={require('../../images/popup_close.png')}
-                  style={{ width: 22, height: 22, opacity: 0.5 }}
-                  resizeMode='contain'
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {!item.reply && (
-            <View style={{ ...BaseStyle.container }}>
-              <TouchableOpacity
-                activeOpacity={1}
-                onPress={() => {
-                  setItId(item.it_id)
-                  setWrId(item.wr_id)
-                  toggleCommentModal()
-                  // setReply(item.it_id, item.wr_id)
-                }}
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: '#20ABC8',
-                  height: 45,
-                  borderRadius: 0,
-                  borderTopLeftRadius: 5,
-                  borderBottomLeftRadius: 5
-                }}
-              >
-                <Image
-                  source={require('../../images/reply_wh.png')}
-                  style={{ width: 18, height: 18, ...BaseStyle.mr10, marginTop: -2 }}
-                  resizeMode='contain'
-                />
-                <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>답변 달기</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={1}
-                onPress={() => {
-                  if (item.wr_singo === 'N') {
-                    setItId(item.it_id)
-                    setWrId(item.wr_id)
-                    toggleSpamModal()
-                  }
-                }}
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: item.wr_singo === 'N' ? '#e5e5e5' : '#FCA000',
-                  height: 45,
-                  borderRadius: 0,
-                  borderTopRightRadius: 5,
-                  borderBottomRightRadius: 5
-                }}
-              >
-                {item.wr_singo === 'N' && (
-                  <Image
-                    source={require('../../images/bell.png')}
-                    style={{ width: 20, height: 20, ...BaseStyle.mr10, opacity: 0.7 }}
-                    resizeMode='contain'
-                  />
-                )}
-                {item.wr_singo === 'Y' && (
-                  <Image
-                    source={require('../../images/bell_wh.png')}
-                    style={{ width: 20, height: 20, ...BaseStyle.mr10, opacity: 0.7 }}
-                    resizeMode='contain'
-                  />
-                )}
-                <Text
-                  style={{
-                    ...BaseStyle.ko14,
-                    ...BaseStyle.font_222,
-                    color: item.wr_singo === 'N' ? '#222' : '#fff'
-                  }}
-                >
-                  {item.wr_singo === 'N' ? '악성 리뷰 신고' : '신고된 리뷰'}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-      </View>
+      <ReviewRender 
+        key={index + item.wr_id} 
+        item={item} 
+        imageLoad={imageLoad} 
+        setImageLoad={setImageLoad} 
+        modalImages={modalImages}
+        setModalImages={setModalImages}
+        visible={visible}
+        setIsVisible={setIsVisible}
+        mtStore={mtStore}
+        setItId={setItId}
+        setWrId={setWrId}
+        toggleCommentModal={toggleCommentModal}
+        replyDeleteHandler={replyDeleteHandler}
+        toggleSpamModal={toggleSpamModal}
+      />
     )
   }
 
@@ -591,6 +317,34 @@ const Reviews = props => {
 
   return (
     <>
+
+      {/* 이미지 모달 */}
+      <ImageModal
+        isModalVisible={isModalVisible}
+        toggleModal={toggleModal}
+        selectImg={selectImg}
+      />
+      {/* //이미지 모달 */}
+
+      {/* 악성 리뷰 신고 모달 */}
+      <SendSpamModal 
+        isSpamReviewModalVisible={isSpamReviewModalVisible} 
+        toggleSpamModal={toggleSpamModal} 
+        sendSpamReviewHandler={sendSpamReviewHandler} 
+      />
+      {/* // 악성 리뷰 신고 모달 */}
+
+      {/* 답변 모달 */}
+      <ReplyModal
+        isCommentModalVisible={isCommentModalVisible}
+        selectReply={selectReply}
+        setSelectReply={setSelectReply}
+        toggleCommentModal={toggleCommentModal}
+        setReply={setReply}
+      />
+      {/* // 답변 모달 */}
+
+
       {isLoading && <AnimateLoading description='데이터를 불러오는 중입니다.' />}
 
       {!isLoading &&
@@ -598,220 +352,6 @@ const Reviews = props => {
         <View style={{ zIndex: 99999, backgroundColor: '#fff' }}>
           <Header navigation={navigation} title='리뷰관리' />
         </View>
-        {/* 이미지 모달 */}
-        <Modal
-          isVisible={isModalVisible}
-          onBackdropPress={toggleModal}
-          backdropOpacity={1}
-          transparent
-          statusBarTranslucent
-          style={{ flex: 1, padding: 0, margin: 0 }}
-        >
-          <AutoHeightImage source={{ uri: `${selectImg}` }} width={Dimensions.get('window').width} />
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={toggleModal}
-            style={{
-              position: 'absolute',
-              top: 70,
-              right: 10
-            }}
-          >
-            <Image
-              source={require('../../images/ic_del.png')}
-              style={{ width: 30, height: 30, resizeMode: 'contain' }}
-            />
-          </TouchableOpacity>
-        </Modal>
-        {/* //이미지 모달 */}
-
-        {/* 악성 리뷰 신고 모달 */}
-        <Modal
-          isVisible={isSpamReviewModalVisible}
-          onBackdropPress={toggleSpamModal}
-          transparent
-          statusBarTranslucent
-          style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
-          animationIn='slideInUp'
-          animationInTiming={100}
-        >
-          <View
-            style={{
-              backgroundColor: '#fff',
-              ...BaseStyle.pv30,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 5
-            }}
-          >
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={toggleSpamModal}
-              style={{
-                position: 'absolute',
-                top: -10,
-                right: -10,
-                backgroundColor: Primary.PointColor01,
-                borderRadius: 30,
-                width: 30,
-                height: 30,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
-            >
-              <Image
-                source={require('../../images/close.png')}
-                style={{
-                  width: 12,
-                  height: 12,
-                  resizeMode: 'center'
-                }}
-              />
-            </TouchableOpacity>
-            <Text style={{ ...BaseStyle.ko14 }}>악성 리뷰로 신고하시겠습니까?</Text>
-            <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph20 }}>
-              <TouchableOpacity
-                activeOpacity={1}
-                onPress={sendSpamReviewHandler}
-                style={{
-                  ...BaseStyle.container1,
-                  height: 45,
-                  backgroundColor: Primary.PointColor01,
-                  borderTopLeftRadius: 5,
-                  borderBottomLeftRadius: 5
-                }}
-              >
-                <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_white }}>신고하기</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={1}
-                onPress={toggleSpamModal}
-                style={{
-                  ...BaseStyle.container1,
-                  height: 45,
-                  backgroundColor: Primary.PointColor03,
-                  borderTopRightRadius: 5,
-                  borderBottomRightRadius: 5
-                }}
-              >
-                <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>취소</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-        {/* // 악성 리뷰 신고 모달 */}
-
-        {/* 답변 모달 */}
-        <Modal
-          isVisible={isCommentModalVisible}
-        // onBackdropPress={toggleCommentModal}
-          transparent
-          statusBarTranslucent
-          style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
-          animationIn='slideInUp'
-          animationInTiming={100}
-        >
-          <KeyboardAvoidingView
-            behavior='position'
-            style={{ backgroundColor: '#fff', borderRadius: 15 }}
-            enabled
-          >
-            <View
-              style={{
-                position: 'relative',
-                backgroundColor: '#fff',
-                ...BaseStyle.pv30,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 5
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.mb15, ...BaseStyle.font_bold }}>
-                리뷰에 대한 답변을 입력해주세요.
-              </Text>
-              <View style={{ width: '100%', ...BaseStyle.ph30 }}>
-                <View style={{ ...BaseStyle.ph10, backgroundColor: '#f5f5f5', borderRadius: 5 }}>
-                  <TextInput
-                    value={selectReply}
-                    style={{
-                      width: '100%',
-                      ...BaseStyle.ko15,
-                      ...BaseStyle.lh24,
-                      ...BaseStyle.mv15
-                    }}
-                    multiline
-                    numberOfLines={5}
-                    textAlignVertical='top'
-                    placeholder='답변을 입력해주세요.'
-                    underlineColorAndroid='transparent'
-                    onChangeText={text => setSelectReply(text)}
-                    autoCapitalize='none'
-                  />
-                </View>
-              </View>
-              <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph30 }}>
-                <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => {
-                    if (selectReply !== null && selectReply !== '') {
-                      setReply()
-                    }
-                  }}
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    borderWidth: 1,
-                    borderColor: selectReply !== null && selectReply !== '' ? '#20ABC8' : '#e5e5e5',
-                    backgroundColor: selectReply !== null && selectReply !== '' ? '#20ABC8' : '#fff',
-                    paddingVertical: 15,
-                    flex: 1,
-                    ...BaseStyle.pv15,
-                    borderTopLeftRadius: 5,
-                    borderBottomLeftRadius: 5
-                  }}
-                >
-                  <Text
-                    style={{
-                      ...BaseStyle.ko14,
-                      color: selectReply !== null && selectReply !== '' ? '#fff' : '#e5e5e5'
-                    }}
-                  >
-                    답변 전송
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={toggleCommentModal}
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    borderWidth: 1,
-                    borderColor: '#e5e5e5',
-                    backgroundColor: '#e5e5e5',
-                    paddingVertical: 15,
-                    flex: 1,
-                    ...BaseStyle.pv15,
-                    borderTopRightRadius: 5,
-                    borderBottomRightRadius: 5
-                  }}
-                >
-                  <Text
-                    style={{
-                      ...BaseStyle.ko14,
-                      color: '#666'
-                    }}
-                  >
-                    취소
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </KeyboardAvoidingView>
-        </Modal>
-
-        {/* // 답변 모달 */}
 
         {/* 커스텀 총 평점 */}
         {JSON.stringify(rate) !== '{}' && (
