@@ -17,7 +17,7 @@ import {
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
 import Header from '../../components/Headers/SubHeader'
-import BaseStyle, { Primary } from '../../styles/Base'
+import BaseStyle, { Disable, Primary } from '../../styles/Base'
 
 import cusToast from '../../components/CusToast'
 import Api from '../../Api'
@@ -32,6 +32,7 @@ const CategoriesSetting = props => {
   const [isLoading, setLoading] = React.useState(true)
 
   const [menuCategory, setMenuCategory] = React.useState([]) // 카테고리 리스트
+  const [currentMenuCategory, setCurrentMenuCategory] = React.useState([]) // 현재 카테고리 리스트
   const [newCategory, setNewCategory] = React.useState('') // 신규 카테고리 명
   const [newCategoryVisible, setNewCategoryVisible] = React.useState(false) // 신규 카테고리 등록(모달) 카테고리 사용여부
 
@@ -47,11 +48,51 @@ const CategoriesSetting = props => {
     return () => BackHandler.removeEventListener('hardwareBackPress', backAction)
   }, [])
 
+  // 카테고리 배열 생성 
+  const newArrayHandler = () => {
+    const result = [...currentMenuCategory]
+    return result
+  }
+
+  // 카테고리명 변경 핸들러
+  const changeCategoryName = (val, index) => {
+    const result = newArrayHandler()
+    result[index].ca_name = val
+
+    checkChangeCategoryItem(result, index)
+  }
+
+  // 사용 | 미사용 핸들러
+  const insertCurrentCategory = (item, index) => {
+    const result = newArrayHandler()
+    result[index].ca_use = item.ca_use === '1' ? '0' : '1'
+
+    checkChangeCategoryItem(result, index)
+  }
+
+  // 카테고리명 or 카테고리 사용,미사용 수정 체크
+  const checkChangeCategoryItem = (item, index) => {
+    if (menuCategory[index].ca_use !== item[index].ca_use || menuCategory[index].ca_name !== item[index].ca_name) {
+      item[index].isChange = true
+    }
+
+    if (menuCategory[index].ca_use === item[index].ca_use && menuCategory[index].ca_name === item[index].ca_name) {
+      item[index].isChange = false
+    }
+
+    setCurrentMenuCategory(item)
+  }
+
   const toggleCateVisible = () => {
     setNewCategoryVisible(prev => !prev)
   }
 
+  // 카테고리 리스트 호출
   const getMenuCategoryHandler = () => {
+    setLoading(true)
+    setMenuCategory([])
+    setCurrentMenuCategory([])
+
     const param = {
       jumju_id: mtId,
       jumju_code: mtJumjuCode
@@ -68,13 +109,26 @@ const CategoriesSetting = props => {
             {
               ca_id: item.ca_id,
               ca_name: item.ca_name,
-              ca_use: item.ca_use
+              ca_use: item.ca_use,
+              isChange: false
+            }
+          ])
+        })
+        arrItems.map(item => {
+          setCurrentMenuCategory(prev => [
+            ...prev,
+            {
+              ca_id: item.ca_id,
+              ca_name: item.ca_name,
+              ca_use: item.ca_use,
+              isChange: false
             }
           ])
         })
         setReflashing(false)
       } else {
         setMenuCategory(null)
+        setCurrentMenuCategory(null)
         setReflashing(false)
       }
 
@@ -109,6 +163,7 @@ const CategoriesSetting = props => {
 
       if (resultItem.result === 'Y') {
         setMenuCategory([])
+        setCurrentMenuCategory([])
         getMenuCategoryHandler()
         toggleModal()
       } else {
@@ -142,9 +197,8 @@ const CategoriesSetting = props => {
 
       if (resultItem.result === 'Y') {
         cusToast('카테고리가 수정되었습니다.')
-
         // setMenuCategory([]);
-        // getMenuCategoryHandler();
+        getMenuCategoryHandler()
       } else {
         // getMenuCategoryHandler();
         cusToast('카테고리 수정 중에 오류가 발생하였습니다.\n관리자에게 문의해주세요.', 1500)
@@ -155,13 +209,12 @@ const CategoriesSetting = props => {
   // 모달 토글
   const toggleModal = () => setIsModalVisible(prev => !prev)
 
-  const onHandleRefresh = () => getMenuCategoryHandler()
+  // const onHandleRefresh = () => getMenuCategoryHandler()
 
   const renderRow = ({ item, index }) => {
     return (
       <View key={item.ca_id} style={{ ...BaseStyle.container, ...BaseStyle.mb10 }}>
         <View style={{ flex: 3, ...BaseStyle.mr5 }}>
-          {/* <Text style={{...BaseStyle.ko16}}>{item.ca_name}</Text> */}
           <TextInput
             value={item.ca_name}
             placeholder='카테고리명을 입력해주세요.'
@@ -171,22 +224,12 @@ const CategoriesSetting = props => {
               ...BaseStyle.ph20,
               ...BaseStyle.inputH
             }}
-            onChangeText={val =>
-              setMenuCategory(menuCategory => {
-                const result = [...menuCategory]
-                result[index].ca_name = val
-                return result
-              })}
+            onChangeText={val => changeCategoryName(val, index)}
           />
         </View>
 
         <TouchableOpacity
-          onPress={() =>
-            setMenuCategory(menuCategory => {
-              const result = [...menuCategory]
-              result[index].ca_use = item.ca_use === '1' ? '0' : '1'
-              return result
-            })}
+          onPress={() => insertCurrentCategory(item, index)}
           activeOpacity={1}
           style={{ ...BaseStyle.mr20 }}
         >
@@ -208,18 +251,19 @@ const CategoriesSetting = props => {
         <TouchableOpacity
           activeOpacity={0.85}
           onPress={() => onEditCategoryHandler(item.ca_id, item.ca_name, item.ca_use)}
+          disabled={!item.isChange}
         >
           <View
             style={{
               ...BaseStyle.border,
               ...BaseStyle.ph20,
               ...BaseStyle.inputH,
-              backgroundColor: Primary.PointColor02,
-              borderColor: Primary.PointColor02,
+              backgroundColor: item.isChange ? Primary.PointColor02 : Disable.lightGray,
+              borderColor: item.isChange ? Primary.PointColor02 : Disable.lightGray,
               paddingVertical: Platform.OS === 'ios' ? 7 : 13
             }}
           >
-            <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_white }}>수정</Text>
+            <Text style={[{ ...BaseStyle.ko16 }, item.isChange ? { ...BaseStyle.font_white } : { ...BaseStyle.font_gray_a5 }]}>수정</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -353,7 +397,7 @@ const CategoriesSetting = props => {
           </View>
 
           <FlatList
-            data={menuCategory}
+            data={currentMenuCategory}
             showVerticalScrollIndicator={false}
             renderItem={renderRow}
             keyExtractor={(list, index) => index.toString()}
@@ -385,7 +429,7 @@ const CategoriesSetting = props => {
             추가하기
           </Text>
         </TouchableOpacity>
-                     </View>}
+      </View>}
     </>
 
   )
