@@ -836,11 +836,12 @@ const SetMenuAddOrEdit = props => {
                         resizeMode='contain'
                         fadeDuration={100}
                       />
-                      {visible ? (
+                      {visible && (
                         <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh20, marginTop: 1 }}>
                           판매 가능한 상품으로 지정하셨습니다.
                         </Text>
-                      ) : (
+                      )}
+                      {!visible && (
                         <Text style={{ ...BaseStyle.ko14, ...BaseStyle.lh20, marginTop: 1 }}>
                           판매 메뉴에 노출되지 않습니다.
                         </Text>
