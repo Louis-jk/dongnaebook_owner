@@ -69,7 +69,10 @@ const StoreSetting = props => {
           do_for_here: arrItems.do_for_here,
           do_min_price: arrItems.do_min_price,
           do_min_price_wrap: arrItems.do_min_price_wrap,
-          do_min_price_for_here: arrItems.do_min_price_for_here
+          do_min_price_for_here: arrItems.do_min_price_for_here,
+          do_take_out_discount: arrItems.do_take_out_discount,
+          do_for_here_discount: arrItems.do_for_here_discount,
+          do_for_here_minimum: arrItems.do_for_here_minimum
         })
       } else {
         setStoreInit(false)
@@ -82,7 +85,10 @@ const StoreSetting = props => {
           do_for_here: null,
           do_min_price: null,
           do_min_price_wrap: null,
-          do_min_price_for_here: null
+          do_min_price_for_here: null,
+          do_take_out_discount: null,
+          do_for_here_discount: null,
+          do_for_here_minimum: null
         })
       }
 
@@ -161,9 +167,12 @@ const StoreSetting = props => {
         do_take_out: setting.do_take_out,
         do_delivery: setting.do_delivery,
         do_for_here: setting.do_for_here,
-        do_min_price: setting.do_min_price,
-        do_min_price_wrap: setting.do_min_price_wrap,
-        do_min_price_for_here: setting.do_min_price_for_here,
+        do_min_price: setting.do_delivery === 'Y' ? setting.do_min_price : '0',
+        do_min_price_wrap: setting.do_take_out === 'Y' ? setting.do_min_price_wrap : '0',
+        do_take_out_discount: setting.do_take_out === 'Y' ? setting.do_take_out_discount : '0',
+        do_min_price_for_here: setting.do_for_here === 'Y' ? setting.do_min_price_for_here : '0',
+        do_for_here_discount: setting.do_for_here === 'Y' ? setting.do_for_here_discount : '0',
+        do_for_here_minimum: setting.do_for_here === 'Y' ? setting.do_for_here_minimum : '0',
         RangeType: range
       }
   
@@ -318,11 +327,120 @@ const StoreSetting = props => {
             </View> */}
                 {/* // 프린터 자동출력 여부 */}
 
+                {/* 배달 가능 여부 */}
+                  <View style={setting.do_delivery === 'Y' ? { ...BaseStyle.mt10 } : {...BaseStyle.mv10}}>
+                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
+                      배달 가능 여부
+                    </Text>
+                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                  </View>
+                  <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, do_delivery: 'Y' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
+                    >
+                      <Image
+                        source={
+                      setting.do_delivery === 'Y'
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
+                    }
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>배달 가능</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => setSetting({ ...setting, do_delivery: 'N' })}
+                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                      style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
+                    >
+                      <Image
+                        source={
+                      setting.do_delivery === 'N'
+                        ? require('../../images/ic_check_on.png')
+                        : require('../../images/ic_check_off.png')
+                    }
+                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
+                        resizeMode='contain'
+                        fadeDuration={100}
+                      />
+                      <Text style={{ ...BaseStyle.ko14 }}>배달 불가능</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                {/* // 배달 가능 여부 */}
+                
+                {setting.do_delivery === 'Y' && (
+                  <View style={{ ...BaseStyle.mt10, ...BaseStyle.mb20 }}>
+                    {/* 배달 최소주문금액 */}
+                    <View>
+                      <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                        <Text
+                          style={{
+                            ...BaseStyle.ko15,
+                            ...BaseStyle.font_bold,
+                            ...BaseStyle.mr5
+                          }}
+                        >
+                          배달 최소 주문 금액
+                        </Text>
+                        <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                      </View>
+                      <View
+                        style={{
+                          ...BaseStyle.container5,
+                          borderWidth: 1,
+                          borderColor: '#E3E3E3',
+                          ...BaseStyle.round05,
+                          ...BaseStyle.inputH,
+                          ...BaseStyle.ph10
+                        }}
+                      >
+                        <TextInput
+                          value={setting.do_min_price}
+                          placeholder='0'
+                          style={{
+                            width: '95%',
+                            ...BaseStyle.inputH,
+                            textAlign: 'right',
+                            ...BaseStyle.ko15,
+                            marginTop: Platform.OS === 'android' ? 10 : 0
+                          }}
+                          onChangeText={text => {
+                            const re = /^[0-9\b]+$/
+                            if (text === '' || re.test(text)) {
+                              const changed = text.replace(/(^0+)/, '')
+                              // setMinPriceOfDelivery(changed)
+                              setSetting({
+                                ...setting,
+                                do_min_price: changed
+                              })
+                            } else {
+                              // setMinPriceOfDelivery('0')
+                              setSetting({
+                                ...setting,
+                                do_min_price: '0'
+                              })
+                            }
+                          }}
+                          keyboardType='number-pad'
+                          autoCapitalize='none'
+                        />
+                        <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
+                      </View>
+                    </View>
+                    {/* // 배달 최소주문금액 */}
+                  </View>
+                )}
+
                 {/* 포장 가능 여부 */}
-                <View style={{ ...BaseStyle.mv10 }}>
-                  {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
-              포장 가능 여부
-              </Text> */}
+                <View style={setting.do_take_out === 'Y' ? { ...BaseStyle.mt10 } : {...BaseStyle.mv10}}>
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
                     <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
                       주문 포장 가능 여부
@@ -370,57 +488,130 @@ const StoreSetting = props => {
                 </View>
                 {/* // 포장 가능 여부 */}
 
-                {/* 배달 가능 여부 */}
-                <View style={{ ...BaseStyle.mv10 }}>
-                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
-                      배달 가능 여부
-                    </Text>
-                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                {setting.do_take_out === 'Y' && (
+                  <View style={{ ...BaseStyle.mt10, ...BaseStyle.mb20 }}>
+                    {/* 포장 최소주문금액 */}
+                    <View style={{ ...BaseStyle.mb15 }}>
+                      <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                        <Text
+                          style={{
+                            ...BaseStyle.ko15,
+                            ...BaseStyle.font_bold,
+                            ...BaseStyle.mr5
+                          }}
+                        >
+                          포장 최소 주문 금액
+                        </Text>
+                        <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                      </View>
+                      <View
+                        style={{
+                          ...BaseStyle.container5,
+                          borderWidth: 1,
+                          borderColor: '#E3E3E3',
+                          ...BaseStyle.round05,
+                          ...BaseStyle.inputH,
+                          ...BaseStyle.ph10
+                        }}
+                      >
+                        <TextInput
+                          value={setting.do_min_price_wrap}
+                          placeholder='0'
+                          style={{
+                            width: '95%',
+                            ...BaseStyle.inputH,
+                            textAlign: 'right',
+                            ...BaseStyle.ko15,
+                            marginTop: Platform.OS === 'android' ? 10 : 0
+                          }}
+                          onChangeText={text => {
+                            const re = /^[0-9\b]+$/
+                            if (text === '' || re.test(text)) {
+                              const changed = text.replace(/(^0+)/, '')
+                              // setMinPriceOfToGo(changed)
+                              setSetting({
+                                ...setting,
+                                do_min_price_wrap: changed
+                              })
+                            } else {
+                              // setMinPriceOfToGo('0')
+                              setSetting({
+                                ...setting,
+                                do_min_price_wrap: '0'
+                              })
+                            }
+                          }}
+                          keyboardType='number-pad'
+                          autoCapitalize='none'
+                        />
+                        <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
+                      </View>
+                    </View>
+                    {/* // 포장 최소주문금액 */}
+
+                    {/* 포장 할인 */}
+                    <View>
+                      <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                        <Text
+                          style={{
+                            ...BaseStyle.ko15,
+                            ...BaseStyle.font_bold,
+                            ...BaseStyle.mr5
+                          }}
+                        >
+                          포장 할인
+                        </Text>
+                        <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                      </View>
+                      <View
+                        style={{
+                          ...BaseStyle.container5,
+                          borderWidth: 1,
+                          borderColor: '#E3E3E3',
+                          ...BaseStyle.round05,
+                          ...BaseStyle.inputH,
+                          ...BaseStyle.ph10
+                        }}
+                      >
+                        <TextInput
+                          value={setting.do_take_out_discount}
+                          placeholder='0'
+                          style={{
+                            width: '95%',
+                            ...BaseStyle.inputH,
+                            textAlign: 'right',
+                            ...BaseStyle.ko15,
+                            marginTop: Platform.OS === 'android' ? 10 : 0
+                          }}
+                          onChangeText={text => {
+                            const re = /^[0-9\b]+$/
+                            if (text === '' || re.test(text)) {
+                              const changed = text.replace(/(^0+)/, '')
+                              // setMinPriceOfToGo(changed)
+                              setSetting({
+                                ...setting,
+                                do_take_out_discount: changed
+                              })
+                            } else {
+                              // setMinPriceOfToGo('0')
+                              setSetting({
+                                ...setting,
+                                do_take_out_discount: '0'
+                              })
+                            }
+                          }}
+                          keyboardType='number-pad'
+                          autoCapitalize='none'
+                        />
+                        <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
+                      </View>
+                    </View>
+                    {/* // 포장 할인 */}
                   </View>
-                  <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
-                    <TouchableOpacity
-                      activeOpacity={1}
-                      onPress={() => setSetting({ ...setting, do_delivery: 'Y' })}
-                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                      style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
-                    >
-                      <Image
-                        source={
-                      setting.do_delivery === 'Y'
-                        ? require('../../images/ic_check_on.png')
-                        : require('../../images/ic_check_off.png')
-                    }
-                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                        resizeMode='contain'
-                        fadeDuration={100}
-                      />
-                      <Text style={{ ...BaseStyle.ko14 }}>배달 가능</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      activeOpacity={1}
-                      onPress={() => setSetting({ ...setting, do_delivery: 'N' })}
-                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                      style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
-                    >
-                      <Image
-                        source={
-                      setting.do_delivery === 'N'
-                        ? require('../../images/ic_check_on.png')
-                        : require('../../images/ic_check_off.png')
-                    }
-                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                        resizeMode='contain'
-                        fadeDuration={100}
-                      />
-                      <Text style={{ ...BaseStyle.ko14 }}>배달 불가능</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                {/* // 배달 가능 여부 */}
+                )}
 
                 {/* 먹고가기 가능 여부 */}
-                <View style={{ ...BaseStyle.mv10 }}>
+                <View style={setting.do_for_here === 'Y' ? { ...BaseStyle.mt10 } : {...BaseStyle.mv10}}>
                   <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
                     <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}>
                       먹고가기 가능 여부
@@ -468,8 +659,190 @@ const StoreSetting = props => {
                 </View>
                 {/* // 먹고가기 가능 여부 */}
 
+                {setting.do_for_here === 'Y' && (
+                  <View style={{ ...BaseStyle.mb20 }}>
+                    {/* 먹고가기(매장 식사) 최소주문금액 */}
+                    <View style={{ ...BaseStyle.mv10 }}>
+                      <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                        <Text
+                          style={{
+                            ...BaseStyle.ko15,
+                            ...BaseStyle.font_bold,
+                            ...BaseStyle.mr5
+                          }}
+                        >
+                          먹고가기(매장 식사) 최소 주문 금액
+                        </Text>
+                        <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                      </View>
+                      <View
+                        style={{
+                          ...BaseStyle.container5,
+                          borderWidth: 1,
+                          borderColor: '#E3E3E3',
+                          ...BaseStyle.round05,
+                          ...BaseStyle.inputH,
+                          ...BaseStyle.ph10
+                        }}
+                      >
+                        <TextInput
+                          value={setting.do_min_price_for_here}
+                          placeholder='0'
+                          style={{
+                            width: '95%',
+                            ...BaseStyle.inputH,
+                            textAlign: 'right',
+                            ...BaseStyle.ko15,
+                            marginTop: Platform.OS === 'android' ? 10 : 0
+                          }}
+                          onChangeText={text => {
+                            const re = /^[0-9\b]+$/
+                            if (text === '' || re.test(text)) {
+                              const changed = text.replace(/(^0+)/, '')
+                              setSetting({
+                                ...setting,
+                                do_min_price_for_here: changed
+                              })
+                              // setMinPriceOfForHere(changed)
+                            } else {
+                              setSetting({
+                                ...setting,
+                                do_min_price_for_here: '0'
+                              })
+                              // setMinPriceOfForHere('0')
+                            }
+                          }}
+                          keyboardType='number-pad'
+                          autoCapitalize='none'
+                        />
+                        <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
+                      </View>
+                    </View>
+                    {/* // 먹고가기(매장 식사) 최소주문금액 */}
+
+                    {/* 먹고가기 할인 */}
+                    <View style={{ ...BaseStyle.mv10 }}>
+                      <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                        <Text
+                          style={{
+                            ...BaseStyle.ko15,
+                            ...BaseStyle.font_bold,
+                            ...BaseStyle.mr5
+                          }}
+                        >
+                          먹고가기 할인
+                        </Text>
+                        <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                      </View>
+                      <View
+                        style={{
+                          ...BaseStyle.container5,
+                          borderWidth: 1,
+                          borderColor: '#E3E3E3',
+                          ...BaseStyle.round05,
+                          ...BaseStyle.inputH,
+                          ...BaseStyle.ph10
+                        }}
+                      >
+                        <TextInput
+                          value={setting.do_for_here_discount}
+                          placeholder='0'
+                          style={{
+                            width: '95%',
+                            ...BaseStyle.inputH,
+                            textAlign: 'right',
+                            ...BaseStyle.ko15,
+                            marginTop: Platform.OS === 'android' ? 10 : 0
+                          }}
+                          onChangeText={text => {
+                            const re = /^[0-9\b]+$/
+                            if (text === '' || re.test(text)) {
+                              const changed = text.replace(/(^0+)/, '')
+                              setSetting({
+                                ...setting,
+                                do_for_here_discount: changed
+                              })
+                              // setMinPriceOfForHere(changed)
+                            } else {
+                              setSetting({
+                                ...setting,
+                                do_for_here_discount: '0'
+                              })
+                              // setMinPriceOfForHere('0')
+                            }
+                          }}
+                          keyboardType='number-pad'
+                          autoCapitalize='none'
+                        />
+                        <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
+                      </View>
+                    </View>
+                    {/* // 먹고가기 할인 */}
+
+                    {/* 먹고가기 최소인원 */}
+                    <View style={{ ...BaseStyle.mv10 }}>
+                      <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
+                        <Text
+                          style={{
+                            ...BaseStyle.ko15,
+                            ...BaseStyle.font_bold,
+                            ...BaseStyle.mr5
+                          }}
+                        >
+                          먹고가기 최소인원
+                        </Text>
+                        <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
+                      </View>
+                      <View
+                        style={{
+                          ...BaseStyle.container5,
+                          borderWidth: 1,
+                          borderColor: '#E3E3E3',
+                          ...BaseStyle.round05,
+                          ...BaseStyle.inputH,
+                          ...BaseStyle.ph10
+                        }}
+                      >
+                        <TextInput
+                          value={setting.do_for_here_minimum}
+                          placeholder='0'
+                          style={{
+                            width: '95%',
+                            ...BaseStyle.inputH,
+                            textAlign: 'right',
+                            ...BaseStyle.ko15,
+                            marginTop: Platform.OS === 'android' ? 10 : 0
+                          }}
+                          onChangeText={text => {
+                            const re = /^[0-9\b]+$/
+                            if (text === '' || re.test(text)) {
+                              const changed = text.replace(/(^0+)/, '')
+                              setSetting({
+                                ...setting,
+                                do_for_here_minimum: changed
+                              })
+                              // setMinPriceOfForHere(changed)
+                            } else {
+                              setSetting({
+                                ...setting,
+                                do_for_here_minimum: '0'
+                              })
+                              // setMinPriceOfForHere('0')
+                            }
+                          }}
+                          keyboardType='number-pad'
+                          autoCapitalize='none'
+                        />
+                        <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>명</Text>
+                      </View>
+                    </View>
+                    {/* // 먹고가기 최소인원 */}
+                  </View>
+                )}
+
                 {/* 쿠폰 사용 가능 여부 삭제요청(쿠폰등록 페이지로 이동 요청) */}
-                <View style={{ ...BaseStyle.mv10 }}>
+                
+                <View style={setting.do_for_here === 'Y' ? { ...BaseStyle.mb10 } : {...BaseStyle.mv10}}>
                   {/* <Text style={{...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb10}}>
               쿠폰 사용 가능 여부
               </Text> */}
@@ -525,183 +898,6 @@ const StoreSetting = props => {
                   </View>
                 </View>
                 {/* // 쿠폰 사용 가능 여부 */}
-
-                {/* 배달 최소주문금액 */}
-                <View style={{ ...BaseStyle.mv10 }}>
-                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                    <Text
-                      style={{
-                        ...BaseStyle.ko15,
-                        ...BaseStyle.font_bold,
-                        ...BaseStyle.mr5
-                      }}
-                    >
-                      배달 최소 주문 금액
-                    </Text>
-                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-                  </View>
-                  <View
-                    style={{
-                      ...BaseStyle.container5,
-                      borderWidth: 1,
-                      borderColor: '#E3E3E3',
-                      ...BaseStyle.round05,
-                      ...BaseStyle.inputH,
-                      ...BaseStyle.ph10
-                    }}
-                  >
-                    <TextInput
-                      value={setting.do_min_price}
-                      placeholder='0'
-                      style={{
-                        width: '95%',
-                        ...BaseStyle.inputH,
-                        textAlign: 'right',
-                        ...BaseStyle.ko15,
-                        marginTop: Platform.OS === 'android' ? 10 : 0
-                      }}
-                      onChangeText={text => {
-                        const re = /^[0-9\b]+$/
-                        if (text === '' || re.test(text)) {
-                          const changed = text.replace(/(^0+)/, '')
-                          // setMinPriceOfDelivery(changed)
-                          setSetting({
-                            ...setting,
-                            do_min_price: changed
-                          })
-                        } else {
-                          // setMinPriceOfDelivery('0')
-                          setSetting({
-                            ...setting,
-                            do_min_price: '0'
-                          })
-                        }
-                      }}
-                      keyboardType='number-pad'
-                      autoCapitalize='none'
-                    />
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
-                  </View>
-                </View>
-                {/* // 배달 최소주문금액 */}
-
-                {/* 포장 최소주문금액 */}
-                <View style={{ ...BaseStyle.mv10 }}>
-                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                    <Text
-                      style={{
-                        ...BaseStyle.ko15,
-                        ...BaseStyle.font_bold,
-                        ...BaseStyle.mr5
-                      }}
-                    >
-                      포장 최소 주문 금액
-                    </Text>
-                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-                  </View>
-                  <View
-                    style={{
-                      ...BaseStyle.container5,
-                      borderWidth: 1,
-                      borderColor: '#E3E3E3',
-                      ...BaseStyle.round05,
-                      ...BaseStyle.inputH,
-                      ...BaseStyle.ph10
-                    }}
-                  >
-                    <TextInput
-                      value={setting.do_min_price_wrap}
-                      placeholder='0'
-                      style={{
-                        width: '95%',
-                        ...BaseStyle.inputH,
-                        textAlign: 'right',
-                        ...BaseStyle.ko15,
-                        marginTop: Platform.OS === 'android' ? 10 : 0
-                      }}
-                      onChangeText={text => {
-                        const re = /^[0-9\b]+$/
-                        if (text === '' || re.test(text)) {
-                          const changed = text.replace(/(^0+)/, '')
-                          // setMinPriceOfToGo(changed)
-                          setSetting({
-                            ...setting,
-                            do_min_price_wrap: changed
-                          })
-                        } else {
-                          // setMinPriceOfToGo('0')
-                          setSetting({
-                            ...setting,
-                            do_min_price_wrap: '0'
-                          })
-                        }
-                      }}
-                      keyboardType='number-pad'
-                      autoCapitalize='none'
-                    />
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
-                  </View>
-                </View>
-                {/* // 포장 최소주문금액 */}
-
-                {/* 먹고가기(매장 식사) 최소주문금액 */}
-                <View style={{ ...BaseStyle.mv10 }}>
-                  <View style={{ ...BaseStyle.container3, ...BaseStyle.mb10 }}>
-                    <Text
-                      style={{
-                        ...BaseStyle.ko15,
-                        ...BaseStyle.font_bold,
-                        ...BaseStyle.mr5
-                      }}
-                    >
-                      먹고가기(매장 식사) 최소 주문 금액
-                    </Text>
-                    <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02 }}>※</Text>
-                  </View>
-                  <View
-                    style={{
-                      ...BaseStyle.container5,
-                      borderWidth: 1,
-                      borderColor: '#E3E3E3',
-                      ...BaseStyle.round05,
-                      ...BaseStyle.inputH,
-                      ...BaseStyle.ph10
-                    }}
-                  >
-                    <TextInput
-                      value={setting.do_min_price_for_here}
-                      placeholder='0'
-                      style={{
-                        width: '95%',
-                        ...BaseStyle.inputH,
-                        textAlign: 'right',
-                        ...BaseStyle.ko15,
-                        marginTop: Platform.OS === 'android' ? 10 : 0
-                      }}
-                      onChangeText={text => {
-                        const re = /^[0-9\b]+$/
-                        if (text === '' || re.test(text)) {
-                          const changed = text.replace(/(^0+)/, '')
-                          setSetting({
-                            ...setting,
-                            do_min_price_for_here: changed
-                          })
-                          // setMinPriceOfForHere(changed)
-                        } else {
-                          setSetting({
-                            ...setting,
-                            do_min_price_for_here: '0'
-                          })
-                          // setMinPriceOfForHere('0')
-                        }
-                      }}
-                      keyboardType='number-pad'
-                      autoCapitalize='none'
-                    />
-                    <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold }}>원</Text>
-                  </View>
-                </View>
-                {/* // 먹고가기(매장 식사) 최소주문금액 */}
 
                 {/* 주문마감 여부 삭제요청(휴무일 영업일 안내 페이지로 이동 요청) */}
                 {/* <View style={{...BaseStyle.mv10}}>
