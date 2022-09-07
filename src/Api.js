@@ -32,7 +32,7 @@ class Api {
       isLoading: false,
       SERVER_NAME: "dongnaebook_server",
       SECRETKEY: "1111882EAD94E9C493CEF089E1B023A2122BA778",
-      url: "https://dmonster1832.cafe24.com",
+      url: "https://dongnaebook.app",
       path: "",
       option: {
         method: "POST",
