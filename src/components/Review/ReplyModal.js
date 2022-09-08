@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, KeyboardAvoidingView, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, KeyboardAvoidingView, TextInput, Platform } from 'react-native'
 import React from 'react'
 import Modal from 'react-native-modal'
 import BaseStyle, { Disable, Primary } from '../../styles/Base'
@@ -10,6 +10,9 @@ const ReplyModal = ({
 	toggleCommentModal,
 	setReply
 }) => {
+
+	const NUMBER_OF_LINES = 5
+
   return (
     <Modal
 			isVisible={isCommentModalVisible}
@@ -46,9 +49,10 @@ const ReplyModal = ({
 									...BaseStyle.ko15,
 									...BaseStyle.lh24,
 									...BaseStyle.mv15
-								}}
+								}, Platform.OS === 'ios' && { ...BaseStyle.mh10, ...BaseStyle.mv10 }}
 								multiline
-								numberOfLines={5}
+								numberOfLines={Platform.OS === 'android' ? NUMBER_OF_LINES : null}
+								minHeight={Platform.OS === 'android' ? null : NUMBER_OF_LINES * 20}
 								textAlignVertical='top'
 								placeholder='답변을 입력해주세요.'
 								underlineColorAndroid='transparent'

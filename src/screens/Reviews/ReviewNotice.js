@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TextInput, Dimensions, TouchableOpacity, Image, Alert, ScrollView } from 'react-native'
+import { View, Text, TextInput, Dimensions, TouchableOpacity, Image, ScrollView, Platform } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
@@ -10,6 +10,7 @@ import cusToast from '../../components/CusToast'
 import Api from '../../Api'
 
 const MAIN_IMAGE_THUMB_WIDTH = (Dimensions.get('window').width - 40) / 5 - 4
+const NUMBER_OF_LINES = 7
 
 const ReviewNotice = props => {
   const { navigation } = props
@@ -288,9 +289,10 @@ const ReviewNotice = props => {
                 ...BaseStyle.ko15,
                 ...BaseStyle.lh24,
                 ...BaseStyle.mv15
-              }}
+              }, Platform.OS === 'ios' && { ...BaseStyle.mh10, ...BaseStyle.mv10 }}
               multiline
-              numberOfLines={7}
+              numberOfLines={Platform.OS === 'android' ? NUMBER_OF_LINES : null}
+              minHeight={Platform.OS === 'android' ? null : NUMBER_OF_LINES * 20}
               textAlignVertical='top'
               placeholder='리뷰 공지사항을 입력해주세요.'
               underlineColorAndroid='transparent'
@@ -364,7 +366,7 @@ const ReviewNotice = props => {
                   alignItems: 'center'
                 }}
               >
-                <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
+                <Text style={{ ...BaseStyle.ko24, color: '#aaa', marginTop: Platform.OS === 'ios' ? -5 : 0 }}>+</Text>
               </TouchableOpacity>
             )}
           </View>
