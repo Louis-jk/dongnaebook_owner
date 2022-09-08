@@ -52,6 +52,11 @@
 		<string>Fonts/NotoSansCJKkr-Thin.otf</string>
 		<string>Fonts/NotoSansMonoCJKkr-Bold.otf</string>
 		<string>Fonts/NotoSansMonoCJKkr-Regular.otf</string>
+		<string>Fonts/Quantico-Bold.ttf</string>
+		<string>Fonts/Quantico-BoldItalic.ttf</string>
+		<string>Fonts/Quantico-Italic.ttf</string>
+		<string>Fonts/Quantico-Regular.ttf</string>
+		<string>Fonts/SquadaOne-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
