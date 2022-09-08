@@ -10,11 +10,10 @@ import {
   TouchableWithoutFeedback,
   Platform
 } from 'react-native'
-import RNPickerSelect from 'react-native-picker-select' // 셀렉트박스 패키지
 import { useSelector } from 'react-redux'
 import Modal from 'react-native-modal'
 import Header from '../../components/Headers/SubHeader'
-import BaseStyle, { Primary, customPickerStyles, Warning } from '../../styles/Base'
+import BaseStyle, { Primary, Warning } from '../../styles/Base'
 import cusToast from '../../components/CusToast'
 import checkMenuValidate from '../../modules/menuValidate'
 import Api from '../../Api'
@@ -484,7 +483,7 @@ const SetMenuAddOrEdit = props => {
           />
           {/* // 메뉴 삭제 컨펌 모달 */}
 
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
             <View>
 
               {menuImage && (

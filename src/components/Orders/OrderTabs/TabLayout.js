@@ -52,6 +52,7 @@ const TabLayout = props => {
 
     <View style={{ width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <FlatList
+        bounces={false}
         data={orders}
         renderItem={renderRow}
         keyExtractor={(list, index) => index.toString()}

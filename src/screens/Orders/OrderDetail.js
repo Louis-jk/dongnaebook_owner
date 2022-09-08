@@ -236,7 +236,7 @@ const OrderDetail = props => {
               </View>
               {/* // 주문 번호 */}
 
-              <ScrollView showsVerticalScrollIndicator={false}>
+              <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
 
                 <View style={{ ...BaseStyle.ph20, ...BaseStyle.mt20 }}>
 

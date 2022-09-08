@@ -186,7 +186,7 @@ const ReviewNotice = props => {
         <Header navigation={navigation} title='리뷰 공지작성' />
       </View>
 
-      <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <ScrollView showsVerticalScrollIndicator={false} bounces={false} style={{ flex: 1, backgroundColor: '#fff' }}>
 
         {/* 이미지 선택 or 카메라 선택 모달 */}
         <Modal

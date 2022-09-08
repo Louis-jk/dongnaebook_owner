@@ -113,7 +113,7 @@ const SetClosed = props => {
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='정기휴일 설정' type='save' />
 
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         <Divider backgroundColor='#E3E3E3' />
         <View style={{ ...BaseStyle.mb20 }} />
 

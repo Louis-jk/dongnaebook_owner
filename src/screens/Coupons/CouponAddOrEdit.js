@@ -187,7 +187,7 @@ const CouponAdd = props => {
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title={type === 'add' ? '쿠폰추가' : '쿠폰수정'} />
 
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         <View style={{ ...BaseStyle.ph20, ...BaseStyle.pv20 }}>
           {/* 구분 */}
           <View style={{ ...BaseStyle.mv10 }}>

@@ -136,7 +136,7 @@ const SetTime = props => {
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header navigation={navigation} title='영업 시간 추가' type='save' />
 
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
 
         <Divider />
         <View style={{ ...BaseStyle.mb10 }} />
