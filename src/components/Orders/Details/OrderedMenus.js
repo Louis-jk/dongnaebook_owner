@@ -43,7 +43,7 @@ const OrderedMenus = props => {
             ...BaseStyle.mb7
           }}
         >
-          {menu.it_name}
+          {`${menu.it_name} ${menu.ct_qty}개`}
         </Text>
         <Text
           style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.mb7 }}
