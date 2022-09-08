@@ -98,7 +98,7 @@ const NoticeDetail = props => {
 
           {detail.content && (
             <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv10, flex: 1 }}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+              <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
                 <RenderHtml
                   source={content}
                   contentWidth={windowDWidth}

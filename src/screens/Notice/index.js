@@ -105,18 +105,15 @@ const Notice = props => {
         <View testID='noticeScreen' style={{ flex: 1, backgroundColor: '#fff' }}>
           <Header navigation={navigation} title='공지사항' />
 
-          {/* <View style={{height:10, backgroundColor:'#F5F5F5'}} /> */}
-
           {/* 공지사항 리스트 */}
           <View style={{ flex: 1, height }}>
             <FlatList
+              bounces={false}
               data={list}
               renderItem={renderRow}
               keyExtractor={(list, index) => index.toString()}
-          // pagingEnabled={true}
               persistentScrollbar
               showsVerticalScrollIndicator={false}
-          // progressViewOffset={true}
               refreshing
               style={{ backgroundColor: '#fff', width: '100%' }}
               ListEmptyComponent={
