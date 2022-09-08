@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, Animated, Easing, Dimensions } from 'react-native'
+import { View, Text, Animated, Easing, Dimensions, Platform } from 'react-native'
 import BaseStyle, {Primary} from '../../styles/Base'
 
 const OrdersAnimateLoading = ({ description }) => {
@@ -64,7 +64,7 @@ const OrdersAnimateLoading = ({ description }) => {
           width: 50,
           height: 50,
           opacity: 0.8,
-          marginBottom: 10,
+          marginBottom: Platform.OS === 'android' ? 10 : -180,
           transform: [{ translateY: interpolatedY }]
         }}
         resizeMode='cover'
