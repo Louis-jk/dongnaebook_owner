@@ -5,13 +5,14 @@ import { getStatusBarHeight } from 'react-native-status-bar-height'
 const cusToast = (message, duration, position, offset) => {
   Toast.show({
     type: 'custom_type', // success | error | info
-    position: position || (Platform.OS === 'ios' ? 'top' : 'bottom'),
+    // position: position || (Platform.OS === 'ios' ? 'top' : 'bottom'),
+    position: position || 'bottom',
     text1: message,
     // text2: '내용',
     visibilityTime: duration || 1000,
     autoHide: true,
     topOffset: Platform.OS === 'ios' ? 66 + getStatusBarHeight() : 10,
-    bottomOffset: offset ? offset + 10 : 10,
+    bottomOffset: offset ? offset + 10 : Platform.OS === 'ios' ? 20 : 10,
     onShow: () => {},
     onHide: () => {}
   })
