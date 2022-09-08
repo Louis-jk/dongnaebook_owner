@@ -50,22 +50,13 @@ const CalculateTabView = () => {
     }
 
     const checkMonthSelector = (selectMonth) => {
-
-      if(selectedYear === currentYear && selectMonth > currentMonth) {        
+      if (selectedYear === currentYear && selectMonth > currentMonth) {
         cusToast('아직 데이터가 없습니다.')
         let prev = selectedMonth
         setSelectedMonth(prev)
       } else {
         setSelectedMonth(selectMonth)
       }
-
-      // console.log('=======')
-      // console.log("currentMonth ?", currentMonth);
-      // console.log("selected month ?", selectMonth);
-      // console.log('---------')
-      // console.log("currentYear ?", currentYear);
-      // console.log("selectedYear ?", selectedYear);
-      // console.log('=======')
     }
 
     function initCurrentDate () {
@@ -84,8 +75,6 @@ const CalculateTabView = () => {
 
       return () => initCurrentDate()
     }, [])
-
-    
 
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', ...BaseStyle.ph20 }}>
@@ -138,10 +127,10 @@ const CalculateTabView = () => {
                 console.log('현재 년 ::', currentYear)
                 console.log('------------------------')
 
-                if(selectedYear === currentYear && value > currentMonth) {                  
+                if (selectedYear === currentYear && value > currentMonth) {
                   cusToast('아직 데이터가 없습니다.')
                   setSelectedMonth(selectedMonth)
-                } else {                  
+                } else {
                   setSelectedMonth(value)
                 }
               }}
