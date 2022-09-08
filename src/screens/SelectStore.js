@@ -128,13 +128,12 @@ const SelectStore = props => {
 
       <View style={{ flex: 1, ...BaseStyle.ph20 }}>
         <FlatList
+          bounces={false}
           data={allStore}
           renderItem={renderRow}
           keyExtractor={(list, index) => index.toString()}
-          // pagingEnabled={true}
           persistentScrollbar
           showsVerticalScrollIndicator={false}
-          // progressViewOffset={true}
           refreshing
           style={{ backgroundColor: '#fff', width: '100%' }}
           ListEmptyComponent={
