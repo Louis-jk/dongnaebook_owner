@@ -6,7 +6,8 @@ import {
   Image,
   Dimensions,
   FlatList,
-  BackHandler
+  BackHandler,
+  Platform
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo'
@@ -117,7 +118,7 @@ const SetMenu = props => {
         }}
       >
         {item.it_img1 && (
-          <View style={{ ...BaseStyle.ml20, width: 80, height: 80, borderRadius: 10, backgroundColor: Primary.PointColor03 }}>
+          <View style={{ ...BaseStyle.ml20, width: Platform.OS === 'ios' ? 95 : 80, height: Platform.OS === 'ios' ? 95 : 80, borderRadius: 10, backgroundColor: Primary.PointColor03 }}>
             <Image
               source={{ uri: `${item.it_img1}` }}
               style={{ width: '100%', height: '100%', borderRadius: 10 }}
@@ -142,7 +143,7 @@ const SetMenu = props => {
                   ...BaseStyle.mr5
                 }}
               >
-                <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_white }}>대표</Text>
+                <Text style={{ ...BaseStyle.ko12, ...BaseStyle.font_white, marginTop: Platform.OS === 'ios' ? -2 : 0 }}>대표</Text>
               </View>
             )}
             <View
@@ -155,7 +156,7 @@ const SetMenu = props => {
                 borderRadius: 2
               }}
             >
-              <Text style={{ ...BaseStyle.ko12, color: item.it_use === '1' ? '#555' : '#222' }}>
+              <Text style={{ ...BaseStyle.ko12, color: item.it_use === '1' ? '#555' : '#222', marginTop: Platform.OS === 'ios' ? -2 : 0 }}>
                 {item.it_use === '1' ? '판매중' : '판매중지'}
               </Text>
             </View>
