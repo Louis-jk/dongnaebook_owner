@@ -3,7 +3,6 @@ import { View, FlatList } from 'react-native'
 import OrderEmpty from './OrderEmpty'
 import OrderInfo from './OrderInfo'
 import OrderButtons from './OrderButtons'
-import OrderMoreInfo from './OrderMoreInfo'
 import OrderRender from './OrderRender'
 
 const TabLayout = props => {
