@@ -488,14 +488,12 @@ const SetTips = props => {
             }}
           >
             <FlatList
+              bounces={false}
               data={list}
               renderItem={renderRow}
               keyExtractor={(list, index) => index.toString()}
-            // pagingEnabled={true}
               persistentScrollbar
               showsVerticalScrollIndicator={false}
-            // progressViewOffset={true}
-            // refreshing={true}
               style={{ backgroundColor: '#fff', width: '100%' }}
               ListEmptyComponent={
                 <View
