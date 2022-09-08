@@ -3,15 +3,11 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
-  TextInput,
   Dimensions,
-  KeyboardAvoidingView,
   Alert,
   Animated,
   StyleSheet,
   BackHandler,
-  ActivityIndicator,
   Platform
 } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler'
@@ -20,21 +16,16 @@ import StarRating from 'react-native-star-rating'
 import { useSelector } from 'react-redux'
 import * as Progress from 'react-native-progress'
 import AutoHeightImage from 'react-native-auto-height-image'
-import moment from 'moment'
-import 'moment/locale/ko'
-import Swiper from 'react-native-swiper'
-import Modal from 'react-native-modal'
 import Header from '../../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
-import ImageView from 'react-native-image-viewing'
 import cusToast from '../../components/CusToast'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
 import Divider from '../../components/Divider'
 import ReviewRender from '../../components/Review/ReviewRender'
 import SendSpamModal from '../../components/Review/SendSpamModal'
 import ImageModal from '../../components/Review/ImageModal'
-import ReplyModal from '../../components/Review/ImageModal'
+import ReplyModal from '../../components/Review/ReplyModal'
 
 const Reviews = props => {
   const { navigation } = props
@@ -79,15 +70,14 @@ const Reviews = props => {
 
   const getReviewList02Handler = () => {
     Api.send('store_review_list', param, args => {
-      
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
-      if (resultItem.result === 'Y') {        
+      if (resultItem.result === 'Y') {
         setRate(arrItems.rate ? arrItems.rate : null)
-        setList(arrItems.review ? arrItems.review : null)        
+        setList(arrItems.review ? arrItems.review : null)
         setNotice(arrItems.notice ? arrItems.notice : null)
-      } 
+      }
 
       setLoading(false)
     })
@@ -156,7 +146,7 @@ const Reviews = props => {
         const resultItem = args.resultItem
 
         if (resultItem.result === 'Y') {
-          toggleCommentModal()          
+          toggleCommentModal()
           cusToast('답변을 등록하였습니다.')
         } else {
           cusToast('답변을 등록하는 중에 문제가 발생하였습니다.\n관리자에게 문의해주세요.', 2500)
@@ -427,6 +417,7 @@ const Reviews = props => {
         <View style={{ flex: 1 }}>
           <Animated.FlatList
             testID='reviewFlatList'
+            bounces={false}
             data={list}
             renderItem={renderRow}
             keyExtractor={(list, index) => index.toString()}
