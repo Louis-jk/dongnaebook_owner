@@ -27,6 +27,7 @@ const CalculateList = props => {
       <Divider style={{ ...BaseStyle.mb10 }} />
 
       <FlatList
+        bounces={false}
         data={data}
         renderItem={renderRow}
         keyExtractor={(list, index) => index.toString()}
