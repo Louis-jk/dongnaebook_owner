@@ -509,7 +509,7 @@ const StoreInfo = props => {
             </View>
           </Modal>
 
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
             <View>
               <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv20 }}>
                 <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mb20 }}>

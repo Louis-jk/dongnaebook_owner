@@ -4,9 +4,9 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Alert,
   ScrollView,
-  BackHandler
+  BackHandler,
+  Platform
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import Header from '../../components/Headers/SubHeader'
@@ -23,9 +23,6 @@ const StoreSetting = props => {
   const [storeInit, setStoreInit] = React.useState(false) // 매장 정보 초기값 유무
   const [range, setRange] = React.useState('curr')
   const [isLoading, setLoading] = React.useState(true)
-  const [minPriceOfDelivery, setMinPriceOfDelivery] = React.useState('') // 매장 최소 주문 금액
-  const [minPriceOfToGo, setMinPriceOfToGo] = React.useState('') // 포장 최소 주문 금액
-  const [minPriceOfForHere, setMinPriceOfForHere] = React.useState('') // 먹고가기(매장 식사) 최소 주문 금액
 
   // 안드로이드 뒤로가기 버튼 제어
   const backAction = () => {
@@ -197,7 +194,7 @@ const StoreSetting = props => {
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
           <Header navigation={navigation} title='매장설정' />
 
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
             <View>
               <View style={{ ...BaseStyle.ph20, ...BaseStyle.mv20 }}>
                 <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mb10 }}>
@@ -416,13 +413,11 @@ const StoreSetting = props => {
                             const re = /^[0-9\b]+$/
                             if (text === '' || re.test(text)) {
                               const changed = text.replace(/(^0+)/, '')
-                              // setMinPriceOfDelivery(changed)
                               setSetting({
                                 ...setting,
                                 do_min_price: changed
                               })
                             } else {
-                              // setMinPriceOfDelivery('0')
                               setSetting({
                                 ...setting,
                                 do_min_price: '0'
@@ -528,13 +523,11 @@ const StoreSetting = props => {
                             const re = /^[0-9\b]+$/
                             if (text === '' || re.test(text)) {
                               const changed = text.replace(/(^0+)/, '')
-                              // setMinPriceOfToGo(changed)
                               setSetting({
                                 ...setting,
                                 do_min_price_wrap: changed
                               })
                             } else {
-                              // setMinPriceOfToGo('0')
                               setSetting({
                                 ...setting,
                                 do_min_price_wrap: '0'
@@ -587,13 +580,11 @@ const StoreSetting = props => {
                             const re = /^[0-9\b]+$/
                             if (text === '' || re.test(text)) {
                               const changed = text.replace(/(^0+)/, '')
-                              // setMinPriceOfToGo(changed)
                               setSetting({
                                 ...setting,
                                 do_take_out_discount: changed
                               })
                             } else {
-                              // setMinPriceOfToGo('0')
                               setSetting({
                                 ...setting,
                                 do_take_out_discount: '0'
@@ -703,13 +694,11 @@ const StoreSetting = props => {
                                 ...setting,
                                 do_min_price_for_here: changed
                               })
-                              // setMinPriceOfForHere(changed)
                             } else {
                               setSetting({
                                 ...setting,
                                 do_min_price_for_here: '0'
                               })
-                              // setMinPriceOfForHere('0')
                             }
                           }}
                           keyboardType='number-pad'
@@ -762,13 +751,11 @@ const StoreSetting = props => {
                                 ...setting,
                                 do_for_here_discount: changed
                               })
-                              // setMinPriceOfForHere(changed)
                             } else {
                               setSetting({
                                 ...setting,
                                 do_for_here_discount: '0'
                               })
-                              // setMinPriceOfForHere('0')
                             }
                           }}
                           keyboardType='number-pad'
@@ -821,13 +808,11 @@ const StoreSetting = props => {
                                 ...setting,
                                 do_for_here_minimum: changed
                               })
-                              // setMinPriceOfForHere(changed)
                             } else {
                               setSetting({
                                 ...setting,
                                 do_for_here_minimum: '0'
                               })
-                              // setMinPriceOfForHere('0')
                             }
                           }}
                           keyboardType='number-pad'

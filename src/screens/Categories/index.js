@@ -397,6 +397,7 @@ const CategoriesSetting = props => {
           </View>
 
           <FlatList
+            bounces={false}
             data={currentMenuCategory}
             showVerticalScrollIndicator={false}
             renderItem={renderRow}
