@@ -161,7 +161,8 @@ const Login = props => {
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
 
           <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+            // behavior={Platform.OS === 'ios' ? 'position' : 'position'}
+            behavior='position'
             keyboardVerticalOffset={0}
             style={{ backgroundColor: '#fff' }}
             enabled
