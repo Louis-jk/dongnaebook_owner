@@ -391,6 +391,7 @@ const Coupon = props => {
           {/* 쿠폰 리스트 */}
           <View style={{ flex: 1, height }}>
             <FlatList
+              bounces={false}
               data={coupons}
               renderItem={renderRow}
               keyExtractor={(list, index) => index.toString()}
