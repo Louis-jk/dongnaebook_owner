@@ -32,6 +32,7 @@ export const Disable = {
 
 export const customPickerStyles = StyleSheet.create({
   inputIOS: {
+    position: 'relative',
     fontSize: 14,
     paddingVertical: 10,
     paddingHorizontal: 12,

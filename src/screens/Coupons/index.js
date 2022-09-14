@@ -204,10 +204,6 @@ const Coupon = props => {
         >
           <View
             key={index + item.notice_id}
-            // activeOpacity={1}
-            // onPress={() =>
-            //   navigation.navigate('Home', {screen: 'CouponEdit', params: {item: item}})
-            // }
             style={{
               ...BaseStyle.mh20,
               ...BaseStyle.container5,
@@ -273,7 +269,6 @@ const Coupon = props => {
                 최소주문금액 {Api.comma(item.cz_minimum)}원
               </Text>
             </View>
-            {/* <View style={{ width: 1, height: '100%', backgroundColor: '#E3E3E3' }} /> */}
             <View
               style={{
                 flex: 1,
@@ -290,7 +285,7 @@ const Coupon = props => {
               <Image
                 source={require('../../images/c_logo.png')}
                 style={{ width: 45, height: Platform.OS === 'ios' ? 55 : 45 }}
-                resizeMode='center'
+                resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
               />
             </View>
           </View>

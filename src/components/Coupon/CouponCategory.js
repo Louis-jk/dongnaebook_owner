@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, Platform } from 'react-native'
 import React from 'react'
 import RNPickerSelect from 'react-native-picker-select'
 import BaseStyle from '../../styles/Base'
@@ -55,8 +55,13 @@ const CouponCategory = ({ type, setType }) => {
         return (
           <Image
             source={require('../../images/ic_select.png')}
-            style={{ width: 45, height: 45 }}
-            resizeMode='center'
+            style={[
+              Platform.OS === 'ios' && {
+                position: 'absolute', right: 15, top: 15
+              },
+              { width: Platform.OS === 'ios' ? 15 : 45, height: Platform.OS === 'ios' ? 15 : 45 }
+            ]}
+            resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
           />
         )
       }}

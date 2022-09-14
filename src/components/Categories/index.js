@@ -1,4 +1,4 @@
-import { Image } from 'react-native'
+import { Image, Platform } from 'react-native'
 import React from 'react'
 import RNPickerSelect from 'react-native-picker-select'
 import BaseStyle, { customPickerStyles } from '../../styles/Base'
@@ -26,8 +26,13 @@ const Categories = ({ selectCategory, setSelectCategory, items }) => {
         return (
           <Image
             source={require('../../images/ic_select.png')}
-            style={{ width: 45, height: 45 }}
-            resizeMode='center'
+            style={[
+              Platform.OS === 'ios' && {
+                position: 'absolute', right: 15, top: 15
+              },
+              { width: Platform.OS === 'ios' ? 15 : 45, height: Platform.OS === 'ios' ? 15 : 45 }
+            ]}
+            resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
           />
         )
       }}
