@@ -189,8 +189,8 @@ const SetMenu = props => {
         >
           <Image
             source={require('../../images/pg_next.png')}
-            style={{ width: 65, height: 65 }}
-            resizeMode='center'
+            style={{ width: Platform.OS === 'android' ? 65 : 18, height: Platform.OS === 'android' ? 65 : 18 }}
+            resizeMode={Platform.OS === 'android' ? 'center' : 'contain'}
           />
         </View>
       </TouchableOpacity>
