@@ -11,15 +11,11 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  plugins: ['react', 'react-hooks'],
+  plugins: ['react', 'react-hooks', 'jsx-ally', 'import'],
   rules: {
-    // 'import/prefer-default-export': 'off',
-    // 'import/extensions': ['off'],
-    indent: ['error', 2],
+    indent: [2, 'tab'],
     'linebreak-style': ['error', 'unix'],
-    // quotes: ['error', 'single'],
     quotes: ['off', 'single'],
-    semi: ['error', 'always'],
-    'prettier/prettier': 'error'
+    semi: ['error', 'always']
   }
 }
