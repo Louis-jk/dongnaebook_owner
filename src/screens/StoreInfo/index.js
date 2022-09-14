@@ -601,16 +601,16 @@ const StoreInfo = props => {
                       </TouchableOpacity>)
                     }
 
-                  {detailImgs02 !== '' ? (
-                    <View style={{ position: 'relative' }}>
+                  {detailImgs02 !== '' ?
+                    (<View style={{ position: 'relative' }}>
                       <Image
                         source={
-                      showDefault
-                        ? require('../../images/loading_image.png')
-                        : imageError
-                          ? require('../../images/error_image.png')
-                          : { uri: `${detailImgs02}` }
-                    }
+                          showDefault
+                            ? require('../../images/loading_image.png')
+                            : imageError
+                              ? require('../../images/error_image.png')
+                              : { uri: `${detailImgs02}` }
+                        }
                         style={{
                           width: MAIN_IMAGE_THUMB_WIDTH,
                           height: MAIN_IMAGE_THUMB_WIDTH - 10,
@@ -644,23 +644,22 @@ const StoreInfo = props => {
                           resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
                         />
                       </TouchableOpacity>
-                    </View>
-                  ) : (
-                    <TouchableOpacity
-                      activeOpacity={1}
-                      onPress={() => imageOrCameraChoiceHandler(2)}
-                      style={{
-                        width: MAIN_IMAGE_THUMB_WIDTH,
-                        height: MAIN_IMAGE_THUMB_WIDTH - 10,
-                        borderRadius: 5,
-                        backgroundColor: '#ececec',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
-                    </TouchableOpacity>
-                  )}
+                      </View>) :
+                      (<TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => imageOrCameraChoiceHandler(2)}
+                        style={{
+                          width: MAIN_IMAGE_THUMB_WIDTH,
+                          height: MAIN_IMAGE_THUMB_WIDTH - 10,
+                          borderRadius: 5,
+                          backgroundColor: '#ececec',
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                        }}
+                        >
+                        <Text style={{ ...BaseStyle.ko24, color: '#aaa' }}>+</Text>
+                        </TouchableOpacity>)
+                  }
                   {detailImgs03 !== '' ? (
                     <View style={{ position: 'relative' }}>
                       <Image
