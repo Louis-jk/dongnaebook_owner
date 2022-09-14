@@ -106,8 +106,18 @@ const CalculateTabView = () => {
                 return (
                   <Image
                     source={require('../../images/ic_select.png')}
-                    style={{ width: 50, height: 50 }}
-                    resizeMode='center'
+                    style={[
+                      Platform.OS === 'ios' && {
+                        position: 'absolute',
+                        top: 20,
+                        right: 10
+                      },
+                      {
+                        width: Platform.OS === 'android' ? 50 : 25,
+                        height: Platform.OS === 'android' ? 50 : 10
+                      }
+                    ]}
+                    resizeMode={Platform.OS === 'android' ? 'center' : 'contain'}
                   />
                 )
               }}
@@ -151,8 +161,18 @@ const CalculateTabView = () => {
                 return (
                   <Image
                     source={require('../../images/ic_select.png')}
-                    style={{ width: 50, height: 50 }}
-                    resizeMode='center'
+                    style={[
+                      Platform.OS === 'ios' && {
+                        position: 'absolute',
+                        top: 20,
+                        right: 10
+                      },
+                      {
+                        width: Platform.OS === 'android' ? 50 : 25,
+                        height: Platform.OS === 'android' ? 50 : 10
+                      }
+                    ]}
+                    resizeMode={Platform.OS === 'android' ? 'center' : 'contain'}
                   />
                 )
               }}
