@@ -372,9 +372,9 @@ const SetTips = props => {
                   source={require('../../images/close.png')}
                   style={{
                     width: 12,
-                    height: 12,
-                    resizeMode: 'center'
+                    height: 12
                   }}
+                  resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
                 />
               </TouchableOpacity>
               <Text style={{ ...BaseStyle.ko14 }}>해당 배달팁을 삭제하시겠습니까?</Text>

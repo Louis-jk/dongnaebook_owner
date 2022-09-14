@@ -228,9 +228,9 @@ const ReviewNotice = props => {
                 source={require('../../images/close.png')}
                 style={{
                   width: 12,
-                  height: 12,
-                  resizeMode: 'center'
+                  height: 12
                 }}
+                resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
               />
             </TouchableOpacity>
             {/* 이미지 등록 방법을 선택해주세요. */}
