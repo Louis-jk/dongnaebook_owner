@@ -21,7 +21,7 @@ const SetHeader = props => {
             resizeMode='contain'
           />
         </TouchableOpacity>
-        <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold }}>{title}</Text>
+        <Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, marginTop: Platform.OS === 'ios' ? -2 : 0 }}>{title}</Text>
         {(type === 'add' || type === 'save') &&
           <TouchableOpacity
             activeOpacity={1}

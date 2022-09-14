@@ -54,17 +54,16 @@ const CouponAdd = props => {
 
   const onChange = (event, selectedValue) => {
     const currentValue = selectedValue || date
-
-    if (dateType === 'start') {
-      if (currentValue < date) {
-        cusToast('오늘 이전 날짜는 지정하실 수 없습니다.')
-        return
-      }
-      const isHigher = isHigherException(currentValue, new Date(endDate))
-      isHigher(setStartDate)
+    if (currentValue < date) {
+      cusToast('오늘 이전 날짜는 지정하실 수 없습니다.')
     } else {
-      const isLower = isLowerException(currentValue, startDate)
-      isLower(setEndDate)
+      if (dateType === 'start') {
+        const isHigher = isHigherException(currentValue, new Date(endDate), 'coupon')
+        isHigher(setStartDate)
+      } else {
+        const isLower = isLowerException(currentValue, startDate, 'coupon')
+        isLower(setEndDate)
+      }
     }
   }
 

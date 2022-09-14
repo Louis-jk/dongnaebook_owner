@@ -35,7 +35,7 @@ const DefaultHeader = props => {
         </TouchableOpacity>
         <View style={{ maxWidth: Dimensions.get('window').width / 3 }}>
           <Text
-            style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold }}
+            style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, marginTop: Platform.OS === 'ios' ? -2 : 0 }}
             numberOfLines={1}
             lineBreakMode='tail'
           >

@@ -310,7 +310,7 @@ const Coupon = props => {
               onPress={() => navigation.navigate('Home', { screen: 'CouponAddOrEdit', params: { type: 'add' } })}
               style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
             >
-              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white, marginTop: Platform.OS === 'ios' ? -2 : 0 }}>
                 쿠폰 추가하기 +
               </Text>
             </TouchableOpacity>

@@ -34,7 +34,7 @@ const DefaultHeader = props => {
             }}
           >
             <Text
-              style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.mr5 }}
+              style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.mr5, marginTop: Platform.OS === 'ios' ? -2 : 0 }}
               numberOfLines={1}
             >
               {title}

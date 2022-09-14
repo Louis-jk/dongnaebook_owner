@@ -210,7 +210,7 @@ const SetMenu = props => {
               onPress={() => navigation.navigate('Home', { screen: 'SetMenuAddOrEdit', params: { type: 'add' } })}
               style={{ ...BaseStyle.mainBtn, ...BaseStyle.pv13 }}
             >
-              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>
+              <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold, ...BaseStyle.font_white, marginTop: Platform.OS === 'ios' ? -2 : 0 }}>
                 메뉴 추가하기 +
               </Text>
             </TouchableOpacity>

@@ -4,7 +4,8 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  BackHandler
+  BackHandler,
+  Platform
 } from 'react-native'
 import Header from '../../components/Headers/SubHeader'
 import BaseStyle, { Primary } from '../../styles/Base'
@@ -45,7 +46,7 @@ const Calculate = props => {
             activeOpacity={1}
             style={{ flex: 1, ...BaseStyle.mainBtn, ...BaseStyle.pv7, ...BaseStyle.ph5 }}
           >
-            <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_bold, ...BaseStyle.textWhite }}>
+            <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_bold, ...BaseStyle.textWhite, marginTop: Platform.OS === 'ios' ? -2 : 0 }}>
               누적 현황 보기
             </Text>
           </TouchableOpacity>
