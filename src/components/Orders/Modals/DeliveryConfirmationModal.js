@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, Platform } from 'react-native'
 import React from 'react'
 import Modal from 'react-native-modal'
 import Api from '../../../Api'
@@ -84,7 +84,7 @@ const DeliveryConfirmationModal = ({
             <Image
               source={require('../../../images/close_wh.png')}
               style={{ width: 10, height: 10 }}
-              resizeMode='center'
+              resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
             />
           </TouchableOpacity>
           <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>

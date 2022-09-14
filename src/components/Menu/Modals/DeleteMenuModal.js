@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Platform } from 'react-native'
 import React from 'react'
 import Modal from 'react-native-modal'
 import BaseStyle, {Primary} from '../../../styles/Base'
@@ -45,7 +45,7 @@ const DeleteMenuModal = ({
             <Image
               source={require('../../../images/close_wh.png')}
               style={{ width: 10, height: 10 }}
-              resizeMode='center'
+              resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
             />
           </TouchableOpacity>
           <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>

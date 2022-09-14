@@ -581,7 +581,7 @@ const StoreInfo = props => {
                               width: 10,
                               height: 10
                             }}
-                            resizeMode='center'
+                            resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
                           />
                         </TouchableOpacity>
                     </View>) :
@@ -641,7 +641,7 @@ const StoreInfo = props => {
                             width: 10,
                             height: 10
                           }}
-                          resizeMode='center'
+                          resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
                         />
                       </TouchableOpacity>
                     </View>
@@ -701,7 +701,7 @@ const StoreInfo = props => {
                             width: 10,
                             height: 10
                           }}
-                          resizeMode='center'
+                          resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
                         />
                       </TouchableOpacity>
                     </View>
@@ -761,7 +761,7 @@ const StoreInfo = props => {
                             width: 10,
                             height: 10
                           }}
-                          resizeMode='center'
+                          resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
                         />
                       </TouchableOpacity>
                     </View>
@@ -821,7 +821,7 @@ const StoreInfo = props => {
                             width: 10,
                             height: 10
                           }}
-                          resizeMode='center'
+                          resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
                         />
                       </TouchableOpacity>
                     </View>

@@ -317,7 +317,7 @@ const CategoriesSetting = props => {
                 <Image
                   source={require('../../images/close_wh.png')}
                   style={{ width: 10, height: 10 }}
-                  resizeMode='center'
+                  resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
                 />
               </TouchableOpacity>
               <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>

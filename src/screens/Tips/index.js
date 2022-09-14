@@ -140,7 +140,7 @@ const SetTips = props => {
             <Image
               source={require('../../images/edit.png')}
               style={{ width: 20, height: 20, marginBottom: 10 }}
-              resizeMode='center'
+              resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
             />
             <Text style={{ ...BaseStyle.ko14 }}>수정</Text>
           </View>
@@ -172,7 +172,7 @@ const SetTips = props => {
             <Image
               source={require('../../images/delete_wh.png')}
               style={{ width: 20, height: 20, marginBottom: 10 }}
-              resizeMode='center'
+              resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
             />
             <Text style={{ ...BaseStyle.ko14, color: '#fff' }}>삭제</Text>
           </View>

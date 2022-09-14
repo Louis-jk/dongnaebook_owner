@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Text, TouchableOpacity, TextInput, Image } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, Image, Platform } from 'react-native'
 import Modal from 'react-native-modal'
 import { useSelector, useDispatch } from 'react-redux'
 import BaseStyle, { Primary } from '../../../styles/Base'
@@ -131,7 +131,7 @@ const OrderCheckModal = ({
             <Image
               source={require('../../../images/close_wh.png')}
               style={{ width: 10, height: 10 }}
-              resizeMode='center'
+              resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
             />
           </TouchableOpacity>
           <Text style={{ ...BaseStyle.ko15, ...BaseStyle.mb15 }}>
