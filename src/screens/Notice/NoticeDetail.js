@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Text, Image, useWindowDimensions, ScrollView } from 'react-native'
+import { View, Text, Image, useWindowDimensions, ScrollView, Dimensions } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 import Header from '../../components/Headers/Header'
 import BaseStyle from '../../styles/Base'
@@ -69,7 +69,7 @@ const NoticeDetail = props => {
               alignItems: 'flex-start'
             }}
           >
-            <View style={{ marginTop: -2 }}>
+            <View style={{ marginTop: -2, flex: 8 }}>
               <Text
                 style={{
                   ...BaseStyle.ko18,
@@ -78,13 +78,13 @@ const NoticeDetail = props => {
                   ...BaseStyle.mb10
                 }}
               >
-                제목 : {detail.subject}
+                {detail.subject}
               </Text>
               <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_gray_a1 }}>
                 작성일자 : {detail.datetime}
               </Text>
             </View>
-            <View style={{ ...BaseStyle.container }}>
+            <View style={{ flex: 1, ...BaseStyle.container }}>
               <Image
                 source={require('../../images/eye.png')}
                 style={{ width: 20, height: 17, ...BaseStyle.mr5 }}
