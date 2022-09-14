@@ -1,14 +1,17 @@
 import * as React from 'react'
 import { View, Text, TouchableOpacity, Image, Platform, Alert } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import BaseStyle, { Primary, customPickerStyles } from '../../styles/Base'
 import RNPickerSelect from 'react-native-picker-select' // 셀렉트박스 패키지
 import DateTimePicker from '@react-native-community/datetimepicker'
 import CalculateList from './CalculateList'
 import moment from 'moment'
+import 'moment/locale/ko'
 import { monthArr } from '../../data/month'
 import { data } from '../../data/calcMockData'
 import cusToast from '../CusToast'
+import { isHigherException, isLowerException } from '../../modules/dateCheck'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -79,9 +82,6 @@ const CalculateTabView = () => {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', ...BaseStyle.ph20 }}>
         <View style={{ ...BaseStyle.container5, ...BaseStyle.pv20 }}>
-          {/* <View style={{justifyContent:'center', alignItems:'flex-start', ...BaseStyle.border, ...BaseStyle.inputH, flex:1.5, ...BaseStyle.mr5, backgroundColor:'#fff', ...BaseStyle.pl20}}>
-            <Text style={{...BaseStyle.ko14, marginTop:2}}>2021</Text>
-          </View> */}
           <View style={{ marginRight: 5, flex: 1.5 }}>
             <RNPickerSelect
               fixAndroidTouchableBug
@@ -193,7 +193,7 @@ const CalculateTabView = () => {
             <Text
               style={{
                 ...BaseStyle.ko15,
-                marginTop: 2,
+                marginTop: Platform.OS === 'android' ? 2 : -2,
                 ...BaseStyle.font_bold,
                 ...BaseStyle.textWhite
               }}
@@ -215,43 +215,23 @@ const CalculateTabView = () => {
     const [mode, setMode] = React.useState('date')
     const [show, setShow] = React.useState(false)
     const [dateType, setDateType] = React.useState('')
-    const [timeType, setTimeType] = React.useState('')
 
     const onChange = (event, selectedValue) => {
       const currentValue = selectedValue || date
-      setShow(Platform.OS === 'ios')
-
-      if (selectedValue > date) {
-        Alert.alert('선택하신 날짜가 오늘 이후입니다.', '오늘까지 선택 가능합니다.', [
-          {
-            text: '확인'
-          }
-        ])
+      if (currentValue > date) {
+        cusToast('오늘 이후 날짜는 지정하실 수 없습니다.')
       } else {
-        if (dateType === 'start') {
-          if (currentValue > endDate) {
-            Alert.alert('시작 날짜는 마감 날짜와 같거나 이전이어야 합니다.', '다시 선택해주세요.', [
-              {
-                text: '확인'
-              }
-            ])
-          } else {
-            setStartDate(currentValue)
-          }
+        if (dateType === 'end') {
+          const isLower = isLowerException(currentValue, startDate, 'calculate')
+          isLower(setEndDate)
         } else {
-          if (currentValue < startDate) {
-            Alert.alert('마감 날짜는 시작 날짜와 같거나 이후이어야 합니다.', '다시 선택해주세요.', [
-              {
-                text: '확인'
-              }
-            ])
-          } else {
-            setEndDate(currentValue)
-          }
+          const isHigher = isHigherException(currentValue, new Date(endDate), 'calculate')
+          isHigher(setStartDate)
         }
       }
     }
 
+    // Android 전용
     const showMode = (currentMode, payload) => {
       setDateType(payload)
       setShow(true)
@@ -264,6 +244,16 @@ const CalculateTabView = () => {
 
     const showTimepicker = payload => {
       showMode('time', payload)
+    }
+
+    // iOS 전용
+    const hideDatePicker = () => {
+      setShow(false)
+    }
+
+    const handleConfirm = (selectedValue) => {
+      hideDatePicker()
+      onChange('', selectedValue)
     }
 
     return (
@@ -284,10 +274,10 @@ const CalculateTabView = () => {
           >
             <Image
               source={require('../../images/ico_calendar.png')}
-              style={{ width: 18, height: 18, marginRight: 2 }}
+              style={{ width: 18, height: 18, marginRight: Platform.OS === 'android' ? 2 : 5 }}
               resizeMode='contain'
             />
-            <Text style={{ ...BaseStyle.ko14, marginTop: 2 }}>
+            <Text style={{ ...BaseStyle.ko14, marginTop: Platform.OS === 'android' ? 2 : -2 }}>
               {moment(startDate).format('YYYY-MM-DD')}
             </Text>
           </TouchableOpacity>
@@ -307,10 +297,10 @@ const CalculateTabView = () => {
           >
             <Image
               source={require('../../images/ico_calendar.png')}
-              style={{ width: 18, height: 18, marginRight: 2 }}
+              style={{ width: 18, height: 18, marginRight: Platform.OS === 'android' ? 2 : 5 }}
               resizeMode='contain'
             />
-            <Text style={{ ...BaseStyle.ko14, marginTop: 2 }}>
+            <Text style={{ ...BaseStyle.ko14, marginTop: Platform.OS === 'android' ? 2 : -2 }}>
               {moment(endDate).format('YYYY-MM-DD')}
             </Text>
           </TouchableOpacity>
@@ -329,7 +319,7 @@ const CalculateTabView = () => {
             <Text
               style={{
                 ...BaseStyle.ko15,
-                marginTop: 2,
+                marginTop: Platform.OS === 'android' ? 2 : -2,
                 ...BaseStyle.font_bold,
                 ...BaseStyle.textWhite
               }}
@@ -339,16 +329,18 @@ const CalculateTabView = () => {
           </TouchableOpacity>
         </View>
         <CalculateList data={data} />
-        {show && (
-          <DateTimePicker
-            testID='dateTimePicker'
-            value={date}
-            mode={mode}
-            is24Hour
-            display='default'
-            onChange={onChange}
-          />
-        )}
+        <DateTimePickerModal
+          isVisible={show}
+          mode='date'
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+          cancelTextIOS='취소'
+          confirmTextIOS='적용'
+          pickerStyleIOS={{ backgroundColor: 'white' }}
+          customHeaderIOS={() => <View style={{ ...BaseStyle.pv15, backgroundColor: Primary.PointColor01, ...BaseStyle.container0 }}><Text style={{ ...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.font_white }}>{dateType === 'start' ? '시작일자' : '종료일자'}</Text></View>}
+          buttonTextColorIOS={Primary.PointColor01}
+          locale='ko_KR'
+        />
       </View>
     )
   }
