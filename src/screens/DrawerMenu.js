@@ -55,7 +55,7 @@ const DrawerMenu = props => {
         <Divider backgroundColor='#E3E3E3' />
 
         <ScrollView testID='drawerMenuScrollView' showsVerticalScrollIndicator={false} bounces={false}>
-          <View style={Platform.OS === 'ios' ? { ...BaseStyle.mv5 } : { ...BaseStyle.mv10 }, {marginBottom: 60}}>
+          <View style={{ ...BaseStyle.mv5, marginBottom: Platform.OS === 'ios' ? 60 : 0 }}>
             {DrawerMenus.map((menu, index) => (
 
               <TouchableOpacity
