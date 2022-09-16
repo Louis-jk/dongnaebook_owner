@@ -41,9 +41,10 @@ const DeliveryConfirmationModal = ({
         cusToast(`주문 ${orderType === Types[0].text ? '배달' : orderType === Types[1].text ? '포장완료' : '식사완료'} 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.`)
       }
 
-      setTimeout(() => {
-        navigation.navigate('Home', { screen: 'Main' })
-      }, 1500)
+      navigation.navigate('Home', { screen: 'Main' })
+      // setTimeout(() => {
+      //   navigation.navigate('Home', { screen: 'Main' })
+      // }, 1500)
     })
   }
 

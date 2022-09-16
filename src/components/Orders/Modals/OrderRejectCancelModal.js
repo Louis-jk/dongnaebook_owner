@@ -116,9 +116,10 @@ const OrderRejectCancelModal = props => {
         cusToast('주문을 거부하는 중에 문제가 발생하였습니다.\n다시 시도해주세요.')
       }
 
-      setTimeout(() => {
-        navigation.navigate('Home', { screen: 'Main' })
-      }, 1500)
+      navigation.navigate('Home', { screen: 'Main' })
+      // setTimeout(() => {
+      //   navigation.navigate('Home', { screen: 'Main' })
+      // }, 1500)
     })
   }
 
@@ -204,9 +205,10 @@ const OrderRejectCancelModal = props => {
         cusToast('주문을 취소하는 중에 문제가 생겼습니다.\n관리자에게 문의해주세요.')
       }
 
-      setTimeout(() => {
-        navigation.navigate('Home', { screen: 'Main' })
-      }, 1500)
+      navigation.navigate('Home', { screen: 'Main' })
+      // setTimeout(() => {
+      //   navigation.navigate('Home', { screen: 'Main' })
+      // }, 1500)
     })
   }
 

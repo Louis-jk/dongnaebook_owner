@@ -87,9 +87,10 @@ const OrderCheckModal = ({
       getOrderListHandler()
       toggleModal()
 
-      setTimeout(() => {
-        navigation.navigate('Home', { screen: 'Main' })
-      }, 1500)
+      navigation.navigate('Home', { screen: 'Main' })
+      // setTimeout(() => {
+      //   navigation.navigate('Home', { screen: 'Main' })
+      // }, 1500)
     })
   }
 
