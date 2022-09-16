@@ -258,7 +258,7 @@ const Coupon = props => {
                   <Text
                     style={{ ...BaseStyle.ko12, color: item.cz_type === '0' ? '#222' : '#fff', marginBottom: Platform.OS === 'ios' ? 2 : 0 }}
                   >
-                    {item.cz_type === '1' ? '포장용' : item.cz_type === '2' ? '배달용' : item.cz_type === '3' ? '식사용' : '전체'}
+                    {item.cz_type === '1' ? '포장용' : item.cz_type === '2' ? '배달용' : item.cz_type === '3' ? '먹고가기용' : '전체'}
                   </Text>
                 </View>
               </View>
