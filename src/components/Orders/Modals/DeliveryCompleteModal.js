@@ -24,7 +24,7 @@ const DeliveryCompleteModal = ({
       od_id: orderId,
       jumju_id: jumjuId,
       jumju_code: jumjuCode,
-      od_process_status: Steps[3]
+      od_process_status: '배달완료'
     }
 
     // console.log('배달완료 param', param)
@@ -42,9 +42,10 @@ const DeliveryCompleteModal = ({
         cusToast('주문 배달완료 처리중 오류가 발생하였습니다.\n다시 한번 시도해주세요.')
       }
 
-      setTimeout(() => {
-        navigation.navigate('Home', { screen: 'Main' })
-      }, 1500)
+      navigation.navigate('Home', { screen: 'Main' })
+      // setTimeout(() => {
+      //   navigation.navigate('Home', { screen: 'Main' })
+      // }, 1500)
     })
   }
 
