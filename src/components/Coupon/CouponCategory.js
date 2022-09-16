@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, Platform } from 'react-native'
 import React from 'react'
 import RNPickerSelect from 'react-native-picker-select'
 import BaseStyle from '../../styles/Base'
+import { couponCategories } from '../../data/coupon/couponCategories'
 
 const CouponCategory = ({ type, setType }) => {
   const customPickerStyles = StyleSheet.create({
@@ -36,11 +37,7 @@ const CouponCategory = ({ type, setType }) => {
       useNativeAndroidPickerStyle={false}
       placeholder={{ label: '선택해주세요.', value: null }}
       onValueChange={value => setType(value)}
-      items={[
-        { label: '모두 사용가능', value: '0' },
-        { label: '포장용 쿠폰', value: '1' },
-        { label: '배달용 쿠폰', value: '2' }
-      ]}
+      items={couponCategories}
       style={{
         ...customPickerStyles,
         borderWidth: 1,

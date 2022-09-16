@@ -21,6 +21,7 @@ import { isHigherException, isLowerException } from '../../modules/dateCheck'
 import { checkCouponValidate } from '../../modules/couponValidate'
 import CurrencyRateConversion from '../../modules/currencyRateConversion'
 import Categories from '../../components/Categories'
+import { couponCategories } from '../../data/coupon/couponCategories'
 
 const CouponAdd = props => {
   const { navigation, route } = props
@@ -194,11 +195,7 @@ const CouponAdd = props => {
               구분
             </Text>
             <Categories
-              selectCategory={couponType} setSelectCategory={setCouponType} items={[
-                { label: '모두 사용가능', value: '0' },
-                { label: '포장용 쿠폰', value: '1' },
-                { label: '배달용 쿠폰', value: '2' }
-              ]}
+              selectCategory={couponType} setSelectCategory={setCouponType} items={couponCategories}
             />
           </View>
           {/* // 구분 */}
