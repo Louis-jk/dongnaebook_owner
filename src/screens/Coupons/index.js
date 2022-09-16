@@ -245,7 +245,9 @@ const Coupon = props => {
                         ? Primary.PointColor02
                         : item.cz_type === '2'
                           ? Primary.PointColor01
-                          : Primary.PointColor03,
+                          : item.cz_type === '3'
+                            ? Primary.PointColor04
+                            : Primary.PointColor03,
                     borderRadius: 30,
                     paddingVertical: Platform.OS === 'android' ? 4 : 0,
                     paddingHorizontal: 8,
@@ -256,7 +258,7 @@ const Coupon = props => {
                   <Text
                     style={{ ...BaseStyle.ko12, color: item.cz_type === '0' ? '#222' : '#fff', marginBottom: Platform.OS === 'ios' ? 2 : 0 }}
                   >
-                    {item.cz_type === '1' ? '포장용' : item.cz_type === '2' ? '배달용' : '전체'}
+                    {item.cz_type === '1' ? '포장용' : item.cz_type === '2' ? '배달용' : item.cz_type === '3' ? '식사용' : '전체'}
                   </Text>
                 </View>
               </View>
