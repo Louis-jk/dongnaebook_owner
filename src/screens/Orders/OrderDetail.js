@@ -282,9 +282,9 @@ const OrderDetail = props => {
 
                   <Divider />
 
-                  {/* 배달 정보 리스트 */}
+                  {/* 주문 타입 및 정보 리스트 */}
                   <OrderedInfo detailOrder={detailOrder} />
-                  {/* // 배달 정보 리스트 */}
+                  {/* // 주문 타입 및 정보 리스트 */}
 
                   <Divider />
 
