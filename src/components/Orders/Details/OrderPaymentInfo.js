@@ -2,6 +2,8 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import BaseStyle from '../../../styles/Base'
 import Api from '../../../Api'
+import RowTable from './RowTable'
+import Types from '../../../data/order/types'
 
 const OrderPaymentInfo = props => {
   const { detailOrder } = props
@@ -20,66 +22,32 @@ const OrderPaymentInfo = props => {
       <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
         결제정보
       </Text>
-      <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-        <View style={{ width: '50%' }}>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-            총 주문금액
-          </Text>
-        </View>
-        <View>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, ...BaseStyle.lh17 }}>
-            {Api.comma(detailOrder.odder_cart_price)} 원
-          </Text>
-        </View>
-      </View>
-      <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-        <View style={{ width: '50%' }}>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-            배달팁
-          </Text>
-        </View>
-        <View>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, ...BaseStyle.lh17 }}>
-            {Api.comma(detailOrder.order_cost)} 원
-          </Text>
-        </View>
-      </View>
-      <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-        <View style={{ width: '50%' }}>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-            동네북 포인트
-          </Text>
-        </View>
-        <View>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, ...BaseStyle.lh17 }}>
-            {Api.comma(detailOrder.order_point)} p
-          </Text>
-        </View>
-      </View>
-      <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-        <View style={{ width: '50%' }}>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-            동네북 쿠폰 할인
-          </Text>
-        </View>
-        <View>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, ...BaseStyle.lh17 }}>
-            {Api.comma(detailOrder.order_coupon_ohjoo)} 원
-          </Text>
-        </View>
-      </View>
-      <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-        <View style={{ width: '50%' }}>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222, ...BaseStyle.lh17 }}>
-            상점 쿠폰 할인
-          </Text>
-        </View>
-        <View>
-          <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_333, ...BaseStyle.lh17 }}>
-            {Api.comma(detailOrder.order_coupon_store)} 원
-          </Text>
-        </View>
-      </View>
+      
+      <RowTable leftText='총 주문금액' rightText={`${Api.comma(detailOrder.odder_cart_price)} 원`} type='normal' />
+
+      {/* 배달 주문일 경우 */}
+      {detailOrder.od_type === Types[0].text &&
+        <RowTable leftText='배달팁' rightText={`${Api.comma(detailOrder.order_cost)} 원`} type='normal' />
+      }
+      {/* // 배달 주문일 경우 */}
+      
+      <RowTable leftText='포인트' rightText={`${Api.comma(detailOrder.order_point)} p`} type='normal' />
+      
+      {/* 포장 주문일 경우 */}
+      {detailOrder.od_type === Types[1].text &&
+        <RowTable leftText='포장 할인' rightText={`${Api.comma(detailOrder.order_take_out_discount)} 원`} type='normal' />
+      }
+      {/* // 포장 주문일 경우 */}
+
+      {/* 식사 주문일 경우 */}
+      {detailOrder.od_type === Types[2].text &&
+        <RowTable leftText='먹고가기 할인' rightText={`${Api.comma(detailOrder.order_for_here_discount)} 원`} type='normal' />
+      }
+      {/* // 식사 주문일 경우 */}
+
+      <RowTable leftText='상점 할인 쿠폰' rightText={`${Api.comma(detailOrder.order_coupon_store)} 원`} type='normal' />
+      <RowTable leftText='동네북 할인 쿠폰' rightText={`${Api.comma(detailOrder.order_coupon_system)} 원`} type='normal' />
+      
       <View
         style={{
           height: 1,
@@ -88,18 +56,8 @@ const OrderPaymentInfo = props => {
           ...BaseStyle.mb20
         }}
       />
-      <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
-        <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>총 결제금액</Text>
-        <Text style={{ ...BaseStyle.ko16, ...BaseStyle.font_bold }}>
-          {Api.comma(detailOrder.order_sumprice)} 원
-        </Text>
-      </View>
-      <View style={{ ...BaseStyle.container5 }}>
-        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>결제방법</Text>
-        <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>
-          {detailOrder.od_settle_case}
-        </Text>
-      </View>
+      <RowTable leftText='총 결제금액' rightText={`${Api.comma(detailOrder.order_sumprice)} 원`} type='bold' fontSize={16} />
+      <RowTable leftText='결제방법' rightText={detailOrder.od_settle_case} type='normal' />
     </View>
   )
 }

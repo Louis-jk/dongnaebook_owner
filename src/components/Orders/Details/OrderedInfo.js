@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Alert, Linking } from 'react-native'
 import BaseStyle from '../../../styles/Base'
 import Types from '../../../data/order/types'
 import Api from '../../../Api'
+import RowTable from './RowTable'
 
 const OrderedInfo = props => {
   const { detailOrder } = props
@@ -12,6 +13,8 @@ const OrderedInfo = props => {
       <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mb15 }}>
         {detailOrder.od_type} 정보
       </Text>
+
+      {/* 배달 주문 일 경우 - 배달주소 */}
       {detailOrder.od_type === Types[0].text &&
         <View
           style={{
@@ -24,7 +27,7 @@ const OrderedInfo = props => {
             <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>배달주소</Text>
           </View>
           <View style={{ marginTop: -2, width: '65%' }}>
-            <View style={{ ...BaseStyle.mb10 }}>
+            <View>
               <Text
                 style={{
                   ...BaseStyle.ko14,
@@ -35,16 +38,6 @@ const OrderedInfo = props => {
               >
                 {`${detailOrder.order_addr1} ${detailOrder.order_addr3 !== '' ? detailOrder.order_addr3 : ''}`}
               </Text>
-              {/* <Text
-                              style={{
-                                ...BaseStyle.ko14,
-                                ...BaseStyle.font_333,
-                                ...BaseStyle.lh17,
-                                textAlign: 'right'
-                              }}
-                            >
-                              {`${detailOrder.order_addr3}`}
-                            </Text> */}
             </View>
             {detailOrder.od_addr_jibeon !== '' &&
               <View style={{ ...BaseStyle.mb10 }}>
@@ -61,45 +54,21 @@ const OrderedInfo = props => {
               </View>}
           </View>
         </View>}
+      {/* // 배달 주문 일 경우 - 배달주소 */}
+
+      {/* 식사 주문 일 경우 */}
       {detailOrder.od_type === Types[2].text &&
-        <View
-          style={{
-            ...BaseStyle.container3,
-            justifyContent: 'space-between'
-          }}
-        >
-          <View style={{ width: '30%' }}>
-            <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>식사인원수</Text>
-          </View>
-          <View style={{ width: '65%' }}>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  ...BaseStyle.ko14,
-                  ...BaseStyle.font_333,
-                  ...BaseStyle.lh24,
-                  textAlign: 'right'
-                }}
-              >
-                {detailOrder.od_forhere_num !== '' ? detailOrder.od_forhere_num : '0'} 명
-              </Text>
-            </View>
-            {detailOrder.od_addr_jibeon !== '' &&
-              <View style={{ ...BaseStyle.mb10 }}>
-                <Text
-                  style={{
-                    ...BaseStyle.ko14,
-                    ...BaseStyle.font_333,
-                    ...BaseStyle.lh17,
-                    textAlign: 'right'
-                  }}
-                >
-                  {`${detailOrder.od_addr_jibeon}`}
-                </Text>
-              </View>}
-          </View>
-        </View>}
-      <View style={{ ...BaseStyle.container5, ...BaseStyle.mb10 }}>
+        <RowTable 
+          leftWidth='30%' 
+          rightWidth='65%' 
+          leftText='식사인원수' 
+          rightText={`${detailOrder.od_forhere_num !== '' ? detailOrder.od_forhere_num : '0'} 명`}
+          type='normal'
+        />
+      }
+      {/* // 식사 주문 일 경우 */}
+
+      <View style={{ ...BaseStyle.container5 }}>
         <View style={{ width: '30%' }}>
           <Text style={{ ...BaseStyle.ko14, ...BaseStyle.font_222 }}>전화번호</Text>
         </View>
