@@ -40,18 +40,6 @@ const Login = props => {
   const [temFcmToken, setTempFcmToken] = React.useState('')
   const [autoLogin, setAutoLogin] = React.useState(false) // 자동 로그인
 
-  // 버전 체크 - 구버전일 경우 팝업
-  // const [isVisibleNewVerInstallModal, setVisibleNewVerInstallModal]
-  // const requestNewVersionInstallModalHandler = () => {
-  //   setVisibleNewVerInstallModal(true)
-  // }
-
-  // useEffect(() => {
-  //   if(isNeedNewVersion) {
-  //     requestNewVersionInstallModalHandler()
-  //   }
-  // }, []);
-
   // 안드로이드 뒤로가기 버튼 제어
   let currentCount = 0
 
