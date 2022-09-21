@@ -31,32 +31,12 @@ const Check = props => {
   }
 
   VersionCheck.needUpdate()
-  .then(async res => {
-    console.log('res', res);
-    const {currentVersion} = res;
-    
-    // 현재 버전 서버 저장
-    // const param = {
-    //   encodeJson: true,
-    //   type: 'store'
-    // }
-
-    // Api.send('app_version', param, args => {
-    //   const resultItem = args.resultItem
-    //   const arrItems = args.arrItems
-
-    //   console.log('app_version resultItem', resultItem)
-    //   console.log('app_version arrItems', arrItems)
-    // })
-
-    console.log(res.isNeeded);    // true
-    
+  .then(async res => {    
     if (!res.isNeeded) {
       setNeedNewVersion(res.isNeeded)
       dispatch(verCheckAction.updateVersion(res.isNeeded))
       dispatch(verCheckAction.updateStoreUrl(res.storeUrl))
       navigation.navigate('Home', { screen: 'Login' })
-      // Linking.openURL(res.storeUrl);  // open store if update is needed.
       return;
     }
   });
@@ -80,11 +60,6 @@ const Check = props => {
       await AsyncStorage.setItem('@dongnaebookownerToken', jsonValue)
     } catch (err) {
       cusToast(`관리자에게 문의해주세요.\n오류:${err}`, 2500)
-      // Alert.alert(err, '관리자에게 문의하세요', [
-      //   {
-      //     text: '확인'
-      //   }
-      // ])
     }
   }
 
@@ -98,11 +73,6 @@ const Check = props => {
     Api.send('store_login', param, args => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
-
-      // console.log('====================================')
-      // console.log('로그인 resultItem ::', resultItem)
-      // console.log('로그인 arrItems ::', arrItems)
-      // console.log('====================================')
 
       if (resultItem.result === 'Y') {
         storeAddToken()
@@ -121,18 +91,14 @@ const Check = props => {
   //  Async Storage에 UserID, UserPwd가 있는지 확인(자동로그인의 경우)
   const getData = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem('@dongnaebookownerUser')
-      //   const jsonToken = await AsyncStorage.getItem('@dongnaebookownerToken');
-      if (jsonValue !== null) {
-        console.log('dongnaebookownerUser get ::', JSON.parse(jsonValue))
-        // console.log('dongnaebookownerToken get ::', JSON.parse(jsonToken));
 
+      const jsonValue = await AsyncStorage.getItem('@dongnaebookownerUser')
+
+      if (jsonValue !== null) {
         const UserInfo = JSON.parse(jsonValue)
         const uId = UserInfo.userId
         const uPwd = UserInfo.userPwd
         onLoginHandler(uId, uPwd)
-        // // 있다면 로그인API 호출 (UserID, UserPwd, FcmToken, Platform)
-        // login(uId, uPwd, token, device);
       } else {
         navigation.navigate('Home', { screen: 'Login' })
       }
@@ -153,7 +119,6 @@ const Check = props => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: Primary.PointColor03
         backgroundColor: '#fff'
       }}
     >
