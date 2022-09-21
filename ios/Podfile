@@ -15,6 +15,8 @@ target 'dongnaebookowner' do
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+  
+  pod 'react-native-version-check', :path => '../node_modules/react-native-version-check'
 
   target 'dongnaebookownerTests' do
     inherit! :complete
