@@ -1,18 +1,65 @@
 import * as React from 'react'
-import { View, Text, ActivityIndicator, Image } from 'react-native'
+import { View, Text, ActivityIndicator, Image, Linking, Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import VersionCheck from 'react-native-version-check'
 import messaging from '@react-native-firebase/messaging'
 import { CommonActions } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import * as loginAction from '../../redux/actions/loginAction'
+import * as verCheckAction from '../../redux/actions/verCheckAction'
 import BaseStyle from '../../styles/Base'
 import Api from '../../Api'
 import cusToast from '../../components/CusToast'
+
 
 const Check = props => {
   const { navigation } = props
   const dispatch = useDispatch()
   const [temFcmToken, setTempFcmToken] = React.useState('')
+  const [isNeedNewVersion, setNeedNewVersion] = React.useState(false)
+
+  VersionCheck.getCountry()
+  .then(country => console.log(country));  
+
+  if(Platform.OS === 'android') {
+    VersionCheck.getLatestVersion({
+      provider: 'playStore'  // for Android
+    })
+    .then(latestVersion => {
+      console.log('android latestVersion', latestVersion);    // 0.1.2
+    });
+  }
+
+  VersionCheck.needUpdate()
+  .then(async res => {
+    console.log('res', res);
+    const {currentVersion} = res;
+    
+    // 현재 버전 서버 저장
+    // const param = {
+    //   encodeJson: true,
+    //   type: 'store'
+    // }
+
+    // Api.send('app_version', param, args => {
+    //   const resultItem = args.resultItem
+    //   const arrItems = args.arrItems
+
+    //   console.log('app_version resultItem', resultItem)
+    //   console.log('app_version arrItems', arrItems)
+    // })
+
+    console.log(res.isNeeded);    // true
+    
+    if (!res.isNeeded) {
+      setNeedNewVersion(res.isNeeded)
+      dispatch(verCheckAction.updateVersion(res.isNeeded))
+      dispatch(verCheckAction.updateStoreUrl(res.storeUrl))
+      navigation.navigate('Home', { screen: 'Login' })
+      // Linking.openURL(res.storeUrl);  // open store if update is needed.
+      return;
+    }
+  });
 
   // FCM 토큰 가져오기
   const getTokenPlatformAPI = async () => {

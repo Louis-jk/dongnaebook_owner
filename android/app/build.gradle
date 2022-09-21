@@ -207,6 +207,8 @@ dependencies {
 
     implementation project(':react-native-pager-view') // tabView 구현 위해 paperView 패키지 설치 및 설정
 
+    implementation project(':react-native-version-check') // react-native-version-check 안드로이드 버전 체크
+
     // implementation project(':@react-native-community_datetimepicker') // 데이트픽커
 
     implementation project(':react-native-fs')

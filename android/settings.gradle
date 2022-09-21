@@ -21,3 +21,5 @@ project(':react-native-pager-view').projectDir = new File(rootProject.projectDir
 // project(':@react-native-community_datetimepicker').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/datetimepicker/android')
 include ':react-native-track-player'
 project(':react-native-track-player').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-track-player/android')
+include ':react-native-version-check'
+project(':react-native-version-check').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-version-check/android')

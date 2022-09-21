@@ -8,9 +8,11 @@ import * as regularHolidayAction from './regularHolidayAction'
 import * as storeTimeAction from './storeTimeAction'
 import * as closedDayAction from './closedDayAction'
 import * as orderAction from './orderAction'
+import * as verCheckAction from './verCheckAction'
 
 const ActionCreators = Object.assign(
   {},
+  verCheckAction,
   loginAction,
   idxAction,
   gpsAction,

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 
+import versionCheckReducer from './versionCheckReducer'
 import loginReducer from './loginReducer'
 import indexReducer from './indexReducer'
 import gpsReducer from './gpsReducer'
@@ -13,6 +14,7 @@ import closeDayReducer from './closeDayReducer'
 import orderReducer from './orderReducer'
 
 export default combineReducers({
+  verCheck: versionCheckReducer,
   login: loginReducer,
   index: indexReducer,
   gps: gpsReducer,

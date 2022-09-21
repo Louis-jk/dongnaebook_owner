@@ -17,6 +17,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.guichaguri.trackplayer.TrackPlayer;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import io.xogus.reactnative.versioncheck.RNVersionCheckPackage; // react-native-version-check 안드로이드 버전 체크
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -40,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
             new ReactNativePushNotificationPackage();
             new SplashScreenReactPackage();
             new TrackPlayer();
+            new RNVersionCheckPackage();
           return packages;
         }
 

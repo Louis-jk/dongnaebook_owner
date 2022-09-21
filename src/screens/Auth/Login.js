@@ -21,6 +21,7 @@ import BaseStyle from '../../styles/Base'
 import Api from '../../Api'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import VerCheckModal from '../../components/VerCheckModal'
 
 const { width, height } = Dimensions.get('window')
 const LOGIN_HEIGHT = Dimensions.get('window').height / 2.2
@@ -29,6 +30,7 @@ const Login = props => {
   const { navigation } = props
   const dispatch = useDispatch()
   const { fcmToken } = useSelector(state => state.login)
+  const { isNeedNewVersion, updateShortUrl } = useSelector(state => state.verCheck)
 
   const [userEmail, setUEmail] = React.useState('')
   const [userPwd, setUPwd] = React.useState('')
@@ -37,6 +39,18 @@ const Login = props => {
   const [isLoading, setLoading] = React.useState(false)
   const [temFcmToken, setTempFcmToken] = React.useState('')
   const [autoLogin, setAutoLogin] = React.useState(false) // 자동 로그인
+
+  // 버전 체크 - 구버전일 경우 팝업
+  // const [isVisibleNewVerInstallModal, setVisibleNewVerInstallModal]
+  // const requestNewVersionInstallModalHandler = () => {
+  //   setVisibleNewVerInstallModal(true)
+  // }
+
+  // useEffect(() => {
+  //   if(isNeedNewVersion) {
+  //     requestNewVersionInstallModalHandler()
+  //   }
+  // }, []);
 
   // 안드로이드 뒤로가기 버튼 제어
   let currentCount = 0
@@ -153,6 +167,13 @@ const Login = props => {
 
   return (
     <>
+      {isNeedNewVersion && 
+        <VerCheckModal
+        isVisible={isNeedNewVersion}
+        storeUrl={updateShortUrl}
+        />
+      }
+
       {isLoading && (
         <AnimateLoading description='로그인 중입니다.' />
       )}
