@@ -30,15 +30,6 @@ const OrderRequest = props => {
           rightText={detailOrder.order_officer ? detailOrder.order_officer : '요청사항이 없습니다.'} 
           type='normal'
         />
-
-        <RowTable 
-          leftWidth='50%' 
-          rightWidth='45%' 
-          leftText='일회용 수저, 포크 유무' 
-          rightText={detailOrder.od_no_spoon == '1' ? '필요없음' : '필요함'} 
-          type='normal'
-          marginBottom={0}
-        />
       </>
       }
     </View>
