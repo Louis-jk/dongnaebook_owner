@@ -21,6 +21,10 @@ const Check = props => {
   VersionCheck.getCountry()
   .then(country => console.log(country));  
 
+  // console.log(VersionCheck.getPackageName());        
+  // console.log(VersionCheck.getCurrentBuildNumber()); 
+  // console.log(VersionCheck.getCurrentVersion());     
+
   if(Platform.OS === 'android') {
     VersionCheck.getLatestVersion({
       provider: 'playStore'  // for Android
@@ -31,11 +35,14 @@ const Check = props => {
   }
 
   VersionCheck.needUpdate()
-  .then(async res => {    
-    if (!res.isNeeded) {
-      setNeedNewVersion(res.isNeeded)
-      dispatch(verCheckAction.updateVersion(res.isNeeded))
-      dispatch(verCheckAction.updateStoreUrl(res.storeUrl))
+  .then(async res => {  
+    // console.log('version check need update : ', res);  
+    
+    setNeedNewVersion(res.isNeeded)
+    dispatch(verCheckAction.updateVersion(res.isNeeded))
+    dispatch(verCheckAction.updateStoreUrl(res.storeUrl))
+
+    if (res.isNeeded) {
       navigation.navigate('Home', { screen: 'Login' })
       return;
     }
