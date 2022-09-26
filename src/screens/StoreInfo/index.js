@@ -18,6 +18,7 @@ import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
 import cusToast from '../../components/CusToast'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
+import { pickGalleryImage } from '../../modules/imagePickerOrCamera'
 
 const MAIN_IMAGE_THUMB_WIDTH = (Dimensions.get('window').width - 40) / 5 - 4
 
@@ -41,6 +42,10 @@ const StoreInfo = props => {
   const [detailImgs03, setDetailImgs03] = React.useState('') // base64 대표이미지03
   const [detailImgs04, setDetailImgs04] = React.useState('') // base64 대표이미지04
   const [detailImgs05, setDetailImgs05] = React.useState('') // base64 대표이미지05
+
+  const [storeLogoChange, setStoreLogoChange] = React.useState(false); // 로고 이미지 변경 사항 0: 변경없음 | 1 : 변경
+  const [storeLogoFileObj, setStoreLogoFileObj] = React.useState(''); // 로고 이미지 파일 객체
+  const [storeLogo, setStoreLogo] = React.useState(''); // 로고 이미지
 
   const [isLoading, setLoading] = React.useState(true)
 
@@ -81,6 +86,10 @@ const StoreInfo = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
+      console.log('====================================');
+      console.log('store guide arrItems ?', arrItems);
+      console.log('====================================');
+
       if (resultItem.result === 'Y') {
         setStoreInit(true)
         setInfo({
@@ -118,7 +127,7 @@ const StoreInfo = props => {
           do_jumju_menu_info: null,
           do_major_menu: null,
           do_jumju_origin: null,
-          do_jumju_origin_use: null,
+        do_jumju_origin_use: null,
           do_take_out: null,
           do_coupon_use: null,
           do_delivery_guide: null,
@@ -131,6 +140,7 @@ const StoreInfo = props => {
         })
       }
 
+      setStoreLogo(arrItems.mt_icon)
       setLoading(false)
     })
   }
@@ -153,6 +163,7 @@ const StoreInfo = props => {
   }, [])
 
   const onSubmitStoreInfo = () => {
+
     const data = {
       mode: 'insert',
       encodeJson: true,
@@ -170,7 +181,9 @@ const StoreInfo = props => {
       do_cooking_time: info.do_cooking_time,
       do_end_state: info.do_end_state,
       mt_sound: info.mt_sound,
-      mb_one_saving: info.mb_one_saving
+      mb_one_saving: info.mb_one_saving,
+      mb_icon: storeLogoChange ? storeLogoFileObj : null,
+      mb_icon_del : storeLogoChange ? 1 : 0
     }
 
     Api.send('store_guide_update', data, args => {
@@ -190,6 +203,7 @@ const StoreInfo = props => {
   const originRef = React.useRef(null) // 원산지안내 ref
 
   const onModifyStoreInfo = () => {
+
     if (info.do_jumju_introduction === null || info.do_jumju_introduction === '') {
       cusToast('매장 소개를 입력해주세요.', 1500, 'top')
       // introduceRef.current.focus()
@@ -223,7 +237,8 @@ const StoreInfo = props => {
         rt_img_del2: detailImgs02 !== '' ? 0 : 1,
         rt_img_del3: detailImgs03 !== '' ? 0 : 1,
         rt_img_del4: detailImgs04 !== '' ? 0 : 1,
-        rt_img_del5: detailImgs05 !== '' ? 0 : 1
+        rt_img_del5: detailImgs05 !== '' ? 0 : 1,
+        mb_icon_del : storeLogoChange ? 1 : 0
       }
 
       // 대표 이미지가 있을 경우
@@ -232,7 +247,8 @@ const StoreInfo = props => {
         rt_img2: fileImgs02 !== null ? fileImgs02 : '',
         rt_img3: fileImgs03 !== null ? fileImgs03 : '',
         rt_img4: fileImgs04 !== null ? fileImgs04 : '',
-        rt_img5: fileImgs05 !== null ? fileImgs05 : ''
+        rt_img5: fileImgs05 !== null ? fileImgs05 : '',
+        mb_icon: storeLogoChange ? storeLogoFileObj : null,        
       }
 
       Api.send3('store_guide_update', data, params2, args => {
@@ -415,13 +431,6 @@ const StoreInfo = props => {
     return (
       <View style={{ position: 'relative' }}>
         <Image
-          // source={
-          //   showDefault
-          //     ? require('../../images/loading_image.png')
-          //     : imageError
-          //       ? require('../../images/error_image.png')
-          //       : { uri: `${imgPath}` }
-          // }
           source={{ uri: `${imgPath}` }}
           style={{
             width: MAIN_IMAGE_THUMB_WIDTH,
@@ -477,6 +486,12 @@ const StoreInfo = props => {
         <Text style={{ ...BaseStyle.ko24, color: '#aaa', marginTop: Platform.OS === 'ios' ? -5 : 0 }}>+</Text>
       </TouchableOpacity>
     )
+  }
+
+  // 이미지 업로드 핸들러
+  const pickImageHandler = () => {
+    setStoreLogoChange(true)
+    pickGalleryImage(setStoreLogoFileObj, setStoreLogo, 300)
   }
 
   return (
@@ -584,6 +599,77 @@ const StoreInfo = props => {
                 <Text style={{ ...BaseStyle.ko12, color: Primary.PointColor02, ...BaseStyle.mb20 }}>
                   ※ 표시는 필수 입력란 입니다.
                 </Text>
+
+                {/* 로고 설정 */}
+                <View style={{ ...BaseStyle.container3 }}>
+                  <Text style={{ ...BaseStyle.ko15, ...BaseStyle.font_bold, ...BaseStyle.mr10 }}>
+                    로고 설정
+                  </Text>
+                </View>
+                
+                <View
+                  style={{
+                    position: 'relative',
+                    width: 100,
+                    height: 100,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    ...BaseStyle.mv10,
+                    ...BaseStyle.mb20
+                  }}
+                >
+                  {storeLogo !== '' && 
+                    <>
+                      <Image source={{ uri: `${storeLogo}` }} style={{ width: '100%', height: '100%', borderWidth: 1, borderColor: '#ececec', borderRadius: 5 }} resizeMode='cover' />
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => setStoreLogo('')}
+                        hitSlop={{top: 10, right: 10, bottom: 10, left: 10}}
+                        style={{
+                          position: 'absolute',
+                          top: 2,
+                          right: 2,
+                          width: 20,
+                          height: 20,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: '#222',
+                          borderRadius: 30
+                        }}
+                      >
+                        <Image
+                          source={require('../../images/close_wh.png')}
+                          style={{
+                            width: 10,
+                            height: 10
+                          }}
+                          resizeMode={Platform.OS === 'ios' ? 'contain' : 'center'}
+                        />
+                      </TouchableOpacity>
+                    </>
+                  }
+
+                  {!storeLogo && 
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={pickImageHandler}
+                      style={{
+                        width: '100%', 
+                        height: '100%',
+                        borderRadius: 5,
+                        backgroundColor: '#ececec',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Text style={{ ...BaseStyle.ko24, color: '#aaa', marginTop: Platform.OS === 'ios' ? -5 : 0 }}>+</Text>
+                    </TouchableOpacity>
+                  }
+                </View>
+                
+                {/* // 로고 설정 */}
 
                 {/* 대표 이미지 설정 */}
                 <View style={{ ...BaseStyle.container3 }}>
