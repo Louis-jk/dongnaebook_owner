@@ -42,9 +42,7 @@ const DeliveryConfirmationModal = ({
       }
 
       navigation.navigate('Home', { screen: 'Main' })
-      // setTimeout(() => {
-      //   navigation.navigate('Home', { screen: 'Main' })
-      // }, 1500)
+      
     })
   }
 
@@ -52,7 +50,6 @@ const DeliveryConfirmationModal = ({
     <View>
       <Modal
         isVisible={isModalVisible}
-        // onBackdropPress={closeModal}
         transparent
         statusBarTranslucent={false}
         style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
@@ -96,9 +93,6 @@ const DeliveryConfirmationModal = ({
           <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20 }}>
             <TouchableOpacity
               activeOpacity={1}
-              // onPress={() => {
-              //   debounce(closeModal, 500)
-              // }}
               onPress={closeModal}
               style={{ flex: 1, ...BaseStyle.pv15, backgroundColor: Primary.PointColor03, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}
             >
@@ -106,25 +100,10 @@ const DeliveryConfirmationModal = ({
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={1}
-              // onPress={sendDeliverHandler}
               onPress={() => {
-                closeModal();
-
-                let clickable = true;
-
-                if(clickable) {
-                  sendDeliverHandler()
-                  clickable = false;
-
-                  setTimeout(() => {
-                    clickable = true;
-                  }, 10000)
-                }
+                closeModal()
+                sendDeliverHandler()
               }}
-              // onPress={() => {
-              //   closeModal()
-              //   sendDeliverHandler()
-              // }}
               style={{
                 flex: 1,
                 ...BaseStyle.pv15,

@@ -73,24 +73,19 @@ const OrderCheckModal = ({
       param.visit_time = time
     }
 
-    // proc_store_order_status_update
     Api.send('store_order_status_update', param, args => {
       const resultItem = args.resultItem
-      // const arrItems = args.arrItems
-
+      
       if (resultItem.result === 'Y') {
         cusToast('주문을 접수하였습니다.')
       } else {
         cusToast('주문 접수중 오류가 발생하였습니다.\n다시 한번 시도해주세요.')
       }
 
-      getOrderListHandler()
-      // closeModal()
+      getOrderListHandler()      
 
       navigation.navigate('Home', { screen: 'Main' })
-      // setTimeout(() => {
-      //   navigation.navigate('Home', { screen: 'Main' })
-      // }, 1500)
+      
     })
   }
 

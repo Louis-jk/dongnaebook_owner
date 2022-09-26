@@ -106,8 +106,7 @@ const OrderRejectCancelModal = props => {
 
     Api.send('store_order_cancle', param, args => {
       const resultItem = args.resultItem
-      // const arrItems = args.arrItems
-
+      
       getOrderListHandler()
 
       if (resultItem.result === 'Y') {
@@ -117,9 +116,7 @@ const OrderRejectCancelModal = props => {
       }
 
       navigation.navigate('Home', { screen: 'Main' })
-      // setTimeout(() => {
-      //   navigation.navigate('Home', { screen: 'Main' })
-      // }, 1500)
+      
     })
   }
 
@@ -150,9 +147,6 @@ const OrderRejectCancelModal = props => {
     Api.send('store_order_list', param, args => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
-
-      // console.log('리스트 가져와지나?', resultItem)
-      // console.log('리스트 가져와지나?', arrItems)
 
       if (resultItem.result === 'Y') {
         dispatch(orderAction.updateCheckOrder(JSON.stringify(arrItems)))
@@ -191,12 +185,11 @@ const OrderRejectCancelModal = props => {
       od_id: orderId,
       od_cancle_memo: filteredText
     }
-    // console.log('주문 취소 param', param)
+    
 
     Api.send('store_order_cancle', param, args => {
       const resultItem = args.resultItem
-      // const arrItems = args.arrItems
-
+      
       getOrderListHandler02()
 
       if (resultItem.result === 'Y') {
@@ -206,9 +199,7 @@ const OrderRejectCancelModal = props => {
       }
 
       navigation.navigate('Home', { screen: 'Main' })
-      // setTimeout(() => {
-      //   navigation.navigate('Home', { screen: 'Main' })
-      // }, 1500)
+      
     })
   }
 
@@ -230,7 +221,6 @@ const OrderRejectCancelModal = props => {
     <View>
       <Modal
         isVisible={isModalVisible}
-        // onBackdropPress={closeModal}
         transparent
         statusBarTranslucent
         style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}

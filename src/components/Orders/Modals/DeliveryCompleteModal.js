@@ -29,8 +29,6 @@ const DeliveryCompleteModal = ({
       od_process_status: '배달완료'
     }
 
-    // console.log('배달완료 param', param)
-
     Api.send('store_order_status_update', param, args => {
       const resultItem = args.resultItem
 
@@ -44,9 +42,7 @@ const DeliveryCompleteModal = ({
       }
 
       navigation.navigate('Home', { screen: 'Main' })
-      // setTimeout(() => {
-      //   navigation.navigate('Home', { screen: 'Main' })
-      // }, 1500)
+      
     })
   }
 
@@ -54,7 +50,6 @@ const DeliveryCompleteModal = ({
     <View>
       <Modal
         isVisible={isModalVisible}
-        // onBackdropPress={closeModal}
         transparent
         statusBarTranslucent={false}
         style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
