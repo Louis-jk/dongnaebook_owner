@@ -236,6 +236,7 @@ const Login = props => {
                   testID='loginId'
                   value={userEmail}
                   placeholder='아이디를 입력하세요'
+                  placeholderTextColor='#cccccc'
                   style={{
                     ...BaseStyle.inputH,
                     ...BaseStyle.ph20
@@ -256,6 +257,7 @@ const Login = props => {
                   ref={userPwdRef}
                   value={userPwd}
                   placeholder='비밀번호를 입력하세요'
+                  placeholderTextColor='#cccccc'
                   style={{
                     ...BaseStyle.inputH,
                     ...BaseStyle.ph20
