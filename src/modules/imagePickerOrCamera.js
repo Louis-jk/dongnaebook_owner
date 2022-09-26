@@ -29,6 +29,7 @@ export const pickGalleryImage = (setSource, setMenuImage, width = 400) => {
     .catch(e => console.log(e))
 }
 
+
 // 카메라 촬영
 export const takeCamera = (setSource, setMenuImage) => {
   ImagePicker.openCamera({
