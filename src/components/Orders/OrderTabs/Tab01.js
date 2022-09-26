@@ -38,11 +38,17 @@ const Tab01 = props => {
     setModalType(payload)
     setModalVisible(!isModalVisible)
   }
+  const closeOrderRejectModal = () => {
+    setModalVisible(false);
+  }
 
   // 주문 접수
   const [isOrderCheckModalVisible, setOrderCheckModalVisible] = React.useState(false)
   const toggleOrderCheckModal = () => {
     setOrderCheckModalVisible(!isOrderCheckModalVisible)
+  }
+  const closeOrderCheckModal = () => {
+    setOrderCheckModalVisible(false)
   }
 
   function handleLoadMore () {
@@ -73,7 +79,7 @@ const Tab01 = props => {
           {orders && orders.length > 0 && (
             <OrderCheckModal
               isModalVisible={isOrderCheckModalVisible}
-              toggleModal={toggleOrderCheckModal}
+              closeModal={closeOrderCheckModal}
               oderId={orderId}
               orderType={orderType}
               navigation={navigation}
@@ -85,7 +91,7 @@ const Tab01 = props => {
           <OrderRejectCancelModal
             navigation={navigation}
             isModalVisible={isModalVisible}
-            toggleModal={toggleModal}
+            closeModal={closeOrderRejectModal}
             modalType={modalType}
             orderId={orderId}
             jumjuId={jumjuId}

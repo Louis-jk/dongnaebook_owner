@@ -94,6 +94,9 @@ const OrderDetail = props => {
     setModalType(payload)
     setModalVisible(!isModalVisible)
   }
+  const closeOrderRejectModal = () => {
+    setModalVisible(false)
+  }
 
   // 제목 설정
   const [title, setTitle] = React.useState('')
@@ -127,16 +130,18 @@ const OrderDetail = props => {
   }, [type])
 
   // 주문 접수
-  const [isOrderCheckModalVisible, setOrderCheckModalVisible] = React.useState(false)
-  const toggleOrderCheckModal = () => {
-    setOrderCheckModalVisible(!isOrderCheckModalVisible)
+  const [isOrderCheckModalVisible, setOrderCheckModalVisible] = React.useState(false)  
+  const openOrderCheckModal = () => {
+    setOrderCheckModalVisible(true)
+  }
+  const closeOrderCheckModal = () => {
+    setOrderCheckModalVisible(false)
   }
 
   // 배달처리 모달 핸들러
   const [isDeliveryConfirmModalVisible, setDeliveryConfirmModalVisible] = React.useState(false)
-
-  const toggleDeliveryConfirmModal = () => {
-    setDeliveryConfirmModalVisible(!isDeliveryConfirmModalVisible)
+  const closeDeliveryConfirmModal = () => {
+    setDeliveryConfirmModalVisible(false)
   }
 
   function deliveryOrderHandler () {
@@ -144,10 +149,9 @@ const OrderDetail = props => {
   }
 
   // 배달완료 처리 모달 핸들러
-  const [isDeliveryCompleteModalVisible, setDeliveryCompleteModalVisible] = React.useState(false)
-
-  const toggleDeliveryCompleteModal = () => {
-    setDeliveryCompleteModalVisible(!isDeliveryCompleteModalVisible)
+  const [isDeliveryCompleteModalVisible, setDeliveryCompleteModalVisible] = React.useState(false)  
+  const closeDeliveryCompleteModal = () => {
+    setDeliveryCompleteModalVisible(false)
   }
 
   function deliveryCompleteHandler () {
@@ -167,7 +171,7 @@ const OrderDetail = props => {
               {/* 접수 완료시 모달 */}
               <OrderCheckModal
                 isModalVisible={isOrderCheckModalVisible}
-                toggleModal={toggleOrderCheckModal}
+                closeModal={closeOrderCheckModal}
                 oderId={orderId}
                 orderType={detailOrder.od_type}
                 navigation={navigation}
@@ -179,7 +183,7 @@ const OrderDetail = props => {
               {/* 배달 | 포장 처리 모달 */}
               <DeliveryConfirmationModal
                 isModalVisible={isDeliveryConfirmModalVisible}
-                toggleModal={toggleDeliveryConfirmModal}
+                closeModal={closeDeliveryConfirmModal}
                 orderType={detailOrder.od_type}
                 oderId={orderId}
                 jumjuId={jumjuId}
@@ -191,7 +195,7 @@ const OrderDetail = props => {
               {/* 배달 완료 처리 모달 */}
               <DeliveryCompleteModal
                 isModalVisible={isDeliveryCompleteModalVisible}
-                toggleModal={toggleDeliveryCompleteModal}
+                closeModal={closeDeliveryCompleteModal}
                 orderId={orderId}
                 jumjuId={jumjuId}
                 jumjuCode={jumjuCode}
@@ -203,7 +207,7 @@ const OrderDetail = props => {
               <OrderRejectCancelModal
                 navigation={navigation}
                 isModalVisible={isModalVisible}
-                toggleModal={toggleModal}
+                closeModal={closeOrderRejectModal}
                 modalType={modalType}
                 orderId={orderId}
                 jumjuId={jumjuId}
@@ -324,7 +328,7 @@ const OrderDetail = props => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     activeOpacity={1}
-                    onPress={toggleOrderCheckModal}
+                    onPress={openOrderCheckModal}
                     style={{
                       backgroundColor: detailOrder.od_type === Types[0].text ? Types[0].color : detailOrder.od_type === Types[1].text ? Types[1].color : Types[2].color,
                       width: '50%',

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Text, TouchableOpacity, TextInput, Image, Platform } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, Image, Platform, Alert } from 'react-native'
 import Modal from 'react-native-modal'
 import { useSelector, useDispatch } from 'react-redux'
 import BaseStyle, { Primary } from '../../../styles/Base'
@@ -12,7 +12,7 @@ import Steps from '../../../data/order/steps'
 
 const OrderCheckModal = ({
   isModalVisible,
-  toggleModal,
+  closeModal,
   oderId,
   orderType,
   navigation,
@@ -27,6 +27,7 @@ const OrderCheckModal = ({
   const [time02, setTime02] = React.useState('') // 포장 시간 직접 입력
   const [time03, setTime03] = React.useState('') // 식사 시간 직접 입력
   const deliveryTimeRef = React.useRef(null)
+
   const { mt_id: mtId, mt_jumju_code: mtJumjuCode } = useSelector(state => state.login)
   const dispatch = useDispatch()
 
@@ -52,7 +53,10 @@ const OrderCheckModal = ({
     })
   }
 
-  const checkOrderHandler = () => {
+  const checkOrderHandler = (type, time) => {
+
+    closeModal()
+    
     const param = {
       encodeJson: true,
       od_id: oderId,
@@ -61,16 +65,12 @@ const OrderCheckModal = ({
       od_process_status: Steps[1]
     }
 
-    if (orderType === Types[0].text) {
-      param.delivery_time = isTimeSelected ? time01Selcet : time01
+    if (type === Types[0].text) {
+      param.delivery_time = time
     }
 
-    if (orderType === Types[1].text) {
-      param.visit_time = isTimeSelected ? time02Selcet : time02
-    }
-
-    if (orderType === Types[2].text) {
-      param.visit_time = isTimeSelected ? time03Selcet : time03
+    if (type === Types[1].text || type === Types[2].text) {
+      param.visit_time = time
     }
 
     // proc_store_order_status_update
@@ -85,7 +85,7 @@ const OrderCheckModal = ({
       }
 
       getOrderListHandler()
-      toggleModal()
+      // closeModal()
 
       navigation.navigate('Home', { screen: 'Main' })
       // setTimeout(() => {
@@ -94,12 +94,98 @@ const OrderCheckModal = ({
     })
   }
 
+  const checkValidate = () => {
+
+    let time = '';
+
+    if (orderType === Types[0].text) {
+      if(isTimeSelected) {
+        if(time01Selcet !== '') {
+          time = time01Selcet
+        } else {
+          Alert.alert('시간을 선택해주세요.', '', [
+            {
+              text: '확인'
+            }
+          ])
+          return;
+        }
+      } else {
+        if(time01 !== '') {
+          time = time01
+        } else {
+          Alert.alert('시간을 지정 또는 입력해주세요.', '', [
+            {
+              text: '확인'
+            }
+          ])
+          return;
+        }
+      }
+    }
+    
+    if (orderType === Types[1].text) {
+      if(isTimeSelected) {
+        if(time02Selcet !== '') {
+          time = time02Selcet
+        } else {
+          Alert.alert('시간을 선택해주세요.', '', [
+            {
+              text: '확인'
+            }
+          ])
+          return;
+        }
+      } else {
+        if(time02 !== '') {
+          time = time02
+        } else {
+          Alert.alert('시간을 지정 또는 입력해주세요.', '', [
+            {
+              text: '확인'
+            }
+          ])
+          return;
+        }
+      }
+    }
+
+    if (orderType === Types[2].text) {
+      if(isTimeSelected) {
+        if(time03Selcet !== '') {
+          time = time03Selcet
+        } else {
+          Alert.alert('시간을 선택해주세요.', '', [
+            {
+              text: '확인'
+            }
+          ])
+          return;
+        }
+      } else {
+        if(time03 !== '') {
+          time = time03
+        } else {
+          Alert.alert('시간을 지정 또는 입력해주세요.', '', [
+            {
+              text: '확인'
+            }
+          ])
+          return;
+        }
+      }
+    }
+
+    checkOrderHandler(orderType, time)
+  }
+
+
   return (
     <View>
       {/* 주문 접수 모달 */}
       <Modal
         isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
+        // onBackdropPress={closeModal}
         transparent
         statusBarTranslucent={false}
         style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
@@ -118,7 +204,7 @@ const OrderCheckModal = ({
         >
           <TouchableOpacity
             activeOpacity={1}
-            onPress={toggleModal}
+            onPress={closeModal}
             hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             style={{
               position: 'absolute',
@@ -275,7 +361,7 @@ const OrderCheckModal = ({
           <View style={{ ...BaseStyle.container, ...BaseStyle.mt20, ...BaseStyle.ph30 }}>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={checkOrderHandler}
+              onPress={checkValidate}
               style={{
                 ...BaseStyle.mainBtn,
                 flex: 1,

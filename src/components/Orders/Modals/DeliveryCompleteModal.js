@@ -10,7 +10,7 @@ import Steps from '../../../data/order/steps'
 
 const DeliveryCompleteModal = ({
   isModalVisible,
-  toggleModal,
+  closeModal,
   orderId,
   jumjuId,
   jumjuCode,
@@ -20,6 +20,8 @@ const DeliveryCompleteModal = ({
 
   // 배달완료 처리
   const sendDeliverHandler = () => {
+    closeModal()
+
     const param = {
       od_id: orderId,
       jumju_id: jumjuId,
@@ -34,8 +36,7 @@ const DeliveryCompleteModal = ({
 
       dispatch(orderAction.initDeliveryOrderLimit(5))
       dispatch(orderAction.getDeliveryOrder())
-      toggleModal()
-
+      
       if (resultItem.result === 'Y') {
         cusToast('주문을 배달완료 처리하였습니다.')
       } else {
@@ -53,7 +54,7 @@ const DeliveryCompleteModal = ({
     <View>
       <Modal
         isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
+        // onBackdropPress={closeModal}
         transparent
         statusBarTranslucent={false}
         style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
@@ -72,7 +73,7 @@ const DeliveryCompleteModal = ({
         >
           <TouchableOpacity
             activeOpacity={1}
-            onPress={toggleModal}
+            onPress={closeModal}
             hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             style={{
               position: 'absolute',
@@ -97,7 +98,7 @@ const DeliveryCompleteModal = ({
           <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20 }}>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={toggleModal}
+              onPress={closeModal}
               style={{ flex: 1, ...BaseStyle.pv15, backgroundColor: Primary.PointColor03, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}
             >
               <Text style={{ textAlign: 'center', ...BaseStyle.ko14 }}>취소</Text>

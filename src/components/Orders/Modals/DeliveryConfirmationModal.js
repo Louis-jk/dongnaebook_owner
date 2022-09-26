@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, Platform } from 'react-native'
-import React from 'react'
+import * as React from 'react'
 import Modal from 'react-native-modal'
 import Api from '../../../Api'
 import BaseStyle, { Primary } from '../../../styles/Base'
@@ -8,9 +8,10 @@ import { useDispatch } from 'react-redux'
 import * as orderAction from '../../../redux/actions/orderAction'
 import Types from '../../../data/order/types'
 
+
 const DeliveryConfirmationModal = ({
   isModalVisible,
-  toggleModal,
+  closeModal,
   orderType,
   oderId,
   jumjuId,
@@ -33,7 +34,6 @@ const DeliveryConfirmationModal = ({
 
       dispatch(orderAction.initCheckOrderLimit(5))
       dispatch(orderAction.getCheckOrder())
-      toggleModal()
 
       if (resultItem.result === 'Y') {
         cusToast(`주문을 ${orderType === Types[0].text ? '배달' : orderType === Types[1].text ? '포장완료' : '식사완료'} 처리하였습니다.`)
@@ -52,7 +52,7 @@ const DeliveryConfirmationModal = ({
     <View>
       <Modal
         isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
+        // onBackdropPress={closeModal}
         transparent
         statusBarTranslucent={false}
         style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
@@ -71,7 +71,7 @@ const DeliveryConfirmationModal = ({
         >
           <TouchableOpacity
             activeOpacity={1}
-            onPress={toggleModal}
+            onPress={closeModal}
             hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             style={{
               position: 'absolute',
@@ -96,14 +96,35 @@ const DeliveryConfirmationModal = ({
           <View style={{ ...BaseStyle.container5, ...BaseStyle.ph20 }}>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={toggleModal}
+              // onPress={() => {
+              //   debounce(closeModal, 500)
+              // }}
+              onPress={closeModal}
               style={{ flex: 1, ...BaseStyle.pv15, backgroundColor: Primary.PointColor03, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}
             >
               <Text style={{ textAlign: 'center', ...BaseStyle.ko14 }}>취소</Text>
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={sendDeliverHandler}
+              // onPress={sendDeliverHandler}
+              onPress={() => {
+                closeModal();
+
+                let clickable = true;
+
+                if(clickable) {
+                  sendDeliverHandler()
+                  clickable = false;
+
+                  setTimeout(() => {
+                    clickable = true;
+                  }, 10000)
+                }
+              }}
+              // onPress={() => {
+              //   closeModal()
+              //   sendDeliverHandler()
+              // }}
               style={{
                 flex: 1,
                 ...BaseStyle.pv15,

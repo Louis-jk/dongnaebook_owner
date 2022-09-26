@@ -22,7 +22,7 @@ const OrderRejectCancelModal = props => {
   const {
     navigation,
     isModalVisible,
-    toggleModal,
+    closeModal,
     modalType,
     orderId,
     jumjuId,
@@ -125,7 +125,7 @@ const OrderRejectCancelModal = props => {
 
   // 주문 거부 API 붙이시면 됩니다.
   const rejectConfirmHandler = () => {
-    toggleModal()
+    closeModal()
     Alert.alert('주문을 정말 거부하시겠습니까?', '거부하신 주문은 복구하실 수 없습니다.', [
       {
         text: '아니요'
@@ -214,7 +214,7 @@ const OrderRejectCancelModal = props => {
 
   // 주문 취소 API 붙이시면 됩니다.
   const cancelConfirmHandler = () => {
-    toggleModal()
+    closeModal()
     Alert.alert('주문을 정말 취소하시겠습니까?', '취소하신 주문은 복구하실 수 없습니다.', [
       {
         text: '네 취소할게요',
@@ -230,7 +230,7 @@ const OrderRejectCancelModal = props => {
     <View>
       <Modal
         isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
+        // onBackdropPress={closeModal}
         transparent
         statusBarTranslucent
         style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
@@ -259,7 +259,7 @@ const OrderRejectCancelModal = props => {
             </Text>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={toggleModal}
+              onPress={closeModal}
               style={{ position: 'absolute', top: 20, right: 20 }}
               hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             >
@@ -299,8 +299,8 @@ const OrderRejectCancelModal = props => {
                     width: '48%',
                     height: 55,
                     ...BaseStyle.mb10,
-                    marginRight: index % 2 === 0 ? '2%' : 0,
-                    marginLeft: index % 2 === 1 ? '2%' : 0
+                    marginRight: index % 2 === 0 ? '1%' : 0,
+                    marginLeft: index % 2 === 1 ? '1%' : 0
                   }}
                 >
                   <Text
@@ -335,8 +335,8 @@ const OrderRejectCancelModal = props => {
                     width: '48%',
                     height: 55,
                     ...BaseStyle.mb10,
-                    marginRight: index % 2 === 0 ? '2%' : 0,
-                    marginLeft: index % 2 === 1 ? '2%' : 0
+                    marginRight: index % 2 === 0 ? '1%' : 0,
+                    marginLeft: index % 2 === 1 ? '1%' : 0
                   }}
                 >
                   <Text

@@ -39,9 +39,9 @@ const Tab02 = props => {
   const [currentJumjuId, setCurrentJumjuId] = React.useState('')
   const [currentJumjuCode, setCurrentJumjuCode] = React.useState('')
   const [isDeliveryConfirmModalVisible, setDeliveryConfirmModalVisible] = React.useState(false)
-
-  const toggleDeliveryConfirmModal = () => {
-    setDeliveryConfirmModalVisible(!isDeliveryConfirmModalVisible)
+  
+  const closeModal = () => {
+    setDeliveryConfirmModalVisible(false)
   }
 
   const deliveryOrderHandler = (type, orderId, jumjuId, jumjuCode) => {
@@ -59,6 +59,9 @@ const Tab02 = props => {
   const toggleModal = payload => {
     setModalType(payload)
     setModalVisible(!isModalVisible)
+  }
+  const closeOrderRejectModal = () => {
+    setModalVisible(false)
   }
 
   function handleLoadMore () {
@@ -90,7 +93,7 @@ const Tab02 = props => {
           <OrderRejectCancelModal
             navigation={navigation}
             isModalVisible={isModalVisible}
-            toggleModal={toggleModal}
+            closeModal={closeOrderRejectModal}
             modalType={modalType}
             orderId={orderId}
             jumjuId={jumjuId}
@@ -100,7 +103,7 @@ const Tab02 = props => {
 
           <DeliveryConfirmationModal
             isModalVisible={isDeliveryConfirmModalVisible}
-            toggleModal={toggleDeliveryConfirmModal}
+            closeModal={closeModal}
             orderType={currentOrderType}
             oderId={currentOrderId}
             jumjuId={currentJumjuId}

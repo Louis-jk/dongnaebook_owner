@@ -51,8 +51,8 @@ const Tab03 = props => {
     dispatch(orderAction.getDeliveryOrder())
   }
 
-  function toggleDeliveryCompleteModal () {
-    setDeliveryCompleteModalVisible(!isDeliveryCompleteModalVisible)
+  const closeModal = () => {
+    setDeliveryCompleteModalVisible(false)
   }
 
   const deliveryOrderHandler = () => {
@@ -68,7 +68,7 @@ const Tab03 = props => {
 
           <DeliveryCompleteModal
             isModalVisible={isDeliveryCompleteModalVisible}
-            toggleModal={toggleDeliveryCompleteModal}
+            closeModal={closeModal}
             orderId={orderId}
             jumjuId={jumjuId}
             jumjuCode={jumjuCode}
