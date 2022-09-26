@@ -254,25 +254,7 @@ const StoreSetting = props => {
                       />
                       <Text style={{ ...BaseStyle.ko14 }}>2회 울림</Text>
                     </TouchableOpacity>
-
-                    {/* <TouchableOpacity
-                      activeOpacity={1}
-                      onPress={() => setSetting({ ...setting, mt_sound: '7' })}
-                      hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                      style={{ ...BaseStyle.container, ...BaseStyle.mr10 }}
-                    >
-                      <Image
-                        source={
-                      setting.mt_sound === '7'
-                        ? require('../../images/ic_check_on.png')
-                        : require('../../images/ic_check_off.png')
-                    }
-                        style={{ width: 20, height: 20, ...BaseStyle.mr5 }}
-                        resizeMode='contain'
-                        fadeDuration={100}
-                      />
-                      <Text style={{ ...BaseStyle.ko14 }}>7회 울림</Text>
-                    </TouchableOpacity> */}
+                
                   </View>
                 </View>
                 {/* // 알림음 설정 */}
