@@ -1,10 +1,12 @@
 import ImagePicker from 'react-native-image-crop-picker' // 이미지 업로드 패키지
 
 // 이미지 업로드
-export const pickGalleryImage = (setSource, setMenuImage) => {
+export const pickGalleryImage = (setSource, setMenuImage, width = 400) => {
   ImagePicker.openPicker({
     mediaType: 'photo',
     sortOrder: 'none',
+    width,
+    height: 300,
     compressImageMaxWidth: 10000,
     compressImageMaxHeight: 10000,
     compressImageQuality: 1,
