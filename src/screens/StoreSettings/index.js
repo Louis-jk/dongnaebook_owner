@@ -219,13 +219,13 @@ const StoreSetting = props => {
                   <View style={{ ...BaseStyle.container, ...BaseStyle.mv10 }}>
                     <TouchableOpacity
                       activeOpacity={1}
-                      onPress={() => setSetting({ ...setting, mt_sound: '3' })}
+                      onPress={() => setSetting({ ...setting, mt_sound: '1' })}
                       hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
                       style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
                     >
                       <Image
                         source={
-                      setting.mt_sound === '3'
+                      setting.mt_sound === '1'
                         ? require('../../images/ic_check_on.png')
                         : require('../../images/ic_check_off.png')
                     }
@@ -233,18 +233,18 @@ const StoreSetting = props => {
                         resizeMode='contain'
                         fadeDuration={100}
                       />
-                      <Text style={{ ...BaseStyle.ko14 }}>3회 울림</Text>
+                      <Text style={{ ...BaseStyle.ko14 }}>1회 울림</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       activeOpacity={1}
-                      onPress={() => setSetting({ ...setting, mt_sound: '5' })}
+                      onPress={() => setSetting({ ...setting, mt_sound: '2' })}
                       hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
                       style={{ ...BaseStyle.container, ...BaseStyle.mr20 }}
                     >
                       <Image
                         source={
-                      setting.mt_sound === '5'
+                      setting.mt_sound === '2'
                         ? require('../../images/ic_check_on.png')
                         : require('../../images/ic_check_off.png')
                     }
@@ -252,10 +252,10 @@ const StoreSetting = props => {
                         resizeMode='contain'
                         fadeDuration={100}
                       />
-                      <Text style={{ ...BaseStyle.ko14 }}>5회 울림</Text>
+                      <Text style={{ ...BaseStyle.ko14 }}>2회 울림</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       activeOpacity={1}
                       onPress={() => setSetting({ ...setting, mt_sound: '7' })}
                       hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -272,7 +272,7 @@ const StoreSetting = props => {
                         fadeDuration={100}
                       />
                       <Text style={{ ...BaseStyle.ko14 }}>7회 울림</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
                 </View>
                 {/* // 알림음 설정 */}
