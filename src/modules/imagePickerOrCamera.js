@@ -21,7 +21,6 @@ export const pickGalleryImage = (setSource, setMenuImage, width = 400) => {
       cropping: true
     })
       .then(img => {
-        // dispatch(UserProfileImg(img.path));
         
         setSource({
           uri: img.path,
