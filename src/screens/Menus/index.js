@@ -17,7 +17,7 @@ import Header from '../../components/Headers/SubHeader'
 import BaseStyle, { Primary, Warning } from '../../styles/Base'
 import Api from '../../Api'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
-import Layout from '../../layout'
+
 
 const { width, height } = Dimensions.get('window')
 
@@ -93,10 +93,6 @@ const SetMenu = props => {
       console.log('menu state', state)
       console.log('!!state.isConnected', !!state.isConnected)
       setOnline(!!state.isConnected)
-
-      // if (state.isConnected) {
-      //   getMenuListHandler()
-      // }
     })
   })
 
