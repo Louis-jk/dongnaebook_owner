@@ -163,7 +163,11 @@ const Reviews = props => {
   const [visible, setIsVisible] = React.useState(false)
   const [modalImages, setModalImages] = React.useState([])
 
-  // 답변 삭제 api 호출
+  /**
+   * 답변 삭제 api 호출
+   * @param {number} itId 리뷰 아이디(id)
+   * @param {number} wrId 답변 아이디(id)
+   */
   const replyDelete = (itId, wrId) => {
     const param = {
       jumju_id: mtId,
@@ -186,7 +190,11 @@ const Reviews = props => {
     })
   }
 
-  // 답변 삭제
+  /**
+   * 답변 삭제 컨펌 
+   * @param {number} payload01 리뷰 아이디(id)
+   * @param {number} payload02 답변 아이디(id)
+   */
   const replyDeleteHandler = (payload01, payload02) => {
     Alert.alert('해당 답변을 정말 삭제하시겠습니까?', '', [
       {
@@ -434,12 +442,9 @@ const Reviews = props => {
               { useNativeDriver: true }
             )}
             scrollEventThrottle={16}
-          // pagingEnabled={true}
             persistentScrollbar
             showsVerticalScrollIndicator={false}
-          // progressViewOffset={true}
             refreshing
-          // onRefresh={() => onRefresh()}
             style={{ backgroundColor: '#fff', width: '100%' }}
             ListHeaderComponent={
               <View>
