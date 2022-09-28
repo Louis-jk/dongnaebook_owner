@@ -18,7 +18,7 @@ import BaseStyle, { Primary } from '../../styles/Base'
 import Api from '../../Api'
 import cusToast from '../../components/CusToast'
 import AnimateLoading from '../../components/Loading/AnimateLoading'
-import { pickGalleryImage } from '../../modules/imagePickerOrCamera'
+import { pickGalleryImage, takeCamera } from '../../modules/imagePickerOrCamera'
 
 const MAIN_IMAGE_THUMB_WIDTH = (Dimensions.get('window').width - 40) / 5 - 4
 
@@ -44,7 +44,7 @@ const StoreInfo = props => {
   const [detailImgs05, setDetailImgs05] = React.useState('') // base64 대표이미지05
 
   const [storeLogoChange, setStoreLogoChange] = React.useState(false); // 로고 이미지 변경 사항 0: 변경없음 | 1 : 변경
-  const [storeLogoFileObj, setStoreLogoFileObj] = React.useState(''); // 로고 이미지 파일 객체
+  const [storeLogoFileObj, setStoreLogoFileObj] = React.useState(null); // 로고 이미지 파일 객체
   const [storeLogo, setStoreLogo] = React.useState(''); // 로고 이미지
 
   const [isLoading, setLoading] = React.useState(true)
@@ -86,9 +86,6 @@ const StoreInfo = props => {
       const resultItem = args.resultItem
       const arrItems = args.arrItems
 
-      console.log('====================================');
-      console.log('store guide arrItems ?', arrItems);
-      console.log('====================================');
 
       if (resultItem.result === 'Y') {
         setStoreInit(true)
@@ -269,144 +266,180 @@ const StoreInfo = props => {
 
   // 대표이미지 업로드
   const openPickerHandler = () => {
-    ImagePicker.openPicker({
-      width: 1000,
-      height: 1000,
-      cropping: true,
-      multiple: true
-    })
-      .then(image => {
-        console.log('image', image)
-        console.log('currentIndex', currentIndex)
 
-        const imageExt = image[0].mime.split('/')
-        console.log('imageExt', imageExt[1])
+    if (currentImageUploadType === 'logo') {
+      setStoreLogoChange(true)
+      pickGalleryImage(setStoreLogoFileObj, setStoreLogo, 300)
+      imageOrCameraChoiceCloseHandler()
+    } else {
 
-        if (
-          imageExt[1] !== 'jpeg' &&
-          imageExt[1] !== 'jpg' &&
-          imageExt[1] !== 'png' &&
-          imageExt[1] !== 'bmp'
-        ) {
-          imageOrCameraChoiceHandler()
-          cusToast('업로드 가능한 이미지 형식이 아닙니다.')
-        } else if (imageExt[0] !== 'image') {
-          imageOrCameraChoiceHandler()
-          cusToast('이미지만 업로드 할 수 있습니다.')
-        } else {
+      ImagePicker.openPicker({
+        width: 1000,
+        height: 1000,
+        cropping: true,
+        multiple: true
+      })
+        .then(image => {
+          console.log('image', image)
+          console.log('currentIndex', currentIndex)
+
+          const imageExt = image[0].mime.split('/')
+          console.log('imageExt', imageExt[1])
+
+          if (
+            imageExt[1] !== 'jpeg' &&
+            imageExt[1] !== 'jpg' &&
+            imageExt[1] !== 'png' &&
+            imageExt[1] !== 'bmp'
+          ) {
+            imageOrCameraChoiceCloseHandler()
+            cusToast('업로드 가능한 이미지 형식이 아닙니다.')
+          } else if (imageExt[0] !== 'image') {
+            imageOrCameraChoiceCloseHandler()
+            cusToast('이미지만 업로드 할 수 있습니다.')
+          } else {          
+            if (currentIndex === 1) {
+              setDetailImgs01(image[0].path)
+              setFileImgs01({
+                uri: image[0].path,
+                type: image[0].mime,
+                name: image[0].path.slice(image[0].path.lastIndexOf('/'))
+              })
+            } else if (currentIndex === 2) {
+              setDetailImgs02(image[0].path)
+              setFileImgs02({
+                uri: image[0].path,
+                type: image[0].mime,
+                name: image[0].path.slice(image[0].path.lastIndexOf('/'))
+              })
+            } else if (currentIndex === 3) {
+              setDetailImgs03(image[0].path)
+              setFileImgs03({
+                uri: image[0].path,
+                type: image[0].mime,
+                name: image[0].path.slice(image[0].path.lastIndexOf('/'))
+              })
+            } else if (currentIndex === 4) {
+              setDetailImgs04(image[0].path)
+              setFileImgs04({
+                uri: image[0].path,
+                type: image[0].mime,
+                name: image[0].path.slice(image[0].path.lastIndexOf('/'))
+              })
+            } else if (currentIndex === 5) {
+              setDetailImgs05(image[0].path)
+              setFileImgs05({
+                uri: image[0].path,
+                type: image[0].mime,
+                name: image[0].path.slice(image[0].path.lastIndexOf('/'))
+              })
+            } else {
+              return false
+            }
+
+            imageOrCameraChoiceCloseHandler()
+          }
+        })
+        .catch(err => {
+          console.log('이미지 업로드 error', err)
+          imageOrCameraChoiceCloseHandler()
+        })
+    }
+  }
+
+  // 대표이미지 카메라 촬영
+  const openCameraHandler = () => {
+
+    if (currentImageUploadType === 'logo') {
+      setStoreLogoChange(true)
+      takeCamera(setStoreLogoFileObj, setStoreLogo, 300)
+      imageOrCameraChoiceCloseHandler()
+    } else {
+      ImagePicker.openCamera({
+        width: 1000,
+        height: 800,
+        cropping: true
+      })
+        .then(image => {
+          console.log('camera', image)
+
           if (currentIndex === 1) {
-            setDetailImgs01(image[0].path)
+            setDetailImgs01(image.path)
             setFileImgs01({
-              uri: image[0].path,
-              type: image[0].mime,
-              name: image[0].path.slice(image[0].path.lastIndexOf('/'))
+              uri: image.path,
+              type: image.mime,
+              name: image.path.slice(image.path.lastIndexOf('/'))
             })
           } else if (currentIndex === 2) {
-            setDetailImgs02(image[0].path)
+            setDetailImgs02(image.path)
             setFileImgs02({
-              uri: image[0].path,
-              type: image[0].mime,
-              name: image[0].path.slice(image[0].path.lastIndexOf('/'))
+              uri: image.path,
+              type: image.mime,
+              name: image.path.slice(image.path.lastIndexOf('/'))
             })
           } else if (currentIndex === 3) {
-            setDetailImgs03(image[0].path)
+            setDetailImgs03(image.path)
             setFileImgs03({
-              uri: image[0].path,
-              type: image[0].mime,
-              name: image[0].path.slice(image[0].path.lastIndexOf('/'))
+              uri: image.path,
+              type: image.mime,
+              name: image.path.slice(image.path.lastIndexOf('/'))
             })
           } else if (currentIndex === 4) {
-            setDetailImgs04(image[0].path)
+            setDetailImgs04(image.path)
             setFileImgs04({
-              uri: image[0].path,
-              type: image[0].mime,
-              name: image[0].path.slice(image[0].path.lastIndexOf('/'))
+              uri: image.path,
+              type: image.mime,
+              name: image.path.slice(image.path.lastIndexOf('/'))
             })
           } else if (currentIndex === 5) {
-            setDetailImgs05(image[0].path)
+            setDetailImgs05(image.path)
             setFileImgs05({
-              uri: image[0].path,
-              type: image[0].mime,
-              name: image[0].path.slice(image[0].path.lastIndexOf('/'))
+              uri: image.path,
+              type: image.mime,
+              name: image.path.slice(image.path.lastIndexOf('/'))
             })
           } else {
             return false
           }
 
           imageOrCameraChoiceHandler()
-        }
-      })
-      .catch(err => {
-        console.log('이미지 업로드 error', err)
-        imageOrCameraChoiceHandler()
-      })
-  }
-
-  // 대표이미지 카메라 촬영
-  const openCameraHandler = () => {
-    ImagePicker.openCamera({
-      width: 1000,
-      height: 800,
-      cropping: true
-    })
-      .then(image => {
-        console.log('camera', image)
-
-        if (currentIndex === 1) {
-          setDetailImgs01(image.path)
-          setFileImgs01({
-            uri: image.path,
-            type: image.mime,
-            name: image.path.slice(image.path.lastIndexOf('/'))
-          })
-        } else if (currentIndex === 2) {
-          setDetailImgs02(image.path)
-          setFileImgs02({
-            uri: image.path,
-            type: image.mime,
-            name: image.path.slice(image.path.lastIndexOf('/'))
-          })
-        } else if (currentIndex === 3) {
-          setDetailImgs03(image.path)
-          setFileImgs03({
-            uri: image.path,
-            type: image.mime,
-            name: image.path.slice(image.path.lastIndexOf('/'))
-          })
-        } else if (currentIndex === 4) {
-          setDetailImgs04(image.path)
-          setFileImgs04({
-            uri: image.path,
-            type: image.mime,
-            name: image.path.slice(image.path.lastIndexOf('/'))
-          })
-        } else if (currentIndex === 5) {
-          setDetailImgs05(image.path)
-          setFileImgs05({
-            uri: image.path,
-            type: image.mime,
-            name: image.path.slice(image.path.lastIndexOf('/'))
-          })
-        } else {
-          return false
-        }
-
-        imageOrCameraChoiceHandler()
-      })
-      .catch(err => {
-        console.log('camera error', err)
-        imageOrCameraChoiceHandler()
-      })
+        })
+        .catch(err => {
+          console.log('camera error', err)
+          imageOrCameraChoiceHandler()
+        })
+    }
   }
 
   // 대표이미지 업로드 선택시 이미지 설정 or 카메라 선택 모달
   const [currentIndex, setCurrentIndex] = React.useState(0)
-  const [mediaChoiceModalVisible, setMediaChoiceModalVisible] = React.useState(false)
-  const imageOrCameraChoiceHandler = index => {
-    setCurrentIndex(index)
+  const [mediaChoiceModalVisible, setMediaChoiceModalVisible] = React.useState(false)  
+  const [currentImageUploadType, setCurrentImageUploadType] = React.useState('')
+
+  /** 
+   * 갤러리 선택 또는 카메라 촬영 핸들러 - 로고('logo') or 대표이미지('main') type 및 index 등 설정
+   * @param {string} type 로고 또는 대표이미지 를 구별하는 고유 식별자 (로고: 'logo', 대표이미지: 'main')
+   * @param {number} index type이 대표이미지일 경우, 올릴 이미지 인덱스(index)
+  */
+  const imageOrCameraChoiceHandler = (type, index) => {
+
+    setCurrentImageUploadType(type)
+
+    if (type === 'main') {
+      setCurrentIndex(index)
+    } 
     setMediaChoiceModalVisible(!mediaChoiceModalVisible)
   }
 
+  const imageOrCameraChoiceCloseHandler = () => {
+    setMediaChoiceModalVisible(false)
+  }
+
+  /**
+   * 대표이미지 삭제
+   * @param {number} index 삭제할 대표이미지 인덱스(index)
+   * @returns 
+   */
   // 대표이미지 삭제
   const deleteImage = index => {
     if (index == 1) {
@@ -422,11 +455,15 @@ const StoreInfo = props => {
     } else {
       return false
     }
-    // let filteredArr = source.filter(img => img.uri !== path);
-    // setSource(filteredArr);
   }
 
-  const UploadImageBox = ({ imgPath, index }) => {
+   /**
+   * 업로드된 대표이미지 컴포넌트
+   * @param {string} imgPath 이미지 패스
+   * @param {number} index 이미지 인덱스(index)
+   * @returns 
+   */
+  const UploadedImageBox = ({ imgPath, index }) => {
     console.log('imgPath', imgPath)
     return (
       <View style={{ position: 'relative' }}>
@@ -469,11 +506,16 @@ const StoreInfo = props => {
     )
   }
 
+  /**
+   * 대표이미지 비어있는 항목
+   * @param {number} index 비어있는 항목의 인덱스(index)
+   * @returns 
+   */
   const EmptyImageSelectBox = ({ index }) => {
     return (
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => imageOrCameraChoiceHandler(index)}
+        onPress={() => imageOrCameraChoiceHandler('main', index)}
         style={{
           width: MAIN_IMAGE_THUMB_WIDTH,
           height: MAIN_IMAGE_THUMB_WIDTH - 10,
@@ -488,11 +530,6 @@ const StoreInfo = props => {
     )
   }
 
-  // 이미지 업로드 핸들러
-  const pickImageHandler = () => {
-    setStoreLogoChange(true)
-    pickGalleryImage(setStoreLogoFileObj, setStoreLogo, 300)
-  }
 
   return (
 
@@ -509,7 +546,7 @@ const StoreInfo = props => {
             isVisible={mediaChoiceModalVisible}
             transparent
             statusBarTranslucent
-            onBackdropPress={imageOrCameraChoiceHandler}
+            onBackdropPress={imageOrCameraChoiceCloseHandler}
             style={{ ...BaseStyle.ph10, ...BaseStyle.pv20 }}
             animationIn='slideInUp'
             animationInTiming={100}
@@ -526,7 +563,7 @@ const StoreInfo = props => {
             >
               <TouchableOpacity
                 activeOpacity={1}
-                onPress={imageOrCameraChoiceHandler}
+                onPress={imageOrCameraChoiceCloseHandler}
                 style={{
                   position: 'absolute',
                   top: -10,
@@ -654,7 +691,8 @@ const StoreInfo = props => {
                   {!storeLogo && 
                     <TouchableOpacity
                       activeOpacity={1}
-                      onPress={pickImageHandler}
+                      // onPress={pickImageHandler}
+                      onPress={() => imageOrCameraChoiceHandler('logo')}
                       style={{
                         width: '100%', 
                         height: '100%',
@@ -696,15 +734,15 @@ const StoreInfo = props => {
                   }}
                 >
                   {/* 신규 */}
-                  {detailImgs01 !== '' ? (<UploadImageBox imgPath={detailImgs01} index={1} />) : (<EmptyImageSelectBox index={1} />)}
+                  {detailImgs01 !== '' ? (<UploadedImageBox imgPath={detailImgs01} index={1} />) : (<EmptyImageSelectBox index={1} />)}
 
-                  {detailImgs02 !== '' ? (<UploadImageBox imgPath={detailImgs02} index={2} />) : (<EmptyImageSelectBox index={2} />)}
+                  {detailImgs02 !== '' ? (<UploadedImageBox imgPath={detailImgs02} index={2} />) : (<EmptyImageSelectBox index={2} />)}
 
-                  {detailImgs03 !== '' ? (<UploadImageBox imgPath={detailImgs03} index={3} />) : (<EmptyImageSelectBox index={3} />)}
+                  {detailImgs03 !== '' ? (<UploadedImageBox imgPath={detailImgs03} index={3} />) : (<EmptyImageSelectBox index={3} />)}
 
-                  {detailImgs04 !== '' ? (<UploadImageBox imgPath={detailImgs04} index={4} />) : (<EmptyImageSelectBox index={4} />)}
+                  {detailImgs04 !== '' ? (<UploadedImageBox imgPath={detailImgs04} index={4} />) : (<EmptyImageSelectBox index={4} />)}
 
-                  {detailImgs05 !== '' ? (<UploadImageBox imgPath={detailImgs05} index={5} />) : (<EmptyImageSelectBox index={5} />)}
+                  {detailImgs05 !== '' ? (<UploadedImageBox imgPath={detailImgs05} index={5} />) : (<EmptyImageSelectBox index={5} />)}
                   {/* //신규 */}
                 </View>
                 {/* // 대표 이미지 설정 */}
