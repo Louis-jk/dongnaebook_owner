@@ -115,11 +115,6 @@ const SetMenuAddOrEdit = props => {
           setMenuImage(null)
         }
 
-        // const isEmptyOption = isEmptyObject(arrItems.menuOption)
-        // const isEmptyAddOption = isEmptyObject(arrItems.menuAddOption)
-
-        // console.log('isEmptyOption', isEmptyOption)
-        // console.log('isEmptyAddOption', isEmptyAddOption)
         if (arrItems.menuOption && arrItems.menuOption.length > 0) {
           setOptions(arrItems.menuOption)
         } else {
