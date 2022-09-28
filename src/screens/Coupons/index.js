@@ -10,7 +10,6 @@ import {
   BackHandler,
   Platform
 } from 'react-native'
-import Header from '../../components/Headers/SubHeader'
 import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
@@ -18,6 +17,7 @@ import Swipeout from 'react-native-swipeout-mod' // 스와이프 기능(수정, 
 
 // Local Modules
 import BaseStyle, { Primary, Warning } from '../../styles/Base'
+import Header from '../../components/Headers/SubHeader'
 import Api from '../../Api'
 import * as couponAction from '../../redux/actions/couponAction'
 import cusToast from '../../components/CusToast'
@@ -101,6 +101,10 @@ const Coupon = props => {
 
   const useCouponHandler = () => setUseCoupon(!useCoupon)
 
+  /**
+   * 쿠폰 삭제
+   * @param {number} czNo 쿠폰존 넘버(Coupon Zone Number)
+   */
   const deleteCoupon = czNo => {
     const param = {
       jumju_id: mtId,
@@ -116,16 +120,15 @@ const Coupon = props => {
         getCouponListHandler()
         cusToast('쿠폰을 삭제하였습니다.')
       } else {
-        cusToast('쿠폰을 삭제하지 못했습니다.\n관리자에게 문의해주세요.')
-        // Alert.alert('쿠폰을 삭제하지 못했습니다.', '관리자에게 문의하세요.', [
-        //   {
-        //     text: '확인'
-        //   }
-        // ])
+        cusToast('쿠폰을 삭제하지 못했습니다.\n관리자에게 문의해주세요.')       
       }
     })
   }
 
+  /**
+   * 쿠폰 삭제 컨펌
+   * @param {number} payload 쿠폰존 넘버(Coupon Zone Number)
+   */
   const delCouponHandler = payload => {
     Alert.alert('해당 쿠폰을 삭제하시겠습니까?', '삭제하신 쿠폰은 복구가 불가능합니다.', [
       {
