@@ -12,18 +12,20 @@ import Api from '../../Api'
 import cusToast from '../../components/CusToast'
 
 
+
 const Check = props => {
   const { navigation } = props
   const dispatch = useDispatch()
   const [temFcmToken, setTempFcmToken] = React.useState('')
   const [isNeedNewVersion, setNeedNewVersion] = React.useState(false)
+  const [appStoreUrl, setAppStoreUrl] = React.useState('')
 
   VersionCheck.getCountry()
-  .then(country => console.log(country));  
+  .then(country => console.log('country ->', country));  
 
-  // console.log(VersionCheck.getPackageName());        
-  // console.log(VersionCheck.getCurrentBuildNumber()); 
-  // console.log(VersionCheck.getCurrentVersion());     
+  console.log('getPackageName ->', VersionCheck.getPackageName());        
+  console.log('getCurrentBuildNumber ->', VersionCheck.getCurrentBuildNumber()); 
+  console.log('getCurrentVersion ->', VersionCheck.getCurrentVersion());     
 
   if(Platform.OS === 'android') {
     VersionCheck.getLatestVersion({
@@ -32,21 +34,86 @@ const Check = props => {
     .then(latestVersion => {
       console.log('android latestVersion', latestVersion);    // 0.1.2
     });
+
+    VersionCheck.needUpdate()
+    .then(async res => {  
+      console.log('version check need update : ', res);  
+      
+      setNeedNewVersion(res.isNeeded)
+      dispatch(verCheckAction.updateVersion(res.isNeeded))
+      dispatch(verCheckAction.updateStoreUrl(res.storeUrl))
+  
+      if (res.isNeeded) {
+        navigation.navigate('Home', { screen: 'Login' })
+        return;
+      }
+    });
   }
 
-  VersionCheck.needUpdate()
-  .then(async res => {  
-    // console.log('version check need update : ', res);  
-    
-    setNeedNewVersion(res.isNeeded)
-    dispatch(verCheckAction.updateVersion(res.isNeeded))
-    dispatch(verCheckAction.updateStoreUrl(res.storeUrl))
 
-    if (res.isNeeded) {
-      navigation.navigate('Home', { screen: 'Login' })
-      return;
+  if(Platform.OS === 'ios') {    
+
+    let currentVer = VersionCheck.getCurrentVersion(); // 현재 앱의 버전    
+    
+    /* 앱스토어 url 가져오기
+       앱스토어 공유시 url : https://apps.apple.com/kr/app/%EB%8F%99%EB%84%A4%EB%B6%81-%EC%A0%90%EC%A3%BC%EC%9A%A9/id1641656034
+       url 가져오기시 url : itms-apps://apps.apple.com/US/app/id1641656034
+    */
+    VersionCheck.getAppStoreUrl({
+      appID: '1641656034'
+    }).then(res => setAppStoreUrl(res));
+
+    /**
+     * 버전 비교 (예: 1.0.5, 1.0.6)
+     * @param {string} verA verA 앱스토어 버전 (예: 1.0.6)
+     * @param {string} verB 현재 설치 버전 (예: 1.0.5)
+     * @returns 
+     */
+    const compareVersion = (verA, verB) => {
+
+      var result = true;
+      verA = verA.split( '.' ); // .을 기준으로 문자열 배열로 만든다 [6][8]
+      verB = verB.split( '.' ); // .을 기준으로 문자열 배열로 만든다 [6][7][99]
+    
+      const length = Math.max( verA.length, verB.length ); // 배열이 긴쪽의 length를 구함
+      
+      for ( var i = 0;  i < length ; i ++ ){
+        var a = verA[i] ? parseInt(verA[i], 10 ) : 0; // 10진수의 int로 변환할 값이 없을 때 0으로 값을 넣습니다.
+        var b = verB[i] ? parseInt(verB[i], 10 ) : 0;
+            
+        if ( a > b ) {
+          result = false;
+          break;
+        }
+      }
+      return result;
     }
-  });
+
+    const param = {
+      type: 'store'
+    }
+
+    Api.send('app_version', param, args => {
+      const resultItem = args.resultItem
+      const arrItems = args.arrItems
+
+      if(resultItem && resultItem.result === 'Y') {
+        let iosStoreVer = arrItems.ios_version; // appStore 앱 버전        
+        
+        let isNeeded = !compareVersion(iosStoreVer, currentVer); // 업데이트가 필요한지 체크
+
+        setNeedNewVersion(isNeeded)
+        dispatch(verCheckAction.updateVersion(isNeeded))
+        dispatch(verCheckAction.updateStoreUrl(appStoreUrl))
+  
+        if (isNeeded) {
+          navigation.navigate('Home', { screen: 'Login' })
+          return;
+        }
+
+      }
+    })    
+  }
 
   // FCM 토큰 가져오기
   const getTokenPlatformAPI = async () => {
