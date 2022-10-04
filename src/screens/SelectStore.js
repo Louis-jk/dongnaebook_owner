@@ -16,6 +16,10 @@ import * as storeAction from '../redux/actions/storeAction'
 import * as loginAction from '../redux/actions/loginAction'
 import Api from '../Api'
 import Divider from '../components/Divider'
+import AnimateLoading from '../components/Loading/AnimateLoading'
+
+
+const LIMIT = 5;
 
 const SelectStore = props => {
   const { navigation } = props
@@ -23,6 +27,44 @@ const SelectStore = props => {
   const dispatch = useDispatch()
   const { allStore, selectedStore } = useSelector(state => state.store)
   const { mt_store: mtStore, mt_app_token: mtAppToken } = useSelector(state => state.login)
+  const [storeData, setStoreData] = React.useState([]);
+  const [offset, setOffset] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
+  
+  const storeDataArrayHandler = () => {    
+    
+    if(allStore > storeData) {
+      setLoading(true)
+      
+      setStoreData(storeData.concat(allStore.slice(offset, offset + LIMIT)))
+      setOffset(offset + LIMIT)
+
+      setLoading(false)
+    }
+  }
+
+  React.useEffect(() => {
+    if(allStore && allStore.length > 0) {
+      storeDataArrayHandler()
+
+      return () => storeDataArrayHandler()
+    }
+  }, [allStore])
+
+  const onEndReached = () => {    
+    if(loading) {
+      return
+    } else {
+      storeDataArrayHandler()
+    }
+  }
+
+  console.log('====================================');
+  console.log("allStore length ??", allStore.length);
+  console.log("storeData length ??", storeData.length);
+  console.log("storeData ??", storeData);
+  console.log("offset ??", offset);
+  console.log('====================================');
 
   function setStoreHandler (item, id, jumjuId, jumjuCode, store, addr) {
     dispatch(storeAction.selectStore(id, jumjuId, jumjuCode, store, addr))
@@ -96,6 +138,8 @@ const SelectStore = props => {
     )
   }
 
+  
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }} testID='selectStoreScreen'>
       <View
@@ -126,62 +170,68 @@ const SelectStore = props => {
 
       <Divider />
 
-      <View style={{ flex: 1, ...BaseStyle.ph20 }}>
-        <FlatList
-          bounces={false}
-          data={allStore}
-          renderItem={renderRow}
-          keyExtractor={(list, index) => index.toString()}
-          persistentScrollbar
-          showsVerticalScrollIndicator={false}
-          refreshing
-          style={{ backgroundColor: '#fff', width: '100%' }}
-          ListEmptyComponent={
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                flex: 1,
-                height: Dimensions.get('window').height - 300
-              }}
-            >
-              <Text style={{ ...BaseStyle.ko15, textAlign: 'center', ...BaseStyle.mb10 }}>
-                <Text
-                  style={{
-                    ...BaseStyle.ko18,
-                    ...BaseStyle.font_bold,
-                    textAlign: 'center',
-                    ...BaseStyle.mb10
-                  }}
-                >
-                  {mtStore}
-                </Text>{' '}
-                외에
+      {loading && <AnimateLoading description='' />}
+      
+      {!loading && 
+        <View style={{ flex: 1, ...BaseStyle.ph20 }}>
+          <FlatList
+            bounces={false}
+            data={storeData}
+            renderItem={renderRow}
+            keyExtractor={(list, index) => index.toString()}
+            persistentScrollbar
+            showsVerticalScrollIndicator={false}
+            refreshing
+            onEndReached={onEndReached}
+            onEndReachedThreshold={0.6}
+            style={{ backgroundColor: '#fff', width: '100%' }}
+            ListEmptyComponent={
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: 1,
+                  height: Dimensions.get('window').height - 300
+                }}
+              >
+                <Text style={{ ...BaseStyle.ko15, textAlign: 'center', ...BaseStyle.mb10 }}>
+                  <Text
+                    style={{
+                      ...BaseStyle.ko18,
+                      ...BaseStyle.font_bold,
+                      textAlign: 'center',
+                      ...BaseStyle.mb10
+                    }}
+                  >
+                    {mtStore}
+                  </Text>{' '}
+                  외에
+                </Text>
+                <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
+                  아직 등록된 매장이 없습니다.
+                </Text>
+              </View>
+            }
+          />
+          {/* 매장 추가 신청 버튼 */}
+          {/* <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => alert('hi')}
+            style={{...BaseStyle.mainBtn, ...BaseStyle.inputH, ...BaseStyle.mv20}}>
+            <View style={{...BaseStyle.container0}}>
+              <Text style={{...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.mr10}}>
+                  매장 추가 신청
               </Text>
-              <Text style={{ ...BaseStyle.ko15, textAlign: 'center' }}>
-                아직 등록된 매장이 없습니다.
-              </Text>
+              <Image
+                source={require('../images/plus.png')}
+                style={{width: 18, height: 18}}
+                resizeMode="contain"
+              />
             </View>
-          }
-        />
-        {/* 매장 추가 신청 버튼 */}
-        {/* <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => alert('hi')}
-          style={{...BaseStyle.mainBtn, ...BaseStyle.inputH, ...BaseStyle.mv20}}>
-          <View style={{...BaseStyle.container0}}>
-            <Text style={{...BaseStyle.ko18, ...BaseStyle.font_bold, ...BaseStyle.mr10}}>
-                매장 추가 신청
-            </Text>
-            <Image
-              source={require('../images/plus.png')}
-              style={{width: 18, height: 18}}
-              resizeMode="contain"
-            />
-          </View>
-        </TouchableOpacity> */}
-        {/* // 매장 추가 신청 버튼 */}
-      </View>
+          </TouchableOpacity> */}
+          {/* // 매장 추가 신청 버튼 */}
+        </View>
+      }
     </SafeAreaView>
   )
 }

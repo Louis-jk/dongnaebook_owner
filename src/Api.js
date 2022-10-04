@@ -4,6 +4,7 @@ import { Toast } from "native-base"
 import jwt_decode from "jwt-decode"
 import cusToast from "./components/CusToast"
 import Axios from "axios"
+import { API_URL, SERVER_NAME, SECRET_KEY } from '@env'
 // import ImageEditor from "@react-native-community/image-editor";
 var RNFS = require("react-native-fs")
 
@@ -30,9 +31,9 @@ class Api {
 
     this.state = {
       isLoading: false,
-      SERVER_NAME: "dongnaebook_server",
-      SECRETKEY: "1111882EAD94E9C493CEF089E1B023A2122BA778",
-      url: "https://dongnaebook.app",
+      SERVER_NAME: SERVER_NAME,
+      SECRETKEY: SECRET_KEY,
+      url: API_URL,
       path: "",
       option: {
         method: "POST",
@@ -61,7 +62,7 @@ class Api {
   makeFormData2(method = "", datas) {
     let formdata = new FormData()
     formdata.append("method", method)
-    formdata.append("secretKey", "1111882EAD94E9C493CEF089E1B023A2122BA778")
+    formdata.append("secretKey", SECRET_KEY)
     for (let [key, value] of Object.entries(datas)) {
       formdata.append(key, value)
     }
@@ -177,7 +178,7 @@ class Api {
     
     let formdata = new FormData()
     formdata.append("method", method)
-    formdata.append("secretKey", "1111882EAD94E9C493CEF089E1B023A2122BA778")
+    formdata.append("secretKey", SECRET_KEY)
     formdata.append("jwt_data", datas)
 
     for (let [key, value] of Object.entries(filedatas)) {

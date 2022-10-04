@@ -39,6 +39,7 @@
     "react-native-auto-height-image": "^3.2.4",
     "react-native-autoheight-webview": "^1.5.8",
     "react-native-calendars": "^1.1263.0",
+    "react-native-dotenv": "^3.3.1",
     "react-native-dropdown-picker": "^5.1.20",
     "react-native-fs": "^2.18.0",
     "react-native-gesture-handler": "^1.10.3",
