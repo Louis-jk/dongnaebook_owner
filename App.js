@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react-native";
 import 'react-native-gesture-handler'
 import * as React from 'react'
 import { View, Text, StatusBar, Dimensions, Platform, LogBox } from 'react-native'
@@ -43,6 +44,13 @@ import SetMenuScreen from './src/screens/Menus' // 메뉴설정(리스트)
 import SetMenuAddOrEditScreen from './src/screens/Menus/SetMenuAddOrEdit' // 메뉴등록 또는 수정
 import StoreInfoScreen from './src/screens/StoreInfo' // 매장소개
 import StoreSettingScreen from './src/screens/StoreSettings' // 매장설정
+
+Sentry.init({
+  dsn: "https://16fe22ea7a194ceb9d1e6bd21182ecad@o1375268.ingest.sentry.io/6683498",
+  // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+  // We recommend adjusting this value in production.
+  tracesSampleRate: 1.0,
+});
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2'])
@@ -321,4 +329,5 @@ const App = () => {
   )
 }
 
-export default App
+
+export default Sentry.wrap(App)

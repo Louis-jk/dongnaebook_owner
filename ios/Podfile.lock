@@ -838,6 +838,12 @@ PODS:
   - RNScreens (3.4.0):
     - React-Core
     - React-RCTImage
+  - RNSentry (4.6.0):
+    - React-Core
+    - Sentry (= 7.27.0)
+  - Sentry (7.27.0):
+    - Sentry/Core (= 7.27.0)
+  - Sentry/Core (7.27.0)
   - Toast (4.0.0)
   - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
@@ -913,6 +919,7 @@ DEPENDENCIES:
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -943,6 +950,7 @@ SPEC REPOS:
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
+    - Sentry
     - Toast
     - TOCropViewController
     - YogaKit
@@ -1042,6 +1050,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1119,6 +1129,8 @@ SPEC CHECKSUMS:
   RNImageCropPicker: 73891a709e6fd8a47d32104d942757971f220aee
   RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
   RNScreens: 21b73c94c9117e1110a79ee0ee80c93ccefed8ce
+  RNSentry: 73f65d6ef3e5a313d6bb225e2c92c84be2e17921
+  Sentry: 026b36fdc09531604db9279e55f047fe652e3f4a
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac
